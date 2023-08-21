@@ -1,0 +1,38 @@
+---
+title: "Quarto Presentations"
+subtitle: "Create beautiful interactive slide decks with Reveal.js"
+format:
+  revealjs:
+    slide-number: true
+    navigation-mode: vertical
+    theme: black
+---
+
+# Hello, There
+
+This presentation will show you examples of what you can do with Quarto and [Reveal.js](https://revealjs.com), including:
+
+-   Presenting code and LaTeX equations
+-   Including computations in slide output
+-   Image, video, and iframe backgrounds
+-   Fancy transitions and animations
+-   Printing to PDF
+
+...and much more
+
+# Hello 2
+
+For servicenet example, with N=1000, s=0.75 and 90 obj/sec coming into the forwarder:
+
+-   With no cache, there are on average 9 packets waiting at the server-forwarder link
+-   With 10 obj. cache, cache takes roughly 18 hits, there are on average 2.5 packets (%72 reduction)
+-   With 50 obj. cache, cache takes roughly 34 hits, there are on average 1.25 packets (%86 reduction)
+-   With 100 obj. cache, cache takes roughly 44 hits, there are on average 0.85 packets (%95 reduction)
+
+::: {.notes}
+Speaker notes
+:::
+
+## Hello 2.1
+
+Time-to-first-byte (TTFB) is also improved!
