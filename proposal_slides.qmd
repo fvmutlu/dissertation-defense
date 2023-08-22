@@ -77,44 +77,22 @@ ax.grid(True)
 plt.show()
 ```
 
-## LaTeX Equations
+## System Model {.smaller .scrollable}
 
-[MathJax](https://www.mathjax.org/) rendering of equations to HTML
+| Notation | Definition |
+|:--------:|:-----------|
+|$\mathcal{G}$|Directed graph underlining the network topology|
+|$(\mathcal{N},\mathcal{L})$|Set of nodes and links in $\mathcal{G}$|
+|$C_{ab}$|Transmission capacity of link $(a,b)$|
+|$\mathcal{K}$|Set of data objects in the network|
+|$src(k)$|Content source node for $k \in \mathcal{K}$|
+|$t$|Time slot referring to interval $[t, t+1)$|
+|$V^k_n(t)$|VIP count for $k$ at $n$ during $t$|
+|$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
+|$\lambda^k_n$|Exogenous VIP arrival rate for $k$ at $n$|
+|$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
 
-::: columns
-::: {.column width="40%"}
-``` tex
-\begin{gather*}
-a_1=b_1+c_1\\
-a_2=b_2+c_2-d_2+e_2
-\end{gather*}
-
-\begin{align}
-a_{11}& =b_{11}&
-  a_{12}& =b_{12}\\
-a_{21}& =b_{21}&
-  a_{22}& =b_{22}+c_{22}
-\end{align}
-```
-:::
-
-::: {.column width="60%"}
-```{=tex}
-\begin{gather*}
-a_1=b_1+c_1\\
-a_2=b_2+c_2-d_2+e_2
-\end{gather*}
-```
-```{=tex}
-\begin{align}
-a_{11}& =b_{11}&
-  a_{12}& =b_{12}\\
-a_{21}& =b_{21}&
-  a_{22}& =b_{22}+c_{22}
-\end{align}
-```
-:::
-:::
+: Table of Notations
 
 ## Column Layout {.smaller}
 
