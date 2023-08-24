@@ -31,11 +31,19 @@ Outline
 
 ## Information Centric Networking
 
+- **Motivation**: Internet today is primarily a data distribution network, yet its principles are those of a communication network
+- **Core Premise**: Make uniquely named data the primary entity of the network, instead of endpoints
+- **Advantages**: Improve efficiency and scalability by decoupling data from location and session
+
 ::: {.footer}
 Introduction / Background
 :::
 
 ## In-network Caching
+
+- **Motivation**: Current caching infrastructure is mostly proprietary and centralized
+- **Core Premise**: Enable every router in the network to maintain its own cache
+- **Advantages**: Caching becomes decentralized, reducing network congestion and improving scalability
 
 ::: {.footer}
 Introduction / Background
@@ -43,11 +51,9 @@ Introduction / Background
 
 ## Wireless Edge & HetNets
 
-::: {.footer}
-Introduction / Background
-:::
-
-## Joint Optimization Frameworks
+- Interface between local devices and wider network infrastructure
+- Many edge devices are connected wirelessly and through various access technologies (HetNet)
+- **Importance**: Edge-computing is gaining prevalance, driving more computation towards the network edge
 
 ::: {.footer}
 Introduction / Background
