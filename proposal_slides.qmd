@@ -6,23 +6,12 @@ format:
   revealjs:
     slide-number: true
     theme: black
+    logo: images/neu_logo.svg
+    css: styles/logo.css
 ---
-
-## Hello, There
-
-This presentation will show you examples of what you can do with Quarto and [Reveal.js](https://revealjs.com), including:
-
--   Presenting code and LaTeX equations
--   Including computations in slide output
--   Image, video, and iframe backgrounds
--   Fancy transitions and animations
--   Printing to PDF
-
-...and much more
 
 ## Outline
 
-::: {.incremental}
 1. Introduction
    i. Background
    ii. Research Problems
@@ -32,61 +21,43 @@ This presentation will show you examples of what you can do with Quarto and [Rev
    ii. N-DISE (*Working title*)
    iii. HetNet (*Working title*)
 3. Proposed Work
+
+::: {.footer}
+Outline
 :::
 
-## Pretty Code {auto-animate="true"}
+# Introduction
+<h3>Background</h3>
 
--   Over 20 syntax highlighting themes available
--   Default theme optimized for accessibility
+## Information Centric Networking
 
-``` r
-# Define a server for the Shiny app
-function(input, output) {
-  
-  # Fill in the spot we created for a plot
-  output$phonePlot <- renderPlot({
-    # Render a barplot
-  })
-}
-```
+::: {.footer}
+Introduction / Background
+:::
 
-## Code Animations {auto-animate="true"}
+## In-network Caching
 
--   Over 20 syntax highlighting themes available
--   Default theme optimized for accessibility
+::: {.footer}
+Introduction / Background
+:::
 
-``` r
-# Define a server for the Shiny app
-function(input, output) {
-  
-  # Fill in the spot we created for a plot
-  output$phonePlot <- renderPlot({
-    # Render a barplot
-    barplot(WorldPhones[,input$region]*1000, 
-            main=input$region,
-            ylab="Number of Telephones",
-            xlab="Year")
-  })
-}
-```
+## Wireless Edge & HetNets
 
-## Line Highlighting
+::: {.footer}
+Introduction / Background
+:::
 
--   Highlight specific lines for emphasis
--   Incrementally highlight additional lines
+## Joint Optimization Frameworks
 
-``` {.python code-line-numbers="4-5|7|10"}
-import numpy as np
-import matplotlib.pyplot as plt
+::: {.footer}
+Introduction / Background
+:::
 
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
+# Introduction
+<h3>Research Problems</h3>
+
+# Introduction
+<h3>Related Work</h3>
 
 ## System Model - Table of Notations {.smaller .scrollable}
 
@@ -111,68 +82,3 @@ plt.show()
 |$\rho^w_{n_j}$ | Write penalty of tier $j$ at $n$|
 |$p^k_{n_j}(t)$ | Penalty incurred for $k$ in tier $j$ at $n$ during $t$|
 |$\omega$ | Penalty importance weight|
-
-## Column Layout {.smaller}
-
-Arrange content into columns of varying widths:
-
-::: columns
-::: {.column width="35%"}
-#### Motor Trend Car Road Tests
-
-The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles.
-:::
-
-::: {.column width="3%"}
-:::
-
-::: {.column width="62%"}
-:::
-
-:::
-
-## Incremental Lists
-
-Lists can optionally be displayed incrementally:
-
-::: incremental
--   First item
--   Second item
--   Third item
-:::
-
-. . .
-
-<br/> Insert pauses to make other types of content display incrementally.
-
-## Fragments
-
-Incremental text display and animation with fragments:
-
-<br/>
-
-::: {.fragment .fade-in}
-Fade in
-:::
-
-::: {.fragment .fade-up}
-Slide up while fading in
-:::
-
-::: {.fragment .fade-left}
-Slide left while fading in
-:::
-
-::: {.fragment .fade-in-then-semi-out}
-Fade in then semi out
-:::
-
-. . .
-
-::: {.fragment .strike}
-Strike
-:::
-
-::: {.fragment .highlight-red}
-Highlight red
-:::
