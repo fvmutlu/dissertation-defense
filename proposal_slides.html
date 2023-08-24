@@ -10,7 +10,8 @@
 <link href="proposal_slides_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.450">
 
-  <title>Quarto Presentations</title>
+  <meta name="author" content="Research Advisor: Edmund Yeh Committee Members: Elif Uysal, Stratis Ioannidis">
+  <title>Placeholder Title</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -389,10 +390,15 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Quarto Presentations</h1>
-  <p class="subtitle">Create beautiful interactive slide decks with Reveal.js</p>
+  <h1 class="title">Placeholder Title</h1>
+  <p class="subtitle">Faruk Volkan Mutlu - PhD Proposal Review</p>
 
 <div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis 
+</div>
+</div>
 </div>
 
 </section>
@@ -407,8 +413,25 @@
 <li>Printing to PDF</li>
 </ul>
 <p>…and much more</p>
-<div class="footer">
-<p>Learn more: <a href="https://quarto.org/docs/presentations/revealjs/">Quarto and Reveal.js</a></p>
+</section>
+<section id="outline" class="slide level2">
+<h2>Outline</h2>
+<div>
+<ol type="1">
+<li class="fragment">Introduction
+<ol type="i">
+<li class="fragment">Background</li>
+<li class="fragment">Research Problems</li>
+<li class="fragment">Related Work</li>
+</ol></li>
+<li class="fragment">Work So Far
+<ol type="i">
+<li class="fragment">Multi-tier (<em>Working title</em>)</li>
+<li class="fragment">N-DISE (<em>Working title</em>)</li>
+<li class="fragment">HetNet (<em>Working title</em>)</li>
+</ol></li>
+<li class="fragment">Proposed Work</li>
+</ol>
 </div>
 </section>
 <section id="pretty-code" class="slide level2" data-auto-animate="true">
@@ -462,10 +485,13 @@
 <span id="cb3-9"><a href="#cb3-9"></a>ax.grid(<span class="va">True</span>)</span>
 <span id="cb3-10"><a href="#cb3-10"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="system-model" class="slide level2 smaller scrollable">
-<h2>System Model</h2>
+<section id="system-model---table-of-notations" class="slide level2 smaller scrollable">
+<h2>System Model - Table of Notations</h2>
 <table>
-<caption>Table of Notations</caption>
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Notation</th>
@@ -512,6 +538,42 @@
 <tr class="even">
 <td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
 <td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mathcal{J}_n\)</span></td>
+<td style="text-align: left;">Set of cache tiers at node <span class="math inline">\(n \in \mathcal{N}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(L_{n_j}\)</span></td>
+<td style="text-align: left;">Size of cache tier <span class="math inline">\(j \in \mathcal{J}_n\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(s^k_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\alpha^k_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Caching action for <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
+<td style="text-align: left;">Readout rate of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\rho^r_{n_j}\)</span></td>
+<td style="text-align: left;">Read penalty of tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\rho^w_{n_j}\)</span></td>
+<td style="text-align: left;">Write penalty of tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(p^k_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Penalty incurred for <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\omega\)</span></td>
+<td style="text-align: left;">Penalty importance weight</td>
 </tr>
 </tbody>
 </table>

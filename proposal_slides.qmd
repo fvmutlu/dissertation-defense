@@ -1,6 +1,7 @@
 ---
-title: "Quarto Presentations"
-subtitle: "Create beautiful interactive slide decks with Reveal.js"
+title: "Placeholder Title"
+subtitle: "Faruk Volkan Mutlu - PhD Proposal Review"
+author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis"
 format:
   revealjs:
     slide-number: true
@@ -19,8 +20,18 @@ This presentation will show you examples of what you can do with Quarto and [Rev
 
 ...and much more
 
-::: footer
-Learn more: [Quarto and Reveal.js](https://quarto.org/docs/presentations/revealjs/)
+## Outline
+
+::: {.incremental}
+1. Introduction
+   i. Background
+   ii. Research Problems
+   iii. Related Work
+2. Work So Far
+   i. Multi-tier (*Working title*)
+   ii. N-DISE (*Working title*)
+   iii. HetNet (*Working title*)
+3. Proposed Work
 :::
 
 ## Pretty Code {auto-animate="true"}
@@ -77,10 +88,10 @@ ax.grid(True)
 plt.show()
 ```
 
-## System Model {.smaller .scrollable}
+## System Model - Table of Notations {.smaller .scrollable}
 
 | Notation | Definition |
-|:--------:|:-----------|
+|:---:|:-----------|
 |$\mathcal{G}$|Directed graph underlining the network topology|
 |$(\mathcal{N},\mathcal{L})$|Set of nodes and links in $\mathcal{G}$|
 |$C_{ab}$|Transmission capacity of link $(a,b)$|
@@ -91,8 +102,15 @@ plt.show()
 |$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
 |$\lambda^k_n$|Exogenous VIP arrival rate for $k$ at $n$|
 |$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
-
-: Table of Notations
+|$\mathcal{J}_n$ | Set of cache tiers at node $n \in \mathcal{N}$|
+|$L_{n_j}$ | Size of cache tier $j \in \mathcal{J}_n$ at $n$|
+|$s^k_{n_j}(t)$ | Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$|
+|$\alpha^k_{n_j}(t)$ | Caching action for $k$ in tier $j$ at $n$ during $t$ |
+|$r_{n_j}$ | Readout rate of tier $j$ at node $n$|
+|$\rho^r_{n_j}$ | Read penalty of tier $j$ at $n$|
+|$\rho^w_{n_j}$ | Write penalty of tier $j$ at $n$|
+|$p^k_{n_j}(t)$ | Penalty incurred for $k$ in tier $j$ at $n$ during $t$|
+|$\omega$ | Penalty importance weight|
 
 ## Column Layout {.smaller}
 
