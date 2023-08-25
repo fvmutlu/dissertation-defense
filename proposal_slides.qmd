@@ -65,6 +65,27 @@ Introduction / Background
 # Introduction
 <h3>Related Work</h3>
 
+# Work So Far
+<h3>Multi-tier</h3>
+
+## Motivation - Toy Example {.smaller}
+
+![](images/toynet.svg){width=75% height=50% fig-align="center"}
+
+::: columns
+
+::: {.column width="50%"}
+| Notation | Definition |
+|:-:|:---------------|
+|$C_{ab}$|Capacity of link $(a,b)$|
+|$\mathcal{N}_c$|Set of consumer nodes|
+|$\mathcal{K}$|Set of data objects|
+:::
+
+::: {.column width="50%"}
+:::
+
+::::
 ## System Model - Table of Notations {.smaller .scrollable}
 
 | Notation | Definition |
