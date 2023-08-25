@@ -424,7 +424,7 @@ Multi-tier
 <h2>Motivation - Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/toynet.svg" style="width:75.0%;height:50.0%"></p>
+<p><img data-src="images/toynet.svg" style="width:60.0%;height:60.0%"></p>
 </figure>
 </div>
 <div class="columns">
@@ -449,10 +449,49 @@ Multi-tier
 <td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
 <td style="text-align: left;">Set of data objects</td>
 </tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(L_{n}\)</span></td>
+<td style="text-align: left;">Cache size at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">Zipf parameter</td>
+</tr>
 </tbody>
 </table>
 </div><div class="column" style="width:50%;">
-
+<ul>
+<li>Catalog of <span class="math inline">\(|\mathcal{K}|=1000\)</span> objects, ranked according to Zipf’s law with parameter <span class="math inline">\(\alpha=0.75\)</span></li>
+<li>Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server</li>
+<li>Caching at the forwarder is genie-aided, i.e.&nbsp;most popular objects are cached</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="motivation---toy-example-1" class="slide level2 smaller">
+<h2>Motivation - Toy Example</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/zipf_1k.svg" class="fragment"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/cache_size.svg" class="fragment"></p>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment">
+<ul>
+<li>Most popular 10% of objects make up half of all requests</li>
+<li>Most popular 1% of objects make up one fifth of all requests</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<ul>
+<li>Increasing cache sizes can help reduce delay significantly</li>
+<li>But the gain from size increase has diminishing returns</li>
+</ul>
+</div>
 </div>
 </div>
 </section>

@@ -70,7 +70,7 @@ Introduction / Background
 
 ## Motivation - Toy Example {.smaller}
 
-![](images/toynet.svg){width=75% height=50% fig-align="center"}
+![](images/toynet.svg){width=60% height=60% fig-align="center"}
 
 ::: columns
 
@@ -80,12 +80,45 @@ Introduction / Background
 |$C_{ab}$|Capacity of link $(a,b)$|
 |$\mathcal{N}_c$|Set of consumer nodes|
 |$\mathcal{K}$|Set of data objects|
+|$L_{n}$|Cache size at $n$|
+|$\alpha$|Zipf parameter|
 :::
 
 ::: {.column width="50%"}
+-  Catalog of $|\mathcal{K}|=1000$ objects, ranked according to Zipf's law with parameter $\alpha=0.75$
+-  Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server
+-  Caching at the forwarder is genie-aided, i.e. most popular objects are cached
 :::
 
-::::
+:::
+
+## Motivation - Toy Example {.smaller}
+
+::: columns
+::: {.column width="50%"}
+![](images/zipf_1k.svg){.fragment}
+:::
+::: {.column width="50%"}
+![](images/cache_size.svg){.fragment}
+:::
+:::
+
+::: columns
+::: {.column width="50%"}
+::: {.fragment}
+-  Most popular 10% of objects make up half of all requests
+-  Most popular 1% of objects make up one fifth of all requests
+:::
+:::
+::: {.column width="50%"}
+::: {.fragment}
+-  Increasing cache sizes can help reduce delay significantly
+-  But the gain from size increase has diminishing returns
+:::
+:::
+:::
+
+
 ## System Model - Table of Notations {.smaller .scrollable}
 
 | Notation | Definition |
