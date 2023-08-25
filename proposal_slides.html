@@ -496,8 +496,51 @@ Multi-tier
 <li>DRAM is the primary cache device since it is fast, i.e.&nbsp;can operate at <em>line rate</em></li>
 <li>However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
 <li>Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
-<li>NVMe SSDs can be an order of magnitude slower than DRAM (but they are improving rapidly)</li>
+<li>NVMe SSDs can be an order of magnitude slower than DRAM</li>
 </ul>
+</section>
+<section id="key-observations" class="slide level2 incremental">
+<h2>Key Observations</h2>
+<ul>
+<li>Trying to increase cache sizes with DRAM is cost-prohibitive and faces strict limitations</li>
+<li>SSDs are a cheap solution and their transfer rates are improving each generation</li>
+<li>The diminishing returns property emerging from Zipf’s law supports the validity of using SSDs</li>
+</ul>
+</section>
+<section id="return-to-toy-example" class="slide level2 smaller">
+<h2>Return to Toy Example</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/toynet_cache.svg" style="width:75.0%;height:75.0%"></p>
+</figure>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
+<td style="text-align: left;">Read rate of tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(L_{n_j}\)</span></td>
+<td style="text-align: left;">Cache size of tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>Same catalog and popularity distribution</li>
+<li>Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when previous one is full</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="system-model---table-of-notations" class="slide level2 smaller scrollable">
 <h2>System Model - Table of Notations</h2>

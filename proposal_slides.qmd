@@ -114,10 +114,29 @@ Background
 -  DRAM is the primary cache device since it is fast, i.e. can operate at *line rate*
 -  However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)
 -  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
--  NVMe SSDs can be an order of magnitude slower than DRAM (but they are improving rapidly)
+-  NVMe SSDs can be an order of magnitude slower than DRAM
 
-## Key Observation
+## Key Observations {.incremental}
+-  Trying to increase cache sizes with DRAM is cost-prohibitive and faces strict limitations
+-  SSDs are a cheap solution and their transfer rates are improving each generation
+-  The diminishing returns property emerging from Zipf's law supports the validity of using SSDs
 
+## Return to Toy Example {.smaller}
+
+![](images/toynet_cache.svg){width=75% height=75% fig-align="center"}
+
+::: columns
+::: {.column width="50%"}
+| Notation | Definition |
+|:-:|:---------------|
+|$r_{n_j}$|Read rate of tier $j$ at $n$|
+|$L_{n_j}$|Cache size of tier $j$ at $n$|
+:::
+::: {.column width="50%"}
+-  Same catalog and popularity distribution
+-  Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when previous one is full
+:::
+:::
 
 ## System Model - Table of Notations {.smaller .scrollable}
 
