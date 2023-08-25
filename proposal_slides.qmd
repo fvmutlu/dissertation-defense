@@ -36,7 +36,7 @@ Outline
 - **Advantages**: Improve efficiency and scalability by decoupling data from location and session
 
 ::: {.footer}
-Introduction / Background
+Background
 :::
 
 ## In-network Caching
@@ -46,7 +46,7 @@ Introduction / Background
 - **Advantages**: Caching becomes decentralized, reducing network congestion and improving scalability
 
 ::: {.footer}
-Introduction / Background
+Background
 :::
 
 ## Wireless Edge & HetNets
@@ -56,7 +56,7 @@ Introduction / Background
 - **Importance**: Edge-computing is gaining prevalance, driving more computation towards the network edge
 
 ::: {.footer}
-Introduction / Background
+Background
 :::
 
 # Introduction
@@ -73,7 +73,6 @@ Introduction / Background
 ![](images/toynet.svg){width=60% height=60% fig-align="center"}
 
 ::: columns
-
 ::: {.column width="50%"}
 | Notation | Definition |
 |:-:|:---------------|
@@ -83,13 +82,11 @@ Introduction / Background
 |$L_{n}$|Cache size at $n$|
 |$\alpha$|Zipf parameter|
 :::
-
 ::: {.column width="50%"}
 -  Catalog of $|\mathcal{K}|=1000$ objects, ranked according to Zipf's law with parameter $\alpha=0.75$
 -  Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server
--  Caching at the forwarder is genie-aided, i.e. most popular objects are cached
+-  Caching at the forwarder is clairvoyant, i.e. most popular objects are cached
 :::
-
 :::
 
 ## Motivation - Toy Example {.smaller}
@@ -97,26 +94,29 @@ Introduction / Background
 ::: columns
 ::: {.column width="50%"}
 ![](images/zipf_1k.svg){.fragment}
-:::
-::: {.column width="50%"}
-![](images/cache_size.svg){.fragment}
-:::
-:::
 
-::: columns
-::: {.column width="50%"}
 ::: {.fragment}
 -  Most popular 10% of objects make up half of all requests
 -  Most popular 1% of objects make up one fifth of all requests
 :::
 :::
 ::: {.column width="50%"}
+![](images/cache_size.svg){.fragment}
+
 ::: {.fragment}
 -  Increasing cache sizes can help reduce delay significantly
 -  But the gain from size increase has diminishing returns
 :::
 :::
 :::
+
+## Core Challenge {.incremental}
+-  DRAM is the primary cache device since it is fast, i.e. can operate at *line rate*
+-  However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)
+-  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
+-  NVMe SSDs can be an order of magnitude slower than DRAM (but they are improving rapidly)
+
+## Key Observation
 
 
 ## System Model - Table of Notations {.smaller .scrollable}

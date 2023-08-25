@@ -374,7 +374,7 @@ Background
 <li><strong>Advantages</strong>: Improve efficiency and scalability by decoupling data from location and session</li>
 </ul>
 <div class="footer">
-<p>Introduction / Background</p>
+<p>Background</p>
 </div>
 </section>
 <section id="in-network-caching" class="slide level2">
@@ -385,7 +385,7 @@ Background
 <li><strong>Advantages</strong>: Caching becomes decentralized, reducing network congestion and improving scalability</li>
 </ul>
 <div class="footer">
-<p>Introduction / Background</p>
+<p>Background</p>
 </div>
 </section>
 <section id="wireless-edge-hetnets" class="slide level2">
@@ -396,7 +396,7 @@ Background
 <li><strong>Importance</strong>: Edge-computing is gaining prevalance, driving more computation towards the network edge</li>
 </ul>
 <div class="footer">
-<p>Introduction / Background</p>
+<p>Background</p>
 </div>
 </section></section>
 <section id="introduction-1" class="title-slide slide level1 center">
@@ -463,7 +463,7 @@ Multi-tier
 <ul>
 <li>Catalog of <span class="math inline">\(|\mathcal{K}|=1000\)</span> objects, ranked according to Zipf’s law with parameter <span class="math inline">\(\alpha=0.75\)</span></li>
 <li>Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server</li>
-<li>Caching at the forwarder is genie-aided, i.e.&nbsp;most popular objects are cached</li>
+<li>Caching at the forwarder is clairvoyant, i.e.&nbsp;most popular objects are cached</li>
 </ul>
 </div>
 </div>
@@ -473,12 +473,6 @@ Multi-tier
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><img data-src="images/zipf_1k.svg" class="fragment"></p>
-</div><div class="column" style="width:50%;">
-<p><img data-src="images/cache_size.svg" class="fragment"></p>
-</div>
-</div>
-<div class="columns">
-<div class="column" style="width:50%;">
 <div class="fragment">
 <ul>
 <li>Most popular 10% of objects make up half of all requests</li>
@@ -486,6 +480,7 @@ Multi-tier
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
+<p><img data-src="images/cache_size.svg" class="fragment"></p>
 <div class="fragment">
 <ul>
 <li>Increasing cache sizes can help reduce delay significantly</li>
@@ -494,6 +489,15 @@ Multi-tier
 </div>
 </div>
 </div>
+</section>
+<section id="core-challenge" class="slide level2 incremental">
+<h2>Core Challenge</h2>
+<ul>
+<li>DRAM is the primary cache device since it is fast, i.e.&nbsp;can operate at <em>line rate</em></li>
+<li>However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
+<li>Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
+<li>NVMe SSDs can be an order of magnitude slower than DRAM (but they are improving rapidly)</li>
+</ul>
 </section>
 <section id="system-model---table-of-notations" class="slide level2 smaller scrollable">
 <h2>System Model - Table of Notations</h2>
