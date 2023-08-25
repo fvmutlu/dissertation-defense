@@ -116,11 +116,6 @@ Background
 -  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
 -  NVMe SSDs can be an order of magnitude slower than DRAM
 
-## Key Observations {.incremental}
--  Trying to increase cache sizes with DRAM is cost-prohibitive and faces strict limitations
--  SSDs are a cheap solution and their transfer rates are improving each generation
--  The diminishing returns property emerging from Zipf's law supports the validity of using SSDs
-
 ## Return to Toy Example {.smaller}
 
 ![](images/toynet_cache.svg){width=75% height=75% fig-align="center"}
@@ -135,6 +130,28 @@ Background
 ::: {.column width="50%"}
 -  Same catalog and popularity distribution
 -  Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when previous one is full
+:::
+:::
+
+## Key Observations {.incremental .smaller}
+
+::: columns
+::: {.column width="50%"}
+![](images/two_tiers.svg){.fragment}
+
+::: {.fragment}
+-  Although second cache tier operates slower than the line rate, it still improves delay at high request rates
+-  This is a direct result of the diminishing returns property emerging from Zipf's law
+:::
+:::
+::: {.column width="50%"}
+![](images/three_tiers.svg){.fragment}
+
+::: {.fragment}
+-  However, addition of the third tier impacts performance negatively
+-  **Lesson**: Cache tiers still need to outpace their own *hit rate*
+-  Otherwise, we're replacing link delays with delays at cache controller queues
+:::
 :::
 :::
 

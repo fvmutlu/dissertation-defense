@@ -499,14 +499,6 @@ Multi-tier
 <li>NVMe SSDs can be an order of magnitude slower than DRAM</li>
 </ul>
 </section>
-<section id="key-observations" class="slide level2 incremental">
-<h2>Key Observations</h2>
-<ul>
-<li>Trying to increase cache sizes with DRAM is cost-prohibitive and faces strict limitations</li>
-<li>SSDs are a cheap solution and their transfer rates are improving each generation</li>
-<li>The diminishing returns property emerging from Zipf’s law supports the validity of using SSDs</li>
-</ul>
-</section>
 <section id="return-to-toy-example" class="slide level2 smaller">
 <h2>Return to Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
@@ -539,6 +531,29 @@ Multi-tier
 <li>Same catalog and popularity distribution</li>
 <li>Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when previous one is full</li>
 </ul>
+</div>
+</div>
+</section>
+<section id="key-observations" class="slide level2 incremental smaller">
+<h2>Key Observations</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/two_tiers.svg" class="fragment"></p>
+<div class="fragment">
+<ul>
+<li>Although second cache tier operates slower than the line rate, it still improves delay at high request rates</li>
+<li>This is a direct result of the diminishing returns property emerging from Zipf’s law</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/three_tiers.svg" class="fragment"></p>
+<div class="fragment">
+<ul>
+<li>However, addition of the third tier impacts performance negatively</li>
+<li><strong>Lesson</strong>: Cache tiers still need to outpace their own <em>hit rate</em></li>
+<li>Otherwise, we’re replacing link delays with delays at cache controller queues</li>
+</ul>
+</div>
 </div>
 </div>
 </section>
