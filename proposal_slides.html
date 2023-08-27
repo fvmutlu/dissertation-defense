@@ -358,6 +358,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Outline</p>
 </div>
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\nin}{n \in \mc{N}}
+\newcommand{\kin}{k \in \mc{K}}
+\newcommand{\jin}{j \in \mc{J}_n}
+\newcommand{\iin}{i \in \mc{I}_n}
+\newcommand{\ain}{a \in \mc{N}}
+\newcommand{\bin}{b \in \mc{N}}
+\newcommand{\abin}{(a,b) \in \mc{L}}
+\newcommand{\about}{(a,b) \not\in \mc{L}^k}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\]</span></p>
+</div>
 </section>
 <section>
 <section id="introduction" class="title-slide slide level1 center">
@@ -566,18 +581,33 @@ Multi-tier
 <li><strong>Goal</strong>: A caching policy suitable for systems with a combination of different storage elements as caches</li>
 <li>This policy needs to:
 <ul>
-<li>Balance the frequency of cache hits served by each cache tier based on their transfer rates</li>
+<li>Balance frequency of cache hits served by cache tiers based on their transfer rates</li>
 <li>Be adaptable to changing traffic patterns in the network</li>
-<li>Offer a performance guarantee and lend itself to distributed implementation</li>
+<li>Offer distributed implementation with performance guarantees</li>
 </ul></li>
 </ul>
 </section>
-<section id="system-model---table-of-notations" class="slide level2 smaller scrollable">
-<h2>System Model - Table of Notations</h2>
+<section id="coupling-caching-and-forwarding" class="slide level2 incremental">
+<h2>Coupling Caching and Forwarding</h2>
+<ul>
+<li><strong>Approach</strong>:</li>
+</ul>
+</section>
+<section id="vip-framework" class="slide level2">
+<h2>VIP Framework</h2>
+<ul>
+<li>Couples backpressure-forwarding with caching</li>
+<li>Provides throughput optimality guarantee*</li>
+<li>Incorporates transfer rate of cache in optimization framework</li>
+</ul>
+</section>
+<section id="system-model" class="slide level2 smaller scrollable">
+<h2>System Model</h2>
 <table>
+<caption>Table of Notations</caption>
 <colgroup>
-<col style="width: 29%">
-<col style="width: 70%">
+<col style="width: 20%">
+<col style="width: 80%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -607,63 +637,84 @@ Multi-tier
 <td style="text-align: left;">Content source node for <span class="math inline">\(k \in \mathcal{K}\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
-<td style="text-align: left;">Time slot referring to interval <span class="math inline">\([t, t+1)\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
-<td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(A^k_n(t)\)</span></td>
-<td style="text-align: left;">Number of exogenous requests for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
-<td style="text-align: left;">Exogenous VIP arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
-<td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(\mathcal{J}_n\)</span></td>
 <td style="text-align: left;">Set of cache tiers at node <span class="math inline">\(n \in \mathcal{N}\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(L_{n_j}\)</span></td>
 <td style="text-align: left;">Size of cache tier <span class="math inline">\(j \in \mathcal{J}_n\)</span> at <span class="math inline">\(n\)</span></td>
 </tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
+<td style="text-align: left;">Read rate of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
+<td style="text-align: left;">Time slot referring to interval <span class="math inline">\([t, t+1)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
+<td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A^k_n(t)\)</span></td>
+<td style="text-align: left;">Number of exogenous requests for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
+<td style="text-align: left;">Exogenous VIP arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
+<td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(s^k_{n_j}(t)\)</span></td>
 <td style="text-align: left;">Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></td>
 </tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\alpha^k_{n_j}(t)\)</span></td>
-<td style="text-align: left;">Caching action for <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
-<td style="text-align: left;">Readout rate of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\rho^r_{n_j}\)</span></td>
-<td style="text-align: left;">Read penalty of tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\rho^w_{n_j}\)</span></td>
-<td style="text-align: left;">Write penalty of tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(p^k_{n_j}(t)\)</span></td>
-<td style="text-align: left;">Penalty incurred for <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\omega\)</span></td>
-<td style="text-align: left;">Penalty importance weight</td>
-</tr>
 </tbody>
 </table>
+</section>
+<section id="queue-dynamics" class="slide level2">
+<h2>Queue Dynamics</h2>
+<p>The VIP queue evolution for object <span class="math inline">\(k\)</span> at node <span class="math inline">\(n\)</span> can be described with the following, where <span class="math inline">\((x)^+ = max(x,0)\)</span>:</p>
+<span class="math display">\[\begin{equation}
+\begin{split}
+    V^k_n(t+1) \leq &amp; \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t) \\
+    &amp; + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} r_{n_j} s^k_{n_j}(t) \Bigg)^+    
+\end{split}
+\end{equation}\]</span>
+</section>
+<section id="algorithm" class="slide level2 smaller scrollable">
+<h2>Algorithm</h2>
+<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
+<ul>
+<li><strong>Caching</strong>: Choose <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</li>
+</ul>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_n(t) s^k_{n_j}(t) \label{eq:gap_obj} \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \label{eq:gap_const1} \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \label{eq:gap_const2} \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin \label{eq:gap_const3}
+\end{align}\]</span>
+<ul>
+<li><strong>Forwarding</strong>: Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
+</ul>
+<span class="math display">\[\begin{equation}
+   \mu^k_{ab}(t) =
+   \left\{ \begin{array}{ll}
+      C_{ba}, &amp; \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) &gt; 0 \\
+      0, &amp; \text{otherwise}
+   \end{array} \right.
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+\begin{split}
+   W^k_{ab}(t) &amp; \triangleq V^k_a(t) - V^k_b(t), \\
+   k^*_{ab}(t) &amp; \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
+\end{split}
+\end{equation}\]</span>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
 

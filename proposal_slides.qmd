@@ -26,6 +26,22 @@ format:
 Outline
 :::
 
+::: {.hidden}
+$$
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\nin}{n \in \mc{N}}
+\newcommand{\kin}{k \in \mc{K}}
+\newcommand{\jin}{j \in \mc{J}_n}
+\newcommand{\iin}{i \in \mc{I}_n}
+\newcommand{\ain}{a \in \mc{N}}
+\newcommand{\bin}{b \in \mc{N}}
+\newcommand{\abin}{(a,b) \in \mc{L}}
+\newcommand{\about}{(a,b) \not\in \mc{L}^k}
+\DeclareMathOperator*{\argmax}{arg\,max}
+$$
+:::
+
 # Introduction
 <h3>Background</h3>
 
@@ -158,32 +174,78 @@ Background
 ## Multi-tiered Caching Policy {.incremental}
 -  **Goal**: A caching policy suitable for systems with a combination of different storage elements as caches
 -  This policy needs to:
-   -  Balance the frequency of cache hits served by each cache tier based on their transfer rates
+   -  Balance frequency of cache hits served by cache tiers based on their transfer rates
    -  Be adaptable to changing traffic patterns in the network
-   -  Offer a performance guarantee and lend itself to distributed implementation
+   -  Offer distributed implementation with performance guarantees
 
+## Coupling Caching and Forwarding {.incremental}
+-  **Approach**:
 
+## VIP Framework
+-  Couples backpressure-forwarding with caching
+-  Provides throughput optimality guarantee*
+-  Incorporates transfer rate of cache in optimization framework
 
-## System Model - Table of Notations {.smaller .scrollable}
+## System Model {.smaller .scrollable}
 
 | Notation | Definition |
-|:---:|:-----------|
+|:--:|:--------|
 |$\mathcal{G}$|Directed graph underlining the network topology|
 |$(\mathcal{N},\mathcal{L})$|Set of nodes and links in $\mathcal{G}$|
 |$C_{ab}$|Transmission capacity of link $(a,b)$|
 |$\mathcal{K}$|Set of data objects in the network|
 |$src(k)$|Content source node for $k \in \mathcal{K}$|
+|$\mathcal{J}_n$ | Set of cache tiers at node $n \in \mathcal{N}$|
+|$L_{n_j}$ | Size of cache tier $j \in \mathcal{J}_n$ at $n$|
+|$r_{n_j}$ | Read rate of tier $j$ at node $n$|
 |$t$|Time slot referring to interval $[t, t+1)$|
 |$V^k_n(t)$|VIP count for $k$ at $n$ during $t$|
 |$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
 |$\lambda^k_n$|Exogenous VIP arrival rate for $k$ at $n$|
 |$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
-|$\mathcal{J}_n$ | Set of cache tiers at node $n \in \mathcal{N}$|
-|$L_{n_j}$ | Size of cache tier $j \in \mathcal{J}_n$ at $n$|
 |$s^k_{n_j}(t)$ | Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$|
-|$\alpha^k_{n_j}(t)$ | Caching action for $k$ in tier $j$ at $n$ during $t$ |
-|$r_{n_j}$ | Readout rate of tier $j$ at node $n$|
-|$\rho^r_{n_j}$ | Read penalty of tier $j$ at $n$|
-|$\rho^w_{n_j}$ | Write penalty of tier $j$ at $n$|
-|$p^k_{n_j}(t)$ | Penalty incurred for $k$ in tier $j$ at $n$ during $t$|
-|$\omega$ | Penalty importance weight|
+: Table of Notations {tbl-colwidths="[20,80]"}
+
+## Queue Dynamics
+The VIP queue evolution for object $k$ at node $n$ can be described with the following, where $(x)^+ = max(x,0)$:
+```{=tex}
+\begin{equation}
+\begin{split}
+    V^k_n(t+1) \leq & \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t) \\ 
+    & + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} r_{n_j} s^k_{n_j}(t) \Bigg)^+    
+\end{split}
+\end{equation}
+```
+
+## Algorithm {.smaller .scrollable}
+At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
+
+-  **Caching**: Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
+```{=tex}
+\begin{align}
+    \text{maximize}
+        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_n(t) s^k_{n_j}(t) \label{eq:gap_obj} \\
+    \text{subject to}
+        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \label{eq:gap_const1} \\
+        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \label{eq:gap_const2} \\
+        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin \label{eq:gap_const3}
+\end{align}
+```
+-  **Forwarding**: Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose:
+```{=tex}
+\begin{equation}
+   \mu^k_{ab}(t) =
+   \left\{ \begin{array}{ll}
+      C_{ba}, & \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) > 0 \\
+      0, & \text{otherwise}
+   \end{array} \right.
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+\begin{split}
+   W^k_{ab}(t) & \triangleq V^k_a(t) - V^k_b(t), \\
+   k^*_{ab}(t) & \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
+\end{split}
+\end{equation}
+```
