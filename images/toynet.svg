@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="334.8pt" height="110.88pt" viewBox="0 0 334.8 110.88" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="334.8pt" height="55.44pt" viewBox="0 0 334.8 55.44" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2023-08-25T12:34:50.724518</dc:date>
+    <dc:date>2023-08-27T12:43:34.443739</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -21,8 +21,8 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 110.88 
-L 334.8 110.88 
+   <path d="M 0 55.44 
+L 334.8 55.44 
 L 334.8 0 
 L 0 0 
 z
@@ -30,25 +30,25 @@ z
   </g>
   <g id="axes_1">
    <g id="LineCollection_1">
-    <path d="M 15.218182 55.44 
-L 167.4 55.44 
-" clip-path="url(#pb63f4388aa)" style="fill: none; stroke: #000000; stroke-width: 2"/>
-    <path d="M 167.4 55.44 
-L 319.581818 55.44 
-" clip-path="url(#pb63f4388aa)" style="fill: none; stroke: #000000; stroke-width: 2"/>
+    <path d="M 15.218182 27.72 
+L 167.4 27.72 
+" clip-path="url(#pebedae7bd4)" style="fill: none; stroke: #000000; stroke-width: 2"/>
+    <path d="M 167.4 27.72 
+L 319.581818 27.72 
+" clip-path="url(#pebedae7bd4)" style="fill: none; stroke: #000000; stroke-width: 2"/>
    </g>
    <g id="text_1">
     <g id="patch_2">
-     <path d="M 29.816339 55.637673 
-L 152.801843 55.637673 
-L 152.801843 33.066327 
-L 29.816339 33.066327 
-L 29.816339 55.637673 
+     <path d="M 29.816339 30.689673 
+L 152.801843 30.689673 
+L 152.801843 8.118327 
+L 29.816339 8.118327 
+L 29.816339 30.689673 
 z
-" clip-path="url(#pb63f4388aa)" style="fill: none; opacity: 0"/>
+" clip-path="url(#pebedae7bd4)" style="fill: none; opacity: 0"/>
     </g>
     <!-- $C_{sf} = 100 \; pkts/sec$ -->
-    <g transform="translate(33.876339 47.587099) scale(0.14 -0.14)">
+    <g transform="translate(33.876339 22.639099) scale(0.14 -0.14)">
      <defs>
       <path id="CMMI12-43" d="M 4781 4423 
 C 4781 4480 4736 4480 4723 4480 
@@ -352,16 +352,16 @@ z
    </g>
    <g id="text_2">
     <g id="patch_3">
-     <path d="M 182.78 55.250233 
-L 304.201818 55.250233 
-L 304.201818 33.453767 
-L 182.78 33.453767 
-L 182.78 55.250233 
+     <path d="M 182.78 30.302233 
+L 304.201818 30.302233 
+L 304.201818 8.505767 
+L 182.78 8.505767 
+L 182.78 30.302233 
 z
-" clip-path="url(#pb63f4388aa)" style="fill: none; opacity: 0"/>
+" clip-path="url(#pebedae7bd4)" style="fill: none; opacity: 0"/>
     </g>
     <!-- $C_{fn} = \infty, \; \forall n \in \mathcal{N}_{c}$ -->
-    <g transform="translate(186.84 47.199659) scale(0.14 -0.14)">
+    <g transform="translate(186.84 22.251659) scale(0.14 -0.14)">
      <defs>
       <path id="CMMI12-6e" d="M 1318 1871 
 C 1331 1910 1491 2229 1728 2433 
@@ -521,7 +521,7 @@ z
    </g>
    <g id="PathCollection_1">
     <defs>
-     <path id="m1f77309d7b" d="M 0 11.18034 
+     <path id="m9892feb3e3" d="M 0 11.18034 
 C 2.965061 11.18034 5.80908 10.002309 7.905694 7.905694 
 C 10.002309 5.80908 11.18034 2.965061 11.18034 0 
 C 11.18034 -2.965061 10.002309 -5.80908 7.905694 -7.905694 
@@ -533,15 +533,15 @@ C -5.80908 10.002309 -2.965061 11.18034 0 11.18034
 z
 " style="stroke: #ff0000; stroke-width: 2"/>
     </defs>
-    <g clip-path="url(#pb63f4388aa)">
-     <use xlink:href="#m1f77309d7b" x="15.218182" y="55.44" style="fill: #ff0000; stroke: #ff0000; stroke-width: 2"/>
-     <use xlink:href="#m1f77309d7b" x="167.4" y="55.44" style="fill: #ff0000; stroke: #ff0000; stroke-width: 2"/>
-     <use xlink:href="#m1f77309d7b" x="319.581818" y="55.44" style="fill: #ff0000; stroke: #ff0000; stroke-width: 2"/>
+    <g clip-path="url(#pebedae7bd4)">
+     <use xlink:href="#m9892feb3e3" x="15.218182" y="27.72" style="fill: #ff0000; stroke: #ff0000; stroke-width: 2"/>
+     <use xlink:href="#m9892feb3e3" x="167.4" y="27.72" style="fill: #ff0000; stroke: #ff0000; stroke-width: 2"/>
+     <use xlink:href="#m9892feb3e3" x="319.581818" y="27.72" style="fill: #ff0000; stroke: #ff0000; stroke-width: 2"/>
     </g>
    </g>
    <g id="text_3">
     <!-- s -->
-    <g transform="translate(12.600595 58.926924) scale(0.14 -0.14)">
+    <g transform="translate(12.600595 31.206924) scale(0.14 -0.14)">
      <defs>
       <path id="CMSS17-73" d="M 2061 2627 
 C 1683 2807 1389 2807 1197 2807 
@@ -567,7 +567,7 @@ z
    </g>
    <g id="text_4">
     <!-- f -->
-    <g transform="translate(165.313517 58.926924) scale(0.14 -0.14)">
+    <g transform="translate(165.313517 31.206924) scale(0.14 -0.14)">
      <defs>
       <path id="CMSS17-66" d="M 1075 2368 
 L 1722 2368 
@@ -594,7 +594,7 @@ z
    </g>
    <g id="text_5">
     <!-- n -->
-    <g transform="translate(316.078795 58.926924) scale(0.14 -0.14)">
+    <g transform="translate(316.078795 31.206924) scale(0.14 -0.14)">
      <defs>
       <path id="CMSS17-6e" d="M 2618 1877 
 C 2618 2283 2522 2816 1798 2816 
@@ -618,8 +618,8 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pb63f4388aa">
-   <rect x="0" y="-0" width="334.8" height="110.88"/>
+  <clipPath id="pebedae7bd4">
+   <rect x="0" y="-0" width="334.8" height="55.44"/>
   </clipPath>
  </defs>
 </svg>

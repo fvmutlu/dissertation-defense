@@ -5,7 +5,7 @@ author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis 
 format:
   revealjs:
     slide-number: true
-    theme: black
+    theme: white
     logo: images/neu_logo.svg
     css: styles/logo.css
 ---
@@ -79,13 +79,14 @@ Background
 |$C_{ab}$|Capacity of link $(a,b)$|
 |$\mathcal{N}_c$|Set of consumer nodes|
 |$\mathcal{K}$|Set of data objects|
-|$L_{n}$|Cache size at $n$|
-|$\alpha$|Zipf parameter|
+|$\alpha$|Zipf's law parameter|
+|$L_{a}$|Cache size (in packets) at node $a$|
+|$\lambda$|Total incoming request rate at forwarder|
 :::
 ::: {.column width="50%"}
--  Catalog of $|\mathcal{K}|=1000$ objects, ranked according to Zipf's law with parameter $\alpha=0.75$
+-  Catalog of $|\mathcal{K}|=1000$ single-packet objects, ranked in popularity according to Zipf's law with parameter $\alpha=0.75$
 -  Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server
--  Caching at the forwarder is clairvoyant, i.e. most popular objects are cached
+-  Caching at the forwarder is clairvoyant, i.e. most popular $L_{f}$ objects are cached
 :::
 :::
 
@@ -128,8 +129,8 @@ Background
 |$L_{n_j}$|Cache size of tier $j$ at $n$|
 :::
 ::: {.column width="50%"}
--  Same catalog and popularity distribution
--  Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when previous one is full
+-  Same catalog and popularity distribution, three possible cache tiers
+-  Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when current one is full
 :::
 :::
 
@@ -137,23 +138,31 @@ Background
 
 ::: columns
 ::: {.column width="50%"}
-![](images/two_tiers.svg){.fragment width=75% height=75% fig-align="center"}
+![](images/two_tiers.svg){.fragment}
 
 ::: {.fragment}
--  Although second cache tier operates slower than the line rate, it still improves delay at high request rates
--  This is a direct result of the diminishing returns property emerging from Zipf's law
+-  Although second tier operates slower than line rate, it improves delay at high request rates
+-  This is due to the diminishing returns emerging from Zipf's law
 :::
 :::
 ::: {.column width="50%"}
-![](images/three_tiers.svg){.fragment width=75% height=75% fig-align="center"}
+![](images/three_tiers.svg){.fragment}
 
 ::: {.fragment}
--  However, addition of the third tier impacts performance negatively
--  **Lesson**: Cache tiers still need to outpace their own *hit rate*
--  Otherwise, we're replacing link delays with delays at cache controller queues
+-  Addition of the third tier impacts performance negatively
+-  **Lesson**: Cache tiers need to outpace their own *hit rate*
 :::
 :::
 :::
+
+## Multi-tiered Caching Policy {.incremental}
+-  **Goal**: A caching policy suitable for systems with a combination of different storage elements as caches
+-  This policy needs to:
+   -  Balance the frequency of cache hits served by each cache tier based on their transfer rates
+   -  Be adaptable to changing traffic patterns in the network
+   -  Offer a performance guarantee and lend itself to distributed implementation
+
+
 
 ## System Model - Table of Notations {.smaller .scrollable}
 

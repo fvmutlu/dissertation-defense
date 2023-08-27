@@ -7,7 +7,7 @@
 <link href="proposal_slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="proposal_slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="proposal_slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="proposal_slides_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="proposal_slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Research Advisor: Edmund Yeh Committee Members: Elif Uysal, Stratis Ioannidis">
@@ -321,7 +321,7 @@
     }
   </style>
 </head>
-<body class="quarto-dark">
+<body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
@@ -450,20 +450,24 @@ Multi-tier
 <td style="text-align: left;">Set of data objects</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="math inline">\(L_{n}\)</span></td>
-<td style="text-align: left;">Cache size at <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">Zipf’s law parameter</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\alpha\)</span></td>
-<td style="text-align: left;">Zipf parameter</td>
+<td style="text-align: center;"><span class="math inline">\(L_{a}\)</span></td>
+<td style="text-align: left;">Cache size (in packets) at node <span class="math inline">\(a\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\lambda\)</span></td>
+<td style="text-align: left;">Total incoming request rate at forwarder</td>
 </tr>
 </tbody>
 </table>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Catalog of <span class="math inline">\(|\mathcal{K}|=1000\)</span> objects, ranked according to Zipf’s law with parameter <span class="math inline">\(\alpha=0.75\)</span></li>
+<li>Catalog of <span class="math inline">\(|\mathcal{K}|=1000\)</span> single-packet objects, ranked in popularity according to Zipf’s law with parameter <span class="math inline">\(\alpha=0.75\)</span></li>
 <li>Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server</li>
-<li>Caching at the forwarder is clairvoyant, i.e.&nbsp;most popular objects are cached</li>
+<li>Caching at the forwarder is clairvoyant, i.e.&nbsp;most popular <span class="math inline">\(L_{f}\)</span> objects are cached</li>
 </ul>
 </div>
 </div>
@@ -528,8 +532,8 @@ Multi-tier
 </table>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Same catalog and popularity distribution</li>
-<li>Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when previous one is full</li>
+<li>Same catalog and popularity distribution, three possible cache tiers</li>
+<li>Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when current one is full</li>
 </ul>
 </div>
 </div>
@@ -538,32 +542,35 @@ Multi-tier
 <h2>Key Observations</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/two_tiers.svg" class="fragment" style="width:75.0%;height:75.0%"></p>
-</figure>
-</div>
+<p><img data-src="images/two_tiers.svg" class="fragment"></p>
 <div class="fragment">
 <ul>
-<li>Although second cache tier operates slower than the line rate, it still improves delay at high request rates</li>
-<li>This is a direct result of the diminishing returns property emerging from Zipf’s law</li>
+<li>Although second tier operates slower than line rate, it improves delay at high request rates</li>
+<li>This is due to the diminishing returns emerging from Zipf’s law</li>
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/three_tiers.svg" class="fragment" style="width:75.0%;height:75.0%"></p>
-</figure>
-</div>
+<p><img data-src="images/three_tiers.svg" class="fragment"></p>
 <div class="fragment">
 <ul>
-<li>However, addition of the third tier impacts performance negatively</li>
-<li><strong>Lesson</strong>: Cache tiers still need to outpace their own <em>hit rate</em></li>
-<li>Otherwise, we’re replacing link delays with delays at cache controller queues</li>
+<li>Addition of the third tier impacts performance negatively</li>
+<li><strong>Lesson</strong>: Cache tiers need to outpace their own <em>hit rate</em></li>
 </ul>
 </div>
 </div>
 </div>
+</section>
+<section id="multi-tiered-caching-policy" class="slide level2 incremental">
+<h2>Multi-tiered Caching Policy</h2>
+<ul>
+<li><strong>Goal</strong>: A caching policy suitable for systems with a combination of different storage elements as caches</li>
+<li>This policy needs to:
+<ul>
+<li>Balance the frequency of cache hits served by each cache tier based on their transfer rates</li>
+<li>Be adaptable to changing traffic patterns in the network</li>
+<li>Offer a performance guarantee and lend itself to distributed implementation</li>
+</ul></li>
+</ul>
 </section>
 <section id="system-model---table-of-notations" class="slide level2 smaller scrollable">
 <h2>System Model - Table of Notations</h2>
