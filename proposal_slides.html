@@ -385,11 +385,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\nin}{n \in \mc{N}}
 \newcommand{\kin}{k \in \mc{K}}
 \newcommand{\jin}{j \in \mc{J}_n}
+\newcommand{\kjin}{(k,j) \in \mc{B}_{n,i}}
 \newcommand{\iin}{i \in \mc{I}_n}
 \newcommand{\ain}{a \in \mc{N}}
 \newcommand{\bin}{b \in \mc{N}}
 \newcommand{\abin}{(a,b) \in \mc{L}}
 \newcommand{\about}{(a,b) \not\in \mc{L}^k}
+\newcommand{\betasum}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}}
+\newcommand{\betasumnl}{\sum ^{\sigma}_{i=1} \beta_{n,i}}
+\newcommand{\betasumind}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \]</span></p>
 </div>
@@ -485,7 +489,7 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <li>How beneficial are larger caches?</li>
 <li>Are slower and larger storage elements viable as caches?</li>
 <li>What are the costs of operating large caches?</li>
-<li>How to make sure we’re getting the most out of caches in the network?</li>
+<li>How can we get the most out of caches in the network?</li>
 </ul></li>
 <li>We develop a joint caching and forwarding strategy that incorporates these considerations</li>
 </ul>
@@ -734,7 +738,7 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <td style="text-align: left;">Set of data objects in the network</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(src(k)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mc{S}(k)\)</span></td>
 <td style="text-align: left;">Content source node for <span class="math inline">\(k \in \mathcal{K}\)</span></td>
 </tr>
 <tr class="even">
@@ -789,8 +793,8 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 \end{split}
 \end{equation}\]</span>
 </section>
-<section id="algorithm" class="slide level2 smaller">
-<h2>Algorithm</h2>
+<section id="virtual-plane-algorithm" class="slide level2 smaller">
+<h2>Virtual Plane Algorithm</h2>
 <p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
 <ul>
 <li><strong>Caching</strong>: Choose <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</li>
@@ -811,8 +815,8 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 \label{eq:gap_benefits}
 \end{equation}\]</span>
 </section>
-<section id="algorithm-1" class="slide level2 smaller">
-<h2>Algorithm</h2>
+<section id="virtual-plane-algorithm-1" class="slide level2 smaller">
+<h2>Virtual Plane Algorithm</h2>
 <p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
 <ul>
 <li><strong>Forwarding</strong>: Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
@@ -830,6 +834,95 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
    k^*_{ab}(t) &amp; \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
 \end{split}
 \end{equation}\]</span>
+</section>
+<section id="analysis" class="slide level2 smaller">
+<h2>Analysis</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f^k_{ab}\)</span></td>
+<td style="text-align: left;">Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(F^k_{ab}(t)\)</span></td>
+<td style="text-align: left;">Number of VIPs of <span class="math inline">\(k\)</span> sent over <span class="math inline">\((a,b)\)</span> during slot <span class="math inline">\(t\)</span></td>
+</tr>
+</tbody>
+</table>
+<span class="math display">\[\begin{equation}
+f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
+\end{equation}\]</span>
+<p><span class="math inline">\(F^k_{ab}(t)\)</span> satisfy the following for all <span class="math inline">\(t \geq 1\)</span>:</p>
+<span class="math display">\[\begin{equation}
+    F^k_{ab}(t) \geq 0, F^k_{nn}(t) = 0, F^k_{\mc{S}(k)n}(t) = 0, \; \forall a,b,n \in \mc{N}, \kin,
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+    F^k_{ab}(t) = 0, \; \forall a,b \in \mc{N}, \kin, (a,b) \not \in \mc{L}^k
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+    F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
+\end{equation}\]</span>
+</section>
+<section id="analysis-1" class="slide level2 smaller">
+<h2>Analysis</h2>
+<table>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mc{B}_{n,i}\)</span></td>
+<td style="text-align: left;">i-th among all <span class="math inline">\(\sigma\)</span> cache placement sets at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
+<td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The elements of set <span class="math inline">\(\mc{B}_{n,i}\)</span> are pairs in the form of <span class="math inline">\((k,j)\)</span>, such that if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span>, object <span class="math inline">\(k\)</span> is cached in tier <span class="math inline">\(j\)</span>. <span class="math inline">\(\beta_{n,i}\)</span> satisfy the following:</p>
+<span class="math display">\[\begin{equation}
+    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma, \quad \nin
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+    \betasum = 1, \quad \forall \nin
+\end{equation}\]</span>
+</section>
+<section id="analysis-2" class="slide level2">
+<h2>Analysis</h2>
+<p><strong>Stability Region</strong>: The VIP stability region <span class="math inline">\(\Lambda\)</span> of the network <span class="math inline">\(\mc{G} = (\mc{N},\mc{L})\)</span>, is the set <span class="math inline">\(\Lambda\)</span> consisting of all VIP arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that the following holds:</p>
+<span class="math display">\[\begin{equation}
+\begin{split}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} &amp; - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \\
+    &amp; \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+\end{split}
+\end{equation}\]</span>
+<p>When all exogenous request arrival rates abide by the bound described above, there is a feasible forwarding and caching policy in the virtual plane that can stabilize all VIP queues.</p>
+</section>
+<section id="transition-to-data-plane" class="slide level2">
+<h2>Transition to Data Plane</h2>
+<p>There are several considerations when applying our approach in the data plane:</p>
+<ul>
+<li>Per-packet forwarding and caching decisions need to be made</li>
+<li>Assumption that we have immediate access to any object for caching purposes does not hold</li>
+<li>Algorithm can lead to oscillatory behavior for caching decisions</li>
+</ul>
+</section>
+<section id="data-plane-strategy" class="slide level2 smaller">
+<h2>Data Plane Strategy</h2>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
 

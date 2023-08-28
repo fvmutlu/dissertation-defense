@@ -43,11 +43,15 @@ $$
 \newcommand{\nin}{n \in \mc{N}}
 \newcommand{\kin}{k \in \mc{K}}
 \newcommand{\jin}{j \in \mc{J}_n}
+\newcommand{\kjin}{(k,j) \in \mc{B}_{n,i}}
 \newcommand{\iin}{i \in \mc{I}_n}
 \newcommand{\ain}{a \in \mc{N}}
 \newcommand{\bin}{b \in \mc{N}}
 \newcommand{\abin}{(a,b) \in \mc{L}}
 \newcommand{\about}{(a,b) \not\in \mc{L}^k}
+\newcommand{\betasum}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}}
+\newcommand{\betasumnl}{\sum ^{\sigma}_{i=1} \beta_{n,i}}
+\newcommand{\betasumind}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \DeclareMathOperator*{\argmax}{arg\,max}
 $$
 :::
@@ -275,7 +279,7 @@ Related Work
 |$(\mathcal{N},\mathcal{L})$|Set of nodes and links in $\mathcal{G}$|
 |$C_{ab}$|Transmission capacity (in objects/sec) of link $(a,b)$|
 |$\mathcal{K}$|Set of data objects in the network|
-|$src(k)$|Content source node for $k \in \mathcal{K}$|
+|$\mc{S}(k)$|Content source node for $k \in \mathcal{K}$|
 |$\mathcal{J}_n$ | Set of cache tiers at node $n \in \mathcal{N}$|
 |$L_{n_j}$ | Size (in objects) of cache tier $j \in \mathcal{J}_n$ at $n$|
 |$r_{n_j}$ | Read rate of tier $j$ at node $n$|
@@ -348,7 +352,74 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
 \end{equation}
 ```
 
-## Transition to Data Plane {.smaller}
+## Analysis {.smaller}
+
+| Notation | Definition |
+|:--:|:--------|
+|$f^k_{ab}$|Time-average VIP flow for $k$ over $(a,b)$|
+|$F^k_{ab}(t)$|Number of VIPs of $k$ sent over $(a,b)$ during slot $t$|
+
+```{=tex}
+\begin{equation}
+f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
+\end{equation}
+```
+
+$F^k_{ab}(t)$ satisfy the following for all $t \geq 1$:
+```{=tex}
+\begin{equation}
+    F^k_{ab}(t) \geq 0, F^k_{nn}(t) = 0, F^k_{\mc{S}(k)n}(t) = 0, \; \forall a,b,n \in \mc{N}, \kin,
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    F^k_{ab}(t) = 0, \; \forall a,b \in \mc{N}, \kin, (a,b) \not \in \mc{L}^k
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
+\end{equation}
+```
+
+## Analysis {.smaller}
+
+| Notation | Definition |
+|:--:|:--------|
+|$\mc{B}_{n,i}$|i-th among all $\sigma$ cache placement sets at $n$|
+|$\beta_{n,i}$|Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$|
+
+The elements of set $\mc{B}_{n,i}$ are pairs in the form of $(k,j)$, such that if $(k,j) \in \mc{B}_{n,i}$, object $k$ is cached in tier $j$. $\beta_{n,i}$ satisfy the following:
+```{=tex}
+\begin{equation}
+    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma, \quad \nin
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    \betasum = 1, \quad \forall \nin
+\end{equation}
+```
+
+
+## Analysis
+
+**Stability Region**: The VIP stability region $\Lambda$ of the network $\mc{G} = (\mc{N},\mc{L})$, is the set $\Lambda$ consisting of all VIP arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that the following holds:
+```{=tex}
+\begin{equation}
+\begin{split}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} & - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \\
+    & \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+\end{split}
+\end{equation}
+```
+When all exogenous request arrival rates abide by the bound described above, there is a feasible forwarding and caching policy in the virtual plane that can stabilize all VIP queues.
+
+## Analysis
+
+**Throughput/Penalty Bounds**:
+
+## Transition to Data Plane
 
 There are several considerations when applying our approach in the data plane:
 
