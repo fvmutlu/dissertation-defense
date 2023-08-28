@@ -118,7 +118,7 @@ Context
    -  How beneficial are larger caches?
    -  Are slower and larger storage elements viable as caches?
    -  What are the costs of operating large caches?
-   -  How to make sure we're getting the most out of caches in the network?
+   -  How can we get the most out of caches in the network?
 -  We develop a joint caching and forwarding strategy that incorporates these considerations
 
 ## Toy Example {.smaller}
@@ -302,7 +302,7 @@ The VIP queue evolution for object $k$ at node $n$ can be described with the fol
 \end{equation}
 ```
 
-## Algorithm {.smaller}
+## Virtual Plane Algorithm {.smaller}
 At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
 
 -  **Caching**: Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
@@ -326,7 +326,7 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
 \end{equation}
 ```
 
-## Algorithm {.smaller}
+## Virtual Plane Algorithm {.smaller}
 At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
 
 -  **Forwarding**: Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose:
@@ -347,3 +347,14 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
 \end{split}
 \end{equation}
 ```
+
+## Transition to Data Plane {.smaller}
+
+There are several considerations when applying our approach in the data plane:
+
+-  Per-packet forwarding and caching decisions need to be made
+-  Assumption that we have immediate access to any object for caching purposes does not hold 
+-  Algorithm can lead to oscillatory behavior for caching decisions
+
+## Data Plane Strategy {.smaller}
+
