@@ -384,8 +384,8 @@ Background
 <section id="information-centric-networking" class="slide level2">
 <h2>Information Centric Networking</h2>
 <ul>
-<li><strong>Motivation</strong>: Internet today is primarily a data distribution network, yet its principles are those of a communication network</li>
-<li><strong>Core Premise</strong>: Make uniquely named data the primary entity of the network, instead of endpoints</li>
+<li><strong>Motivation</strong>: The Internet is primarily a data distribution network, yet its principles are those of a communication network</li>
+<li><strong>Premise</strong>: Make uniquely named data the primary entity of the network, instead of endpoints</li>
 <li><strong>Advantages</strong>: Improve efficiency and scalability by decoupling data from location and session</li>
 </ul>
 <div class="footer">
@@ -396,7 +396,7 @@ Background
 <h2>In-network Caching</h2>
 <ul>
 <li><strong>Motivation</strong>: Current caching infrastructure is mostly proprietary and centralized</li>
-<li><strong>Core Premise</strong>: Enable every router in the network to maintain its own cache</li>
+<li><strong>Premise</strong>: Enable every router in the network to maintain its own cache</li>
 <li><strong>Advantages</strong>: Caching becomes decentralized, reducing network congestion and improving scalability</li>
 </ul>
 <div class="footer">
@@ -414,13 +414,19 @@ Background
 <p>Background</p>
 </div>
 </section></section>
+<section>
 <section id="introduction-1" class="title-slide slide level1 center">
 <h1>Introduction</h1>
 <h3>
-Research Problems
+Research Topics
 </h3>
 </section>
-
+<section id="joint-caching-and-forwarding-strategies-for-networks-with-hybrid-storage-systems" class="slide level2 smaller">
+<h2>Joint Caching and Forwarding Strategies for Networks with Hybrid Storage Systems</h2>
+<ul>
+<li>Placeholder</li>
+</ul>
+</section></section>
 <section id="introduction-2" class="title-slide slide level1 center">
 <h1>Introduction</h1>
 <h3>
@@ -693,11 +699,10 @@ Multi-tier
 </ul>
 <span class="math display">\[\begin{align}
     \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_n(t) s^k_{n_j}(t) \label{eq:gap_obj} \\
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_n(t) s^k_{n_j}(t) \\
     \text{subject to}
-        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \label{eq:gap_const1} \\
-        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \label{eq:gap_const2} \\
-        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin \label{eq:gap_const3}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
 \end{align}\]</span>
 <ul>
 <li><strong>Forwarding</strong>: Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
