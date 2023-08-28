@@ -340,24 +340,44 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
+<p>The general outline of this presentation is as follows:</p>
 <ol type="1">
-<li>Introduction
-<ol type="i">
-<li>Background</li>
-<li>Research Problems</li>
-<li>Related Work</li>
-</ol></li>
-<li>Work So Far
-<ol type="i">
-<li>Multi-tier (<em>Working title</em>)</li>
-<li>N-DISE (<em>Working title</em>)</li>
-<li>HetNet (<em>Working title</em>)</li>
-</ol></li>
+<li>Context</li>
+<li>Research Topics
+<ul>
+<li>Joint Caching and Forwarding in Networks with Hybrid Storage Systems
+<ul>
+<li>NDN for Data Intensive Science Experiments*</li>
+</ul></li>
+<li>Joint Power Control and Caching in Wireless HetNets</li>
+</ul></li>
 <li>Proposed Work</li>
+<li>Conclusion and Acknowledgements</li>
 </ol>
 <div class="footer">
 <p>Outline</p>
 </div>
+<aside class="notes">
+<ul>
+<li>We’ll first go over the general context in which my research fits</li>
+<li>We’ll then cover two major research directions I’ve pursued and am pursuing</li>
+<li>The first one makes up the bulk of the content of this presentation since it is work that I am heading</li>
+<li>I will also take an aside while discussing that, to mention a more implementation-oriented project that I am part of, which originated the purpose of my work on the first topic</li>
+<li>The second one is work which I played a major role in building, but was originally proposed by Derya Malak, who was a postdoc in our lab during my first year and a current collaborator</li>
+<li>The proposed work section will focus on the first of these topics and introduce extensions I plan on pursuing for the remainder of my dissertation work</li>
+<li>Then of course there will be a brief conclusion</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="hidden">
 <p><span class="math display">\[
 \newcommand{\mc}[1]{\mathcal{#1}}
@@ -373,6 +393,42 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \DeclareMathOperator*{\argmax}{arg\,max}
 \]</span></p>
 </div>
+</section>
+<section id="outline-1" class="slide level2">
+<h2>Outline</h2>
+<p>For each research topic, we’ll cover:</p>
+<ol type="1">
+<li>Motivation</li>
+<li>Related Work</li>
+<li>Contributions
+<ul>
+<li>Model</li>
+<li>Approach</li>
+<li>Results</li>
+</ul></li>
+<li>Future Extensions</li>
+</ol>
+<div class="footer">
+<p>Outline</p>
+</div>
+<aside class="notes">
+<ul>
+<li>I will introduce the topic with its motivation, giving you a background on why we even want to investigate the topic and why it is important</li>
+<li>Then we will go over relevant studies that explored similar or adjacent problems and outline what we want address that we believe weren’t addressed by these works</li>
+<li>We will then discuss our contributions, breaking it into these three steps</li>
+<li>Finally we’ll briefly list some possible future directions for the topic, some of which will reappear in my proposed work section</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section>
 <section id="introduction" class="title-slide slide level1 center">
@@ -421,10 +477,12 @@ Background
 Research Topics
 </h3>
 </section>
-<section id="joint-caching-and-forwarding-strategies-for-networks-with-hybrid-storage-systems" class="slide level2 smaller">
+<section id="joint-caching-and-forwarding-strategies-for-networks-with-hybrid-storage-systems" class="slide level2">
 <h2>Joint Caching and Forwarding Strategies for Networks with Hybrid Storage Systems</h2>
 <ul>
-<li>Placeholder</li>
+<li>Volume of data grows exponentially, while in-network cache capacities are stagnant</li>
+<li>Rapidly advancing storage technology can be leveraged to extend cache capacities</li>
+<li>Doing so in a cost-effective way requires novel, tailored caching strategies</li>
 </ul>
 </section></section>
 <section id="introduction-2" class="title-slide slide level1 center">
