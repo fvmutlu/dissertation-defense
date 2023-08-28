@@ -75,8 +75,7 @@ Outline
 - Finally we'll briefly list some possible future directions for the topic, some of which will reappear in my proposed work section
 :::
 
-# Introduction
-<h3>Background</h3>
+# Context
 
 ## Information Centric Networking
 
@@ -85,7 +84,7 @@ Outline
 - **Advantages**: Improve efficiency and scalability by decoupling data from location and session
 
 ::: {.footer}
-Background
+Context
 :::
 
 ## In-network Caching
@@ -95,7 +94,7 @@ Background
 - **Advantages**: Caching becomes decentralized, reducing network congestion and improving scalability
 
 ::: {.footer}
-Background
+Context
 :::
 
 ## Wireless Edge & HetNets
@@ -105,24 +104,13 @@ Background
 - **Importance**: Edge-computing is gaining prevalance, driving more computation towards the network edge
 
 ::: {.footer}
-Background
+Context
 :::
 
-# Introduction
-<h3>Research Topics</h3>
+# Research Topic I
+<h3>Joint Caching and Forwarding in Networks with Hybrid Storage Systems</h3>
 
-## Joint Caching and Forwarding Strategies for Networks with Hybrid Storage Systems
-- Volume of data grows exponentially, while in-network cache capacities are stagnant
-- Rapidly advancing storage technology can be leveraged to extend cache capacities
-- Doing so in a cost-effective way requires novel, tailored caching strategies
-
-# Introduction
-<h3>Related Work</h3>
-
-# Work So Far
-<h3>Multi-tier</h3>
-
-## Motivation - Toy Example {.smaller}
+## Toy Example {.smaller}
 
 ![](images/toynet.svg){width=60% height=60% fig-align="center"}
 
@@ -144,11 +132,15 @@ Background
 :::
 :::
 
-## Motivation - Toy Example {.smaller}
+::: {.footer}
+Motivation
+:::
+
+## Toy Example {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
-![](images/zipf_1k.svg){.fragment}
+![](images/zipf_1k.svg)
 
 ::: {.fragment}
 -  Most popular 10% of objects make up half of all requests
@@ -165,13 +157,21 @@ Background
 :::
 :::
 
+::: {.footer}
+Motivation
+:::
+
 ## Core Challenge {.incremental}
 -  DRAM is the primary cache device since it is fast, i.e. can operate at *line rate*
 -  However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)
 -  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
 -  NVMe SSDs can be an order of magnitude slower than DRAM
 
-## Return to Toy Example {.smaller}
+::: {.footer}
+Motivation
+:::
+
+## Extended Toy Example {.smaller}
 
 ![](images/toynet_cache.svg){width=75% height=75% fig-align="center"}
 
@@ -181,11 +181,17 @@ Background
 |:-:|:---------------|
 |$r_{n_j}$|Read rate of tier $j$ at $n$|
 |$L_{n_j}$|Cache size of tier $j$ at $n$|
+
+Numbered nodes connected by green edges represent potential cache tiers
 :::
 ::: {.column width="50%"}
 -  Same catalog and popularity distribution, three possible cache tiers
 -  Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when current one is full
 :::
+:::
+
+::: {.footer}
+Motivation
 :::
 
 ## Key Observations {.incremental .smaller}
@@ -209,6 +215,10 @@ Background
 :::
 :::
 
+::: {.footer}
+Motivation
+:::
+
 ## Multi-tiered Caching Policy {.incremental}
 -  **Goal**: A caching policy suitable for systems with a combination of different storage elements as caches
 -  This policy needs to:
@@ -216,13 +226,15 @@ Background
    -  Be adaptable to changing traffic patterns in the network
    -  Offer distributed implementation with performance guarantees
 
-## Coupling Caching and Forwarding {.incremental}
--  **Approach**:
+::: {.footer}
+Motivation
+:::
 
-## VIP Framework
--  Couples backpressure-forwarding with caching
--  Provides throughput optimality guarantee*
--  Incorporates transfer rate of cache in optimization framework
+## Related Work {.incremental .smaller}
+
+::: {.footer}
+Related Work
+:::
 
 ## System Model {.smaller .scrollable}
 
@@ -243,6 +255,10 @@ Background
 |$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
 |$s^k_{n_j}(t)$ | Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$|
 : Table of Notations {tbl-colwidths="[20,80]"}
+
+::: {.footer}
+Contributions
+:::
 
 ## Queue Dynamics
 The VIP queue evolution for object $k$ at node $n$ can be described with the following, where $(x)^+ = max(x,0)$:

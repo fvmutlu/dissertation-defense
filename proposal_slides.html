@@ -431,11 +431,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
       }</style></aside>
 </section>
 <section>
-<section id="introduction" class="title-slide slide level1 center">
-<h1>Introduction</h1>
-<h3>
-Background
-</h3>
+<section id="context" class="title-slide slide level1 center">
+<h1>Context</h1>
+
 </section>
 <section id="information-centric-networking" class="slide level2">
 <h2>Information Centric Networking</h2>
@@ -445,7 +443,7 @@ Background
 <li><strong>Advantages</strong>: Improve efficiency and scalability by decoupling data from location and session</li>
 </ul>
 <div class="footer">
-<p>Background</p>
+<p>Context</p>
 </div>
 </section>
 <section id="in-network-caching" class="slide level2">
@@ -456,7 +454,7 @@ Background
 <li><strong>Advantages</strong>: Caching becomes decentralized, reducing network congestion and improving scalability</li>
 </ul>
 <div class="footer">
-<p>Background</p>
+<p>Context</p>
 </div>
 </section>
 <section id="wireless-edge-hetnets" class="slide level2">
@@ -467,40 +465,18 @@ Background
 <li><strong>Importance</strong>: Edge-computing is gaining prevalance, driving more computation towards the network edge</li>
 </ul>
 <div class="footer">
-<p>Background</p>
+<p>Context</p>
 </div>
 </section></section>
 <section>
-<section id="introduction-1" class="title-slide slide level1 center">
-<h1>Introduction</h1>
+<section id="research-topic-i" class="title-slide slide level1 center">
+<h1>Research Topic I</h1>
 <h3>
-Research Topics
+Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 </h3>
 </section>
-<section id="joint-caching-and-forwarding-strategies-for-networks-with-hybrid-storage-systems" class="slide level2">
-<h2>Joint Caching and Forwarding Strategies for Networks with Hybrid Storage Systems</h2>
-<ul>
-<li>Volume of data grows exponentially, while in-network cache capacities are stagnant</li>
-<li>Rapidly advancing storage technology can be leveraged to extend cache capacities</li>
-<li>Doing so in a cost-effective way requires novel, tailored caching strategies</li>
-</ul>
-</section></section>
-<section id="introduction-2" class="title-slide slide level1 center">
-<h1>Introduction</h1>
-<h3>
-Related Work
-</h3>
-</section>
-
-<section>
-<section id="work-so-far" class="title-slide slide level1 center">
-<h1>Work So Far</h1>
-<h3>
-Multi-tier
-</h3>
-</section>
-<section id="motivation---toy-example" class="slide level2 smaller">
-<h2>Motivation - Toy Example</h2>
+<section id="toy-example" class="slide level2 smaller">
+<h2>Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/toynet.svg" style="width:60.0%;height:60.0%"></p>
@@ -550,12 +526,15 @@ Multi-tier
 </ul>
 </div>
 </div>
+<div class="footer">
+<p>Motivation</p>
+</div>
 </section>
-<section id="motivation---toy-example-1" class="slide level2 smaller">
-<h2>Motivation - Toy Example</h2>
+<section id="toy-example-1" class="slide level2 smaller">
+<h2>Toy Example</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><img data-src="images/zipf_1k.svg" class="fragment"></p>
+<p><img data-src="images/zipf_1k.svg"></p>
 <div class="fragment">
 <ul>
 <li>Most popular 10% of objects make up half of all requests</li>
@@ -572,6 +551,9 @@ Multi-tier
 </div>
 </div>
 </div>
+<div class="footer">
+<p>Motivation</p>
+</div>
 </section>
 <section id="core-challenge" class="slide level2 incremental">
 <h2>Core Challenge</h2>
@@ -581,9 +563,12 @@ Multi-tier
 <li>Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
 <li>NVMe SSDs can be an order of magnitude slower than DRAM</li>
 </ul>
+<div class="footer">
+<p>Motivation</p>
+</div>
 </section>
-<section id="return-to-toy-example" class="slide level2 smaller">
-<h2>Return to Toy Example</h2>
+<section id="extended-toy-example" class="slide level2 smaller">
+<h2>Extended Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/toynet_cache.svg" style="width:75.0%;height:75.0%"></p>
@@ -609,12 +594,16 @@ Multi-tier
 </tr>
 </tbody>
 </table>
+<p>Numbered nodes connected by green edges represent potential cache tiers</p>
 </div><div class="column" style="width:50%;">
 <ul>
 <li>Same catalog and popularity distribution, three possible cache tiers</li>
 <li>Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when current one is full</li>
 </ul>
 </div>
+</div>
+<div class="footer">
+<p>Motivation</p>
 </div>
 </section>
 <section id="key-observations" class="slide level2 incremental smaller">
@@ -638,6 +627,9 @@ Multi-tier
 </div>
 </div>
 </div>
+<div class="footer">
+<p>Motivation</p>
+</div>
 </section>
 <section id="multi-tiered-caching-policy" class="slide level2 incremental">
 <h2>Multi-tiered Caching Policy</h2>
@@ -650,20 +642,15 @@ Multi-tier
 <li>Offer distributed implementation with performance guarantees</li>
 </ul></li>
 </ul>
+<div class="footer">
+<p>Motivation</p>
+</div>
 </section>
-<section id="coupling-caching-and-forwarding" class="slide level2 incremental">
-<h2>Coupling Caching and Forwarding</h2>
-<ul>
-<li><strong>Approach</strong>:</li>
-</ul>
-</section>
-<section id="vip-framework" class="slide level2">
-<h2>VIP Framework</h2>
-<ul>
-<li>Couples backpressure-forwarding with caching</li>
-<li>Provides throughput optimality guarantee*</li>
-<li>Incorporates transfer rate of cache in optimization framework</li>
-</ul>
+<section id="related-work" class="slide level2 incremental smaller">
+<h2>Related Work</h2>
+<div class="footer">
+<p>Related Work</p>
+</div>
 </section>
 <section id="system-model" class="slide level2 smaller scrollable">
 <h2>System Model</h2>
@@ -738,6 +725,9 @@ Multi-tier
 </tr>
 </tbody>
 </table>
+<div class="footer">
+<p>Contributions</p>
+</div>
 </section>
 <section id="queue-dynamics" class="slide level2">
 <h2>Queue Dynamics</h2>
