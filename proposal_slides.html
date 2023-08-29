@@ -394,6 +394,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\betasum}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}}
 \newcommand{\betasumnl}{\sum ^{\sigma}_{i=1} \beta_{n,i}}
 \newcommand{\betasumind}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
+\newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \]</span></p>
 </div>
@@ -754,6 +755,14 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <td style="text-align: left;">Read rate of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(c^a_{n_j}\)</span></td>
+<td style="text-align: left;">Admission cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(c^e_{n_j}\)</span></td>
+<td style="text-align: left;">Eviction cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(t\)</span></td>
 <td style="text-align: left;">Time slot referring to interval <span class="math inline">\([t, t+1)\)</span></td>
 </tr>
@@ -776,6 +785,10 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <tr class="even">
 <td style="text-align: center;"><span class="math inline">\(s^k_{n_j}(t)\)</span></td>
 <td style="text-align: left;">Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(p^k_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Penalty incurred by the choice of <span class="math inline">\(s^k_{n_j}(t)\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -801,6 +814,29 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 </ul>
 <span class="math display">\[\begin{align}
     \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}\]</span>
+<span class="math display">\[\begin{equation}
+    p^k_{n_j}(t) \triangleq
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+       0, &amp; \text{otherwise}
+   \end{array} \right.
+\end{equation}\]</span>
+</section>
+<section id="virtual-plane-algorithm-1" class="slide level2 smaller">
+<h2>Virtual Plane Algorithm</h2>
+<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
+<ul>
+<li><strong>Caching</strong>: Choose <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</li>
+</ul>
+<span class="math display">\[\begin{align}
+    \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
     \text{subject to}
         &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
@@ -812,10 +848,9 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
         r_{n_j} V^k_n(t) - \omega c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 0 \\
         r_{n_j} V^k_n(t) + \omega c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 1
     \end{array} \right.
-\label{eq:gap_benefits}
 \end{equation}\]</span>
 </section>
-<section id="virtual-plane-algorithm-1" class="slide level2 smaller">
+<section id="virtual-plane-algorithm-2" class="slide level2 smaller">
 <h2>Virtual Plane Algorithm</h2>
 <p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
 <ul>
@@ -911,6 +946,42 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 \end{split}
 \end{equation}\]</span>
 <p>When all exogenous request arrival rates abide by the bound described above, there is a feasible forwarding and caching policy in the virtual plane that can stabilize all VIP queues.</p>
+</section>
+<section id="analysis-3" class="slide level2 smaller">
+<h2>Analysis</h2>
+<table>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span></td>
+<td style="text-align: left;">(description pending)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
+<td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="analysis-4" class="slide level2 smaller">
+<h2>Analysis</h2>
+<p><strong>VIP Backlog/Penalty Bounds</strong>: Given VIP arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon} = (\epsilon^k_n)_{\nin, \kin} \succ \mathbf{0}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following bounds:</p>
+<span class="math display">\[\begin{equation}
+    \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+    \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
+\end{equation}\]</span>
+<p><strong>Interpretation</strong>: We can set <span class="math inline">\(\omega\)</span> arbitrarily large to push the time average penalty close to <span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> at the cost of significantly increasing the average queue backlog and vice-versa.</p>
 </section>
 <section id="transition-to-data-plane" class="slide level2">
 <h2>Transition to Data Plane</h2>
