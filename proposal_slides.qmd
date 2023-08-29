@@ -10,16 +10,19 @@ format:
     css: styles/logo.css
 ---
 
-## Outline
+## Outline {.smaller}
 
-The general outline of this presentation is as follows:
+The outline of this presentation is as follows:
 
-1. Context
-2. Research Topics
-   - Joint Caching and Forwarding in Networks with Hybrid Storage Systems
-      - NDN for Data Intensive Science Experiments*
+1. General Context
+2. Joint Caching and Forwarding in Networks with Hybrid Storage Systems
+   - Motivation
+   - Related Work
+   - Contributions
+   - Proposed Work
+3. Other Contributions
    - Joint Power Control and Caching in Wireless HetNets
-3. Proposed Work
+   - NDN for Data Intensive Science Experiments*
 4. Conclusion and Acknowledgements
 
 ::: {.footer}
@@ -54,30 +57,8 @@ $$
 \newcommand{\betasumind}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
 \DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 $$
-:::
-
-## Outline
-
-For each research topic, we'll cover:
-
-- Motivation
-- Related Work
-- Contributions
-   - Model
-   - Approach
-   - Results
-- Future Extensions
-
-::: {.footer}
-Outline
-:::
-
-::: {.notes}
-- I will introduce the topic with its motivation, giving you a background on why we even want to investigate the topic and why it is important
-- Then we will go over relevant studies that explored similar or adjacent problems and outline what we want address that we believe weren't addressed by these works
-- We will then discuss our contributions, breaking it into these three steps
-- Finally we'll briefly list some possible future directions for the topic, some of which will reappear in my proposed work section
 :::
 
 # Context
@@ -152,7 +133,7 @@ Context
 Motivation
 :::
 
-## Toy Example {.smaller}
+## Case for Larger Caches {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
@@ -177,7 +158,7 @@ Motivation
 Motivation
 :::
 
-## Core Challenge {.incremental}
+## Core Challenge I {.incremental}
 -  DRAM is the primary cache device since it is fast, i.e. can operate at *line rate*
 -  However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)
 -  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
@@ -210,7 +191,7 @@ Numbered nodes connected by green edges represent potential cache tiers
 Motivation
 :::
 
-## Key Observations {.incremental .smaller}
+## Case for Additional, Slower Caches {.incremental .smaller}
 
 ::: columns
 ::: {.column width="50%"}
@@ -235,8 +216,20 @@ Motivation
 Motivation
 :::
 
-## Multi-tiered Caching Policy {.incremental}
--  **Goal**: A caching policy suitable for systems with a combination of different storage elements as caches
+## Core Challenge II {.incremental}
+
+-  Caches are not free to use, every admission and replacement has a cost
+-  With SSDs, these are more pronounced:
+   -  They wear out over time
+   -  Due to their slower speed, cache state transitions take longer
+   -  Their per-replacement power consumption is larger*
+
+## Core Challenge III {.incremental}
+
+-  (Talk about joint caching and forwarding)
+
+## Goal {.incremental}
+-  We want a caching policy suitable for systems with a combination of storage elements with different performance and cost paremeters as caches
 -  This policy needs to:
    -  Balance frequency of requests served by cache tiers based on their transfer rates
    -  Be adaptable to changing traffic patterns in the network
@@ -248,12 +241,10 @@ Motivation
 
 ## Related Work {.incremental .smaller}
 
-These works study the implementation of SSD-based caches for ICN routers:
-
--  *"Multi-Terabyte and multi-Gbps information centric routers"*, Giuseppe Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014
--  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, Taejoong Chung, Haowei Yuan, D. Oran, M. Stapp, ANCS 2014
--  *"Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation"*, Rodrigo B. Mansilha, Lorenzo Saino, M. Barcellos, Massimo Gallo, E. Leonardi, Diego Perino, D. Rossi, ICN 2015
--  *"Exploiting parallelism in hierarchical content stores for high-speed ICN routers"*, Rodrigo B. Mansilha, Marinho P. Barcellos, Emilio Leonardi, Dario Rossi, COMNET 2017
+-  *"Multi-Terabyte and multi-Gbps information centric routers"*, G. Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014
+-  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
+-  *"Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation"*, R. B. Mansilha, L. Saino, M. Barcellos, M. Gallo, E. Leonardi, D. Perino, D. Rossi, ICN 2015
+-  *"Exploiting parallelism in hierarchical content stores for high-speed ICN routers"*, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017
 
 ::: {.footer}
 Related Work
@@ -448,7 +439,12 @@ When all exogenous request arrival rates abide by the bound described above, the
 | Notation | Definition |
 |:--:|:--------|
 |$\Psi(\boldsymbol{\lambda})$|(description pending)|
-|$\beta_{n,i}$|Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$|
+|$N$|Number of nodes in the network, i.e. $N = |\mc{N}|$|
+|$A^k_{n,max}$| Finite value such that $A^k_n(t) \leq A^k_{n,max}$ for all $t$|
+|$A_{n,max}$| Maximum total exogenous arrivals at node $n$ during $t$ across all $\kin$, i.e. $A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}$|
+|$\mu^{out}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(n,b) \in \mc{L}$, i.e. $\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}$|
+|$\mu^{in}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(a,n) \in \mc{L}$, i.e. $\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}$|
+|$r_{n,max}$| Maximum total rate that can be served by all cache tiers at $n$, i.e. (pending)|
 
 ## Analysis {.smaller}
 
@@ -463,8 +459,13 @@ When all exogenous request arrival rates abide by the bound described above, the
     \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
 \end{equation}
 ```
+```{=tex}
+\begin{equation}
+    B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
+\end{equation}
+```
 
-**Interpretation**: We can set $\omega$ arbitrarily large to push the time average penalty close to $\Psi(\boldsymbol{\lambda})$ at the cost of significantly increasing the average queue backlog and vice-versa.
+**Interpretation**: We can pick a large $\omega$ to push the time average penalty close to $\Psi(\boldsymbol{\lambda})$ at the cost of significantly increasing the average queue backlog and vice-versa.
 
 ## Transition to Data Plane
 
@@ -476,3 +477,53 @@ There are several considerations when applying our approach in the data plane:
 
 ## Data Plane Strategy {.smaller}
 
+| Notation | Definition |
+|:--:|:--------|
+|$\mc{v}^k_{ab}$|Actual number of VIPs for $k$ transmitted over $(a,b)$ during $t$|
+|T|Size of a sliding window of time slots|
+|$\mc{K}_{n_j}$|Set of objects currently cached in tier $j$ at $n$|
+
+Define the *cache score* metric as follows:
+```{=tex}
+\begin{equation}
+    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
+\end{equation}
+```
+
+Define the *eviction target* for tier $j$ at node $n$ as follows:
+```{=tex}
+\begin{equation}
+   k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
+\end{equation}
+```
+
+## Data Plane Strategy {.smaller}
+
+Define the *cache benefit* metric as follows:
+```{=tex}
+\begin{equation}
+    CB^k_{n_j}(t) = \begin{cases}
+        \begin{array}{l}
+             r_{n_j}(CS^k_n(t) - CS^{k'_{n_j}}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
+             r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
+        \end{array}
+    \end{cases} 
+\end{equation}
+```
+
+**Data Plane Caching**: When a data object $k \not \in \mc{K}_{n_j}$ arrives at $n$ during slot $t$, caching policy at $n$ behaves as follows.
+
+-  Determine the cache tier which offers the highest cache benefit, i.e. $j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)$
+-  If $CB^k_{n_{j^*}}(t) > 0$, admit object into tier $j^*$
+   -  If $j^*$ is full, i.e. $|\mc{K}_{n_{j^*}}| = L_{n_{j^*}}$, $k$ replaces $k'_{n_{j^*}}$
+-  If a replacement happened in $j^* < |\mc{J}_n|$, set $k = k'_{n_{j^*}}$, then start the process over
+
+## Data Plane Strategy
+
+**Data Plane Forwarding**: When a request for object $k \not \in \mc{K}_{n_j}, \; \forall \jin$, arrives at $n$, the request is forwarded to the following node.
+
+```{=tex}
+\begin{equation}
+    b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
+\end{equation}
+```

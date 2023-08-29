@@ -338,20 +338,23 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 
 </section>
-<section id="outline" class="slide level2">
+<section id="outline" class="slide level2 smaller">
 <h2>Outline</h2>
-<p>The general outline of this presentation is as follows:</p>
+<p>The outline of this presentation is as follows:</p>
 <ol type="1">
-<li>Context</li>
-<li>Research Topics
-<ul>
+<li>General Context</li>
 <li>Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <ul>
+<li>Motivation</li>
+<li>Related Work</li>
+<li>Contributions</li>
+<li>Proposed Work</li>
+</ul></li>
+<li>Other Contributions
+<ul>
+<li>Joint Power Control and Caching in Wireless HetNets</li>
 <li>NDN for Data Intensive Science Experiments*</li>
 </ul></li>
-<li>Joint Power Control and Caching in Wireless HetNets</li>
-</ul></li>
-<li>Proposed Work</li>
 <li>Conclusion and Acknowledgements</li>
 </ol>
 <div class="footer">
@@ -396,44 +399,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\betasumind}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
 \DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \]</span></p>
 </div>
-</section>
-<section id="outline-1" class="slide level2">
-<h2>Outline</h2>
-<p>For each research topic, we’ll cover:</p>
-<ul>
-<li>Motivation</li>
-<li>Related Work</li>
-<li>Contributions
-<ul>
-<li>Model</li>
-<li>Approach</li>
-<li>Results</li>
-</ul></li>
-<li>Future Extensions</li>
-</ul>
-<div class="footer">
-<p>Outline</p>
-</div>
-<aside class="notes">
-<ul>
-<li>I will introduce the topic with its motivation, giving you a background on why we even want to investigate the topic and why it is important</li>
-<li>Then we will go over relevant studies that explored similar or adjacent problems and outline what we want address that we believe weren’t addressed by these works</li>
-<li>We will then discuss our contributions, breaking it into these three steps</li>
-<li>Finally we’ll briefly list some possible future directions for the topic, some of which will reappear in my proposed work section</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section>
 <section id="context" class="title-slide slide level1 center">
@@ -550,8 +518,8 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <p>Motivation</p>
 </div>
 </section>
-<section id="toy-example-1" class="slide level2 smaller">
-<h2>Toy Example</h2>
+<section id="case-for-larger-caches" class="slide level2 smaller">
+<h2>Case for Larger Caches</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><img data-src="images/zipf_1k.svg"></p>
@@ -575,8 +543,8 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <p>Motivation</p>
 </div>
 </section>
-<section id="core-challenge" class="slide level2 incremental">
-<h2>Core Challenge</h2>
+<section id="core-challenge-i" class="slide level2 incremental">
+<h2>Core Challenge I</h2>
 <ul>
 <li>DRAM is the primary cache device since it is fast, i.e.&nbsp;can operate at <em>line rate</em></li>
 <li>However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
@@ -626,8 +594,8 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <p>Motivation</p>
 </div>
 </section>
-<section id="key-observations" class="slide level2 incremental smaller">
-<h2>Key Observations</h2>
+<section id="case-for-additional-slower-caches" class="slide level2 incremental smaller">
+<h2>Case for Additional, Slower Caches</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><img data-src="images/two_tiers.svg" class="fragment"></p>
@@ -651,6 +619,18 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <p>Motivation</p>
 </div>
 </section>
+<section id="core-challenge-ii" class="slide level2 incremental">
+<h2>Core Challenge II</h2>
+<ul>
+<li>Caches are not free to use, every admission and replacement has a cost</li>
+<li>With SSDs, these are more pronounced:
+<ul>
+<li>They wear out over time</li>
+<li>Due to their slower speed, cache state transitions take longer</li>
+<li>Their per-replacement power consumption is larger*</li>
+</ul></li>
+</ul>
+</section>
 <section id="multi-tiered-caching-policy" class="slide level2 incremental">
 <h2>Multi-tiered Caching Policy</h2>
 <ul>
@@ -670,10 +650,10 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <h2>Related Work</h2>
 <p>These works study the implementation of SSD-based caches for ICN routers:</p>
 <ul>
-<li><em>“Multi-Terabyte and multi-Gbps information centric routers”</em>, Giuseppe Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014</li>
-<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, Taejoong Chung, Haowei Yuan, D. Oran, M. Stapp, ANCS 2014</li>
-<li><em>“Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation”</em>, Rodrigo B. Mansilha, Lorenzo Saino, M. Barcellos, Massimo Gallo, E. Leonardi, Diego Perino, D. Rossi, ICN 2015</li>
-<li><em>“Exploiting parallelism in hierarchical content stores for high-speed ICN routers”</em>, Rodrigo B. Mansilha, Marinho P. Barcellos, Emilio Leonardi, Dario Rossi, COMNET 2017</li>
+<li><em>“Multi-Terabyte and multi-Gbps information centric routers”</em>, G. Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014</li>
+<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
+<li><em>“Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation”</em>, R. B. Mansilha, L. Saino, M. Barcellos, M. Gallo, E. Leonardi, D. Perino, D. Rossi, ICN 2015</li>
+<li><em>“Exploiting parallelism in hierarchical content stores for high-speed ICN routers”</em>, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017</li>
 </ul>
 <div class="footer">
 <p>Related Work</p>
@@ -966,8 +946,28 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 <td style="text-align: left;">(description pending)</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
-<td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(N\)</span></td>
+<td style="text-align: left;">Number of nodes in the network, i.e.&nbsp;<span class="math inline">\(N = |\mc{N}|\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A^k_{n,max}\)</span></td>
+<td style="text-align: left;">Finite value such that <span class="math inline">\(A^k_n(t) \leq A^k_{n,max}\)</span> for all <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A_{n,max}\)</span></td>
+<td style="text-align: left;">Maximum total exogenous arrivals at node <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span> across all <span class="math inline">\(\kin\)</span>, i.e.&nbsp;<span class="math inline">\(A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mu^{out}_{n,max}\)</span></td>
+<td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((n,b) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mu^{in}_{n,max}\)</span></td>
+<td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((a,n) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(r_{n,max}\)</span></td>
+<td style="text-align: left;">Maximum total rate that can be served by all cache tiers at <span class="math inline">\(n\)</span>, i.e.&nbsp;(pending)</td>
 </tr>
 </tbody>
 </table>
@@ -981,7 +981,10 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 <span class="math display">\[\begin{equation}
     \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
 \end{equation}\]</span>
-<p><strong>Interpretation</strong>: We can set <span class="math inline">\(\omega\)</span> arbitrarily large to push the time average penalty close to <span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> at the cost of significantly increasing the average queue backlog and vice-versa.</p>
+<span class="math display">\[\begin{equation}
+    B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
+\end{equation}\]</span>
+<p><strong>Interpretation</strong>: We can pick a large <span class="math inline">\(\omega\)</span> to push the time average penalty close to <span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> at the cost of significantly increasing the average queue backlog and vice-versa.</p>
 </section>
 <section id="transition-to-data-plane" class="slide level2">
 <h2>Transition to Data Plane</h2>
@@ -994,6 +997,68 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 </section>
 <section id="data-plane-strategy" class="slide level2 smaller">
 <h2>Data Plane Strategy</h2>
+<table>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mc{v}^k_{ab}\)</span></td>
+<td style="text-align: left;">Actual number of VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T</td>
+<td style="text-align: left;">Size of a sliding window of time slots</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mc{K}_{n_j}\)</span></td>
+<td style="text-align: left;">Set of objects currently cached in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Define the <em>cache score</em> metric as follows:</p>
+<span class="math display">\[\begin{equation}
+    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
+\end{equation}\]</span>
+<p>Define the <em>eviction target</em> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
+<span class="math display">\[\begin{equation}
+   k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
+\end{equation}\]</span>
+</section>
+<section id="data-plane-strategy-1" class="slide level2 smaller">
+<h2>Data Plane Strategy</h2>
+<p>Define the <em>cache benefit</em> metric as follows:</p>
+<span class="math display">\[\begin{equation}
+    CB^k_{n_j}(t) = \begin{cases}
+        \begin{array}{l}
+             r_{n_j}(CS^k_n(t) - CS^{k'_{n_j}}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
+             r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
+        \end{array}
+    \end{cases}
+\end{equation}\]</span>
+<p><strong>Data Plane Caching</strong>: When a data object <span class="math inline">\(k \not \in \mc{K}_{n_j}\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, caching policy at <span class="math inline">\(n\)</span> behaves as follows.</p>
+<ul>
+<li>Determine the cache tier which offers the highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
+<li>If <span class="math inline">\(CB^k_{n_{j^*}}(t) &gt; 0\)</span>, admit object into tier <span class="math inline">\(j^*\)</span>
+<ul>
+<li>If <span class="math inline">\(j^*\)</span> is full, i.e.&nbsp;<span class="math inline">\(|\mc{K}_{n_{j^*}}| = L_{n_{j^*}}\)</span>, <span class="math inline">\(k\)</span> replaces <span class="math inline">\(k'_{n_{j^*}}\)</span></li>
+</ul></li>
+<li>If a replacement happened in <span class="math inline">\(j^* &lt; |\mc{J}_n|\)</span>, set <span class="math inline">\(k = k'_{n_{j^*}}\)</span>, then start the process over</li>
+</ul>
+</section>
+<section id="data-plane-strategy-2" class="slide level2">
+<h2>Data Plane Strategy</h2>
+<p><strong>Data Plane Forwarding</strong>: When a request for object <span class="math inline">\(k \not \in \mc{K}_{n_j}, \; \forall \jin\)</span>, arrives at <span class="math inline">\(n\)</span>, the request is forwarded to the following node.</p>
+<span class="math display">\[\begin{equation}
+    b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
+\end{equation}\]</span>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
 
