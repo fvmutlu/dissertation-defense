@@ -146,7 +146,7 @@ Motivation
 :::
 :::
 ::: {.column width="50%"}
-![](images/cache_size.svg){.fragment}
+![](images/cache_size.svg)
 
 ::: {.fragment}
 -  Increasing cache sizes can help reduce delay significantly
@@ -196,7 +196,7 @@ Motivation
 
 ::: columns
 ::: {.column width="50%"}
-![](images/two_tiers.svg){.fragment}
+![](images/two_tiers.svg)
 
 ::: {.fragment}
 -  Although second tier operates slower than line rate, it improves delay at high request rates
@@ -204,7 +204,7 @@ Motivation
 :::
 :::
 ::: {.column width="50%"}
-![](images/three_tiers.svg){.fragment}
+![](images/three_tiers.svg)
 
 ::: {.fragment}
 -  Addition of the third tier impacts performance negatively
@@ -256,14 +256,14 @@ Motivation
 Related Work
 :::
 
-::: {.notes}
--  (Talk about how these are systems papers dealing with implementation details at a low level, and not strategy)
-:::
-
 ## Related Work
 
 -  *"VIP: a framework for joint dynamic forwarding and caching in named data networks"*, Edmund M. Yeh, Tracey Ho, Ying Cui, Michael Burd, Ran Liu, Derek Leong, ACM ICN 2014
--  (Talk about VIP in detail)
+   -  (Placeholder)
+
+::: {.footer}
+Related Work
+:::
 
 ## System Model
 
@@ -606,12 +606,6 @@ class Cache(object):
       return True
 ```
 
-::: {.incremental}
--  A
--  B
--  C
-:::
-
 ### Link
 
 ```{.python}
@@ -671,9 +665,37 @@ class RoundRobinNode(Node):
 ```
 :::
 
-## Experiment Setting I
+## Experiment Setting {.smaller}
+
+-  Experiments over four topologies: Abilene, GEANT, 4x4 Grid, 3-regular graph
+-  All nodes have caches, can be content sources and can generate requests
+-  For each $k$ a node is selected as $\mc{S}(k)$ uniformly at random
+-  Content sources have infinite read rate*
+-  Routing scheme: Allow $n$ to forward requests for $k$ to any neighbor on *any* shortest path between $n$ and $\mc{S}(k)$ (in number of hops)
+-  Multi-tier adapted cost-unaware replacement baselines: LRU, LFU, FIFO, RANDOM
+   -  LRU, FIFO and RANDOM paired with LCE admission
+-  Multi-tier adapted cost-aware baseline: Penalty Aware LFU
+-  All baseline caching policies paired with Least Response Time forwarding
+
+
+## Experiment Setting {.smaller .scrollable}
+
+| Parameter | Description | Value |
+|:-:|:-:|:-:|
+|$K$|Number of objects in catalog $\mc{K}$|1000|
+|$\sum_{\kin} \lambda^k_n$|Total request arrival rate at each $n$|10|
+|$\alpha$|Zipf's law parameter for object popularity distribution|0.75|
+|$C_{ab}$|Capacity of each link $\abin$, in objects|10|
+|$L_{n_1}$|Capacity of tier 1 at each $n$, in objects|5|
+|$r_{n_1}$|Read rate of tier 1 at each $n$, in objects/sec|20|
+|$c^a_{n_1}$, $c^e_{n_1}$| Admission and eviction costs of tier 1 at each $n$|4, 2|
+|$r_{n_2}$|Read rate of tier 1 at each $n$, in objects/sec|10|
+|$c^a_{n_2}$, $c^e_{n_2}$| Admission and eviction costs of tier 1 at each $n$|2, 1|
+: Parameters for all topologies {tbl-colwidths="[10,80,10]"}
 
 ## Results I {.smaller}
+**Scenario**: No penalties ($\omega=0$) and $L_{n_2} = 100$ at each $n$.
+
 Total delay, as fraction of total delay without any caching
 
 ![](images/tops_delay_v3.svg){width=75% height=75% fig-align="center"}
@@ -682,12 +704,10 @@ Cache hits, percentage of hits in the first tier on the left, total number of hi
 
 ![](images/tops_hits_v3.svg){width=75% height=75% fig-align="center"}
 
-## Experiment Setting II
+## Results II {.smaller}
+**Scenario**: Exclude cost-unaware policies, vary $\omega$. Pick best-performing $L_{n_2}$ value for each of LFU and VIP.
 
-## Results II
-
-## Results {.smaller}
-Delay vs. penalty
+Delay vs. penalty ($\omega$ decreasing to the right)
 
 ::: columns
 ::: {.column width="33%"}
@@ -702,5 +722,7 @@ Delay vs. penalty
 :::
 
 ## Room for Improvement
+
+![It's a really big room](images/big-room.webp){fig-align="left"}
 
 ## Proposed Work

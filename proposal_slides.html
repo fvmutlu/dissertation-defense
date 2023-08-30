@@ -595,7 +595,7 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
-<p><img data-src="images/cache_size.svg" class="fragment"></p>
+<p><img data-src="images/cache_size.svg"></p>
 <div class="fragment">
 <ul>
 <li>Increasing cache sizes can help reduce delay significantly</li>
@@ -663,7 +663,7 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <h2>Case for Additional, Slower Caches</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><img data-src="images/two_tiers.svg" class="fragment"></p>
+<p><img data-src="images/two_tiers.svg"></p>
 <div class="fragment">
 <ul>
 <li>Although second tier operates slower than line rate, it improves delay at high request rates</li>
@@ -671,7 +671,7 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
-<p><img data-src="images/three_tiers.svg" class="fragment"></p>
+<p><img data-src="images/three_tiers.svg"></p>
 <div class="fragment">
 <ul>
 <li>Addition of the third tier impacts performance negatively</li>
@@ -742,28 +742,18 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <div class="footer">
 <p>Related Work</p>
 </div>
-<aside class="notes">
-<ul>
-<li>(Talk about how these are systems papers dealing with implementation details at a low level, and not strategy)</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="related-work-2" class="slide level2">
 <h2>Related Work</h2>
 <ul>
-<li><em>“VIP: a framework for joint dynamic forwarding and caching in named data networks”</em>, Edmund M. Yeh, Tracey Ho, Ying Cui, Michael Burd, Ran Liu, Derek Leong, ACM ICN 2014</li>
-<li>(Talk about VIP in detail)</li>
+<li><em>“VIP: a framework for joint dynamic forwarding and caching in named data networks”</em>, Edmund M. Yeh, Tracey Ho, Ying Cui, Michael Burd, Ran Liu, Derek Leong, ACM ICN 2014
+<ul>
+<li>(Placeholder)</li>
+</ul></li>
 </ul>
+<div class="footer">
+<p>Related Work</p>
+</div>
 </section>
 <section id="system-model" class="slide level2">
 <h2>System Model</h2>
@@ -1212,13 +1202,6 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 <span id="cb2-23"><a href="#cb2-23"></a>      task <span class="op">=</span> CacheTask(<span class="bu">type</span> <span class="op">=</span> <span class="st">'w'</span>, object_id <span class="op">=</span> object_id)</span>
 <span id="cb2-24"><a href="#cb2-24"></a>      <span class="va">self</span>.task_queue.put(task)</span>
 <span id="cb2-25"><a href="#cb2-25"></a>      <span class="cf">return</span> <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div>
-<ul>
-<li class="fragment">A</li>
-<li class="fragment">B</li>
-<li class="fragment">C</li>
-</ul>
-</div>
 </div>
 <div id="tabset-1-3">
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">class</span> Link(<span class="bu">object</span>):</span>
@@ -1272,11 +1255,90 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 </div>
 </div>
 </section>
-<section id="experiment-setting-i" class="slide level2">
-<h2>Experiment Setting I</h2>
+<section id="experiment-setting" class="slide level2 smaller">
+<h2>Experiment Setting</h2>
+<ul>
+<li>Experiments over four topologies: Abilene, GEANT, 4x4 Grid, 3-regular graph</li>
+<li>All nodes have caches, can be content sources and can generate requests</li>
+<li>For each <span class="math inline">\(k\)</span> a node is selected as <span class="math inline">\(\mc{S}(k)\)</span> uniformly at random</li>
+<li>Content sources have infinite read rate*</li>
+<li>Routing scheme: Allow <span class="math inline">\(n\)</span> to forward requests for <span class="math inline">\(k\)</span> to any neighbor on <em>any</em> shortest path between <span class="math inline">\(n\)</span> and <span class="math inline">\(\mc{S}(k)\)</span> (in number of hops)</li>
+<li>Multi-tier adapted cost-unaware replacement baselines: LRU, LFU, FIFO, RANDOM
+<ul>
+<li>LRU, FIFO and RANDOM paired with LCE admission</li>
+</ul></li>
+<li>Multi-tier adapted cost-aware baseline: Penalty Aware LFU</li>
+<li>All baseline caching policies paired with Least Response Time forwarding</li>
+</ul>
+</section>
+<section id="experiment-setting-1" class="slide level2 smaller scrollable">
+<h2>Experiment Setting</h2>
+<table>
+<caption>Parameters for all topologies</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 80%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Parameter</th>
+<th style="text-align: center;">Description</th>
+<th style="text-align: center;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(K\)</span></td>
+<td style="text-align: center;">Number of objects in catalog <span class="math inline">\(\mc{K}\)</span></td>
+<td style="text-align: center;">1000</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\sum_{\kin} \lambda^k_n\)</span></td>
+<td style="text-align: center;">Total request arrival rate at each <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: center;">Zipf’s law parameter for object popularity distribution</td>
+<td style="text-align: center;">0.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(C_{ab}\)</span></td>
+<td style="text-align: center;">Capacity of each link <span class="math inline">\(\abin\)</span>, in objects</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(L_{n_1}\)</span></td>
+<td style="text-align: center;">Capacity of tier 1 at each <span class="math inline">\(n\)</span>, in objects</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(r_{n_1}\)</span></td>
+<td style="text-align: center;">Read rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
+<td style="text-align: center;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(c^a_{n_1}\)</span>, <span class="math inline">\(c^e_{n_1}\)</span></td>
+<td style="text-align: center;">Admission and eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;">4, 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(r_{n_2}\)</span></td>
+<td style="text-align: center;">Read rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(c^a_{n_2}\)</span>, <span class="math inline">\(c^e_{n_2}\)</span></td>
+<td style="text-align: center;">Admission and eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;">2, 1</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="results-i" class="slide level2 smaller">
 <h2>Results I</h2>
+<p><strong>Scenario</strong>: No penalties (<span class="math inline">\(\omega=0\)</span>) and <span class="math inline">\(L_{n_2} = 100\)</span> at each <span class="math inline">\(n\)</span>.</p>
 <p>Total delay, as fraction of total delay without any caching</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1290,15 +1352,10 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 </figure>
 </div>
 </section>
-<section id="experiment-setting-ii" class="slide level2">
-<h2>Experiment Setting II</h2>
-</section>
-<section id="results-ii" class="slide level2">
+<section id="results-ii" class="slide level2 smaller">
 <h2>Results II</h2>
-</section>
-<section id="results" class="slide level2 smaller">
-<h2>Results</h2>
-<p>Delay vs.&nbsp;penalty</p>
+<p><strong>Scenario</strong>: Exclude cost-unaware policies, vary <span class="math inline">\(\omega\)</span>. Pick best-performing <span class="math inline">\(L_{n_2}\)</span> value for each of LFU and VIP.</p>
+<p>Delay vs.&nbsp;penalty (<span class="math inline">\(\omega\)</span> decreasing to the right)</p>
 <div class="columns">
 <div class="column" style="width:33%;">
 <p><img data-src="images/pen_vs_delay_abilene_v2.svg"></p>
@@ -1311,7 +1368,8 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 </section>
 <section id="room-for-improvement" class="slide level2">
 <h2>Room for Improvement</h2>
-</section>
+
+<img data-src="images/big-room.webp" class="r-stretch quarto-figure-left"><p class="caption">It’s a really big room</p></section>
 <section id="proposed-work" class="slide level2">
 <h2>Proposed Work</h2>
 
