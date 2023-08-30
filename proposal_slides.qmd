@@ -8,6 +8,7 @@ format:
     theme: white
     logo: images/neu_logo.svg
     css: styles/logo.css
+    highlight-style: atom-one
 ---
 
 ## Outline {.smaller}
@@ -533,9 +534,146 @@ Define the *cache benefit* metric as follows:
 \end{equation}
 ```
 
-## Simulations
+## Simulation Setup
 
-## Results {.smaller}
+-  Object-level simulation environment built with Python using the SimPy library
+-  Modular, object-oriented design to allow future extension
+-  Multi-threading allowing for thread-per-experiment execution
+-  Experiment parameters and output in JSON format for easy parsing
+-  Thorough statistic logging
+
+## Simulation Setup {.smaller}
+
+::: {.panel-tabset}
+
+### Node
+
+```{.python}
+class Node(object):
+   # ...
+   def packetReceiver(self, remote_id):
+      while True:
+         pkt = yield self.in_links[remote_id].get()
+         if pkt.isData():
+               yield self.env.timeout(1/self.in_links[remote_id].link_cap)
+         if pkt.isData() or pkt.isInterest():
+               self.pkt_buffer.put((remote_id, pkt))
+   def packetProcessor(self):
+      while True:
+         remote_id, pkt = yield self.pkt_buffer.get()
+         if pkt.isInterest():
+               self.receiveInterest(remote_id, pkt.request)
+         elif pkt.isData():
+               self.receiveData(pkt.request)
+   # ...
+   def forwardInterest(self, request):
+        self.sendInterestPacket(self.fib[request.object_id][0], request)
+        return
+
+    def decideCaching(self, object_id):
+        yield self.env.timeout(0)
+        return
+   # ...
+```
+
+### Cache
+
+```{.python}
+class Cache(object):
+   def cacheController(self):
+      while True:
+         task = yield self.task_queue.get()
+         if task.type == 'r':
+               obj = yield self.env.process(self.readProcess(task.object_id))
+               self.out_buffer.put(obj)
+         elif task.type == 'w':
+               yield self.env.process(self.writeProcess(task.object_id))
+   #...
+   def readObject(self, object_id):
+      self.stats['reads'] += 1            
+      task = CacheTask(type = 'r', object_id = object_id)
+      tic = self.env.now
+      self.task_queue.put(task)
+      obj = yield self.out_buffer.get()
+      self.stats['read_delay'] += self.env.now - tic
+      return obj
+   def cacheObject(self, object_id):
+      self.stats['writes'] += 1
+      self.contents.append(object_id)
+      self.cur_size += 1
+      task = CacheTask(type = 'w', object_id = object_id)
+      self.task_queue.put(task)
+      return True
+```
+
+::: {.incremental}
+-  A
+-  B
+-  C
+:::
+
+### Link
+
+```{.python}
+class Link(object):
+   def __init__(self, env, link_cap, prop_delay):
+      self.env = env
+      self.link_cap = link_cap
+      self.pipe = sp.Store(env)
+   def put(self, pkt):
+      self.pipe.put(pkt)
+   def get(self):
+      return self.pipe.get()
+
+class VipLink(object):
+    def __init__(self, env):
+        self.env = env
+        self.update_pipe = sp.Store(env)
+        self.vip_pipe = sp.Store(env)    
+    def pushUpdate(self, pkt):
+        self.update_pipe.put(pkt)    
+    def getUpdate(self):
+        return self.update_pipe.get()    
+    def pushVips(self, pkt):
+        self.vip_pipe.put(pkt)    
+    def getVips(self):
+        return self.vip_pipe.get()
+```
+
+### Caching Policy
+
+```{.python}
+class UNIFNode(Node):
+   def decideCaching(self, object_id):
+      cache = np.random.choice(self.caches)
+      if cache.isFull():
+         victim_id = np.random.choice(cache.contents)
+         yield self.env.process(cache.replaceObject(victim_id, object_id))
+      else:
+         cache.cacheObject(object_id)
+```
+
+### Forwarding Policy
+
+```{.python}
+class RoundRobinNode(Node):
+   def addFIB(self, fib):
+      super().addFIB(fib)
+      self.link_queues = {}
+      for k in fib:
+         self.link_queues[k] = deque(fib[k])
+   
+   def forwardInterest(self, request):
+      object_id = request.object_id
+      remote_id = self.link_queues[object_id][0]
+      self.link_queues[object_id].rotate(1)
+      self.sendInterestPacket(remote_id, request)
+```
+:::
+
+## Experiment Setting I
+
+## Results I {.smaller}
 Total delay, as fraction of total delay without any caching
 
 ![](images/tops_delay_v3.svg){width=75% height=75% fig-align="center"}
@@ -543,6 +681,10 @@ Total delay, as fraction of total delay without any caching
 Cache hits, percentage of hits in the first tier on the left, total number of hits on the right
 
 ![](images/tops_hits_v3.svg){width=75% height=75% fig-align="center"}
+
+## Experiment Setting II
+
+## Results II
 
 ## Results {.smaller}
 Delay vs. penalty
@@ -558,3 +700,7 @@ Delay vs. penalty
 ![](images/pen_vs_delay_regular_v2.svg)
 :::
 :::
+
+## Room for Improvement
+
+## Proposed Work

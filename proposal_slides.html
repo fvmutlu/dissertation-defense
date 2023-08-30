@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #383a42;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #383a42; } /* Normal */
+    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+    code span.an { color: #50a14f; } /* Annotation */
+    code span.at { color: #a626a4; } /* Attribute */
+    code span.bn { color: #986801; } /* BaseN */
+    code span.bu { color: #a626a4; } /* BuiltIn */
+    code span.cf { color: #a626a4; } /* ControlFlow */
+    code span.ch { color: #50a14f; } /* Char */
+    code span.cn { color: #986801; } /* Constant */
+    code span.co { color: #a0a1a7; font-style: italic; } /* Comment */
+    code span.cv { color: #e45649; font-style: italic; } /* CommentVar */
+    code span.do { color: #e45649; } /* Documentation */
+    code span.dt { color: #a626a4; } /* DataType */
+    code span.dv { color: #986801; } /* DecVal */
+    code span.er { color: #f44747; text-decoration: underline; } /* Error */
+    code span.ex { color: #4078f2; font-weight: bold; } /* Extension */
+    code span.fl { color: #986801; } /* Float */
+    code span.fu { color: #4078f2; } /* Function */
+    code span.im { color: #50a14f; } /* Import */
+    code span.in { color: #c45b00; } /* Information */
+    code span.kw { color: #a626a4; } /* Keyword */
+    code span.op { color: #a626a4; } /* Operator */
+    code span.ot { color: #27ae60; } /* Other */
+    code span.pp { color: #a626a4; } /* Preprocessor */
+    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+    code span.sc { color: #0184bc; } /* SpecialChar */
+    code span.ss { color: #da4453; } /* SpecialString */
+    code span.st { color: #50a14f; } /* String */
+    code span.va { color: #e45649; } /* Variable */
+    code span.vs { color: #da4453; } /* VerbatimString */
+    code span.wa { color: #da4453; } /* Warning */
   </style>
   <link rel="stylesheet" href="proposal_slides_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="styles/logo.css">
@@ -1079,11 +1144,139 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
     b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
 \end{equation}\]</span>
 </section>
-<section id="simulations" class="slide level2">
-<h2>Simulations</h2>
+<section id="simulation-setup" class="slide level2">
+<h2>Simulation Setup</h2>
+<ul>
+<li>Object-level simulation environment built with Python using the SimPy library</li>
+<li>Modular, object-oriented design to allow future extension</li>
+<li>Multi-threading allowing for thread-per-experiment execution</li>
+<li>Experiment parameters and output in JSON format for easy parsing</li>
+<li>Thorough statistic logging</li>
+</ul>
 </section>
-<section id="results" class="slide level2 smaller">
-<h2>Results</h2>
+<section id="simulation-setup-1" class="slide level2 smaller">
+<h2>Simulation Setup</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Node</a></li><li><a href="#tabset-1-2">Cache</a></li><li><a href="#tabset-1-3">Link</a></li><li><a href="#tabset-1-4">Caching Policy</a></li><li><a href="#tabset-1-5">Forwarding Policy</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">class</span> Node(<span class="bu">object</span>):</span>
+<span id="cb1-2"><a href="#cb1-2"></a>   <span class="co"># ...</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>   <span class="kw">def</span> packetReceiver(<span class="va">self</span>, remote_id):</span>
+<span id="cb1-4"><a href="#cb1-4"></a>      <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb1-5"><a href="#cb1-5"></a>         pkt <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.in_links[remote_id].get()</span>
+<span id="cb1-6"><a href="#cb1-6"></a>         <span class="cf">if</span> pkt.isData():</span>
+<span id="cb1-7"><a href="#cb1-7"></a>               <span class="cf">yield</span> <span class="va">self</span>.env.timeout(<span class="dv">1</span><span class="op">/</span><span class="va">self</span>.in_links[remote_id].link_cap)</span>
+<span id="cb1-8"><a href="#cb1-8"></a>         <span class="cf">if</span> pkt.isData() <span class="kw">or</span> pkt.isInterest():</span>
+<span id="cb1-9"><a href="#cb1-9"></a>               <span class="va">self</span>.pkt_buffer.put((remote_id, pkt))</span>
+<span id="cb1-10"><a href="#cb1-10"></a>   <span class="kw">def</span> packetProcessor(<span class="va">self</span>):</span>
+<span id="cb1-11"><a href="#cb1-11"></a>      <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb1-12"><a href="#cb1-12"></a>         remote_id, pkt <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.pkt_buffer.get()</span>
+<span id="cb1-13"><a href="#cb1-13"></a>         <span class="cf">if</span> pkt.isInterest():</span>
+<span id="cb1-14"><a href="#cb1-14"></a>               <span class="va">self</span>.receiveInterest(remote_id, pkt.request)</span>
+<span id="cb1-15"><a href="#cb1-15"></a>         <span class="cf">elif</span> pkt.isData():</span>
+<span id="cb1-16"><a href="#cb1-16"></a>               <span class="va">self</span>.receiveData(pkt.request)</span>
+<span id="cb1-17"><a href="#cb1-17"></a>   <span class="co"># ...</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>   <span class="kw">def</span> forwardInterest(<span class="va">self</span>, request):</span>
+<span id="cb1-19"><a href="#cb1-19"></a>        <span class="va">self</span>.sendInterestPacket(<span class="va">self</span>.fib[request.object_id][<span class="dv">0</span>], request)</span>
+<span id="cb1-20"><a href="#cb1-20"></a>        <span class="cf">return</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a></span>
+<span id="cb1-22"><a href="#cb1-22"></a>    <span class="kw">def</span> decideCaching(<span class="va">self</span>, object_id):</span>
+<span id="cb1-23"><a href="#cb1-23"></a>        <span class="cf">yield</span> <span class="va">self</span>.env.timeout(<span class="dv">0</span>)</span>
+<span id="cb1-24"><a href="#cb1-24"></a>        <span class="cf">return</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a>   <span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2">
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">class</span> Cache(<span class="bu">object</span>):</span>
+<span id="cb2-2"><a href="#cb2-2"></a>   <span class="kw">def</span> cacheController(<span class="va">self</span>):</span>
+<span id="cb2-3"><a href="#cb2-3"></a>      <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb2-4"><a href="#cb2-4"></a>         task <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.task_queue.get()</span>
+<span id="cb2-5"><a href="#cb2-5"></a>         <span class="cf">if</span> task.<span class="bu">type</span> <span class="op">==</span> <span class="st">'r'</span>:</span>
+<span id="cb2-6"><a href="#cb2-6"></a>               obj <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.env.process(<span class="va">self</span>.readProcess(task.object_id))</span>
+<span id="cb2-7"><a href="#cb2-7"></a>               <span class="va">self</span>.out_buffer.put(obj)</span>
+<span id="cb2-8"><a href="#cb2-8"></a>         <span class="cf">elif</span> task.<span class="bu">type</span> <span class="op">==</span> <span class="st">'w'</span>:</span>
+<span id="cb2-9"><a href="#cb2-9"></a>               <span class="cf">yield</span> <span class="va">self</span>.env.process(<span class="va">self</span>.writeProcess(task.object_id))</span>
+<span id="cb2-10"><a href="#cb2-10"></a>   <span class="co">#...</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>   <span class="kw">def</span> readObject(<span class="va">self</span>, object_id):</span>
+<span id="cb2-12"><a href="#cb2-12"></a>      <span class="va">self</span>.stats[<span class="st">'reads'</span>] <span class="op">+=</span> <span class="dv">1</span>            </span>
+<span id="cb2-13"><a href="#cb2-13"></a>      task <span class="op">=</span> CacheTask(<span class="bu">type</span> <span class="op">=</span> <span class="st">'r'</span>, object_id <span class="op">=</span> object_id)</span>
+<span id="cb2-14"><a href="#cb2-14"></a>      tic <span class="op">=</span> <span class="va">self</span>.env.now</span>
+<span id="cb2-15"><a href="#cb2-15"></a>      <span class="va">self</span>.task_queue.put(task)</span>
+<span id="cb2-16"><a href="#cb2-16"></a>      obj <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.out_buffer.get()</span>
+<span id="cb2-17"><a href="#cb2-17"></a>      <span class="va">self</span>.stats[<span class="st">'read_delay'</span>] <span class="op">+=</span> <span class="va">self</span>.env.now <span class="op">-</span> tic</span>
+<span id="cb2-18"><a href="#cb2-18"></a>      <span class="cf">return</span> obj</span>
+<span id="cb2-19"><a href="#cb2-19"></a>   <span class="kw">def</span> cacheObject(<span class="va">self</span>, object_id):</span>
+<span id="cb2-20"><a href="#cb2-20"></a>      <span class="va">self</span>.stats[<span class="st">'writes'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a>      <span class="va">self</span>.contents.append(object_id)</span>
+<span id="cb2-22"><a href="#cb2-22"></a>      <span class="va">self</span>.cur_size <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a>      task <span class="op">=</span> CacheTask(<span class="bu">type</span> <span class="op">=</span> <span class="st">'w'</span>, object_id <span class="op">=</span> object_id)</span>
+<span id="cb2-24"><a href="#cb2-24"></a>      <span class="va">self</span>.task_queue.put(task)</span>
+<span id="cb2-25"><a href="#cb2-25"></a>      <span class="cf">return</span> <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div>
+<ul>
+<li class="fragment">A</li>
+<li class="fragment">B</li>
+<li class="fragment">C</li>
+</ul>
+</div>
+</div>
+<div id="tabset-1-3">
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">class</span> Link(<span class="bu">object</span>):</span>
+<span id="cb3-2"><a href="#cb3-2"></a>   <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, env, link_cap, prop_delay):</span>
+<span id="cb3-3"><a href="#cb3-3"></a>      <span class="va">self</span>.env <span class="op">=</span> env</span>
+<span id="cb3-4"><a href="#cb3-4"></a>      <span class="va">self</span>.link_cap <span class="op">=</span> link_cap</span>
+<span id="cb3-5"><a href="#cb3-5"></a>      <span class="va">self</span>.pipe <span class="op">=</span> sp.Store(env)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>   <span class="kw">def</span> put(<span class="va">self</span>, pkt):</span>
+<span id="cb3-7"><a href="#cb3-7"></a>      <span class="va">self</span>.pipe.put(pkt)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>   <span class="kw">def</span> get(<span class="va">self</span>):</span>
+<span id="cb3-9"><a href="#cb3-9"></a>      <span class="cf">return</span> <span class="va">self</span>.pipe.get()</span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="kw">class</span> VipLink(<span class="bu">object</span>):</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, env):</span>
+<span id="cb3-13"><a href="#cb3-13"></a>        <span class="va">self</span>.env <span class="op">=</span> env</span>
+<span id="cb3-14"><a href="#cb3-14"></a>        <span class="va">self</span>.update_pipe <span class="op">=</span> sp.Store(env)</span>
+<span id="cb3-15"><a href="#cb3-15"></a>        <span class="va">self</span>.vip_pipe <span class="op">=</span> sp.Store(env)    </span>
+<span id="cb3-16"><a href="#cb3-16"></a>    <span class="kw">def</span> pushUpdate(<span class="va">self</span>, pkt):</span>
+<span id="cb3-17"><a href="#cb3-17"></a>        <span class="va">self</span>.update_pipe.put(pkt)    </span>
+<span id="cb3-18"><a href="#cb3-18"></a>    <span class="kw">def</span> getUpdate(<span class="va">self</span>):</span>
+<span id="cb3-19"><a href="#cb3-19"></a>        <span class="cf">return</span> <span class="va">self</span>.update_pipe.get()    </span>
+<span id="cb3-20"><a href="#cb3-20"></a>    <span class="kw">def</span> pushVips(<span class="va">self</span>, pkt):</span>
+<span id="cb3-21"><a href="#cb3-21"></a>        <span class="va">self</span>.vip_pipe.put(pkt)    </span>
+<span id="cb3-22"><a href="#cb3-22"></a>    <span class="kw">def</span> getVips(<span class="va">self</span>):</span>
+<span id="cb3-23"><a href="#cb3-23"></a>        <span class="cf">return</span> <span class="va">self</span>.vip_pipe.get()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-4">
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">class</span> UNIFNode(Node):</span>
+<span id="cb4-2"><a href="#cb4-2"></a>   <span class="kw">def</span> decideCaching(<span class="va">self</span>, object_id):</span>
+<span id="cb4-3"><a href="#cb4-3"></a>      cache <span class="op">=</span> np.random.choice(<span class="va">self</span>.caches)</span>
+<span id="cb4-4"><a href="#cb4-4"></a>      <span class="cf">if</span> cache.isFull():</span>
+<span id="cb4-5"><a href="#cb4-5"></a>         victim_id <span class="op">=</span> np.random.choice(cache.contents)</span>
+<span id="cb4-6"><a href="#cb4-6"></a>         <span class="cf">yield</span> <span class="va">self</span>.env.process(cache.replaceObject(victim_id, object_id))</span>
+<span id="cb4-7"><a href="#cb4-7"></a>      <span class="cf">else</span>:</span>
+<span id="cb4-8"><a href="#cb4-8"></a>         cache.cacheObject(object_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-5">
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">class</span> RoundRobinNode(Node):</span>
+<span id="cb5-2"><a href="#cb5-2"></a>   <span class="kw">def</span> addFIB(<span class="va">self</span>, fib):</span>
+<span id="cb5-3"><a href="#cb5-3"></a>      <span class="bu">super</span>().addFIB(fib)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>      <span class="va">self</span>.link_queues <span class="op">=</span> {}</span>
+<span id="cb5-5"><a href="#cb5-5"></a>      <span class="cf">for</span> k <span class="kw">in</span> fib:</span>
+<span id="cb5-6"><a href="#cb5-6"></a>         <span class="va">self</span>.link_queues[k] <span class="op">=</span> deque(fib[k])</span>
+<span id="cb5-7"><a href="#cb5-7"></a>   </span>
+<span id="cb5-8"><a href="#cb5-8"></a>   <span class="kw">def</span> forwardInterest(<span class="va">self</span>, request):</span>
+<span id="cb5-9"><a href="#cb5-9"></a>      object_id <span class="op">=</span> request.object_id</span>
+<span id="cb5-10"><a href="#cb5-10"></a>      remote_id <span class="op">=</span> <span class="va">self</span>.link_queues[object_id][<span class="dv">0</span>]</span>
+<span id="cb5-11"><a href="#cb5-11"></a>      <span class="va">self</span>.link_queues[object_id].rotate(<span class="dv">1</span>)</span>
+<span id="cb5-12"><a href="#cb5-12"></a>      <span class="va">self</span>.sendInterestPacket(remote_id, request)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="experiment-setting-i" class="slide level2">
+<h2>Experiment Setting I</h2>
+</section>
+<section id="results-i" class="slide level2 smaller">
+<h2>Results I</h2>
 <p>Total delay, as fraction of total delay without any caching</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1097,7 +1290,13 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 </figure>
 </div>
 </section>
-<section id="results-1" class="slide level2 smaller">
+<section id="experiment-setting-ii" class="slide level2">
+<h2>Experiment Setting II</h2>
+</section>
+<section id="results-ii" class="slide level2">
+<h2>Results II</h2>
+</section>
+<section id="results" class="slide level2 smaller">
 <h2>Results</h2>
 <p>Delay vs.&nbsp;penalty</p>
 <div class="columns">
@@ -1109,8 +1308,14 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 <p><img data-src="images/pen_vs_delay_regular_v2.svg"></p>
 </div>
 </div>
-<p><img src="images/neu_logo.svg" class="slide-logo"></p>
-<div class="footer footer-default">
+</section>
+<section id="room-for-improvement" class="slide level2">
+<h2>Room for Improvement</h2>
+</section>
+<section id="proposed-work" class="slide level2">
+<h2>Proposed Work</h2>
+
+<img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
 
 </div>
 </section></section>
