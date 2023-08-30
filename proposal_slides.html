@@ -631,10 +631,16 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 </ul></li>
 </ul>
 </section>
-<section id="multi-tiered-caching-policy" class="slide level2 incremental">
-<h2>Multi-tiered Caching Policy</h2>
+<section id="core-challenge-iii" class="slide level2 incremental">
+<h2>Core Challenge III</h2>
 <ul>
-<li><strong>Goal</strong>: A caching policy suitable for systems with a combination of different storage elements as caches</li>
+<li>(Talk about joint caching and forwarding)</li>
+</ul>
+</section>
+<section id="goal" class="slide level2 incremental">
+<h2>Goal</h2>
+<ul>
+<li>We want a caching policy suitable for systems with a combination of storage elements with different performance and cost paremeters as caches</li>
 <li>This policy needs to:
 <ul>
 <li>Balance frequency of requests served by cache tiers based on their transfer rates</li>
@@ -648,12 +654,25 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 </section>
 <section id="related-work" class="slide level2 incremental smaller">
 <h2>Related Work</h2>
-<p>These works study the implementation of SSD-based caches for ICN routers:</p>
 <ul>
-<li><em>“Multi-Terabyte and multi-Gbps information centric routers”</em>, G. Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014</li>
+<li><em>“Multi-Terabyte and multi-Gbps information centric routers”</em>, G. Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014
+<ul>
+<li>Two-layer cache (SSD masked behind DRAM), utilizes “prefetching”, trace-driven and synthetic simulation results</li>
+</ul></li>
+<li><em>“Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation”</em>, R. B. Mansilha, L. Saino, M. Barcellos, M. Gallo, E. Leonardi, D. Perino, D. Rossi, ICN 2015
+<ul>
+<li>Follow-up to above work, prototype implementation</li>
+</ul></li>
+<li><em>“Exploiting parallelism in hierarchical content stores for high-speed ICN routers”</em>, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017
+<ul>
+<li>Follow-up to above works, integrates HCS design with NDN Forwarding Daemon (NFD)</li>
+</ul></li>
+</ul>
+</section>
+<section id="related-work-1" class="slide level2 incremental smaller">
+<h2>Related Work</h2>
+<ul>
 <li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
-<li><em>“Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation”</em>, R. B. Mansilha, L. Saino, M. Barcellos, M. Gallo, E. Leonardi, D. Perino, D. Rossi, ICN 2015</li>
-<li><em>“Exploiting parallelism in hierarchical content stores for high-speed ICN routers”</em>, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017</li>
 </ul>
 <div class="footer">
 <p>Related Work</p>
@@ -674,7 +693,7 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
           display:block!important;
       }</style></aside>
 </section>
-<section id="related-work-1" class="slide level2">
+<section id="related-work-2" class="slide level2">
 <h2>Related Work</h2>
 <ul>
 <li><em>“VIP: a framework for joint dynamic forwarding and caching in named data networks”</em>, Edmund M. Yeh, Tracey Ho, Ying Cui, Michael Burd, Ran Liu, Derek Leong, ACM ICN 2014</li>
@@ -1059,8 +1078,39 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 <span class="math display">\[\begin{equation}
     b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
 \end{equation}\]</span>
-
-<img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
+</section>
+<section id="simulations" class="slide level2">
+<h2>Simulations</h2>
+</section>
+<section id="results" class="slide level2 smaller">
+<h2>Results</h2>
+<p>Total delay, as fraction of total delay without any caching</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/tops_delay_v3.svg" style="width:75.0%;height:75.0%"></p>
+</figure>
+</div>
+<p>Cache hits, percentage of hits in the first tier on the left, total number of hits on the right</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/tops_hits_v3.svg" style="width:75.0%;height:75.0%"></p>
+</figure>
+</div>
+</section>
+<section id="results-1" class="slide level2 smaller">
+<h2>Results</h2>
+<p>Delay vs.&nbsp;penalty</p>
+<div class="columns">
+<div class="column" style="width:33%;">
+<p><img data-src="images/pen_vs_delay_abilene_v2.svg"></p>
+</div><div class="column" style="width:33%;">
+<p><img data-src="images/pen_vs_delay_grid_v2.svg"></p>
+</div><div class="column" style="width:33%;">
+<p><img data-src="images/pen_vs_delay_regular_v2.svg"></p>
+</div>
+</div>
+<p><img src="images/neu_logo.svg" class="slide-logo"></p>
+<div class="footer footer-default">
 
 </div>
 </section></section>

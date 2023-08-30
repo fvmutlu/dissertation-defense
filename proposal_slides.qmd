@@ -242,9 +242,14 @@ Motivation
 ## Related Work {.incremental .smaller}
 
 -  *"Multi-Terabyte and multi-Gbps information centric routers"*, G. Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014
--  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
+   -  Two-layer cache (SSD masked behind DRAM), utilizes "prefetching", trace-driven and synthetic simulation results
 -  *"Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation"*, R. B. Mansilha, L. Saino, M. Barcellos, M. Gallo, E. Leonardi, D. Perino, D. Rossi, ICN 2015
+   -  Follow-up to above work, prototype implementation
 -  *"Exploiting parallelism in hierarchical content stores for high-speed ICN routers"*, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017
+   -  Follow-up to above works, integrates HCS design with NDN Forwarding Daemon (NFD)
+
+## Related Work {.incremental .smaller}
+-  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
 
 ::: {.footer}
 Related Work
@@ -527,3 +532,29 @@ Define the *cache benefit* metric as follows:
     b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
 \end{equation}
 ```
+
+## Simulations
+
+## Results {.smaller}
+Total delay, as fraction of total delay without any caching
+
+![](images/tops_delay_v3.svg){width=75% height=75% fig-align="center"}
+
+Cache hits, percentage of hits in the first tier on the left, total number of hits on the right
+
+![](images/tops_hits_v3.svg){width=75% height=75% fig-align="center"}
+
+## Results {.smaller}
+Delay vs. penalty
+
+::: columns
+::: {.column width="33%"}
+![](images/pen_vs_delay_abilene_v2.svg)
+:::
+::: {.column width="33%"}
+![](images/pen_vs_delay_grid_v2.svg)
+:::
+::: {.column width="33%"}
+![](images/pen_vs_delay_regular_v2.svg)
+:::
+:::
