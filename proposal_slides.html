@@ -1413,177 +1413,35 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 </ul>
 </div>
 </section>
-<section id="placeholder" class="slide level2 smaller">
-<h2>Placeholder</h2>
-<div class="columns">
-<div class="column" style="width:%50;">
-<p>Single tier model of VIP [Yeh, 2014] with cache bandwidth constraints. Choose <span class="math inline">\(r^k_n(t)\)</span> and <span class="math inline">\(s^k_n(t)\)</span> to:</p>
-<span class="math display">\[\begin{align}
-    \text{minimize}
-        &amp; \sum_{\kin} r^k_n(t) s^k_n(t) V^k_n(t) \\
-    \text{subject to}
-        &amp; \sum_{\kin} r^k_n(t) \leq r_n, \\
-        &amp; \sum_{\kin} s^k_n(t) \leq L_n, \\
-        &amp; s^k_n(t) \in \{0, 1\}, \\
-        &amp; r^k_n(t) \in \{0, 1, 2, ...\}
-\end{align}\]</span>
-</div><div class="column" style="width:%50;">
-<p>We can solve this greedily by choosing:</p>
-<span class="math display">\[\begin{equation}
-    r^k_n(t) =
-    \left\{ \begin{array}{ll}
-        r_n, &amp; \text{if} \; k = k^*_n(t) \\
-        0, &amp; \text{otherwise}
-    \end{array} \right.
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    s^k_n(t) =
-    \left\{ \begin{array}{ll}
-        1, &amp; \text{if} \; k = k^*_n(t) \\
-        0, &amp; \text{otherwise}
-    \end{array} \right.
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    k^*_n(t) \triangleq \argmax\limits_{\{ \kin \}}  V^k_n(t)
-\end{equation}\]</span>
-</div>
-</div>
-</section>
-<section id="placeholder-1" class="slide level2 smaller">
-<h2>Placeholder</h2>
-<div class="columns">
-<div class="column" style="width:%50;">
-<p>Multi tier model with cache bandwidth constraints. Choose <span class="math inline">\(r^k_{n_j}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t)\)</span> to:</p>
-<span class="math display">\[\begin{align}
-    \text{minimize}
-        &amp; \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) \\
-    \text{subject to}
-        &amp; \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
-        &amp; \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
-        &amp; s^k_{n_j}(t) \in \{0, 1\}, \\
-        &amp; r^k_{n_j}(t) \in \{0, 1, 2, ...\}
-\end{align}\]</span>
-</div><div class="column" style="width:%50;">
-<p>This can be solved greedily just like the single-tier case, separately for each tier, since exclusivity is not enforced.</p>
-</div>
-</div>
-</section>
-<section id="placeholder-2" class="slide level2 smaller scrollable">
-<h2>Placeholder</h2>
-<div class="columns">
-<div class="column" style="width:%50;">
-<p>Multi tier model with cache bandwidth constraints and exclusivity enforced. Choose <span class="math inline">\(r^k_{n_j}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t)\)</span> to:</p>
-<span class="math display">\[\begin{align}
-    \text{minimize}
-        &amp; \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) \\
-    \text{subject to}
-        &amp; \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
-        &amp; \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
-        &amp; \sum_{\jin} s^k_{n_j}(t) \leq 1, \\
-        &amp; s^k_{n_j}(t) \in \{0, 1\}, \\
-        &amp; r^k_{n_j}(t) \in \{0, 1, 2, ...\}
-\end{align}\]</span>
-</div><div class="column" style="width:%50;">
-<p>This can still be solved greedily by choosing:</p>
-<span class="math display">\[\begin{equation}
-    r^k_{n_j}(t) =
-    \left\{ \begin{array}{ll}
-        r_{n_j}, &amp; \text{if} \; k = k^*_{n_j}(t) \\
-        0, &amp; \text{otherwise}
-    \end{array} \right.
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    s^k_{n_j}(t) =
-    \left\{ \begin{array}{ll}
-        1, &amp; \text{if} \; k = k^*_{n_j}(t) \\
-        0, &amp; \text{otherwise}
-    \end{array} \right.
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    k^*_{n_j}(t) \triangleq \argmax\limits_{\{ \kin \setminus \mc{K}'_{n_j}(t) \}}  V^k_n(t)
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    \mc{K}'_{n_j}(t) \triangleq \{ k^*_{n_1}(t), ..., k^*_{n_{j-1}}(t) \}, \; \forall \; j &gt; 1
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    \mc{K}'_{n_1}(t) \triangleq \varnothing
-\end{equation}\]</span>
-</div>
-</div>
-</section>
-<section id="placeholder-3" class="slide level2 smaller scrollable">
-<h2>Placeholder</h2>
-<div class="columns">
-<div class="column" style="width:%50;">
-<p>Single tier model of VIP [Yeh, 2014] with cache bandwidth constraints and penalties. Choose <span class="math inline">\(r^k_n(t)\)</span> and <span class="math inline">\(s^k_n(t)\)</span> to:</p>
-<span class="math display">\[\begin{align}
-    \text{minimize}
-        &amp; \sum_{\kin} r^k_n(t) s^k_n(t) V^k_n(t) - \omega p^k_n(t)\\
-    \text{subject to}
-        &amp; \sum_{\kin} r^k_n(t) \leq r_n, \\
-        &amp; \sum_{\kin} s^k_n(t) \leq L_n, \\
-        &amp; s^k_n(t) \in \{0, 1\}, \\
-        &amp; r^k_n(t) \in \{0, 1, 2, ...\}
-\end{align}\]</span>
-</div><div class="column" style="width:%50;">
-<p>If we’re given penalties only depending on current and previous cache states, as follows:</p>
-<span class="math display">\[\begin{equation}
-    p^k_n(t) =
-    \left\{ \begin{array}{ll}
-        c^a_n, &amp; \text{if} \; s^k_n(t) - s^k_n(t-1) = 1 \\
-        c^e_n, &amp; \text{if} \; s^k_n(t) - s^k_n(t-1) = -1 \\
-        0, &amp; \text{otherwise}
-   \end{array} \right.
-\end{equation}\]</span>
-<p>We can still solve this greedily by choosing:</p>
-<span class="math display">\[\begin{equation}
-    r^k_n(t) =
-    \left\{ \begin{array}{ll}
-        r_n, &amp; \text{if} \; k = k^*_n(t) \\
-        0, &amp; \text{otherwise}
-    \end{array} \right.
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    s^k_n(t) =
-    \left\{ \begin{array}{ll}
-        1, &amp; \text{if} \; k = k^*_n(t) \\
-        s^k_n(t-1), &amp; \text{if} \; k \not = k^*_n(t) \; \text{and} \; k \not = k^-_n(t) \\
-        s^k_n(t-1), &amp; \text{if} \; k = k^-_n(t) \; \text{and} \; \sum_{\kin} s^k_n(t-1) &lt; L_n \\
-        0, &amp; \text{if} \; k = k^-_n(t) \; \text{and} \; \sum_{\kin} s^k_n(t-1) = L_n
-    \end{array} \right.
-\end{equation}\]</span>
-</div>
-</div>
-</section>
-<section id="placeholder-4" class="slide level2 smaller">
-<h2>Placeholder</h2>
-<div class="columns">
-<div class="column" style="width:%50;">
-<p>Multi tier model with cache bandwidth constraints and penalties. Choose <span class="math inline">\(r^k_{n_j}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t)\)</span> to:</p>
-<span class="math display">\[\begin{align}
-    \text{minimize}
-        &amp; \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) - \omega p^k_{n_j}(t) \\
-    \text{subject to}
-        &amp; \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
-        &amp; \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
-        &amp; s^k_{n_j}(t) \in \{0, 1\}, \\
-        &amp; r^k_{n_j}(t) \in \{0, 1, 2, ...\}
-\end{align}\]</span>
-</div><div class="column" style="width:%50;">
-<p>This can be solved greedily just like the single-tier case, separately for each tier (since exclusivity is not enforced), if we’re given penalties in the form of:</p>
-<span class="math display">\[\begin{equation}
-    p^k_{n_j}(t) =
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-        0, &amp; \text{otherwise}
-   \end{array} \right.
-\end{equation}\]</span>
-</div>
-</div>
-</section>
-<section id="proposed-work" class="slide level2">
+<section id="proposed-work" class="slide level2 smaller">
 <h2>Proposed Work</h2>
+<p><em>A reasonable combination of the following can be composed into a precise “proposed work” section.</em></p>
+<ul>
+<li>Revise the model to:
+<ul>
+<li>Impose cache bandwidth constraints (per-tier and total)</li>
+<li>Provide two versions w.r.t cache exclusivity (included and not)</li>
+<li>Include unequal object sizes</li>
+<li>Generalize penalties (not just constant, but dynamic and based on both rate allocations and cache variables)</li>
+</ul></li>
+<li>Conduct more experiments, both to expand covered scenarios and to test above revisions
+<ul>
+<li>Revise simulations to improve performance and reproducibility</li>
+</ul></li>
+<li>Develop MinDelay-based model and policy as both a baseline and a potential alternative for low traffic scenarios</li>
+</ul>
+</section>
+<section id="my-ideal-contribution" class="slide level2 smaller">
+<h2>My Ideal Contribution</h2>
+<p>A joint forwarding and caching policy that:</p>
+<ul>
+<li>Is well suited for actual ICN implementations, i.e.&nbsp;modeling effects of core features like interest aggregation</li>
+<li>Provides a well-defined network capacity region and guarantees network stability in that region</li>
+<li>Guarantees a configurable trade-off between delay (proportional with queue backlogs) and some penalty function</li>
+<li>Is distributed without any loss of said guarantees</li>
+<li>Does not separate control plane vs.&nbsp;data plane states, i.e.&nbsp;no-gap</li>
+<li>Is practical to implement, i.e.&nbsp;computational complexity scales reasonably</li>
+</ul>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
 

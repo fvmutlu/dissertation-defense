@@ -752,6 +752,7 @@ Funny Joke
    -  Cache exclusivity assumption
    -  Equal object sizes assumption
    -  Constant, caching-only penalties
+   -  Disregards interest aggregation
 -  Solution to the caching optimization problem has high computational complexity
 -  Experimentation space is very large, results so far only scratch the surface
    -  More topologies and adapted baseline policies
@@ -760,217 +761,25 @@ Funny Joke
    -  Chunk-level simulation
 :::
 
-## Placeholder {.smaller}
+## Proposed Work {.smaller}
+*A reasonable combination of the following can be composed into a precise "proposed work" section.*
 
-::: columns
-::: {.column width="%50"}
-Single tier model of VIP [Yeh, 2014] with cache bandwidth constraints. Choose $r^k_n(t)$ and $s^k_n(t)$ to:
-```{=tex}
-\begin{align}
-    \text{minimize}
-        & \sum_{\kin} r^k_n(t) s^k_n(t) V^k_n(t) \\
-    \text{subject to}
-        & \sum_{\kin} r^k_n(t) \leq r_n, \\
-        & \sum_{\kin} s^k_n(t) \leq L_n, \\
-        & s^k_n(t) \in \{0, 1\}, \\
-        & r^k_n(t) \in \{0, 1, 2, ...\}
-\end{align}
-```
-:::
-::: {.column width="%50"}
-We can solve this greedily by choosing:
-```{=tex}
-\begin{equation}
-    r^k_n(t) =
-    \left\{ \begin{array}{ll}
-        r_n, & \text{if} \; k = k^*_n(t) \\
-        0, & \text{otherwise}
-    \end{array} \right.
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    s^k_n(t) =
-    \left\{ \begin{array}{ll}
-        1, & \text{if} \; k = k^*_n(t) \\
-        0, & \text{otherwise}
-    \end{array} \right.
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    k^*_n(t) \triangleq \argmax\limits_{\{ \kin \}}  V^k_n(t)
-\end{equation}
-```
-:::
-:::
+-  Revise the model to:
+   -  Impose cache bandwidth constraints (per-tier and total)
+   -  Provide two versions w.r.t cache exclusivity (included and not)
+   -  Include unequal object sizes
+   -  Generalize penalties (not just constant, but dynamic and based on both rate allocations and cache variables)
+-  Conduct more experiments, both to expand covered scenarios and to test above revisions
+   -  Revise simulations to improve performance and reproducibility
+-  Develop MinDelay-based model and policy as both a baseline and a potential alternative for low traffic scenarios
 
-## Placeholder {.smaller}
+## My Ideal Contribution {.smaller}
 
-::: columns
-::: {.column width="%50"}
-Multi tier model with cache bandwidth constraints. Choose $r^k_{n_j}(t)$ and $s^k_{n_j}(t)$ to:
-```{=tex}
-\begin{align}
-    \text{minimize}
-        & \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) \\
-    \text{subject to}
-        & \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
-        & \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
-        & s^k_{n_j}(t) \in \{0, 1\}, \\
-        & r^k_{n_j}(t) \in \{0, 1, 2, ...\}
-\end{align}
-```
-:::
-::: {.column width="%50"}
-This can be solved greedily just like the single-tier case, separately for each tier, since exclusivity is not enforced.
-:::
-:::
+A joint forwarding and caching policy that:
 
-## Placeholder {.smaller .scrollable}
-
-::: columns
-::: {.column width="%50"}
-Multi tier model with cache bandwidth constraints and exclusivity enforced. Choose $r^k_{n_j}(t)$ and $s^k_{n_j}(t)$ to:
-```{=tex}
-\begin{align}
-    \text{minimize}
-        & \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) \\
-    \text{subject to}
-        & \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
-        & \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
-        & \sum_{\jin} s^k_{n_j}(t) \leq 1, \\
-        & s^k_{n_j}(t) \in \{0, 1\}, \\
-        & r^k_{n_j}(t) \in \{0, 1, 2, ...\}
-\end{align}
-```
-:::
-::: {.column width="%50"}
-This can still be solved greedily by choosing:
-```{=tex}
-\begin{equation}
-    r^k_{n_j}(t) =
-    \left\{ \begin{array}{ll}
-        r_{n_j}, & \text{if} \; k = k^*_{n_j}(t) \\
-        0, & \text{otherwise}
-    \end{array} \right.
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    s^k_{n_j}(t) =
-    \left\{ \begin{array}{ll}
-        1, & \text{if} \; k = k^*_{n_j}(t) \\
-        0, & \text{otherwise}
-    \end{array} \right.
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    k^*_{n_j}(t) \triangleq \argmax\limits_{\{ \kin \setminus \mc{K}'_{n_j}(t) \}}  V^k_n(t)
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    \mc{K}'_{n_j}(t) \triangleq \{ k^*_{n_1}(t), ..., k^*_{n_{j-1}}(t) \}, \; \forall \; j > 1
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    \mc{K}'_{n_1}(t) \triangleq \varnothing
-\end{equation}
-```
-:::
-:::
-
-## Placeholder {.smaller .scrollable}
-
-::: columns
-::: {.column width="%50"}
-Single tier model of VIP [Yeh, 2014] with cache bandwidth constraints and penalties. Choose $r^k_n(t)$ and $s^k_n(t)$ to:
-```{=tex}
-\begin{align}
-    \text{minimize}
-        & \sum_{\kin} r^k_n(t) s^k_n(t) V^k_n(t) - \omega p^k_n(t)\\
-    \text{subject to}
-        & \sum_{\kin} r^k_n(t) \leq r_n, \\
-        & \sum_{\kin} s^k_n(t) \leq L_n, \\
-        & s^k_n(t) \in \{0, 1\}, \\
-        & r^k_n(t) \in \{0, 1, 2, ...\}
-\end{align}
-```
-:::
-::: {.column width="%50"}
-If we're given penalties only depending on current and previous cache states, as follows:
-```{=tex}
-\begin{equation}
-    p^k_n(t) = 
-    \left\{ \begin{array}{ll}
-        c^a_n, & \text{if} \; s^k_n(t) - s^k_n(t-1) = 1 \\
-        c^e_n, & \text{if} \; s^k_n(t) - s^k_n(t-1) = -1 \\
-        0, & \text{otherwise}
-   \end{array} \right.
-\end{equation}
-```
-We can still solve this greedily by choosing:
-```{=tex}
-\begin{equation}
-    r^k_n(t) =
-    \left\{ \begin{array}{ll}
-        r_n, & \text{if} \; k = k^*_n(t) \\
-        0, & \text{otherwise}
-    \end{array} \right.
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    s^k_n(t) =
-    \left\{ \begin{array}{ll}
-        1, & \text{if} \; k = k^*_n(t) \\
-        s^k_n(t-1), & \text{if} \; k \not = k^*_n(t) \; \text{and} \; k \not = k^-_n(t) \\
-        s^k_n(t-1), & \text{if} \; k = k^-_n(t) \; \text{and} \; \sum_{\kin} s^k_n(t-1) < L_n \\
-        0, & \text{if} \; k = k^-_n(t) \; \text{and} \; \sum_{\kin} s^k_n(t-1) = L_n
-    \end{array} \right.
-\end{equation}
-```
-:::
-:::
-
-## Placeholder {.smaller}
-
-::: columns
-::: {.column width="%50"}
-Multi tier model with cache bandwidth constraints and penalties. Choose $r^k_{n_j}(t)$ and $s^k_{n_j}(t)$ to:
-```{=tex}
-\begin{align}
-    \text{minimize}
-        & \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) - \omega p^k_{n_j}(t) \\
-    \text{subject to}
-        & \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
-        & \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
-        & s^k_{n_j}(t) \in \{0, 1\}, \\
-        & r^k_{n_j}(t) \in \{0, 1, 2, ...\}
-\end{align}
-```
-:::
-::: {.column width="%50"}
-This can be solved greedily just like the single-tier case, separately for each tier (since exclusivity is not enforced), if we're given penalties in the form of:
-```{=tex}
-\begin{equation}
-    p^k_{n_j}(t) = 
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-        0, & \text{otherwise}
-   \end{array} \right.
-\end{equation}
-```
-:::
-:::
-
-## What's Missing
-
--  None of these models address the "immediate object retrieval for caching" assumption
--  We haven't accounted for more complex penalties
-
-## Proposed Work
+-  Is well suited for actual ICN implementations, i.e. modeling effects of core features like interest aggregation
+-  Provides a well-defined network capacity region and guarantees network stability in that region
+-  Guarantees a configurable trade-off between delay (proportional with queue backlogs) and some penalty function 
+-  Is distributed without any loss of said guarantees
+-  Does not separate control plane vs. data plane states, i.e. no-gap
+-  Is practical to implement, i.e. computational complexity scales reasonably
