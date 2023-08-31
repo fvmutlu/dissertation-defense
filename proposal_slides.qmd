@@ -97,8 +97,9 @@ Context
 # Research Topic I
 <h3>Joint Caching and Forwarding in Networks with Hybrid Storage Systems</h3>
 
-## Overview {.smaller .incremental}
+## Overview {.smaller}
 
+::: {.incremental}
 -  Data volume is growing exponentially, but capacities of in-network caches are stagnant
 -  Enabling larger caches in a cost-effective way is not trivial
 -  We consider the following:
@@ -107,6 +108,7 @@ Context
    -  What are the costs of operating large caches?
    -  How can we get the most out of caches in the network?
 -  We develop a joint caching and forwarding strategy that incorporates these considerations
+:::
 
 ## Toy Example {.smaller}
 
@@ -159,11 +161,14 @@ Motivation
 Motivation
 :::
 
-## Core Challenge I {.incremental}
+## Core Challenge I
+
+::: {.incremental}
 -  DRAM is the primary cache device since it is fast, i.e. can operate at *line rate*
 -  However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)
 -  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
 -  NVMe SSDs can be an order of magnitude slower than DRAM
+:::
 
 ::: {.footer}
 Motivation
@@ -192,7 +197,7 @@ Numbered nodes connected by green edges represent potential cache tiers
 Motivation
 :::
 
-## Case for Additional, Slower Caches {.incremental .smaller}
+## Case for Additional, Slower Caches {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
@@ -217,30 +222,37 @@ Motivation
 Motivation
 :::
 
-## Core Challenge II {.incremental}
+## Core Challenge II
 
+::: {.incremental}
 -  Caches are not free to use, every admission and replacement has a cost
 -  With SSDs, these are more pronounced:
    -  They wear out over time
    -  Due to their slower speed, cache state transitions take longer
    -  Their per-replacement power consumption is larger*
+:::
 
-## Core Challenge III {.incremental}
+## Core Challenge III
 
+::: {.incremental}
 -  (Talk about joint caching and forwarding)
+:::
 
-## Goal {.incremental}
+## Goal
+
+::: {.incremental}
 -  We want a caching policy suitable for systems with a combination of storage elements with different performance and cost paremeters as caches
 -  This policy needs to:
    -  Balance frequency of requests served by cache tiers based on their transfer rates
    -  Be adaptable to changing traffic patterns in the network
    -  Offer a distributed implementation
+:::
 
 ::: {.footer}
 Motivation
 :::
 
-## Related Work {.incremental .smaller}
+## Related Work {.smaller}
 
 -  *"Multi-Terabyte and multi-Gbps information centric routers"*, G. Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014
    -  Two-layer cache (SSD masked behind DRAM), utilizes "prefetching", trace-driven and synthetic simulation results
@@ -249,7 +261,7 @@ Motivation
 -  *"Exploiting parallelism in hierarchical content stores for high-speed ICN routers"*, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017
    -  Follow-up to above works, integrates HCS design with NDN Forwarding Daemon (NFD)
 
-## Related Work {.incremental .smaller}
+## Related Work {.smaller}
 -  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
 
 ::: {.footer}
@@ -486,7 +498,7 @@ There are several considerations when applying our approach in the data plane:
 | Notation | Definition |
 |:--:|:--------|
 |$\mc{v}^k_{ab}$|Actual number of VIPs for $k$ transmitted over $(a,b)$ during $t$|
-|T|Size of a sliding window of time slots|
+|$T$|Size of a sliding window of time slots|
 |$\mc{K}_{n_j}$|Set of objects currently cached in tier $j$ at $n$|
 
 Define the *cache score* metric as follows:
@@ -676,6 +688,7 @@ class RoundRobinNode(Node):
    -  LRU, FIFO and RANDOM paired with LCE admission
 -  Multi-tier adapted cost-aware baseline: Penalty Aware LFU
 -  All baseline caching policies paired with Least Response Time forwarding
+-  Multi-tier VIP ran with slot length of 1 sec and sliding window of size $T=100$
 
 
 ## Experiment Setting {.smaller .scrollable}
@@ -683,7 +696,7 @@ class RoundRobinNode(Node):
 | Parameter | Description | Value |
 |:-:|:-:|:-:|
 |$K$|Number of objects in catalog $\mc{K}$|1000|
-|$\sum_{\kin} \lambda^k_n$|Total request arrival rate at each $n$|10|
+|$\sum_{\kin} \lambda^k_n$|Total request arrival rate at each $n$ in objects/sec|10|
 |$\alpha$|Zipf's law parameter for object popularity distribution|0.75|
 |$C_{ab}$|Capacity of each link $\abin$, in objects|10|
 |$L_{n_1}$|Capacity of tier 1 at each $n$, in objects|5|
@@ -723,6 +736,241 @@ Delay vs. penalty ($\omega$ decreasing to the right)
 
 ## Room for Improvement
 
+::: {.fragment}
 ![It's a really big room](images/big-room.webp){fig-align="left"}
+:::
+
+::: {.footer}
+Funny Joke
+:::
+
+## Room for Improvement {.smaller}
+
+::: {.incremental}
+-  Model has some restrictive or unrealistic assumptions and features:
+   -  Per-object read rate of caches
+   -  Cache exclusivity assumption
+   -  Equal object sizes assumption
+   -  Constant, caching-only penalties
+-  Solution to the caching optimization problem has high computational complexity
+-  Experimentation space is very large, results so far only scratch the surface
+   -  More topologies and adapted baseline policies
+   -  Better tuning of parameters, larger parameter space
+   -  Different classes of request patterns, trace-driven simulation
+   -  Chunk-level simulation
+:::
+
+## Placeholder {.smaller}
+
+::: columns
+::: {.column width="%50"}
+Single tier model of VIP [Yeh, 2014] with cache bandwidth constraints. Choose $r^k_n(t)$ and $s^k_n(t)$ to:
+```{=tex}
+\begin{align}
+    \text{minimize}
+        & \sum_{\kin} r^k_n(t) s^k_n(t) V^k_n(t) \\
+    \text{subject to}
+        & \sum_{\kin} r^k_n(t) \leq r_n, \\
+        & \sum_{\kin} s^k_n(t) \leq L_n, \\
+        & s^k_n(t) \in \{0, 1\}, \\
+        & r^k_n(t) \in \{0, 1, 2, ...\}
+\end{align}
+```
+:::
+::: {.column width="%50"}
+We can solve this greedily by choosing:
+```{=tex}
+\begin{equation}
+    r^k_n(t) =
+    \left\{ \begin{array}{ll}
+        r_n, & \text{if} \; k = k^*_n(t) \\
+        0, & \text{otherwise}
+    \end{array} \right.
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    s^k_n(t) =
+    \left\{ \begin{array}{ll}
+        1, & \text{if} \; k = k^*_n(t) \\
+        0, & \text{otherwise}
+    \end{array} \right.
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    k^*_n(t) \triangleq \argmax\limits_{\{ \kin \}}  V^k_n(t)
+\end{equation}
+```
+:::
+:::
+
+## Placeholder {.smaller}
+
+::: columns
+::: {.column width="%50"}
+Multi tier model with cache bandwidth constraints. Choose $r^k_{n_j}(t)$ and $s^k_{n_j}(t)$ to:
+```{=tex}
+\begin{align}
+    \text{minimize}
+        & \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) \\
+    \text{subject to}
+        & \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
+        & \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
+        & s^k_{n_j}(t) \in \{0, 1\}, \\
+        & r^k_{n_j}(t) \in \{0, 1, 2, ...\}
+\end{align}
+```
+:::
+::: {.column width="%50"}
+This can be solved greedily just like the single-tier case, separately for each tier, since exclusivity is not enforced.
+:::
+:::
+
+## Placeholder {.smaller .scrollable}
+
+::: columns
+::: {.column width="%50"}
+Multi tier model with cache bandwidth constraints and exclusivity enforced. Choose $r^k_{n_j}(t)$ and $s^k_{n_j}(t)$ to:
+```{=tex}
+\begin{align}
+    \text{minimize}
+        & \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) \\
+    \text{subject to}
+        & \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
+        & \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
+        & \sum_{\jin} s^k_{n_j}(t) \leq 1, \\
+        & s^k_{n_j}(t) \in \{0, 1\}, \\
+        & r^k_{n_j}(t) \in \{0, 1, 2, ...\}
+\end{align}
+```
+:::
+::: {.column width="%50"}
+This can still be solved greedily by choosing:
+```{=tex}
+\begin{equation}
+    r^k_{n_j}(t) =
+    \left\{ \begin{array}{ll}
+        r_{n_j}, & \text{if} \; k = k^*_{n_j}(t) \\
+        0, & \text{otherwise}
+    \end{array} \right.
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    s^k_{n_j}(t) =
+    \left\{ \begin{array}{ll}
+        1, & \text{if} \; k = k^*_{n_j}(t) \\
+        0, & \text{otherwise}
+    \end{array} \right.
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    k^*_{n_j}(t) \triangleq \argmax\limits_{\{ \kin \setminus \mc{K}'_{n_j}(t) \}}  V^k_n(t)
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    \mc{K}'_{n_j}(t) \triangleq \{ k^*_{n_1}(t), ..., k^*_{n_{j-1}}(t) \}, \; \forall \; j > 1
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    \mc{K}'_{n_1}(t) \triangleq \varnothing
+\end{equation}
+```
+:::
+:::
+
+## Placeholder {.smaller .scrollable}
+
+::: columns
+::: {.column width="%50"}
+Single tier model of VIP [Yeh, 2014] with cache bandwidth constraints and penalties. Choose $r^k_n(t)$ and $s^k_n(t)$ to:
+```{=tex}
+\begin{align}
+    \text{minimize}
+        & \sum_{\kin} r^k_n(t) s^k_n(t) V^k_n(t) - \omega p^k_n(t)\\
+    \text{subject to}
+        & \sum_{\kin} r^k_n(t) \leq r_n, \\
+        & \sum_{\kin} s^k_n(t) \leq L_n, \\
+        & s^k_n(t) \in \{0, 1\}, \\
+        & r^k_n(t) \in \{0, 1, 2, ...\}
+\end{align}
+```
+:::
+::: {.column width="%50"}
+If we're given penalties only depending on current and previous cache states, as follows:
+```{=tex}
+\begin{equation}
+    p^k_n(t) = 
+    \left\{ \begin{array}{ll}
+        c^a_n, & \text{if} \; s^k_n(t) - s^k_n(t-1) = 1 \\
+        c^e_n, & \text{if} \; s^k_n(t) - s^k_n(t-1) = -1 \\
+        0, & \text{otherwise}
+   \end{array} \right.
+\end{equation}
+```
+We can still solve this greedily by choosing:
+```{=tex}
+\begin{equation}
+    r^k_n(t) =
+    \left\{ \begin{array}{ll}
+        r_n, & \text{if} \; k = k^*_n(t) \\
+        0, & \text{otherwise}
+    \end{array} \right.
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+    s^k_n(t) =
+    \left\{ \begin{array}{ll}
+        1, & \text{if} \; k = k^*_n(t) \\
+        s^k_n(t-1), & \text{if} \; k \not = k^*_n(t) \; \text{and} \; k \not = k^-_n(t) \\
+        s^k_n(t-1), & \text{if} \; k = k^-_n(t) \; \text{and} \; \sum_{\kin} s^k_n(t-1) < L_n \\
+        0, & \text{if} \; k = k^-_n(t) \; \text{and} \; \sum_{\kin} s^k_n(t-1) = L_n
+    \end{array} \right.
+\end{equation}
+```
+:::
+:::
+
+## Placeholder {.smaller}
+
+::: columns
+::: {.column width="%50"}
+Multi tier model with cache bandwidth constraints and penalties. Choose $r^k_{n_j}(t)$ and $s^k_{n_j}(t)$ to:
+```{=tex}
+\begin{align}
+    \text{minimize}
+        & \sum_{\kin} \sum_{\jin} r^k_{n_j}(t) s^k_{n_j}(t) V^k_n(t) - \omega p^k_{n_j}(t) \\
+    \text{subject to}
+        & \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \\
+        & \sum_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \\
+        & s^k_{n_j}(t) \in \{0, 1\}, \\
+        & r^k_{n_j}(t) \in \{0, 1, 2, ...\}
+\end{align}
+```
+:::
+::: {.column width="%50"}
+This can be solved greedily just like the single-tier case, separately for each tier (since exclusivity is not enforced), if we're given penalties in the form of:
+```{=tex}
+\begin{equation}
+    p^k_{n_j}(t) = 
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+        0, & \text{otherwise}
+   \end{array} \right.
+\end{equation}
+```
+:::
+:::
+
+## What's Missing
+
+-  None of these models address the "immediate object retrieval for caching" assumption
+-  We haven't accounted for more complex penalties
 
 ## Proposed Work
