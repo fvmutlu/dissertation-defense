@@ -459,9 +459,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\bin}{b \in \mc{N}}
 \newcommand{\abin}{(a,b) \in \mc{L}}
 \newcommand{\about}{(a,b) \not\in \mc{L}^k}
-\newcommand{\betasum}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}}
-\newcommand{\betasumnl}{\sum ^{\sigma}_{i=1} \beta_{n,i}}
-\newcommand{\betasumind}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
+\newcommand{\betasum}{\sum\limits ^{\sigma_n}_{i=1} \beta_{n,i}}
+\newcommand{\betasumnl}{\sum ^{\sigma_n}_{i=1} \beta_{n,i}}
+\newcommand{\betasumind}{\sum\limits ^{\sigma_n}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -897,42 +897,15 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <h2>Virtual Plane Algorithm</h2>
 <p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
 <ul>
-<li><strong>Caching</strong>: Choose <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</li>
+<li><strong>Forwarding</strong>: Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
 </ul>
 <span class="math display">\[\begin{align}
     \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
     \text{subject to}
-        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+        &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
+        &amp; \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
 \end{align}\]</span>
-<span class="math display">\[\begin{equation}
-    b^k_{n_j}(t) \triangleq \left\{ \begin{array}{ll}
-        r_{n_j} V^k_n(t) - \omega c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 0 \\
-        r_{n_j} V^k_n(t) + \omega c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 1
-    \end{array} \right.
-\end{equation}\]</span>
-</section>
-<section id="virtual-plane-algorithm-2" class="slide level2 smaller">
-<h2>Virtual Plane Algorithm</h2>
-<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
-<ul>
-<li><strong>Forwarding</strong>: Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
-</ul>
-<span class="math display">\[\begin{equation}
-   \mu^k_{ab}(t) =
-   \left\{ \begin{array}{ll}
-      C_{ba}, &amp; \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) &gt; 0 \\
-      0, &amp; \text{otherwise}
-   \end{array} \right.
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-\begin{split}
-   W^k_{ab}(t) &amp; \triangleq V^k_a(t) - V^k_b(t), \\
-   k^*_{ab}(t) &amp; \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
-\end{split}
-\end{equation}\]</span>
 </section>
 <section id="analysis" class="slide level2 smaller">
 <h2>Analysis</h2>
@@ -955,7 +928,7 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 </tbody>
 </table>
 <span class="math display">\[\begin{equation}
-f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
+f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 \end{equation}\]</span>
 <p><span class="math inline">\(F^k_{ab}(t)\)</span> satisfy the following for all <span class="math inline">\(t \geq 1\)</span>:</p>
 <span class="math display">\[\begin{equation}
@@ -965,7 +938,7 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
     F^k_{ab}(t) = 0, \; \forall a,b \in \mc{N}, \kin, (a,b) \not \in \mc{L}^k
 \end{equation}\]</span>
 <span class="math display">\[\begin{equation}
-    F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
+   \sum\limits_{\kin} F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
 \end{equation}\]</span>
 </section>
 <section id="analysis-1" class="slide level2 smaller">
@@ -983,10 +956,14 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mc{B}_{n,i}\)</span></td>
-<td style="text-align: left;">i-th among all <span class="math inline">\(\sigma\)</span> cache placement sets at <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sigma_n\)</span></td>
+<td style="text-align: left;">The total number of possible ways any number of objects <span class="math inline">\(\kin\)</span> can be placed in cache tiers at <span class="math inline">\(n\)</span></td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mc{B}_{n,i}\)</span></td>
+<td style="text-align: left;">i-th among all <span class="math inline">\(\sigma_n\)</span> cache placement sets at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
 <td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span></td>
 </tr>
@@ -994,7 +971,7 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 </table>
 <p>The elements of set <span class="math inline">\(\mc{B}_{n,i}\)</span> are pairs in the form of <span class="math inline">\((k,j)\)</span>, such that if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span>, object <span class="math inline">\(k\)</span> is cached in tier <span class="math inline">\(j\)</span>. <span class="math inline">\(\beta_{n,i}\)</span> satisfy the following:</p>
 <span class="math display">\[\begin{equation}
-    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma, \quad \nin
+    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma_n, \quad \nin
 \end{equation}\]</span>
 <span class="math display">\[\begin{equation}
     \betasum = 1, \quad \forall \nin
@@ -1069,6 +1046,93 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
     B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
 \end{equation}\]</span>
 <p><strong>Interpretation</strong>: We can pick a large <span class="math inline">\(\omega\)</span> to push the time average penalty close to <span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> at the cost of significantly increasing the average queue backlog and vice-versa.</p>
+</section>
+<section id="solutions-to-optimization-problems" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p><strong>Caching</strong>: We can rewrite the optimization problem for the caching step.</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}\]</span>
+<span class="math display">\[\begin{equation}
+    p^k_{n_j}(t) \triangleq
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+       0, &amp; \text{otherwise}
+   \end{array} \right.
+\end{equation}\]</span>
+</section>
+<section id="solutions-to-optimization-problems-1" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p><strong>Caching</strong>: Intuitively, we can think of the <em>net benefit</em> of admitting an object as its objective value minus the weighted cost of admission. Similarly, we can think of the net benefit of keeping an object in cache as its objective value plus the weighted cost of eviction.</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}\]</span>
+<span class="math display">\[\begin{equation}
+    b^k_{n_j}(t) \triangleq \left\{ \begin{array}{ll}
+        r_{n_j} V^k_n(t) - \omega c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 0 \\
+        r_{n_j} V^k_n(t) + \omega c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 1
+    \end{array} \right.
+\end{equation}\]</span>
+</section>
+<section id="solutions-to-optimization-problems-2" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p><strong>Caching</strong>: Using a transformation of variables, the problem can be written as a linear assignment problem. We can interpret this as deciding on caching variables per one-object cache space associated with each cache tier, rather than per-tier<sup>1</sup>.</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_i}(t) \leq 1, \; \iin \\
+        &amp; \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_i}(t) \in \{0, 1\}, \; \kin, \; \iin
+\end{align}\]</span>
+<p><span class="math inline">\(\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}\)</span>. If <span class="math inline">\(i \in \mc{I}_{n_j} = \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}\)</span>, then <span class="math inline">\(b^k_{n_j}(t) = b^k_{n_i}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t) = s^k_{n_i}(t)\)</span>.</p>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Only possible due to same size objects assumption</p></li></ol></aside></section>
+<section id="solutions-to-optimization-problems-3" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+
+<img data-src="images/gap.svg" class="r-stretch"></section>
+<section id="solutions-to-optimization-problems-4" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+
+<img data-src="images/rlap.svg" class="r-stretch"></section>
+<section id="solutions-to-optimization-problems-5" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is the classical <em>backpressure</em> solution.</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
+        &amp; \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
+\end{align}\]</span>
+</section>
+<section id="solutions-to-optimization-problems-6" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p><strong>Forwarding</strong>: The entire reverse link capacity would be allocated to transmitting VIPs for the object with the highest queue backlog differential between the two nodes.</p>
+<span class="math display">\[\begin{equation}
+   \mu^k_{ab}(t) =
+   \left\{ \begin{array}{ll}
+      C_{ba}, &amp; \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) &gt; 0 \\
+      0, &amp; \text{otherwise}
+   \end{array} \right.
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+\begin{split}
+   W^k_{ab}(t) &amp; \triangleq V^k_a(t) - V^k_b(t), \\
+   k^*_{ab}(t) &amp; \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
+\end{split}
+\end{equation}\]</span>
 </section>
 <section id="transition-to-data-plane" class="slide level2">
 <h2>Transition to Data Plane</h2>
@@ -1401,6 +1465,7 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 <li class="fragment">Cache exclusivity assumption</li>
 <li class="fragment">Equal object sizes assumption</li>
 <li class="fragment">Constant, caching-only penalties</li>
+<li class="fragment">Disregards interest aggregation</li>
 </ul></li>
 <li class="fragment">Solution to the caching optimization problem has high computational complexity</li>
 <li class="fragment">Experimentation space is very large, results so far only scratch the surface
@@ -1417,17 +1482,14 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 <h2>Proposed Work</h2>
 <p><em>A reasonable combination of the following can be composed into a precise “proposed work” section.</em></p>
 <ul>
-<li>Revise the model to:
-<ul>
 <li>Impose cache bandwidth constraints (per-tier and total)</li>
 <li>Provide two versions w.r.t cache exclusivity (included and not)</li>
 <li>Include unequal object sizes</li>
 <li>Generalize penalties (not just constant, but dynamic and based on both rate allocations and cache variables)</li>
-</ul></li>
-<li>Conduct more experiments, both to expand covered scenarios and to test above revisions
-<ul>
+<li>Impose penalty constraints</li>
+<li>Conduct more experiments, both to expand covered scenarios and to test above revisions</li>
 <li>Revise simulations to improve performance and reproducibility</li>
-</ul></li>
+<li>Develop data plane only model that observes interest aggregation</li>
 <li>Develop MinDelay-based model and policy as both a baseline and a potential alternative for low traffic scenarios</li>
 </ul>
 </section>
@@ -1447,6 +1509,7 @@ f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
 
 </div>
 </section></section>
+
     </div>
   </div>
 

@@ -53,9 +53,9 @@ $$
 \newcommand{\bin}{b \in \mc{N}}
 \newcommand{\abin}{(a,b) \in \mc{L}}
 \newcommand{\about}{(a,b) \not\in \mc{L}^k}
-\newcommand{\betasum}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}}
-\newcommand{\betasumnl}{\sum ^{\sigma}_{i=1} \beta_{n,i}}
-\newcommand{\betasumind}{\sum\limits ^{\sigma}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
+\newcommand{\betasum}{\sum\limits ^{\sigma_n}_{i=1} \beta_{n,i}}
+\newcommand{\betasumnl}{\sum ^{\sigma_n}_{i=1} \beta_{n,i}}
+\newcommand{\betasumind}{\sum\limits ^{\sigma_n}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -347,46 +347,15 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
 ## Virtual Plane Algorithm {.smaller}
 At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
 
--  **Caching**: Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
+-  **Forwarding**: Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose:
 ```{=tex}
 \begin{align}
     \text{maximize}
-        & \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
-    \text{subject to}
-        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+        & \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
+    \text{subject to} 
+        & \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
+        & \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
 \end{align}
-```
-```{=tex}
-\begin{equation}
-    b^k_{n_j}(t) \triangleq \left\{ \begin{array}{ll}
-        r_{n_j} V^k_n(t) - \omega c^a_{n_j}, & \text{if} \; s^k_{n_j}(t-1) = 0 \\
-        r_{n_j} V^k_n(t) + \omega c^e_{n_j}, & \text{if} \; s^k_{n_j}(t-1) = 1
-    \end{array} \right.
-\end{equation}
-```
-
-## Virtual Plane Algorithm {.smaller}
-At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
-
--  **Forwarding**: Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose:
-```{=tex}
-\begin{equation}
-   \mu^k_{ab}(t) =
-   \left\{ \begin{array}{ll}
-      C_{ba}, & \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) > 0 \\
-      0, & \text{otherwise}
-   \end{array} \right.
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-\begin{split}
-   W^k_{ab}(t) & \triangleq V^k_a(t) - V^k_b(t), \\
-   k^*_{ab}(t) & \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
-\end{split}
-\end{equation}
 ```
 
 ## Analysis {.smaller}
@@ -398,7 +367,7 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
 
 ```{=tex}
 \begin{equation}
-f^k_{ab} = \sum^{t}_{\tau=1} F^k_{ab}(\tau)/t
+f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 \end{equation}
 ```
 
@@ -415,7 +384,7 @@ $F^k_{ab}(t)$ satisfy the following for all $t \geq 1$:
 ```
 ```{=tex}
 \begin{equation}
-    F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
+   \sum\limits_{\kin} F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
 \end{equation}
 ```
 
@@ -423,13 +392,14 @@ $F^k_{ab}(t)$ satisfy the following for all $t \geq 1$:
 
 | Notation | Definition |
 |:--:|:--------|
-|$\mc{B}_{n,i}$|i-th among all $\sigma$ cache placement sets at $n$|
+|$\sigma_n$|The total number of possible ways any number of objects $\kin$ can be placed in cache tiers at $n$|
+|$\mc{B}_{n,i}$|i-th among all $\sigma_n$ cache placement sets at $n$|
 |$\beta_{n,i}$|Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$|
 
 The elements of set $\mc{B}_{n,i}$ are pairs in the form of $(k,j)$, such that if $(k,j) \in \mc{B}_{n,i}$, object $k$ is cached in tier $j$. $\beta_{n,i}$ satisfy the following:
 ```{=tex}
 \begin{equation}
-    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma, \quad \nin
+    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma_n, \quad \nin
 \end{equation}
 ```
 ```{=tex}
@@ -437,7 +407,6 @@ The elements of set $\mc{B}_{n,i}$ are pairs in the form of $(k,j)$, such that i
     \betasum = 1, \quad \forall \nin
 \end{equation}
 ```
-
 
 ## Analysis
 
@@ -484,6 +453,106 @@ When all exogenous request arrival rates abide by the bound described above, the
 ```
 
 **Interpretation**: We can pick a large $\omega$ to push the time average penalty close to $\Psi(\boldsymbol{\lambda})$ at the cost of significantly increasing the average queue backlog and vice-versa.
+
+## Solutions to Optimization Problems {.smaller}
+**Caching**: We can rewrite the optimization problem for the caching step.
+```{=tex}
+\begin{align}
+    \text{maximize}
+        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+    \text{subject to}
+        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}
+```
+```{=tex}
+\begin{equation}
+    p^k_{n_j}(t) \triangleq 
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+       0, & \text{otherwise}
+   \end{array} \right.
+\end{equation}
+```
+
+## Solutions to Optimization Problems {.smaller}
+**Caching**: Intuitively, we can think of the *net benefit* of admitting an object as its objective value minus the weighted cost of admission. Similarly, we can think of the net benefit of keeping an object in cache as its objective value plus the weighted cost of eviction.
+```{=tex}
+\begin{align}
+    \text{maximize}
+        & \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
+    \text{subject to}
+        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}
+```
+```{=tex}
+\begin{equation}
+    b^k_{n_j}(t) \triangleq \left\{ \begin{array}{ll}
+        r_{n_j} V^k_n(t) - \omega c^a_{n_j}, & \text{if} \; s^k_{n_j}(t-1) = 0 \\
+        r_{n_j} V^k_n(t) + \omega c^e_{n_j}, & \text{if} \; s^k_{n_j}(t-1) = 1
+    \end{array} \right.
+\end{equation}
+```
+
+## Solutions to Optimization Problems {.smaller}
+**Caching**: Using a transformation of variables, the problem can be written as a linear assignment problem. We can interpret this as deciding on caching variables per one-object cache space associated with each cache tier, rather than per-tier[^1].
+```{=tex}
+\begin{align}
+    \text{maximize}
+        & \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
+    \text{subject to} 
+        & \quad \sum\limits_{\kin} s^k_{n_i}(t) \leq 1, \; \iin \\
+        & \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \kin \\
+        & \quad s^k_{n_i}(t) \in \{0, 1\}, \; \kin, \; \iin
+\end{align}
+```
+$\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}$. If $i \in \mc{I}_{n_j} = \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}$, then $b^k_{n_j}(t) = b^k_{n_i}(t)$ and $s^k_{n_j}(t) = s^k_{n_i}(t)$.
+
+[^1]: Only possible due to same size objects assumption
+
+## Solutions to Optimization Problems {.smaller}
+
+![](images/gap.svg)
+
+## Solutions to Optimization Problems {.smaller}
+
+![](images/rlap.svg)
+
+## Solutions to Optimization Problems {.smaller}
+**Forwarding**: The solution to the forwarding optimization problem is the classical *backpressure* solution.
+```{=tex}
+\begin{align}
+    \text{maximize}
+        & \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
+    \text{subject to} 
+        & \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
+        & \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
+\end{align}
+```
+
+## Solutions to Optimization Problems {.smaller}
+**Forwarding**: The entire reverse link capacity would be allocated to transmitting VIPs for the object with the highest queue backlog differential between the two nodes.
+```{=tex}
+\begin{equation}
+   \mu^k_{ab}(t) =
+   \left\{ \begin{array}{ll}
+      C_{ba}, & \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) > 0 \\
+      0, & \text{otherwise}
+   \end{array} \right.
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+\begin{split}
+   W^k_{ab}(t) & \triangleq V^k_a(t) - V^k_b(t), \\
+   k^*_{ab}(t) & \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
+\end{split}
+\end{equation}
+```
 
 ## Transition to Data Plane
 
@@ -764,13 +833,14 @@ Funny Joke
 ## Proposed Work {.smaller}
 *A reasonable combination of the following can be composed into a precise "proposed work" section.*
 
--  Revise the model to:
-   -  Impose cache bandwidth constraints (per-tier and total)
-   -  Provide two versions w.r.t cache exclusivity (included and not)
-   -  Include unequal object sizes
-   -  Generalize penalties (not just constant, but dynamic and based on both rate allocations and cache variables)
+-  Impose cache bandwidth constraints (per-tier and total)
+-  Provide two versions w.r.t cache exclusivity (included and not)
+-  Include unequal object sizes
+-  Generalize penalties (not just constant, but dynamic and based on both rate allocations and cache variables)
+-  Impose penalty constraints
 -  Conduct more experiments, both to expand covered scenarios and to test above revisions
-   -  Revise simulations to improve performance and reproducibility
+-  Revise simulations to improve performance and reproducibility
+-  Develop data plane only model that observes interest aggregation
 -  Develop MinDelay-based model and policy as both a baseline and a potential alternative for low traffic scenarios
 
 ## My Ideal Contribution {.smaller}
