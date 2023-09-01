@@ -151,7 +151,7 @@ Motivation
 Motivation
 :::
 
-## Core Challenge I
+## The Capacity Challenge
 
 ::: {.incremental}
 -  DRAM is the primary cache device since it is fast, i.e. can operate at *line rate*
@@ -212,20 +212,23 @@ Motivation
 Motivation
 :::
 
-## Core Challenge II
+## The Cost Challenge
 
 ::: {.incremental}
 -  Caches are not free to use, every admission and replacement has a cost
 -  With SSDs, these are more pronounced:
    -  They wear out over time
-   -  Due to their slower speed, cache state transitions take longer
+   -  Their slower rates mean cache state transitions take longer
    -  Their per-replacement power consumption is larger*
 :::
 
-## Core Challenge III
+## Coupling Caching with Forwarding {.smaller}
 
 ::: {.incremental}
--  (Talk about joint caching and forwarding)
+-  Benefits of ubiquitous caching offered by ICN architectures are more pronounced when caching and forwarding decisions are tightly coupled
+   -  "*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi
+-  The need for this coupling is even more prevalent with larger, slower caches
+   -  Based on current demand in different regions of the network, a cache miss at a node could be directed towards a closer node which caches the object in a slower tier or a further node which does so in a faster tier
 :::
 
 ## Goal
@@ -290,7 +293,7 @@ Related Work
 -  VIPs for an object are removed either at the source for that object, or at nodes that cache the object
 :::
 
-## System Model {.smaller .scrollable}
+## Model Notation {.smaller .scrollable}
 
 | Notation | Definition |
 |:--:|:--------|

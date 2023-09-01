@@ -599,8 +599,8 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <p>Motivation</p>
 </div>
 </section>
-<section id="core-challenge-i" class="slide level2">
-<h2>Core Challenge I</h2>
+<section id="the-capacity-challenge" class="slide level2">
+<h2>The Capacity Challenge</h2>
 <div>
 <ul>
 <li class="fragment">DRAM is the primary cache device since it is fast, i.e.&nbsp;can operate at <em>line rate</em></li>
@@ -677,25 +677,32 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <p>Motivation</p>
 </div>
 </section>
-<section id="core-challenge-ii" class="slide level2">
-<h2>Core Challenge II</h2>
+<section id="the-cost-challenge" class="slide level2">
+<h2>The Cost Challenge</h2>
 <div>
 <ul>
 <li class="fragment">Caches are not free to use, every admission and replacement has a cost</li>
 <li class="fragment">With SSDs, these are more pronounced:
 <ul>
 <li class="fragment">They wear out over time</li>
-<li class="fragment">Due to their slower speed, cache state transitions take longer</li>
+<li class="fragment">Their slower rates mean cache state transitions take longer</li>
 <li class="fragment">Their per-replacement power consumption is larger*</li>
 </ul></li>
 </ul>
 </div>
 </section>
-<section id="core-challenge-iii" class="slide level2">
-<h2>Core Challenge III</h2>
+<section id="coupling-caching-with-forwarding" class="slide level2 smaller">
+<h2>Coupling Caching with Forwarding</h2>
 <div>
 <ul>
-<li class="fragment">(Talk about joint caching and forwarding)</li>
+<li class="fragment">Benefits of ubiquitous caching offered by ICN architectures are more pronounced when caching and forwarding decisions are tightly coupled
+<ul>
+<li class="fragment">“<em>Coupling caching and forwarding: benefits, analysis, and implementation</em>”, G. Rossini, D. Rossi</li>
+</ul></li>
+<li class="fragment">The need for this coupling is even more prevalent with larger, slower caches
+<ul>
+<li class="fragment">Based on current demand in different regions of the network, a cache miss at a node could be directed towards a closer node which caches the object in a slower tier or a further node which does so in a faster tier</li>
+</ul></li>
 </ul>
 </div>
 </section>
@@ -781,8 +788,8 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 </ul>
 </div>
 </section>
-<section id="system-model" class="slide level2 smaller scrollable">
-<h2>System Model</h2>
+<section id="model-notation" class="slide level2 smaller scrollable">
+<h2>Model Notation</h2>
 <table>
 <caption>Table of Notations</caption>
 <colgroup>
