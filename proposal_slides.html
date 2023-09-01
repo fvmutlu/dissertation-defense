@@ -494,17 +494,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Context</p>
 </div>
-</section>
-<section id="wireless-edge-hetnets" class="slide level2">
-<h2>Wireless Edge &amp; HetNets</h2>
-<ul>
-<li>Interface between local devices and wider network infrastructure</li>
-<li>Many edge devices are connected wirelessly and through various access technologies (HetNet)</li>
-<li><strong>Importance</strong>: Edge-computing is gaining prevalance, driving more computation towards the network edge</li>
-</ul>
-<div class="footer">
-<p>Context</p>
-</div>
 </section></section>
 <section>
 <section id="research-topic-i" class="title-slide slide level1 center">
@@ -765,13 +754,34 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <p>Related Work</p>
 </div>
 </section>
-<section id="system-model" class="slide level2">
-<h2>System Model</h2>
+<section id="data-plane-model" class="slide level2 smaller">
+<h2>Data Plane Model</h2>
+<div>
 <ul>
-<li>(Give an overview and list assumptions)</li>
+<li class="fragment">Unit of content in the network is a <em>data object</em> (<em>object</em> for short), each object has the same size (in bits), a unique identifier, and a fixed unique source, i.e.&nbsp;an <em>object source</em></li>
+<li class="fragment">Exogenous requests for objects can enter the network at any node and are forwarded through the network until reaching an object source or a node that caches the object</li>
+<li class="fragment">Responses to requests forward the object back to the requester using the reverse of the path followed by the request</li>
+<li class="fragment">Any node can have one or more cache tiers and a cache tier is defined by its capacity (in objects), read rate (in objects/sec) and admission / eviction penalties (arbitrary unit)</li>
+<li class="fragment">A node can cache an object in any of its tiers, unless it is the source for that object</li>
+<li class="fragment">A node can cache the same object in at most one of its tiers (<em>cache exclusivity</em> assumption)</li>
+<li class="fragment">An object evicted from a cache tier is allowed to potentially migrate to another tier at the same node</li>
 </ul>
+</div>
 </section>
-<section id="system-model-1" class="slide level2 smaller scrollable">
+<section id="control-plane-model" class="slide level2 smaller">
+<h2>Control Plane Model</h2>
+<div>
+<ul>
+<li class="fragment">Control algorithms operate in a time-slotted <em>virtual control plane</em> added above the data plane just described</li>
+<li class="fragment">Whenever an exogenous request for an object arrives at a node, a <em>virtual interest packet</em> (<em>VIP</em>) for that object is generated at that node</li>
+<li class="fragment">Each node maintains a <em>VIP counter</em> for each object in the network; generating a VIP means incrementing this counter by 1</li>
+<li class="fragment">The <em>VIP count</em> of an object at a node can be interpreted as a queue that represents the unsatisfied demand for that object at that node</li>
+<li class="fragment">VIPs are forwarded through the network in the virtual plane using virtual links; at the beginning of each time slot, each node decides where and how to forward its VIPs</li>
+<li class="fragment">VIPs for an object are removed either at the source for that object, or at nodes that cache the object</li>
+</ul>
+</div>
+</section>
+<section id="system-model" class="slide level2 smaller scrollable">
 <h2>System Model</h2>
 <table>
 <caption>Table of Notations</caption>
@@ -827,24 +837,16 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <td style="text-align: left;">Eviction cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
-<td style="text-align: left;">Time slot referring to interval <span class="math inline">\([t, t+1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
+<td style="text-align: left;">Exogenous request arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
-<td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
+<td style="text-align: left;">Time slot referring to time interval <span class="math inline">\([t, t+1)\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(A^k_n(t)\)</span></td>
 <td style="text-align: left;">Number of exogenous requests for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
-<td style="text-align: left;">Exogenous VIP arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
-<td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;"><span class="math inline">\(s^k_{n_j}(t)\)</span></td>
@@ -854,14 +856,22 @@ Joint Caching and Forwarding in Networks with Hybrid Storage Systems
 <td style="text-align: center;"><span class="math inline">\(p^k_{n_j}(t)\)</span></td>
 <td style="text-align: left;">Penalty incurred by the choice of <span class="math inline">\(s^k_{n_j}(t)\)</span></td>
 </tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
+<td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
+<td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
 </tbody>
 </table>
 <div class="footer">
 <p>Contributions</p>
 </div>
 </section>
-<section id="queue-dynamics" class="slide level2">
-<h2>Queue Dynamics</h2>
+<section id="vip-queue-dynamics" class="slide level2">
+<h2>VIP Queue Dynamics</h2>
 <p>The VIP queue evolution for object <span class="math inline">\(k\)</span> at node <span class="math inline">\(n\)</span> can be described with the following, where <span class="math inline">\((x)^+ = max(x,0)\)</span>:</p>
 <span class="math display">\[\begin{equation}
 \begin{split}
@@ -1441,13 +1451,16 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </div>
 </div>
 </section>
-<section id="room-for-improvement" class="slide level2">
-<h2>Room for Improvement</h2>
+<section id="proposed-work" class="slide level2">
+<h2>Proposed Work</h2>
+<div class="fragment">
+<p>There is room for improvement</p>
+</div>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-left">
 <figure>
-<p><img data-src="images/big-room.webp"></p>
-<figcaption>It’s a really big room</figcaption>
+<p><img data-src="images/big-room.webp" style="width:65.0%;height:65.0%"></p>
+<figcaption>… and it’s a really big room</figcaption>
 </figure>
 </div>
 </div>
@@ -1455,8 +1468,8 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 <p>Funny Joke</p>
 </div>
 </section>
-<section id="room-for-improvement-1" class="slide level2 smaller">
-<h2>Room for Improvement</h2>
+<section id="proposed-work-1" class="slide level2 smaller">
+<h2>Proposed Work</h2>
 <div>
 <ul>
 <li class="fragment">Model has some restrictive or unrealistic assumptions and features:
@@ -1478,7 +1491,7 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </ul>
 </div>
 </section>
-<section id="proposed-work" class="slide level2 smaller">
+<section id="proposed-work-2" class="slide level2 smaller">
 <h2>Proposed Work</h2>
 <p><em>A reasonable combination of the following can be composed into a precise “proposed work” section.</em></p>
 <ul>
