@@ -883,13 +883,13 @@ We need to make this more accurate when considering slower caches.
    -  This also has the benefit of not requiring any adaptations to baselines
 -  As peer-to-peer DMA becomes more widely available and reliable, the assumption that multiple cache devices can supply the link simultaneously and increase read rates may be better supported
 
-While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements
+While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements.
 
 ## Proposed Work {.smaller}
 
 **Equal Object Sizes Assumption**: While this assumption makes our analysis and solution much more straightforward, it is hardly realistic.
 
-Let $z^k$ be the size of object $k$ in bits. Redefine $L_{n_j}$ be the cache capacity of tier $j$ at node $n$ in bits, instead of objects. The caching problem changes as follows.
+Let $z^k$ be the size of object $k$ in bits. Redefine $L_{n_j}$ be the cache capacity of tier $j$ at node $n$ in bits, instead of objects. The caching problem changes as follows:
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -913,32 +913,28 @@ The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be
    -  Therefore, VIPs for a smaller object can be drained at a higher rate
    -  If we do not alter the VIP metric to account for object sizes, this may skew network service (both caching and forwarding) to prioritize smaller objects
 
-## Proposed Work {.smaller}
-
-::: {.incremental}
--  Model has some restrictive or unrealistic assumptions and features:
-   -  Per-object read rate of caches
-   -  Cache exclusivity assumption
-   -  Equal object sizes assumption
-   -  Constant, caching-only penalties
-   -  Disregards interest aggregation
--  Solution to the caching optimization problem has high computational complexity
--  Experimentation space is very large, results so far only scratch the surface
-   -  More topologies and adapted baseline policies
-   -  Better tuning of parameters, larger parameter space
-   -  Different classes of request patterns, trace-driven simulation
-   -  Chunk-level simulation
+::: {.fragment .semi-fade-out}
+-  Combining multi-tiered caches with varying object sizes also raises questions about *cache integrity*, i.e. should we mandate that nodes cache all chunks of an object in the same tier?
+   -  If not, the complexity of the caching problem increases dramatically
+   -  It may be better to approach this version of the problem with a chunk-level strategy
 :::
 
 ## Proposed Work {.smaller}
-*A reasonable combination of the following can be composed into a precise "proposed work" section.*
 
--  Impose cache bandwidth constraints (per-tier and total)
--  Provide two versions w.r.t cache exclusivity (included and not)
--  Include unequal object sizes
--  Generalize penalties (not just constant, but dynamic and based on both rate allocations and cache variables)
--  Impose penalty constraints
--  Conduct more experiments, both to expand covered scenarios and to test above revisions
--  Revise simulations to improve performance and reproducibility
--  Develop data plane only model that observes interest aggregation
--  Develop MinDelay-based model and policy as both a baseline and a potential alternative for low traffic scenarios
+**Control Plane - Data Plane Gap**: The algorithm and its analysis in the virtual control plane does not directly transfer to the data plane.
+
+-  In the virtual plane, it is assumed that a node can immediately retrieve and cache any object in the network
+-  The backpressure-based forwarding strategy in the virtual plane is prone to making impractical choices at a per-time-slot granularity, specifically in low traffic scenarios
+-  These and other disparities lead to a *gap* between the two planes that is difficult to amend
+-  While the data plane strategy works decently in practice, I believe this gap must be studied and quantified, even if it can't be practically amended. For instance:
+   -  Measure the delay between a caching decision being made in the virtual plane, and if/when that decision is realized in the data plane
+   -  Estimate the difference between performance and cost metrics that would be obtained under virtual plane assumptions vs. experiment results
+
+## Proposed Work {.smaller}
+
+**Simulation Performance and Reproducibility**: The simulation framework performs decently and is relatively clean, but it can be improved significantly.
+
+-  Python, while convenient, is not the best choice to build highly-scalable DES frameworks. Julia is a great alternative that maintains convenience while providing much better performance
+-  Per-experiment multi-threading is not capturing parallelism effectively. Building the core components of the simulator in a multi-threaded way to improve *scale-up*, then enabling per-experiment *scale-out* will greatly improve performance.
+-  The current codebase has useful comments but little documentation and examples. Overall it doesn't offer the best basis for reproducibility and future improvements.
+-  Addressing these will result in a robust codebase that allows me to run a more thorough experimental study, improve the credibility of my results and potentially give other researchers a tool to build upon

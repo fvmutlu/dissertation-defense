@@ -1528,12 +1528,12 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </ul></li>
 <li>As peer-to-peer DMA becomes more widely available and reliable, the assumption that multiple cache devices can supply the link simultaneously and increase read rates may be better supported</li>
 </ul>
-<p>While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements</p>
+<p>While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements.</p>
 </section>
 <section id="proposed-work-5" class="slide level2 smaller">
 <h2>Proposed Work</h2>
 <p><strong>Equal Object Sizes Assumption</strong>: While this assumption makes our analysis and solution much more straightforward, it is hardly realistic.</p>
-<p>Let <span class="math inline">\(z^k\)</span> be the size of object <span class="math inline">\(k\)</span> in bits. Redefine <span class="math inline">\(L_{n_j}\)</span> be the cache capacity of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> in bits, instead of objects. The caching problem changes as follows.</p>
+<p>Let <span class="math inline">\(z^k\)</span> be the size of object <span class="math inline">\(k\)</span> in bits. Redefine <span class="math inline">\(L_{n_j}\)</span> be the cache capacity of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> in bits, instead of objects. The caching problem changes as follows:</p>
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
@@ -1546,7 +1546,7 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </section>
 <section id="proposed-work-6" class="slide level2 smaller">
 <h2>Proposed Work</h2>
-<p><strong>Equal Object Sizes Assumption</strong>: This change brings with it a suite of other considerations:</p>
+<p><strong>Equal Object Sizes Assumption</strong>: This change brings with it a set of other considerations:</p>
 <ul>
 <li>If combined with the enforcing of cache bandwidth constraints, the problem may reveal a low-complexity “greedy” solution (<em>currently a hypothesis</em>)</li>
 <li>However, we also have to reevaluate how we treat VIPs for objects
@@ -1556,43 +1556,38 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 <li>If we do not alter the VIP metric to account for object sizes, this may skew network service (both caching and forwarding) to prioritize smaller objects</li>
 </ul></li>
 </ul>
-</section>
-<section id="proposed-work-7" class="slide level2 smaller">
-<h2>Proposed Work</h2>
-<div>
+<div class="fragment semi-fade-out">
 <ul>
-<li class="fragment">Model has some restrictive or unrealistic assumptions and features:
+<li>Combining multi-tiered caches with varying object sizes also raises questions about <em>cache integrity</em>, i.e.&nbsp;should we mandate that nodes cache all chunks of an object in the same tier?
 <ul>
-<li class="fragment">Per-object read rate of caches</li>
-<li class="fragment">Cache exclusivity assumption</li>
-<li class="fragment">Equal object sizes assumption</li>
-<li class="fragment">Constant, caching-only penalties</li>
-<li class="fragment">Disregards interest aggregation</li>
-</ul></li>
-<li class="fragment">Solution to the caching optimization problem has high computational complexity</li>
-<li class="fragment">Experimentation space is very large, results so far only scratch the surface
-<ul>
-<li class="fragment">More topologies and adapted baseline policies</li>
-<li class="fragment">Better tuning of parameters, larger parameter space</li>
-<li class="fragment">Different classes of request patterns, trace-driven simulation</li>
-<li class="fragment">Chunk-level simulation</li>
+<li>If not, the complexity of the caching problem increases dramatically</li>
+<li>It may be better to approach this version of the problem with a chunk-level strategy</li>
 </ul></li>
 </ul>
 </div>
 </section>
+<section id="proposed-work-7" class="slide level2 smaller">
+<h2>Proposed Work</h2>
+<p><strong>Control Plane - Data Plane Gap</strong>: The algorithm and its analysis in the virtual control plane does not directly transfer to the data plane.</p>
+<ul>
+<li>In the virtual plane, it is assumed that a node can immediately retrieve and cache any object in the network</li>
+<li>The backpressure-based forwarding strategy in the virtual plane is prone to making impractical choices at a per-time-slot granularity, specifically in low traffic scenarios</li>
+<li>These and other disparities lead to a <em>gap</em> between the two planes that is difficult to amend</li>
+<li>While the data plane strategy works decently in practice, I believe this gap must be studied and quantified, even if it can’t be practically amended. For instance:
+<ul>
+<li>Measure the delay between a caching decision being made in the virtual plane, and if/when that decision is realized in the data plane</li>
+<li>Estimate the difference between performance and cost metrics that would be obtained under virtual plane assumptions vs.&nbsp;experiment results</li>
+</ul></li>
+</ul>
+</section>
 <section id="proposed-work-8" class="slide level2 smaller">
 <h2>Proposed Work</h2>
-<p><em>A reasonable combination of the following can be composed into a precise “proposed work” section.</em></p>
+<p><strong>Simulation Performance and Reproducibility</strong>: The simulation framework performs decently and is relatively clean, but it can be improved significantly.</p>
 <ul>
-<li>Impose cache bandwidth constraints (per-tier and total)</li>
-<li>Provide two versions w.r.t cache exclusivity (included and not)</li>
-<li>Include unequal object sizes</li>
-<li>Generalize penalties (not just constant, but dynamic and based on both rate allocations and cache variables)</li>
-<li>Impose penalty constraints</li>
-<li>Conduct more experiments, both to expand covered scenarios and to test above revisions</li>
-<li>Revise simulations to improve performance and reproducibility</li>
-<li>Develop data plane only model that observes interest aggregation</li>
-<li>Develop MinDelay-based model and policy as both a baseline and a potential alternative for low traffic scenarios</li>
+<li>Python, while convenient, is not the best choice to build highly-scalable DES frameworks. Julia is a great alternative that maintains convenience while providing much better performance</li>
+<li>Per-experiment multi-threading is not capturing parallelism effectively. Building the core components of the simulator in a multi-threaded way to improve <em>scale-up</em>, then enabling per-experiment <em>scale-out</em> will greatly improve performance.</li>
+<li>The current codebase has useful comments but little documentation and examples. Overall it doesn’t offer the best basis for reproducibility and future improvements.</li>
+<li>Addressing these will result in a robust codebase that allows me to run a more thorough experimental study, improve the credibility of my results and potentially give other researchers a tool to build upon</li>
 </ul>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
