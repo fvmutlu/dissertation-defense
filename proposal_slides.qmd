@@ -11,33 +11,17 @@ format:
     highlight-style: atom-one
 ---
 
-## Outline {.smaller}
+## Outline
 
 The outline of this presentation is as follows:
 
 1. General Context
 2. Joint Caching and Forwarding in Networks with Hybrid Storage Systems
-   - Motivation
-   - Related Work
-   - Contributions
-   - Proposed Work
 3. Other Contributions
-   - Joint Power Control and Caching in Wireless HetNets
-   - NDN for Data Intensive Science Experiments*
 4. Conclusion and Acknowledgements
 
 ::: {.footer}
 Outline
-:::
-
-::: {.notes}
-- We'll first go over the general context in which my research fits
-- We'll then cover two major research directions I've pursued and am pursuing
-- The first one makes up the bulk of the content of this presentation since it is work that I am heading
-- I will also take an aside while discussing that, to mention a more implementation-oriented project that I am part of, which originated the purpose of my work on the first topic
-- The second one is work which I played a major role in building, but was originally proposed by Derya Malak, who was a postdoc in our lab during my first year and a current collaborator 
-- The proposed work section will focus on the first of these topics and introduce extensions I plan on pursuing for the remainder of my dissertation work
-- Then of course there will be a brief conclusion
 :::
 
 ::: {.hidden}
@@ -57,12 +41,12 @@ $$
 \newcommand{\betasumnl}{\sum ^{\sigma_n}_{i=1} \beta_{n,i}}
 \newcommand{\betasumind}{\sum\limits ^{\sigma_n}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
+\newcommand{\drift}{\Delta(\mathbf{V}(t))}
+\newcommand{\pen}{\mathbb{E}[p(t)|\mathbf{V}(t)]}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 $$
 :::
-
-# Context
 
 ## Information Centric Networking
 
@@ -84,21 +68,20 @@ Context
 Context
 :::
 
-# Research Topic I
-<h3>Joint Caching and Forwarding in Networks with Hybrid Storage Systems</h3>
-
-## Overview {.smaller}
+## Overview* {.smaller}
 
 ::: {.incremental}
--  Data volume is growing exponentially, but capacities of in-network caches are stagnant
--  Enabling larger caches in a cost-effective way is not trivial
--  We consider the following:
+-  **Motivation**: Data volume is growing exponentially, but capacities of in-network caches are stagnant
+-  **Challenge**: Enabling larger caches in a cost-effective way is not trivial
+-  **Considerations**:
    -  How beneficial are larger caches?
    -  Are slower and larger storage elements viable as caches?
    -  What are the costs of operating large caches?
    -  How can we get the most out of caches in the network?
--  We develop a joint caching and forwarding strategy that incorporates these considerations
+-  **Goal**: Develop a policy that observes network traffic patterns and cache device characteristics to make smart caching and forwarding decisions
 :::
+
+# Motivation
 
 ## Toy Example {.smaller}
 
@@ -212,34 +195,36 @@ Motivation
 Motivation
 :::
 
-## The Cost Challenge
+## The Cost Challenge*
 
 ::: {.incremental}
 -  Caches are not free to use, every admission and replacement has a cost
--  With SSDs, these are more pronounced:
-   -  They wear out over time
+-  With additional cache devices, these are more pronounced:
+   -  SSDs can wear out over time
    -  Their slower rates mean cache state transitions take longer
-   -  Their per-replacement power consumption is larger*
+   -  They introduce additional power consumption
 :::
 
-## Coupling Caching with Forwarding {.smaller}
+::: {.footer}
+Motivation
+:::
+
+## Coupling Caching with Forwarding* {.smaller}
 
 ::: {.incremental}
 -  Benefits of ubiquitous caching offered by ICN architectures are more pronounced when caching and forwarding decisions are tightly coupled
-   -  "*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi
+   -  "*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ACM ICN 2014
 -  The need for this coupling is even more prevalent with larger, slower caches
    -  Based on current demand in different regions of the network, a cache miss at a node could be directed towards a closer node which caches the object in a slower tier or a further node which does so in a faster tier
 :::
 
-## Goal
-
-::: {.incremental}
--  We want a caching policy suitable for systems with a combination of storage elements with different performance and cost paremeters as caches
--  This policy needs to:
-   -  Balance frequency of requests served by cache tiers based on their transfer rates
-   -  Be adaptable to changing traffic patterns in the network
-   -  Offer a distributed implementation
+::: {.footer}
+Motivation
 :::
+
+## Goal*
+
+Placeholder.
 
 ::: {.footer}
 Motivation
@@ -254,21 +239,29 @@ Motivation
 -  *"Exploiting parallelism in hierarchical content stores for high-speed ICN routers"*, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017
    -  Follow-up to above works, integrates HCS design with NDN Forwarding Daemon (NFD)
 
-## Related Work {.smaller}
+::: {.footer}
+Related Work
+:::
+
+## Related Work* {.smaller}
 -  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
+-  *"On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks"*, S. Shukla, A. A. Abouzeid, WiOpt 2016
 
 ::: {.footer}
 Related Work
 :::
 
-## Related Work
+## Related Work*
 
--  *"VIP: a framework for joint dynamic forwarding and caching in named data networks"*, Edmund M. Yeh, Tracey Ho, Ying Cui, Michael Burd, Ran Liu, Derek Leong, ACM ICN 2014
-   -  (Placeholder)
+-  *"VIP: a framework for joint dynamic forwarding and caching in named data networks"*, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014
+    -   Model already includes read rate of caches
+    -   Lyapunov drift analysis integrates easily with costs
 
 ::: {.footer}
 Related Work
 :::
+
+# System Model
 
 ## Data Plane Model {.smaller}
 
@@ -282,6 +275,10 @@ Related Work
 -  An object evicted from a cache tier is allowed to potentially migrate to another tier at the same node
 :::
 
+::: {.footer}
+System Model
+:::
+
 ## Control Plane Model {.smaller}
 
 ::: {.incremental}
@@ -291,6 +288,10 @@ Related Work
 -  The *VIP count* of an object at a node can be interpreted as a queue that represents the unsatisfied demand for that object at that node
 -  VIPs are forwarded through the network in the virtual plane using virtual links; at the beginning of each time slot, each node decides where and how to forward its VIPs
 -  VIPs for an object are removed either at the source for that object, or at nodes that cache the object
+:::
+
+::: {.footer}
+System Model
 :::
 
 ## Model Notation {.smaller .scrollable}
@@ -312,26 +313,74 @@ Related Work
 |$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
 |$s^k_{n_j}(t)$ | Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$|
 |$p^k_{n_j}(t)$ | Penalty incurred by the choice of $s^k_{n_j}(t)$|
+|$p(t)$|Sum penalty incurred during $t$|
+|$\omega$|Penalty importance weight|
 |$V^k_n(t)$|VIP count for $k$ at $n$ during $t$|
+|$\mathbf{V}(t)$|Vector of VIP queue states during $t$|
 |$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
 : Table of Notations {tbl-colwidths="[20,80]"}
 
 ::: {.footer}
-Contributions
+System Model
 :::
 
-## VIP Queue Dynamics
+# Virtual Plane Optimization Framework
+
+## VIP Queue and Penalty Dynamics {.smaller}
 The VIP queue evolution for object $k$ at node $n$ can be described with the following, where $(x)^+ = max(x,0)$:
 ```{=tex}
 \begin{equation}
 \begin{split}
-    V^k_n(t+1) \leq & \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t) \\ 
-    & + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} r_{n_j} s^k_{n_j}(t) \Bigg)^+    
+    V^k_n(t+1) \leq & \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t) 
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} r_{n_j} s^k_{n_j}(t) \Bigg)^+    
 \end{split}
 \end{equation}
 ```
 
-## Virtual Plane Algorithm {.smaller}
+The penalty incurred by the caching action $s^k_{n_j}(t)$ can be defined in terms of utilization costs as follows:
+```{=tex}
+\begin{equation}
+    p^k_{n_j}(t) \triangleq 
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+       0, & \text{otherwise}
+   \end{array} \right.
+\end{equation}
+```
+
+With the sum penalty incurred during slot $t$ denoted as $p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$.
+
+::: {.footer}
+Optimization Framework
+:::
+
+## Optimization Goal {.smaller}
+Rather than aiming to make the optimal choice for all $s^k_{n_j}(t)$ and $\mu^k_{ab}(t)$ at each $t$, our objective is to minimize the following *drift-plus-penalty* expression:
+```{=tex}
+\begin{equation}
+    \drift + \omega \pen
+\end{equation}
+```
+where $\drift$ is the drift component defined as:
+```{=tex}
+\begin{equation}
+    \drift = \mathbb{E}[\mathcal{L}(\mathbf{V}(t+1))-\mc{L}(\mathbf{V}(t))|\mathbf{V}(t)]
+\end{equation}
+```
+and $\mc{L}(\mathbf{V}(t))$ is the Lyapunov function defined as:
+```{=tex}
+\begin{equation}
+    \mc{L}(\mathbf{V}(t)) = \sum\limits_{\nin, \kin} (V^k_n(t))^2
+\end{equation}
+```
+**Interpretation**: We want to minimize a combined bound of time-average queue backlog growth and accumulated penalty.
+
+::: {.footer}
+Optimization Framework
+:::
+
+## Virtual Plane Caching Algorithm {.smaller}
 At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
 
 -  **Caching**: Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
@@ -345,18 +394,12 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
         & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
 \end{align}
 ```
-```{=tex}
-\begin{equation}
-    p^k_{n_j}(t) \triangleq 
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-       0, & \text{otherwise}
-   \end{array} \right.
-\end{equation}
-```
 
-## Virtual Plane Algorithm {.smaller}
+::: {.footer}
+Optimization Framework
+:::
+
+## Virtual Plane Forwarding Algorithm {.smaller}
 At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
 
 -  **Forwarding**: Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose:
@@ -369,6 +412,10 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
         & \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
 \end{align}
 ```
+
+::: {.footer}
+Optimization Framework
+:::
 
 ## Analysis {.smaller}
 
@@ -400,6 +447,10 @@ $F^k_{ab}(t)$ satisfy the following for all $t \geq 1$:
 \end{equation}
 ```
 
+::: {.footer}
+Optimization Framework
+:::
+
 ## Analysis {.smaller}
 
 | Notation | Definition |
@@ -420,30 +471,49 @@ The elements of set $\mc{B}_{n,i}$ are pairs in the form of $(k,j)$, such that i
 \end{equation}
 ```
 
-## Analysis
+::: {.footer}
+Optimization Framework
+:::
 
-**Stability Region**: The VIP stability region $\Lambda$ of the network $\mc{G} = (\mc{N},\mc{L})$, is the set $\Lambda$ consisting of all VIP arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that the following holds:
+## Analysis {.smaller}
+
+**Stability Region**: We say that the queue $V^k_n(t)$ is stable if:
 ```{=tex}
 \begin{equation}
 \begin{split}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} & - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \\
-    & \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+    \limsup\limits_{t \rightarrow \infty} \frac{1}{t} \sum^t_{\tau = 1} 1_{[V^k_n(\tau) > \xi]} d\tau \rightarrow 0 \; \text{as} \; \xi \rightarrow \infty
 \end{split}
 \end{equation}
 ```
+where $1_{\{\cdot\}}$ is the indicator function.
+
+The VIP stability region $\Lambda$ of the network $\mc{G} = (\mc{N},\mc{L})$, is the set $\Lambda$ consisting of all VIP arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that the following holds:
+```{=tex}
+\begin{equation}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \quad \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+\end{equation}
+```
 When all exogenous request arrival rates abide by the bound described above, there is a feasible forwarding and caching policy in the virtual plane that can stabilize all VIP queues.
+
+::: {.footer}
+Optimization Framework
+:::
 
 ## Analysis {.smaller}
 
 | Notation | Definition |
 |:--:|:--------|
-|$\Psi(\boldsymbol{\lambda})$|(description pending)|
 |$N$|Number of nodes in the network, i.e. $N = |\mc{N}|$|
 |$A^k_{n,max}$| Finite value such that $A^k_n(t) \leq A^k_{n,max}$ for all $t$|
 |$A_{n,max}$| Maximum total exogenous arrivals at node $n$ during $t$ across all $\kin$, i.e. $A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}$|
 |$\mu^{out}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(n,b) \in \mc{L}$, i.e. $\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}$|
 |$\mu^{in}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(a,n) \in \mc{L}$, i.e. $\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}$|
-|$r_{n,max}$| Maximum total rate that can be served by all cache tiers at $n$, i.e. (pending)|
+|$r_{n,max}$| Maximum total rate that can be served by all cache tiers at $n$|
+|$\Psi(\boldsymbol{\lambda})$|Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy|
+
+::: {.footer}
+Optimization Framework
+:::
 
 ## Analysis {.smaller}
 
@@ -465,6 +535,10 @@ When all exogenous request arrival rates abide by the bound described above, the
 ```
 
 **Interpretation**: We can pick a large $\omega$ to push the time average penalty close to $\Psi(\boldsymbol{\lambda})$ at the cost of significantly increasing the average queue backlog and vice-versa.
+
+::: {.footer}
+Optimization Framework
+:::
 
 ## Solutions to Optimization Problems {.smaller}
 **Caching**: We can rewrite the optimization problem for the caching step.
@@ -489,6 +563,10 @@ When all exogenous request arrival rates abide by the bound described above, the
 \end{equation}
 ```
 
+::: {.footer}
+Optimization Framework
+:::
+
 ## Solutions to Optimization Problems {.smaller}
 **Caching**: Intuitively, we can think of the *net benefit* of admitting an object as its objective value minus the weighted cost of admission. Similarly, we can think of the net benefit of keeping an object in cache as its objective value plus the weighted cost of eviction.
 ```{=tex}
@@ -510,6 +588,10 @@ When all exogenous request arrival rates abide by the bound described above, the
 \end{equation}
 ```
 
+::: {.footer}
+Optimization Framework
+:::
+
 ## Solutions to Optimization Problems {.smaller}
 **Caching**: Using a transformation of variables, the problem can be written as a linear assignment problem. We can interpret this as deciding on caching variables per one-object cache space associated with each cache tier, rather than per-tier[^1].
 ```{=tex}
@@ -526,13 +608,25 @@ $\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}$. If $i \in \mc{I}_{n_j} = \{1 + 
 
 [^1]: Only possible due to same size objects assumption
 
+::: {.footer}
+Optimization Framework
+:::
+
 ## Solutions to Optimization Problems {.smaller}
 
 ![](images/gap.svg)
 
+::: {.footer}
+Optimization Framework
+:::
+
 ## Solutions to Optimization Problems {.smaller}
 
 ![](images/rlap.svg)
+
+::: {.footer}
+Optimization Framework
+:::
 
 ## Solutions to Optimization Problems {.smaller}
 **Forwarding**: The solution to the forwarding optimization problem is the classical *backpressure* solution.
@@ -545,6 +639,10 @@ $\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}$. If $i \in \mc{I}_{n_j} = \{1 + 
         & \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
 \end{align}
 ```
+
+::: {.footer}
+Optimization Framework
+:::
 
 ## Solutions to Optimization Problems {.smaller}
 **Forwarding**: The entire reverse link capacity would be allocated to transmitting VIPs for the object with the highest queue backlog differential between the two nodes.
@@ -566,6 +664,12 @@ $\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}$. If $i \in \mc{I}_{n_j} = \{1 + 
 \end{equation}
 ```
 
+::: {.footer}
+Optimization Framework
+:::
+
+# Data Plane Strategy
+
 ## Transition to Data Plane
 
 There are several considerations when applying our approach in the data plane:
@@ -574,7 +678,11 @@ There are several considerations when applying our approach in the data plane:
 -  Assumption that we have immediate access to any object for caching purposes does not hold 
 -  Algorithm can lead to oscillatory behavior for caching decisions
 
-## Data Plane Strategy {.smaller}
+::: {.footer}
+Data Plane Strategy
+:::
+
+## Data Plane Caching {.smaller}
 
 | Notation | Definition |
 |:--:|:--------|
@@ -596,7 +704,11 @@ Define the *eviction target* for tier $j$ at node $n$ as follows:
 \end{equation}
 ```
 
-## Data Plane Strategy {.smaller}
+::: {.footer}
+Data Plane Strategy
+:::
+
+## Data Plane Caching {.smaller}
 
 Define the *cache benefit* metric as follows:
 ```{=tex}
@@ -617,7 +729,11 @@ Define the *cache benefit* metric as follows:
    -  If $j^*$ is full, i.e. $|\mc{K}_{n_{j^*}}| = L_{n_{j^*}}$, $k$ replaces $k'_{n_{j^*}}$
 -  If a replacement happened in $j^* < |\mc{J}_n|$, set $k = k'_{n_{j^*}}$, then start the process over
 
-## Data Plane Strategy
+::: {.footer}
+Data Plane Strategy
+:::
+
+## Data Plane Forwarding
 
 **Data Plane Forwarding**: When a request for object $k \not \in \mc{K}_{n_j}, \; \forall \jin$, arrives at $n$, the request is forwarded to the following node.
 
@@ -627,6 +743,24 @@ Define the *cache benefit* metric as follows:
 \end{equation}
 ```
 
+::: {.footer}
+Data Plane Strategy
+:::
+
+## Chunk-level Decisions {.smaller}
+
+Note that our model describes the data plane in object-level terms as well. When applying our approach at the chunk-level in the data plane, we observe the following principles:
+
+-   If a data object is admitted to a cache tier, all its chunks must be admitted to the same tier.
+-   If a data object is evicted from a cache tier, all its chunks must be evicted from that tier.
+-   The forwarding decision described in (26) is made when a request for the first chunk of object $k$ arrives at node $n$. Requests for subsequent chunks of $k$ are forwarded to the same node, until the ending chunk is forwarded, after which time if a first chunk request arrives again, the decision will be made again.
+
+::: {.footer}
+Data Plane Strategy
+:::
+
+# Experiments
+
 ## Simulation Setup
 
 -  Object-level simulation environment built with Python using the SimPy library
@@ -634,6 +768,10 @@ Define the *cache benefit* metric as follows:
 -  Multi-threading allowing for thread-per-experiment execution
 -  Experiment parameters and output in JSON format for easy parsing
 -  Thorough statistic logging
+
+::: {.footer}
+Experiments
+:::
 
 ## Simulation Setup {.smaller}
 
@@ -758,19 +896,26 @@ class RoundRobinNode(Node):
 ```
 :::
 
+::: {.footer}
+Experiments
+:::
+
 ## Experiment Setting {.smaller}
 
 -  Experiments over four topologies: Abilene, GEANT, 4x4 Grid, 3-regular graph
 -  All nodes have caches, can be content sources and can generate requests
 -  For each $k$ a node is selected as $\mc{S}(k)$ uniformly at random
 -  Content sources have infinite read rate*
--  Routing scheme: Allow $n$ to forward requests for $k$ to any neighbor on *any* shortest path between $n$ and $\mc{S}(k)$ (in number of hops)
+-  Routing scheme: Allow $n$ to forward requests for $k$ to any neighbor on *any* shortest path between $n$ and $\mc{S}(k)$ (in number of hops)*
 -  Multi-tier adapted cost-unaware replacement baselines: LRU, LFU, FIFO, RANDOM
    -  LRU, FIFO and RANDOM paired with LCE admission
 -  Multi-tier adapted cost-aware baseline: Penalty Aware LFU
 -  All baseline caching policies paired with Least Response Time forwarding
 -  Multi-tier VIP ran with slot length of 1 sec and sliding window of size $T=100$
 
+::: {.footer}
+Experiments
+:::
 
 ## Experiment Setting {.smaller .scrollable}
 
@@ -787,6 +932,10 @@ class RoundRobinNode(Node):
 |$c^a_{n_2}$, $c^e_{n_2}$| Admission and eviction costs of tier 1 at each $n$|2, 1|
 : Parameters for all topologies {tbl-colwidths="[10,80,10]"}
 
+::: {.footer}
+Experiments
+:::
+
 ## Results I {.smaller}
 **Scenario**: No penalties ($\omega=0$) and $L_{n_2} = 100$ at each $n$.
 
@@ -797,6 +946,10 @@ Total delay, as fraction of total delay without any caching
 Cache hits, percentage of hits in the first tier on the left, total number of hits on the right
 
 ![](images/tops_hits_v3.svg){width=75% height=75% fig-align="center"}
+
+::: {.footer}
+Experiments
+:::
 
 ## Results II {.smaller}
 **Scenario**: Exclude cost-unaware policies, vary $\omega$. Pick best-performing $L_{n_2}$ value for each of LFU and VIP.
@@ -815,7 +968,13 @@ Delay vs. penalty ($\omega$ decreasing to the right)
 :::
 :::
 
-## Proposed Work
+::: {.footer}
+Experiments
+:::
+
+# Proposed Work
+
+## Improvements
 
 ::: {.fragment}
 There is room for improvement
@@ -829,7 +988,7 @@ There is room for improvement
 Super Funny Joke
 :::
 
-## Proposed Work {.smaller}
+## Cache Read Bandwidth {.smaller}
 
 **Cache Bandwidth Constraint**: Current model assumes read rate of each object is independent of all others.
 ```{=tex}
@@ -850,7 +1009,12 @@ We need to make this more accurate when considering slower caches.
    \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \; \forall t   
 \end{equation}
 ```
-## Proposed Work {.smaller}
+
+::: {.footer}
+Proposed Work
+:::
+
+## Cache Read Bandwidth {.smaller}
 
 **Cache Bandwidth Constraint**: This seemingly small change has the following consequences we have to reanalyze:
 
@@ -862,7 +1026,11 @@ We need to make this more accurate when considering slower caches.
 ```
 -  This changes the stability region analysis significantly, as it involves computing expected values for VIP flows and cache placements using a randomized policy
 
-## Proposed Work {.smaller}
+::: {.footer}
+Proposed Work
+:::
+
+## Cache Read Bandwidth {.smaller}
 
 **Cache Bandwidth Constraint**: This seemingly small change has the following consequences we have to reanalyze:
 
@@ -874,7 +1042,11 @@ We need to make this more accurate when considering slower caches.
 ```
 -  While this change makes the stability region analysis a bit more complicated, it is likely to reduce the complexity of the solution to the caching problem (*currently a strong hypothesis*)
 
-## Proposed Work {.smaller}
+::: {.footer}
+Proposed Work
+:::
+
+## Cache Exclusivity {.smaller}
 
 **Cache Exclusivity Constraint**: There is good reason to enforce this constraint in view of interest aggregation and hardware limitations. However, there are strong arguments in support of removing it:
 
@@ -885,7 +1057,11 @@ We need to make this more accurate when considering slower caches.
 
 While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements.
 
-## Proposed Work {.smaller}
+::: {.footer}
+Proposed Work
+:::
+
+## Unequal Object Sizes {.smaller}
 
 **Equal Object Sizes Assumption**: While this assumption makes our analysis and solution much more straightforward, it is hardly realistic.
 
@@ -901,9 +1077,13 @@ Let $z^k$ be the size of object $k$ in bits. Redefine $L_{n_j}$ be the cache cap
 \end{align}
 ```
 
+::: {.footer}
+Proposed Work
+:::
+
 The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be NP-hard.
 
-## Proposed Work {.smaller}
+## Unequal Object Sizes {.smaller}
 
 **Equal Object Sizes Assumption**: This change brings with it a set of other considerations:
 
@@ -919,7 +1099,11 @@ The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be
    -  It may be better to approach this version of the problem with a chunk-level strategy
 :::
 
-## Proposed Work {.smaller}
+::: {.footer}
+Proposed Work
+:::
+
+## Gap Between Planes {.smaller}
 
 **Control Plane - Data Plane Gap**: The algorithm and its analysis in the virtual control plane does not directly transfer to the data plane.
 
@@ -930,7 +1114,11 @@ The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be
    -  Measure the delay between a caching decision being made in the virtual plane, and if/when that decision is realized in the data plane
    -  Estimate the difference between performance and cost metrics that would be obtained under virtual plane assumptions vs. experiment results
 
-## Proposed Work {.smaller}
+::: {.footer}
+Proposed Work
+:::
+
+## Uh, Better Experiments, Obviously {.smaller}
 
 **Simulation Performance and Reproducibility**: The simulation framework performs decently and is relatively clean, but it can be improved significantly.
 
@@ -938,3 +1126,7 @@ The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be
 -  Per-experiment multi-threading is not capturing parallelism effectively. Building the core components of the simulator in a multi-threaded way to improve *scale-up*, then enabling per-experiment *scale-out* will greatly improve performance.
 -  The current codebase has useful comments but little documentation and examples. Overall it doesn't offer the best basis for reproducibility and future improvements.
 -  Addressing these will result in a robust codebase that allows me to run a more thorough experimental study, improve the credibility of my results and potentially give other researchers a tool to build upon
+
+::: {.footer}
+Proposed Work
+:::
