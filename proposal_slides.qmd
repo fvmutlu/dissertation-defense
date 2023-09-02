@@ -822,12 +822,96 @@ There is room for improvement
 :::
 
 ::: {.fragment}
-![... and it's a really big room](images/big-room.webp){width=65% height=65% fig-align="left"}
+![... and it's a big room](images/big-room.webp){width=65% height=65% fig-align="left"}
 :::
 
 ::: {.footer}
-Funny Joke
+Super Funny Joke
 :::
+
+## Proposed Work {.smaller}
+
+**Cache Bandwidth Constraint**: Current model assumes read rate of each object is independent of all others.
+```{=tex}
+\begin{equation}
+    V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+    
+\end{equation}
+```
+We need to make this more accurate when considering slower caches.
+```{=tex}
+\begin{equation}
+   \small{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r^k_{n_j}(t)} s^k_{n_j}(t) \Bigg)^+}    
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \; \forall t   
+\end{equation}
+```
+## Proposed Work {.smaller}
+
+**Cache Bandwidth Constraint**: This seemingly small change has the following consequences we have to reanalyze:
+
+-  We now have a third control action each time slot, which is in product form with another control action
+```{=tex}
+\begin{equation}
+\text{maximize} \quad \sum\limits_{\kin} \sum\limits_{\jin} V^k_{n}(t) r^k_{n_j}(t) s^k_{n_j}(t) - p^k_{n_j}(t)
+\end{equation}
+```
+-  This changes the stability region analysis significantly, as it involves computing expected values for VIP flows and cache placements using a randomized policy
+
+## Proposed Work {.smaller}
+
+**Cache Bandwidth Constraint**: This seemingly small change has the following consequences we have to reanalyze:
+
+-  As the read rate for each object each slot is no longer a constant, terms in various expressions that relate to VIPs that are drained via caching will now resemble a flow variable, much like other terms
+```{=tex}
+\begin{equation}
+   F^k_{n_j}(t) \triangleq r^k_{n_j}(t) s^k_{n_j}(t), \qquad f^k_{n_j} = \frac{1}{t} \sum^{t}_{\tau=1} r^k_{n_j}(\tau) s^k_{n_j}(\tau)
+\end{equation}
+```
+-  While this change makes the stability region analysis a bit more complicated, it is likely to reduce the complexity of the solution to the caching problem (*currently a strong hypothesis*)
+
+## Proposed Work {.smaller}
+
+**Cache Exclusivity Constraint**: There is good reason to enforce this constraint in view of interest aggregation and hardware limitations. However, there are strong arguments in support of removing it:
+
+-  Under cache exclusivity, the data plane strategy can't naturally handle *upward migrations*
+-  Lifting this constraint would make the algorithm less complex as it would simply operate over individual tiers independently
+   -  This also has the benefit of not requiring any adaptations to baselines
+-  As peer-to-peer DMA becomes more widely available and reliable, the assumption that multiple cache devices can supply the link simultaneously and increase read rates may be better supported
+
+While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements
+
+## Proposed Work {.smaller}
+
+**Equal Object Sizes Assumption**: While this assumption makes our analysis and solution much more straightforward, it is hardly realistic.
+
+Let $z^k$ be the size of object $k$ in bits. Redefine $L_{n_j}$ be the cache capacity of tier $j$ at node $n$ in bits, instead of objects. The caching problem changes as follows.
+```{=tex}
+\begin{align}
+    \text{maximize}
+        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+    \text{subject to}
+        & \quad \sum\limits_{\kin} z^k s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}
+```
+
+The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be NP-hard.
+
+## Proposed Work {.smaller}
+
+**Equal Object Sizes Assumption**: This change brings with it a set of other considerations:
+
+-  If combined with the enforcing of cache bandwidth constraints, the problem may reveal a low-complexity "greedy" solution (*currently a hypothesis*)
+-  However, we also have to reevaluate how we treat VIPs for objects
+   -  Copies of a larger object are produced at a slower rate
+   -  Therefore, VIPs for a smaller object can be drained at a higher rate
+   -  If we do not alter the VIP metric to account for object sizes, this may skew network service (both caching and forwarding) to prioritize smaller objects
 
 ## Proposed Work {.smaller}
 
@@ -858,14 +942,3 @@ Funny Joke
 -  Revise simulations to improve performance and reproducibility
 -  Develop data plane only model that observes interest aggregation
 -  Develop MinDelay-based model and policy as both a baseline and a potential alternative for low traffic scenarios
-
-## My Ideal Contribution {.smaller}
-
-A joint forwarding and caching policy that:
-
--  Is well suited for actual ICN implementations, i.e. modeling effects of core features like interest aggregation
--  Provides a well-defined network capacity region and guarantees network stability in that region
--  Guarantees a configurable trade-off between delay (proportional with queue backlogs) and some penalty function 
--  Is distributed without any loss of said guarantees
--  Does not separate control plane vs. data plane states, i.e. no-gap
--  Is practical to implement, i.e. computational complexity scales reasonably

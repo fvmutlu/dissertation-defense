@@ -1467,15 +1467,97 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 <div class="quarto-figure quarto-figure-left">
 <figure>
 <p><img data-src="images/big-room.webp" style="width:65.0%;height:65.0%"></p>
-<figcaption>… and it’s a really big room</figcaption>
+<figcaption>… and it’s a big room</figcaption>
 </figure>
 </div>
 </div>
 <div class="footer">
-<p>Funny Joke</p>
+<p>Super Funny Joke</p>
 </div>
 </section>
 <section id="proposed-work-1" class="slide level2 smaller">
+<h2>Proposed Work</h2>
+<p><strong>Cache Bandwidth Constraint</strong>: Current model assumes read rate of each object is independent of all others.</p>
+<span class="math display">\[\begin{equation}
+    V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+    
+\end{equation}\]</span>
+<p>We need to make this more accurate when considering slower caches.</p>
+<span class="math display">\[\begin{equation}
+   \small{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r^k_{n_j}(t)} s^k_{n_j}(t) \Bigg)^+}    
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \; \forall t   
+\end{equation}\]</span>
+</section>
+<section id="proposed-work-2" class="slide level2 smaller">
+<h2>Proposed Work</h2>
+<p><strong>Cache Bandwidth Constraint</strong>: This seemingly small change has the following consequences we have to reanalyze:</p>
+<ul>
+<li>We now have a third control action each time slot, which is in product form with another control action</li>
+</ul>
+<span class="math display">\[\begin{equation}
+\text{maximize} \quad \sum\limits_{\kin} \sum\limits_{\jin} V^k_{n}(t) r^k_{n_j}(t) s^k_{n_j}(t) - p^k_{n_j}(t)
+\end{equation}\]</span>
+<ul>
+<li>This changes the stability region analysis significantly, as it involves computing expected values for VIP flows and cache placements using a randomized policy</li>
+</ul>
+</section>
+<section id="proposed-work-3" class="slide level2 smaller">
+<h2>Proposed Work</h2>
+<p><strong>Cache Bandwidth Constraint</strong>: This seemingly small change has the following consequences we have to reanalyze:</p>
+<ul>
+<li>As the read rate for each object each slot is no longer a constant, terms in various expressions that relate to VIPs that are drained via caching will now resemble a flow variable, much like other terms</li>
+</ul>
+<span class="math display">\[\begin{equation}
+   F^k_{n_j}(t) \triangleq r^k_{n_j}(t) s^k_{n_j}(t), \qquad f^k_{n_j} = \frac{1}{t} \sum^{t}_{\tau=1} r^k_{n_j}(\tau) s^k_{n_j}(\tau)
+\end{equation}\]</span>
+<ul>
+<li>While this change makes the stability region analysis a bit more complicated, it is likely to reduce the complexity of the solution to the caching problem (<em>currently a strong hypothesis</em>)</li>
+</ul>
+</section>
+<section id="proposed-work-4" class="slide level2 smaller">
+<h2>Proposed Work</h2>
+<p><strong>Cache Exclusivity Constraint</strong>: There is good reason to enforce this constraint in view of interest aggregation and hardware limitations. However, there are strong arguments in support of removing it:</p>
+<ul>
+<li>Under cache exclusivity, the data plane strategy can’t naturally handle <em>upward migrations</em></li>
+<li>Lifting this constraint would make the algorithm less complex as it would simply operate over individual tiers independently
+<ul>
+<li>This also has the benefit of not requiring any adaptations to baselines</li>
+</ul></li>
+<li>As peer-to-peer DMA becomes more widely available and reliable, the assumption that multiple cache devices can supply the link simultaneously and increase read rates may be better supported</li>
+</ul>
+<p>While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements</p>
+</section>
+<section id="proposed-work-5" class="slide level2 smaller">
+<h2>Proposed Work</h2>
+<p><strong>Equal Object Sizes Assumption</strong>: While this assumption makes our analysis and solution much more straightforward, it is hardly realistic.</p>
+<p>Let <span class="math inline">\(z^k\)</span> be the size of object <span class="math inline">\(k\)</span> in bits. Redefine <span class="math inline">\(L_{n_j}\)</span> be the cache capacity of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> in bits, instead of objects. The caching problem changes as follows.</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} z^k s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}\]</span>
+<p>The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be NP-hard.</p>
+</section>
+<section id="proposed-work-6" class="slide level2 smaller">
+<h2>Proposed Work</h2>
+<p><strong>Equal Object Sizes Assumption</strong>: This change brings with it a suite of other considerations:</p>
+<ul>
+<li>If combined with the enforcing of cache bandwidth constraints, the problem may reveal a low-complexity “greedy” solution (<em>currently a hypothesis</em>)</li>
+<li>However, we also have to reevaluate how we treat VIPs for objects
+<ul>
+<li>Copies of a larger object are produced at a slower rate</li>
+<li>Therefore, VIPs for a smaller object can be drained at a higher rate</li>
+<li>If we do not alter the VIP metric to account for object sizes, this may skew network service (both caching and forwarding) to prioritize smaller objects</li>
+</ul></li>
+</ul>
+</section>
+<section id="proposed-work-7" class="slide level2 smaller">
 <h2>Proposed Work</h2>
 <div>
 <ul>
@@ -1498,7 +1580,7 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </ul>
 </div>
 </section>
-<section id="proposed-work-2" class="slide level2 smaller">
+<section id="proposed-work-8" class="slide level2 smaller">
 <h2>Proposed Work</h2>
 <p><em>A reasonable combination of the following can be composed into a precise “proposed work” section.</em></p>
 <ul>
@@ -1511,18 +1593,6 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 <li>Revise simulations to improve performance and reproducibility</li>
 <li>Develop data plane only model that observes interest aggregation</li>
 <li>Develop MinDelay-based model and policy as both a baseline and a potential alternative for low traffic scenarios</li>
-</ul>
-</section>
-<section id="my-ideal-contribution" class="slide level2 smaller">
-<h2>My Ideal Contribution</h2>
-<p>A joint forwarding and caching policy that:</p>
-<ul>
-<li>Is well suited for actual ICN implementations, i.e.&nbsp;modeling effects of core features like interest aggregation</li>
-<li>Provides a well-defined network capacity region and guarantees network stability in that region</li>
-<li>Guarantees a configurable trade-off between delay (proportional with queue backlogs) and some penalty function</li>
-<li>Is distributed without any loss of said guarantees</li>
-<li>Does not separate control plane vs.&nbsp;data plane states, i.e.&nbsp;no-gap</li>
-<li>Is practical to implement, i.e.&nbsp;computational complexity scales reasonably</li>
 </ul>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
