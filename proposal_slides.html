@@ -833,7 +833,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="optimization-goal" class="slide level2 smaller">
 <h2>Optimization Goal</h2>
-<p>Rather than aiming to make the optimal choice for all <span class="math inline">\(s^k_{n_j}(t)\)</span> and <span class="math inline">\(\mu^k_{ab}(t)\)</span> at each <span class="math inline">\(t\)</span>, our objective is to minimize the following <em>drift-plus-penalty</em> expression:</p>
+<p>We aim to operate as close to the boundary of the VIP network stability region as possible while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.</p>
+<p>More precisely, our objective is to minimize the following <em>drift-plus-penalty</em> expression:</p>
 <span class="math display">\[\begin{equation}
     \drift + \omega \pen
 \end{equation}\]</span>
@@ -845,16 +846,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <span class="math display">\[\begin{equation}
     \mc{L}(\mathbf{V}(t)) = \sum\limits_{\nin, \kin} (V^k_n(t))^2
 \end{equation}\]</span>
-<p><strong>Interpretation</strong>: We want to minimize a combined bound of time-average queue backlog growth and accumulated penalty.</p>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
 </section>
 <section id="virtual-plane-caching-algorithm" class="slide level2 smaller">
 <h2>Virtual Plane Caching Algorithm</h2>
-<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
+<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform <strong>caching</strong> as follows:</p>
 <ul>
-<li><strong>Caching</strong>: Choose <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</li>
+<li>Choose <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</li>
 </ul>
 <span class="math display">\[\begin{align}
     \text{maximize}
@@ -870,9 +870,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="virtual-plane-forwarding-algorithm" class="slide level2 smaller">
 <h2>Virtual Plane Forwarding Algorithm</h2>
-<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
+<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform <strong>forwarding</strong> as follows:</p>
 <ul>
-<li><strong>Forwarding</strong>: Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
+<li>Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
 </ul>
 <span class="math display">\[\begin{align}
     \text{maximize}
@@ -887,7 +887,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="analysis" class="slide level2 smaller">
 <h2>Analysis</h2>
+<p>The VIP <strong>stability region</strong> <span class="math inline">\(\Lambda\)</span> of the network <span class="math inline">\(\mc{G} = (\mc{N},\mc{L})\)</span>, is the set <span class="math inline">\(\Lambda\)</span> consisting of all VIP arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that the following holds:</p>
+<span class="math display">\[\begin{equation}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \quad \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+\end{equation}\]</span>
 <table>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Notation</th>
@@ -900,136 +908,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <td style="text-align: left;">Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="math inline">\(F^k_{ab}(t)\)</span></td>
-<td style="text-align: left;">Number of VIPs of <span class="math inline">\(k\)</span> sent over <span class="math inline">\((a,b)\)</span> during slot <span class="math inline">\(t\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mc{B}_{n,i}\)</span></td>
+<td style="text-align: left;">i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
+<td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span></td>
 </tr>
 </tbody>
 </table>
-<span class="math display">\[\begin{equation}
-f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
-\end{equation}\]</span>
-<p><span class="math inline">\(F^k_{ab}(t)\)</span> satisfy the following for all <span class="math inline">\(t \geq 1\)</span>:</p>
-<span class="math display">\[\begin{equation}
-    F^k_{ab}(t) \geq 0, F^k_{nn}(t) = 0, F^k_{\mc{S}(k)n}(t) = 0, \; \forall a,b,n \in \mc{N}, \kin,
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    F^k_{ab}(t) = 0, \; \forall a,b \in \mc{N}, \kin, (a,b) \not \in \mc{L}^k
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-   \sum\limits_{\kin} F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
-\end{equation}\]</span>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
 </section>
 <section id="analysis-1" class="slide level2 smaller">
 <h2>Analysis</h2>
-<table>
-<colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\sigma_n\)</span></td>
-<td style="text-align: left;">The total number of possible ways any number of objects <span class="math inline">\(\kin\)</span> can be placed in cache tiers at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mc{B}_{n,i}\)</span></td>
-<td style="text-align: left;">i-th among all <span class="math inline">\(\sigma_n\)</span> cache placement sets at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
-<td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span></td>
-</tr>
-</tbody>
-</table>
-<p>The elements of set <span class="math inline">\(\mc{B}_{n,i}\)</span> are pairs in the form of <span class="math inline">\((k,j)\)</span>, such that if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span>, object <span class="math inline">\(k\)</span> is cached in tier <span class="math inline">\(j\)</span>. <span class="math inline">\(\beta_{n,i}\)</span> satisfy the following:</p>
-<span class="math display">\[\begin{equation}
-    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma_n, \quad \nin
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    \betasum = 1, \quad \forall \nin
-\end{equation}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="analysis-2" class="slide level2 smaller">
-<h2>Analysis</h2>
-<p><strong>Stability Region</strong>: We say that the queue <span class="math inline">\(V^k_n(t)\)</span> is stable if:</p>
-<span class="math display">\[\begin{equation}
-\begin{split}
-    \limsup\limits_{t \rightarrow \infty} \frac{1}{t} \sum^t_{\tau = 1} 1_{[V^k_n(\tau) &gt; \xi]} d\tau \rightarrow 0 \; \text{as} \; \xi \rightarrow \infty
-\end{split}
-\end{equation}\]</span>
-<p>where <span class="math inline">\(1_{\{\cdot\}}\)</span> is the indicator function.</p>
-<p>The VIP stability region <span class="math inline">\(\Lambda\)</span> of the network <span class="math inline">\(\mc{G} = (\mc{N},\mc{L})\)</span>, is the set <span class="math inline">\(\Lambda\)</span> consisting of all VIP arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that the following holds:</p>
-<span class="math display">\[\begin{equation}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \quad \forall \nin, \; \kin, \; n \not = \mc{S}(k)
-\end{equation}\]</span>
-<p>When all exogenous request arrival rates abide by the bound described above, there is a feasible forwarding and caching policy in the virtual plane that can stabilize all VIP queues.</p>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="analysis-3" class="slide level2 smaller">
-<h2>Analysis</h2>
-<table>
-<colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(N\)</span></td>
-<td style="text-align: left;">Number of nodes in the network, i.e.&nbsp;<span class="math inline">\(N = |\mc{N}|\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(A^k_{n,max}\)</span></td>
-<td style="text-align: left;">Finite value such that <span class="math inline">\(A^k_n(t) \leq A^k_{n,max}\)</span> for all <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(A_{n,max}\)</span></td>
-<td style="text-align: left;">Maximum total exogenous arrivals at node <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span> across all <span class="math inline">\(\kin\)</span>, i.e.&nbsp;<span class="math inline">\(A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mu^{out}_{n,max}\)</span></td>
-<td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((n,b) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mu^{in}_{n,max}\)</span></td>
-<td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((a,n) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(r_{n,max}\)</span></td>
-<td style="text-align: left;">Maximum total rate that can be served by all cache tiers at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span></td>
-<td style="text-align: left;">Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy</td>
-</tr>
-</tbody>
-</table>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="analysis-4" class="slide level2 smaller">
-<h2>Analysis</h2>
-<p><strong>VIP Backlog/Penalty Bounds</strong>: Given VIP arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon} = (\epsilon^k_n)_{\nin, \kin} \succ \mathbf{0}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following bounds:</p>
+<p>Given VIP arrival rate vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following:</p>
 <span class="math display">\[\begin{equation}
     \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
 \end{equation}\]</span>
@@ -1039,7 +933,7 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 <span class="math display">\[\begin{equation}
     B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
 \end{equation}\]</span>
-<p><strong>Interpretation</strong>: We can pick a large <span class="math inline">\(\omega\)</span> to push the time average penalty close to <span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> at the cost of significantly increasing the average queue backlog and vice-versa.</p>
+<p><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> is the minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.</p>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1069,7 +963,7 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </section>
 <section id="solutions-to-optimization-problems-1" class="slide level2 smaller">
 <h2>Solutions to Optimization Problems</h2>
-<p><strong>Caching</strong>: Intuitively, we can think of the <em>net benefit</em> of admitting an object as its objective value minus the weighted cost of admission. Similarly, we can think of the net benefit of keeping an object in cache as its objective value plus the weighted cost of eviction.</p>
+<p><strong>Caching</strong>: We can rewrite the optimization problem for the caching step.</p>
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
@@ -1120,7 +1014,7 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </section>
 <section id="solutions-to-optimization-problems-5" class="slide level2 smaller">
 <h2>Solutions to Optimization Problems</h2>
-<p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is the classical <em>backpressure</em> solution.</p>
+<p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is as in (Yeh, 2014).</p>
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
@@ -1134,7 +1028,7 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </section>
 <section id="solutions-to-optimization-problems-6" class="slide level2 smaller">
 <h2>Solutions to Optimization Problems</h2>
-<p><strong>Forwarding</strong>: The entire reverse link capacity would be allocated to transmitting VIPs for the object with the highest queue backlog differential between the two nodes.</p>
+<p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is as in (Yeh, 2014).</p>
 <span class="math display">\[\begin{equation}
    \mu^k_{ab}(t) =
    \left\{ \begin{array}{ll}
@@ -1171,6 +1065,14 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </section>
 <section id="data-plane-caching" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
+<p>Define the <em>cache score</em> metric as follows:</p>
+<span class="math display">\[\begin{equation}
+    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
+\end{equation}\]</span>
+<p>Define the <em>eviction target</em> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
+<span class="math display">\[\begin{equation}
+   k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
+\end{equation}\]</span>
 <table>
 <colgroup>
 <col style="width: 30%">
@@ -1197,14 +1099,6 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </tr>
 </tbody>
 </table>
-<p>Define the <em>cache score</em> metric as follows:</p>
-<span class="math display">\[\begin{equation}
-    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
-\end{equation}\]</span>
-<p>Define the <em>eviction target</em> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
-<span class="math display">\[\begin{equation}
-   k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
-\end{equation}\]</span>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
@@ -1235,7 +1129,7 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </section>
 <section id="data-plane-forwarding" class="slide level2">
 <h2>Data Plane Forwarding</h2>
-<p><strong>Data Plane Forwarding</strong>: When a request for object <span class="math inline">\(k \not \in \mc{K}_{n_j}, \; \forall \jin\)</span>, arrives at <span class="math inline">\(n\)</span>, the request is forwarded to the following node.</p>
+<p><strong>Data Plane Forwarding</strong>: Forwarding strategy is as in (Yeh, 2014). When a request for object <span class="math inline">\(k \not \in \mc{K}_{n_j}, \; \forall \jin\)</span>, arrives at <span class="math inline">\(n\)</span>, the request is forwarded to the following node.</p>
 <span class="math display">\[\begin{equation}
     b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
 \end{equation}\]</span>
@@ -1243,13 +1137,12 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 <p>Data Plane Strategy</p>
 </div>
 </section>
-<section id="chunk-level-decisions" class="slide level2 smaller">
+<section id="chunk-level-decisions" class="slide level2">
 <h2>Chunk-level Decisions</h2>
-<p>Note that our model describes the data plane in object-level terms as well. When applying our approach at the chunk-level in the data plane, we observe the following principles:</p>
+<p>At the chunk-level in the data plane, we observe the following principles:</p>
 <ul>
-<li>If a data object is admitted to a cache tier, all its chunks must be admitted to the same tier.</li>
-<li>If a data object is evicted from a cache tier, all its chunks must be evicted from that tier.</li>
-<li>The forwarding decision described in (26) is made when a request for the first chunk of object <span class="math inline">\(k\)</span> arrives at node <span class="math inline">\(n\)</span>. Requests for subsequent chunks of <span class="math inline">\(k\)</span> are forwarded to the same node, until the ending chunk is forwarded, after which time if a first chunk request arrives again, the decision will be made again.</li>
+<li>If a data object is admitted to (evicted from) a cache tier, all its chunks must be admitted to (evicted from) that tier.</li>
+<li>Forwarding decision is made upon receiving request for a first chunk. Requests for subsequent chunks are forwarded to the same node.</li>
 </ul>
 <div class="footer">
 <p>Data Plane Strategy</p>
@@ -1777,6 +1670,59 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 <div class="footer">
 <p>System Model Notation</p>
 </div>
+</section>
+<section id="appendix-b-analysis-notation" class="slide level2 smaller scrollable">
+<h2>Appendix B: Analysis Notation</h2>
+<table>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f^k_{ab}\)</span></td>
+<td style="text-align: left;">Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(F^k_{ab}(t)\)</span></td>
+<td style="text-align: left;">Number of VIPs of <span class="math inline">\(k\)</span> sent over <span class="math inline">\((a,b)\)</span> during slot <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(N\)</span></td>
+<td style="text-align: left;">Number of nodes in the network, i.e.&nbsp;<span class="math inline">\(N = |\mc{N}|\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A^k_{n,max}\)</span></td>
+<td style="text-align: left;">Finite value such that <span class="math inline">\(A^k_n(t) \leq A^k_{n,max}\)</span> for all <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_{n,max}\)</span></td>
+<td style="text-align: left;">Maximum total exogenous arrivals at node <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span> across all <span class="math inline">\(\kin\)</span>, i.e.&nbsp;<span class="math inline">\(A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mu^{out}_{n,max}\)</span></td>
+<td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((n,b) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mu^{in}_{n,max}\)</span></td>
+<td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((a,n) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(r_{n,max}\)</span></td>
+<td style="text-align: left;">Maximum total rate that can be served by all cache tiers at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span></td>
+<td style="text-align: left;">Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy</td>
+</tr>
+</tbody>
+</table>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
 

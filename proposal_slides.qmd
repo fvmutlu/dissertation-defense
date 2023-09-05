@@ -360,7 +360,9 @@ Optimization Framework
 :::
 
 ## Optimization Goal {.smaller}
-Rather than aiming to make the optimal choice for all $s^k_{n_j}(t)$ and $\mu^k_{ab}(t)$ at each $t$, our objective is to minimize the following *drift-plus-penalty* expression:
+We aim to operate as close to the boundary of the VIP network stability region as possible while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.
+
+More precisely, our objective is to minimize the following *drift-plus-penalty* expression:
 ```{=tex}
 \begin{equation}
     \drift + \omega \pen
@@ -378,16 +380,15 @@ and $\mc{L}(\mathbf{V}(t))$ is the Lyapunov function defined as:
     \mc{L}(\mathbf{V}(t)) = \sum\limits_{\nin, \kin} (V^k_n(t))^2
 \end{equation}
 ```
-**Interpretation**: We want to minimize a combined bound of time-average queue backlog growth and accumulated penalty.
 
 ::: {.footer}
 Optimization Framework
 :::
 
 ## Virtual Plane Caching Algorithm {.smaller}
-At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
+At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform **caching** as follows:
 
--  **Caching**: Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
+- Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -404,9 +405,9 @@ Optimization Framework
 :::
 
 ## Virtual Plane Forwarding Algorithm {.smaller}
-At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform caching and forwarding as follows:
+At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform **forwarding** as follows:
 
--  **Forwarding**: Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose:
+- Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose:
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -423,97 +424,19 @@ Optimization Framework
 
 ## Analysis {.smaller}
 
-| Notation | Definition |
-|:--:|:--------|
-|$f^k_{ab}$|Time-average VIP flow for $k$ over $(a,b)$|
-|$F^k_{ab}(t)$|Number of VIPs of $k$ sent over $(a,b)$ during slot $t$|
-
-```{=tex}
-\begin{equation}
-f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
-\end{equation}
-```
-
-$F^k_{ab}(t)$ satisfy the following for all $t \geq 1$:
-```{=tex}
-\begin{equation}
-    F^k_{ab}(t) \geq 0, F^k_{nn}(t) = 0, F^k_{\mc{S}(k)n}(t) = 0, \; \forall a,b,n \in \mc{N}, \kin,
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    F^k_{ab}(t) = 0, \; \forall a,b \in \mc{N}, \kin, (a,b) \not \in \mc{L}^k
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-   \sum\limits_{\kin} F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
-\end{equation}
-```
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Analysis {.smaller}
-
-| Notation | Definition |
-|:--:|:--------|
-|$\sigma_n$|The total number of possible ways any number of objects $\kin$ can be placed in cache tiers at $n$|
-|$\mc{B}_{n,i}$|i-th among all $\sigma_n$ cache placement sets at $n$|
-|$\beta_{n,i}$|Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$|
-
-The elements of set $\mc{B}_{n,i}$ are pairs in the form of $(k,j)$, such that if $(k,j) \in \mc{B}_{n,i}$, object $k$ is cached in tier $j$. $\beta_{n,i}$ satisfy the following:
-```{=tex}
-\begin{equation}
-    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma_n, \quad \nin
-\end{equation}
-```
-```{=tex}
-\begin{equation}
-    \betasum = 1, \quad \forall \nin
-\end{equation}
-```
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Analysis {.smaller}
-
-**Stability Region**: We say that the queue $V^k_n(t)$ is stable if:
-```{=tex}
-\begin{equation}
-\begin{split}
-    \limsup\limits_{t \rightarrow \infty} \frac{1}{t} \sum^t_{\tau = 1} 1_{[V^k_n(\tau) > \xi]} d\tau \rightarrow 0 \; \text{as} \; \xi \rightarrow \infty
-\end{split}
-\end{equation}
-```
-where $1_{\{\cdot\}}$ is the indicator function.
-
-The VIP stability region $\Lambda$ of the network $\mc{G} = (\mc{N},\mc{L})$, is the set $\Lambda$ consisting of all VIP arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that the following holds:
+The VIP **stability region** $\Lambda$ of the network $\mc{G} = (\mc{N},\mc{L})$, is the set $\Lambda$ consisting of all VIP arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that the following holds:
 ```{=tex}
 \begin{equation}
     \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \quad \forall \nin, \; \kin, \; n \not = \mc{S}(k)
 \end{equation}
 ```
-When all exogenous request arrival rates abide by the bound described above, there is a feasible forwarding and caching policy in the virtual plane that can stabilize all VIP queues.
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Analysis {.smaller}
 
 | Notation | Definition |
 |:--:|:--------|
-|$N$|Number of nodes in the network, i.e. $N = |\mc{N}|$|
-|$A^k_{n,max}$| Finite value such that $A^k_n(t) \leq A^k_{n,max}$ for all $t$|
-|$A_{n,max}$| Maximum total exogenous arrivals at node $n$ during $t$ across all $\kin$, i.e. $A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}$|
-|$\mu^{out}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(n,b) \in \mc{L}$, i.e. $\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}$|
-|$\mu^{in}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(a,n) \in \mc{L}$, i.e. $\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}$|
-|$r_{n,max}$| Maximum total rate that can be served by all cache tiers at $n$|
-|$\Psi(\boldsymbol{\lambda})$|Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy|
+|$f^k_{ab}$|Time-average VIP flow for $k$ over $(a,b)$|
+|$\mc{B}_{n,i}$|i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1|
+|$\beta_{n,i}$|Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$|
+
 
 ::: {.footer}
 Optimization Framework
@@ -521,7 +444,7 @@ Optimization Framework
 
 ## Analysis {.smaller}
 
-**VIP Backlog/Penalty Bounds**: Given VIP arrival rate vector $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$, if there exists $\boldsymbol{\epsilon} = (\epsilon^k_n)_{\nin, \kin} \succ \mathbf{0}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then the network of VIP queues under the proposed algorithm satisfies the following bounds:
+Given VIP arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\epsilon}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then the network of VIP queues under the proposed algorithm satisfies the following:
 ```{=tex}
 \begin{equation}
     \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
@@ -537,8 +460,7 @@ Optimization Framework
     B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
 \end{equation}
 ```
-
-**Interpretation**: We can pick a large $\omega$ to push the time average penalty close to $\Psi(\boldsymbol{\lambda})$ at the cost of significantly increasing the average queue backlog and vice-versa.
+$\Psi(\boldsymbol{\lambda})$ is the minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.
 
 ::: {.footer}
 Optimization Framework
@@ -572,7 +494,7 @@ Optimization Framework
 :::
 
 ## Solutions to Optimization Problems {.smaller}
-**Caching**: Intuitively, we can think of the *net benefit* of admitting an object as its objective value minus the weighted cost of admission. Similarly, we can think of the net benefit of keeping an object in cache as its objective value plus the weighted cost of eviction.
+**Caching**: We can rewrite the optimization problem for the caching step.
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -633,7 +555,7 @@ Optimization Framework
 :::
 
 ## Solutions to Optimization Problems {.smaller}
-**Forwarding**: The solution to the forwarding optimization problem is the classical *backpressure* solution.
+**Forwarding**: The solution to the forwarding optimization problem is as in (Yeh, 2014).
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -649,7 +571,7 @@ Optimization Framework
 :::
 
 ## Solutions to Optimization Problems {.smaller}
-**Forwarding**: The entire reverse link capacity would be allocated to transmitting VIPs for the object with the highest queue backlog differential between the two nodes.
+**Forwarding**: The solution to the forwarding optimization problem is as in (Yeh, 2014).
 ```{=tex}
 \begin{equation}
    \mu^k_{ab}(t) =
@@ -688,12 +610,6 @@ Data Plane Strategy
 
 ## Data Plane Caching {.smaller}
 
-| Notation | Definition |
-|:--:|:--------|
-|$\mc{v}^k_{ab}$|Actual number of VIPs for $k$ transmitted over $(a,b)$ during $t$|
-|$T$|Size of a sliding window of time slots|
-|$\mc{K}_{n_j}$|Set of objects currently cached in tier $j$ at $n$|
-
 Define the *cache score* metric as follows:
 ```{=tex}
 \begin{equation}
@@ -707,6 +623,12 @@ Define the *eviction target* for tier $j$ at node $n$ as follows:
    k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
 \end{equation}
 ```
+
+| Notation | Definition |
+|:--:|:--------|
+|$\mc{v}^k_{ab}$|Actual number of VIPs for $k$ transmitted over $(a,b)$ during $t$|
+|$T$|Size of a sliding window of time slots|
+|$\mc{K}_{n_j}$|Set of objects currently cached in tier $j$ at $n$|
 
 ::: {.footer}
 Data Plane Strategy
@@ -739,7 +661,7 @@ Data Plane Strategy
 
 ## Data Plane Forwarding
 
-**Data Plane Forwarding**: When a request for object $k \not \in \mc{K}_{n_j}, \; \forall \jin$, arrives at $n$, the request is forwarded to the following node.
+**Data Plane Forwarding**: Forwarding strategy is as in (Yeh, 2014). When a request for object $k \not \in \mc{K}_{n_j}, \; \forall \jin$, arrives at $n$, the request is forwarded to the following node.
 
 ```{=tex}
 \begin{equation}
@@ -751,13 +673,12 @@ Data Plane Strategy
 Data Plane Strategy
 :::
 
-## Chunk-level Decisions {.smaller}
+## Chunk-level Decisions
 
-Note that our model describes the data plane in object-level terms as well. When applying our approach at the chunk-level in the data plane, we observe the following principles:
+At the chunk-level in the data plane, we observe the following principles:
 
--   If a data object is admitted to a cache tier, all its chunks must be admitted to the same tier.
--   If a data object is evicted from a cache tier, all its chunks must be evicted from that tier.
--   The forwarding decision described in (26) is made when a request for the first chunk of object $k$ arrives at node $n$. Requests for subsequent chunks of $k$ are forwarded to the same node, until the ending chunk is forwarded, after which time if a first chunk request arrives again, the decision will be made again.
+-   If a data object is admitted to (evicted from) a cache tier, all its chunks must be admitted to (evicted from) that tier.
+-   Forwarding decision is made upon receiving request for a first chunk. Requests for subsequent chunks are forwarded to the same node.
 
 ::: {.footer}
 Data Plane Strategy
@@ -1166,3 +1087,17 @@ Proposed Work
 ::: {.footer}
 System Model Notation
 :::
+
+## Appendix B: Analysis Notation {.smaller .scrollable}
+
+| Notation | Definition |
+|:--:|:--------|
+|$f^k_{ab}$|Time-average VIP flow for $k$ over $(a,b)$|
+|$F^k_{ab}(t)$|Number of VIPs of $k$ sent over $(a,b)$ during slot $t$|
+|$N$|Number of nodes in the network, i.e. $N = |\mc{N}|$|
+|$A^k_{n,max}$| Finite value such that $A^k_n(t) \leq A^k_{n,max}$ for all $t$|
+|$A_{n,max}$| Maximum total exogenous arrivals at node $n$ during $t$ across all $\kin$, i.e. $A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}$|
+|$\mu^{out}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(n,b) \in \mc{L}$, i.e. $\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}$|
+|$\mu^{in}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(a,n) \in \mc{L}$, i.e. $\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}$|
+|$r_{n,max}$| Maximum total rate that can be served by all cache tiers at $n$|
+|$\Psi(\boldsymbol{\lambda})$|Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy|
