@@ -1,5 +1,5 @@
 ---
-title: "Placeholder Title"
+title: "Cost-aware Joint Caching and Forwarding in Networks with Diverse Cache Resources"
 subtitle: "Faruk Volkan Mutlu - PhD Proposal Review"
 author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis"
 format:
@@ -246,6 +246,7 @@ Related Work
 ## Related Work* {.smaller}
 -  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
 -  *"On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks"*, S. Shukla, A. A. Abouzeid, WiOpt 2016
+-  *"HCaching: High-Speed Caching for Information-Centric Networking"*, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017
 
 ::: {.footer}
 Related Work
