@@ -1,13 +1,13 @@
 ---
 title: "Cost-aware Joint Caching and Forwarding in Networks with Diverse Cache Resources"
-subtitle: "Faruk Volkan Mutlu - PhD Proposal Review"
+subtitle: "<s>Farouk Multi</s> Faruk Volkan Mutlu - PhD Proposal Review"
 author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis"
 format:
   revealjs:
     slide-number: true
     theme: white
     logo: images/neu_logo.svg
-    css: styles/logo.css
+    css: styles/styles.css
     highlight-style: atom-one
 ---
 
@@ -68,11 +68,13 @@ Context
 Context
 :::
 
-## Overview* {.smaller}
+# Introduction
+
+## Overview {.smaller}
 
 ::: {.incremental}
--  **Motivation**: Data volume is growing exponentially, but capacities of in-network caches are stagnant
--  **Challenge**: Enabling larger caches in a cost-effective way is not trivial
+-  **Motivation**: Data volume grows exponentially, cache capacities are stagnant
+-  **Challenge**: Enabling larger caches in a cost-effective way is difficult
 -  **Considerations**:
    -  How beneficial are larger caches?
    -  Are slower and larger storage elements viable as caches?
@@ -81,7 +83,49 @@ Context
 -  **Goal**: Develop a policy that observes network traffic patterns and cache device characteristics to make smart caching and forwarding decisions
 :::
 
-# Motivation
+::: {.footer}
+Introduction
+:::
+
+## Use Case: Data-Intensive Science
+
+::: {.incremental}
+-   Data-intensive science experiments (high-energy physics, genomics etc.) process huge amounts of data
+    -   In one year of LHC running, over an exabyte of data is accessed
+    -   In November 2018, 15.8 petabytes of data were written on tape at CERN
+-   Data is continuously distributed across the world for research
+:::
+
+::: {.footer}
+Introduction
+:::
+
+## Use Case: Data-Intensive Science
+
+::: {.incremental}
+-   *"N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science"*, Y. Wu, F. V. Mutlu, et al.
+    -   NDN-based high-throughput data distribution, caching and access system
+    -   Each router allocated 20 gigabytes DRAM cache space
+-   *"NDN-DPDK: NDN Forwarding at 100 Gbps on Commodity Hardware"*, J. Shi, D. Pesavento, L. Benmohamed
+    -   Increasing capacities via NVMe SSDs require novel caching strategies due to their slow speeds
+:::
+
+::: {.footer}
+Introduction
+:::
+
+## The Capacity Challenge
+
+::: {.incremental}
+-  DRAM is the primary cache device since it is fast, i.e. *line rate* (12.8-25.6 GB/s for DDR4, 32-64 GB/s for DDR5)
+-  However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)
+-  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
+-  NVMe SSDs can be much slower than DRAM (11.7 GB/s ideal read rate for fastest PCIe 5.0)
+:::
+
+::: {.footer}
+Introduction
+:::
 
 ## Toy Example {.smaller}
 
@@ -116,8 +160,8 @@ Motivation
 ![](images/zipf_1k.svg)
 
 ::: {.fragment}
--  Most popular 10% of objects make up half of all requests
 -  Most popular 1% of objects make up one fifth of all requests
+-  Most popular 10% of objects make up half of all requests
 :::
 :::
 ::: {.column width="50%"}
@@ -134,18 +178,7 @@ Motivation
 Motivation
 :::
 
-## The Capacity Challenge
 
-::: {.incremental}
--  DRAM is the primary cache device since it is fast, i.e. can operate at *line rate*
--  However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)
--  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
--  NVMe SSDs can be an order of magnitude slower than DRAM
-:::
-
-::: {.footer}
-Motivation
-:::
 
 ## Extended Toy Example {.smaller}
 
@@ -209,13 +242,13 @@ Motivation
 Motivation
 :::
 
-## Coupling Caching with Forwarding* {.smaller}
+## Coupling Caching with Forwarding*
 
 ::: {.incremental}
--  Benefits of ubiquitous caching offered by ICN architectures are more pronounced when caching and forwarding decisions are tightly coupled
+-  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
    -  "*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ACM ICN 2014
--  The need for this coupling is even more prevalent with larger, slower caches
-   -  Based on current demand in different regions of the network, a cache miss at a node could be directed towards a closer node which caches the object in a slower tier or a further node which does so in a faster tier
+-  This is even more critical with larger, slower caches
+   -  Should we direct a cache miss toward a node where we might hit a slow cache or a more distant node where we might hit a faster cache?
 :::
 
 ::: {.footer}
@@ -290,36 +323,6 @@ System Model
 -  VIPs are forwarded through the network in the virtual plane using virtual links; at the beginning of each time slot, each node decides where and how to forward its VIPs
 -  VIPs for an object are removed either at the source for that object, or at nodes that cache the object
 :::
-
-::: {.footer}
-System Model
-:::
-
-## Model Notation {.smaller .scrollable}
-
-| Notation | Definition |
-|:--:|:--------|
-|$\mathcal{G}$|Directed graph representing the network topology|
-|$(\mathcal{N},\mathcal{L})$|Set of nodes and links in $\mathcal{G}$|
-|$C_{ab}$|Transmission capacity (in objects/sec) of link $(a,b)$|
-|$\mathcal{K}$|Set of data objects in the network|
-|$\mc{S}(k)$|Content source node for $k \in \mathcal{K}$|
-|$\mathcal{J}_n$ | Set of cache tiers at node $n \in \mathcal{N}$|
-|$L_{n_j}$ | Size (in objects) of cache tier $j \in \mathcal{J}_n$ at $n$|
-|$r_{n_j}$ | Read rate of tier $j$ at node $n$|
-|$c^a_{n_j}$| Admission cost of tier $j$ at node $n$|
-|$c^e_{n_j}$| Eviction cost of tier $j$ at node $n$|
-|$\lambda^k_n$|Exogenous request arrival rate for $k$ at $n$|
-|$t$|Time slot referring to time interval $[t, t+1)$|
-|$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
-|$s^k_{n_j}(t)$ | Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$|
-|$p^k_{n_j}(t)$ | Penalty incurred by the choice of $s^k_{n_j}(t)$|
-|$p(t)$|Sum penalty incurred during $t$|
-|$\omega$|Penalty importance weight|
-|$V^k_n(t)$|VIP count for $k$ at $n$ during $t$|
-|$\mathbf{V}(t)$|Vector of VIP queue states during $t$|
-|$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
-: Table of Notations {tbl-colwidths="[20,80]"}
 
 ::: {.footer}
 System Model
@@ -1130,4 +1133,36 @@ Proposed Work
 
 ::: {.footer}
 Proposed Work
+:::
+
+# Appendices
+
+## Appendix A: Model Notation {.smaller .scrollable}
+
+| Notation | Definition |
+|:--:|:--------|
+|$\mathcal{G}$|Directed graph representing the network topology|
+|$(\mathcal{N},\mathcal{L})$|Set of nodes and links in $\mathcal{G}$|
+|$C_{ab}$|Transmission capacity (in objects/sec) of link $(a,b)$|
+|$\mathcal{K}$|Set of data objects in the network|
+|$\mc{S}(k)$|Content source node for $k \in \mathcal{K}$|
+|$\mathcal{J}_n$ | Set of cache tiers at node $n \in \mathcal{N}$|
+|$L_{n_j}$ | Size (in objects) of cache tier $j \in \mathcal{J}_n$ at $n$|
+|$r_{n_j}$ | Read rate of tier $j$ at node $n$|
+|$c^a_{n_j}$| Admission cost of tier $j$ at node $n$|
+|$c^e_{n_j}$| Eviction cost of tier $j$ at node $n$|
+|$\lambda^k_n$|Exogenous request arrival rate for $k$ at $n$|
+|$t$|Time slot referring to time interval $[t, t+1)$|
+|$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
+|$s^k_{n_j}(t)$ | Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$|
+|$p^k_{n_j}(t)$ | Penalty incurred by the choice of $s^k_{n_j}(t)$|
+|$p(t)$|Sum penalty incurred during $t$|
+|$\omega$|Penalty importance weight|
+|$V^k_n(t)$|VIP count for $k$ at $n$ during $t$|
+|$\mathbf{V}(t)$|Vector of VIP queue states during $t$|
+|$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
+: Table of Notations {tbl-colwidths="[20,80]"}
+
+::: {.footer}
+System Model Notation
 :::

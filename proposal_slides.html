@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Research Advisor: Edmund Yeh Committee Members: Elif Uysal, Stratis Ioannidis">
-  <title>Placeholder Title</title>
+  <title>Cost-aware Joint Caching and Forwarding in Networks with Diverse Cache Resources</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -96,7 +96,7 @@
     code span.wa { color: #da4453; } /* Warning */
   </style>
   <link rel="stylesheet" href="proposal_slides_files/libs/revealjs/dist/theme/quarto.css">
-  <link rel="stylesheet" href="styles/logo.css">
+  <link rel="stylesheet" href="styles/styles.css">
   <link href="proposal_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="proposal_slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="proposal_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -391,8 +391,8 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Placeholder Title</h1>
-  <p class="subtitle">Faruk Volkan Mutlu - PhD Proposal Review</p>
+  <h1 class="title">Cost-aware Joint Caching and Forwarding in Networks with Diverse Cache Resources</h1>
+  <p class="subtitle"><s>Farouk Multi</s> Faruk Volkan Mutlu - PhD Proposal Review</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -461,12 +461,17 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Context</p>
 </div>
 </section>
+<section>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
+
+</section>
 <section id="overview" class="slide level2 smaller">
-<h2>Overview*</h2>
+<h2>Overview</h2>
 <div>
 <ul>
-<li class="fragment"><strong>Motivation</strong>: Data volume is growing exponentially, but capacities of in-network caches are stagnant</li>
-<li class="fragment"><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is not trivial</li>
+<li class="fragment"><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
+<li class="fragment"><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult</li>
 <li class="fragment"><strong>Considerations</strong>:
 <ul>
 <li class="fragment">How beneficial are larger caches?</li>
@@ -477,11 +482,58 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li class="fragment"><strong>Goal</strong>: Develop a policy that observes network traffic patterns and cache device characteristics to make smart caching and forwarding decisions</li>
 </ul>
 </div>
+<div class="footer">
+<p>Introduction</p>
+</div>
 </section>
-<section>
-<section id="motivation" class="title-slide slide level1 center">
-<h1>Motivation</h1>
-
+<section id="use-case-data-intensive-science" class="slide level2">
+<h2>Use Case: Data-Intensive Science</h2>
+<div>
+<ul>
+<li class="fragment">Data-intensive science experiments (high-energy physics, genomics etc.) process huge amounts of data
+<ul>
+<li class="fragment">In one year of LHC running, over an exabyte of data is accessed</li>
+<li class="fragment">In November 2018, 15.8 petabytes of data were written on tape at CERN</li>
+</ul></li>
+<li class="fragment">Data is continuously distributed across the world for research</li>
+</ul>
+</div>
+<div class="footer">
+<p>Introduction</p>
+</div>
+</section>
+<section id="use-case-data-intensive-science-1" class="slide level2">
+<h2>Use Case: Data-Intensive Science</h2>
+<div>
+<ul>
+<li class="fragment"><em>“N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science”</em>, Y. Wu, F. V. Mutlu, et al.
+<ul>
+<li class="fragment">NDN-based high-throughput data distribution, caching and access system</li>
+<li class="fragment">Each router allocated 20 gigabytes DRAM cache space</li>
+</ul></li>
+<li class="fragment"><em>“NDN-DPDK: NDN Forwarding at 100 Gbps on Commodity Hardware”</em>, J. Shi, D. Pesavento, L. Benmohamed
+<ul>
+<li class="fragment">Increasing capacities via NVMe SSDs require novel caching strategies due to their slow speeds</li>
+</ul></li>
+</ul>
+</div>
+<div class="footer">
+<p>Introduction</p>
+</div>
+</section>
+<section id="the-capacity-challenge" class="slide level2">
+<h2>The Capacity Challenge</h2>
+<div>
+<ul>
+<li class="fragment">DRAM is the primary cache device since it is fast, i.e.&nbsp;<em>line rate</em> (12.8-25.6 GB/s for DDR4, 32-64 GB/s for DDR5)</li>
+<li class="fragment">However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
+<li class="fragment">Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
+<li class="fragment">NVMe SSDs can be much slower than DRAM (11.7 GB/s ideal read rate for fastest PCIe 5.0)</li>
+</ul>
+</div>
+<div class="footer">
+<p>Introduction</p>
+</div>
 </section>
 <section id="toy-example" class="slide level2 smaller">
 <h2>Toy Example</h2>
@@ -545,8 +597,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/zipf_1k.svg"></p>
 <div class="fragment">
 <ul>
-<li>Most popular 10% of objects make up half of all requests</li>
 <li>Most popular 1% of objects make up one fifth of all requests</li>
+<li>Most popular 10% of objects make up half of all requests</li>
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
@@ -558,20 +610,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </ul>
 </div>
 </div>
-</div>
-<div class="footer">
-<p>Motivation</p>
-</div>
-</section>
-<section id="the-capacity-challenge" class="slide level2">
-<h2>The Capacity Challenge</h2>
-<div>
-<ul>
-<li class="fragment">DRAM is the primary cache device since it is fast, i.e.&nbsp;can operate at <em>line rate</em></li>
-<li class="fragment">However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
-<li class="fragment">Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
-<li class="fragment">NVMe SSDs can be an order of magnitude slower than DRAM</li>
-</ul>
 </div>
 <div class="footer">
 <p>Motivation</p>
@@ -658,17 +696,17 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Motivation</p>
 </div>
 </section>
-<section id="coupling-caching-with-forwarding" class="slide level2 smaller">
+<section id="coupling-caching-with-forwarding" class="slide level2">
 <h2>Coupling Caching with Forwarding*</h2>
 <div>
 <ul>
-<li class="fragment">Benefits of ubiquitous caching offered by ICN architectures are more pronounced when caching and forwarding decisions are tightly coupled
+<li class="fragment">Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
 <ul>
 <li class="fragment">“<em>Coupling caching and forwarding: benefits, analysis, and implementation</em>”, G. Rossini, D. Rossi, ACM ICN 2014</li>
 </ul></li>
-<li class="fragment">The need for this coupling is even more prevalent with larger, slower caches
+<li class="fragment">This is even more critical with larger, slower caches
 <ul>
-<li class="fragment">Based on current demand in different regions of the network, a cache miss at a node could be directed towards a closer node which caches the object in a slower tier or a further node which does so in a faster tier</li>
+<li class="fragment">Should we direct a cache miss toward a node where we might hit a slow cache or a more distant node where we might hit a faster cache?</li>
 </ul></li>
 </ul>
 </div>
@@ -708,6 +746,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
 <li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
+<li><em>“HCaching: High-Speed Caching for Information-Centric Networking”</em>, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017</li>
 </ul>
 <div class="footer">
 <p>Related Work</p>
@@ -760,107 +799,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li class="fragment">VIPs for an object are removed either at the source for that object, or at nodes that cache the object</li>
 </ul>
 </div>
-<div class="footer">
-<p>System Model</p>
-</div>
-</section>
-<section id="model-notation" class="slide level2 smaller scrollable">
-<h2>Model Notation</h2>
-<table>
-<caption>Table of Notations</caption>
-<colgroup>
-<col style="width: 20%">
-<col style="width: 80%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mathcal{G}\)</span></td>
-<td style="text-align: left;">Directed graph representing the network topology</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\((\mathcal{N},\mathcal{L})\)</span></td>
-<td style="text-align: left;">Set of nodes and links in <span class="math inline">\(\mathcal{G}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(C_{ab}\)</span></td>
-<td style="text-align: left;">Transmission capacity (in objects/sec) of link <span class="math inline">\((a,b)\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
-<td style="text-align: left;">Set of data objects in the network</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mc{S}(k)\)</span></td>
-<td style="text-align: left;">Content source node for <span class="math inline">\(k \in \mathcal{K}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mathcal{J}_n\)</span></td>
-<td style="text-align: left;">Set of cache tiers at node <span class="math inline">\(n \in \mathcal{N}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(L_{n_j}\)</span></td>
-<td style="text-align: left;">Size (in objects) of cache tier <span class="math inline">\(j \in \mathcal{J}_n\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
-<td style="text-align: left;">Read rate of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(c^a_{n_j}\)</span></td>
-<td style="text-align: left;">Admission cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(c^e_{n_j}\)</span></td>
-<td style="text-align: left;">Eviction cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
-<td style="text-align: left;">Exogenous request arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
-<td style="text-align: left;">Time slot referring to time interval <span class="math inline">\([t, t+1)\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(A^k_n(t)\)</span></td>
-<td style="text-align: left;">Number of exogenous requests for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(s^k_{n_j}(t)\)</span></td>
-<td style="text-align: left;">Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(p^k_{n_j}(t)\)</span></td>
-<td style="text-align: left;">Penalty incurred by the choice of <span class="math inline">\(s^k_{n_j}(t)\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(p(t)\)</span></td>
-<td style="text-align: left;">Sum penalty incurred during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\omega\)</span></td>
-<td style="text-align: left;">Penalty importance weight</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
-<td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mathbf{V}(t)\)</span></td>
-<td style="text-align: left;">Vector of VIP queue states during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
-<td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-</tbody>
-</table>
 <div class="footer">
 <p>System Model</p>
 </div>
@@ -1732,6 +1670,112 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </ul>
 <div class="footer">
 <p>Proposed Work</p>
+</div>
+</section></section>
+<section>
+<section id="appendices" class="title-slide slide level1 center">
+<h1>Appendices</h1>
+
+</section>
+<section id="appendix-a-model-notation" class="slide level2 smaller scrollable">
+<h2>Appendix A: Model Notation</h2>
+<table>
+<caption>Table of Notations</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mathcal{G}\)</span></td>
+<td style="text-align: left;">Directed graph representing the network topology</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((\mathcal{N},\mathcal{L})\)</span></td>
+<td style="text-align: left;">Set of nodes and links in <span class="math inline">\(\mathcal{G}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(C_{ab}\)</span></td>
+<td style="text-align: left;">Transmission capacity (in objects/sec) of link <span class="math inline">\((a,b)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
+<td style="text-align: left;">Set of data objects in the network</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mc{S}(k)\)</span></td>
+<td style="text-align: left;">Content source node for <span class="math inline">\(k \in \mathcal{K}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mathcal{J}_n\)</span></td>
+<td style="text-align: left;">Set of cache tiers at node <span class="math inline">\(n \in \mathcal{N}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(L_{n_j}\)</span></td>
+<td style="text-align: left;">Size (in objects) of cache tier <span class="math inline">\(j \in \mathcal{J}_n\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
+<td style="text-align: left;">Read rate of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(c^a_{n_j}\)</span></td>
+<td style="text-align: left;">Admission cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(c^e_{n_j}\)</span></td>
+<td style="text-align: left;">Eviction cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
+<td style="text-align: left;">Exogenous request arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
+<td style="text-align: left;">Time slot referring to time interval <span class="math inline">\([t, t+1)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A^k_n(t)\)</span></td>
+<td style="text-align: left;">Number of exogenous requests for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(s^k_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(p^k_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Penalty incurred by the choice of <span class="math inline">\(s^k_{n_j}(t)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(p(t)\)</span></td>
+<td style="text-align: left;">Sum penalty incurred during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\omega\)</span></td>
+<td style="text-align: left;">Penalty importance weight</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
+<td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mathbf{V}(t)\)</span></td>
+<td style="text-align: left;">Vector of VIP queue states during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
+<td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="footer">
+<p>System Model Notation</p>
 </div>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">

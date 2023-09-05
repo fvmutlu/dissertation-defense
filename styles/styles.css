@@ -1,0 +1,18 @@
+.title {
+    font-size: 80px !important;
+}
+
+.reveal .slide-number {
+    font-size: 48px !important;
+}
+
+.reveal .slide-logo {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 12px;
+    max-height: 4rem !important;
+    height: 100%;
+    width: auto;
+    z-index: 2;
+  }
