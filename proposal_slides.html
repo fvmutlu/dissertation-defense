@@ -385,6 +385,17 @@
       margin-right: 0; 
     }
   </style>
+  <script>
+  window.MathJax = {
+    loader: {
+      load: ['[tex]/color']
+    },
+    tex: {
+      packages: {'[+]': ['color']}
+    }
+  };
+  </script>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -441,6 +452,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\pen}{\mathbb{E}[p(t)|\mathbf{V}(t)]}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
+\definecolor{neured}{RGB}{200, 16, 46}
 \]</span></p>
 </div>
 </section>
@@ -967,7 +979,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="optimization-goal" class="slide level2 smaller">
 <h2>Optimization Goal</h2>
-<p>Operate close to VIP network stability region while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.</p>
+<p>Operate close to VIP network stability region boundary while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.</p>
 <p>More precisely, our objective is to minimize the following <em>drift-plus-penalty</em> expression:</p>
 <span class="math display">\[\begin{equation}
     \drift + \omega \pen
@@ -1428,7 +1440,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Experiments</p>
 </div>
 </section>
-<section id="experiment-setting-1" class="slide level2 smaller scrollable">
+<section id="experiment-setting-1" class="slide level2 smaller">
 <h2>Experiment Setting</h2>
 <table>
 <caption>Parameters for all topologies</caption>
@@ -1556,15 +1568,23 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="cache-read-bandwidth" class="slide level2 smaller">
 <h2>Cache Read Bandwidth</h2>
-<p><strong>Cache Bandwidth Constraint</strong>: Current model assumes read rate of each object is independent of all others.</p>
+<p>Current model assumes read rate of each object is independent of all others.</p>
 <span class="math display">\[\begin{equation}
     V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+    
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{#C8102E}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+
+\end{equation}\]</span>
+</section>
+<section id="cache-read-bandwidth-1" class="slide level2 smaller">
+<h2>Cache Read Bandwidth</h2>
+<p>Current model assumes read rate of each object is independent of all others.</p>
+<span class="math display">\[\begin{equation}
+    \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r_{n_j}} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}    
 \end{equation}\]</span>
 <p>We need to make this more accurate when considering slower caches.</p>
 <span class="math display">\[\begin{equation}
-   \small{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r^k_{n_j}(t)} s^k_{n_j}(t) \Bigg)^+}    
+   \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r^k_{n_j}(t)} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}
 \end{equation}\]</span>
 <span class="math display">\[\begin{equation}
    \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \; \forall t   
@@ -1573,34 +1593,17 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Proposed Work</p>
 </div>
 </section>
-<section id="cache-read-bandwidth-1" class="slide level2 smaller">
+<section id="cache-read-bandwidth-2" class="slide level2 smaller">
 <h2>Cache Read Bandwidth</h2>
-<p><strong>Cache Bandwidth Constraint</strong>: This seemingly small change has the following consequences we have to reanalyze:</p>
-<ul>
-<li>We now have a third control action each time slot, which is in product form with another control action</li>
-</ul>
+<p>Additional control action each time slot, in product form with another control action</p>
 <span class="math display">\[\begin{equation}
 \text{maximize} \quad \sum\limits_{\kin} \sum\limits_{\jin} V^k_{n}(t) r^k_{n_j}(t) s^k_{n_j}(t) - p^k_{n_j}(t)
 \end{equation}\]</span>
-<ul>
-<li>This changes the stability region analysis significantly, as it involves computing expected values for VIP flows and cache placements using a randomized policy</li>
-</ul>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-</section>
-<section id="cache-read-bandwidth-2" class="slide level2 smaller">
-<h2>Cache Read Bandwidth</h2>
-<p><strong>Cache Bandwidth Constraint</strong>: This seemingly small change has the following consequences we have to reanalyze:</p>
-<ul>
-<li>As the read rate for each object each slot is no longer a constant, terms in various expressions that relate to VIPs that are drained via caching will now resemble a flow variable, much like other terms</li>
-</ul>
+<p>Read rate no longer a constant, VIPs drained via caching represented with a flow variable, like VIP flow terms over links</p>
 <span class="math display">\[\begin{equation}
    F^k_{n_j}(t) \triangleq r^k_{n_j}(t) s^k_{n_j}(t), \qquad f^k_{n_j} = \frac{1}{t} \sum^{t}_{\tau=1} r^k_{n_j}(\tau) s^k_{n_j}(\tau)
 \end{equation}\]</span>
-<ul>
-<li>While this change makes the stability region analysis a bit more complicated, it is likely to reduce the complexity of the solution to the caching problem (<em>currently a strong hypothesis</em>)</li>
-</ul>
+<p><strong>Expectation</strong>: Stability region and its analysis changes significantly; complexity of caching problem solution reduces</p>
 <div class="footer">
 <p>Proposed Work</p>
 </div>

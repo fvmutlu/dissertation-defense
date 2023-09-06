@@ -4,6 +4,8 @@
 
 .reveal .slide-number {
     font-size: 48px !important;
+    color: white !important;
+    margin-top: 3vw;
 }
 
 .reveal .slide-logo {
@@ -15,4 +17,24 @@
     height: 100%;
     width: auto;
     z-index: 2;
-  }
+}
+
+.reveal h2 {
+    color: white !important;
+    background-color: #C8102E !important;
+    width: 200vw;
+    height: 4vw;
+    position: relative;
+    left: -20vw;
+    padding-left: 20vw;
+}
+
+.reveal .scrollable h2 {
+    color: white !important;
+    background-color: #C8102E !important;
+    width: 200vw;
+    height: 4vw;
+    position: relative;
+    left: -20vw;
+    padding-left: 20vw;
+}

@@ -9,6 +9,20 @@ format:
     logo: images/neu_logo.svg
     css: styles/styles.css
     highlight-style: atom-one
+    header-includes: <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+    include-in-header:
+      - text: |
+          <script>
+          window.MathJax = {
+            loader: {
+              load: ['[tex]/color']
+            },
+            tex: {
+              packages: {'[+]': ['color']}
+            }
+          };
+          </script>
+mainfont: Lato
 ---
 
 ## Outline
@@ -47,6 +61,7 @@ $$
 \newcommand{\pen}{\mathbb{E}[p(t)|\mathbf{V}(t)]}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
+\definecolor{neured}{RGB}{200, 16, 46}
 $$
 :::
 
@@ -398,7 +413,7 @@ System Model
 # Virtual Plane Optimization
 
 ## Optimization Goal {.smaller}
-Operate close to VIP network stability region while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.
+Operate close to VIP network stability region boundary while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.
 
 More precisely, our objective is to minimize the following *drift-plus-penalty* expression:
 ```{=tex}
@@ -875,7 +890,7 @@ Experiments
 Experiments
 :::
 
-## Experiment Setting {.smaller .scrollable}
+## Experiment Setting {.smaller}
 
 | Parameter | Description | Value |
 |:-:|:-:|:-:|
@@ -947,19 +962,27 @@ Super Funny Joke
 :::
 
 ## Cache Read Bandwidth {.smaller}
-
-**Cache Bandwidth Constraint**: Current model assumes read rate of each object is independent of all others.
+Current model assumes read rate of each object is independent of all others.
 ```{=tex}
 \begin{equation}
     V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+    
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{#C8102E}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+
+\end{equation}
+```
+
+## Cache Read Bandwidth {.smaller}
+Current model assumes read rate of each object is independent of all others.
+```{=tex}
+\begin{equation}
+    \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r_{n_j}} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}    
 \end{equation}
 ```
 We need to make this more accurate when considering slower caches.
 ```{=tex}
 \begin{equation}
-   \small{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r^k_{n_j}(t)} s^k_{n_j}(t) \Bigg)^+}    
+   \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r^k_{n_j}(t)} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}
 \end{equation}
 ```
 ```{=tex}
@@ -973,32 +996,19 @@ Proposed Work
 :::
 
 ## Cache Read Bandwidth {.smaller}
-
-**Cache Bandwidth Constraint**: This seemingly small change has the following consequences we have to reanalyze:
-
--  We now have a third control action each time slot, which is in product form with another control action
+Additional control action each time slot, in product form with another control action
 ```{=tex}
 \begin{equation}
 \text{maximize} \quad \sum\limits_{\kin} \sum\limits_{\jin} V^k_{n}(t) r^k_{n_j}(t) s^k_{n_j}(t) - p^k_{n_j}(t)
 \end{equation}
 ```
--  This changes the stability region analysis significantly, as it involves computing expected values for VIP flows and cache placements using a randomized policy
-
-::: {.footer}
-Proposed Work
-:::
-
-## Cache Read Bandwidth {.smaller}
-
-**Cache Bandwidth Constraint**: This seemingly small change has the following consequences we have to reanalyze:
-
--  As the read rate for each object each slot is no longer a constant, terms in various expressions that relate to VIPs that are drained via caching will now resemble a flow variable, much like other terms
+Read rate no longer a constant, VIPs drained via caching represented with a flow variable, like VIP flow terms over links
 ```{=tex}
 \begin{equation}
    F^k_{n_j}(t) \triangleq r^k_{n_j}(t) s^k_{n_j}(t), \qquad f^k_{n_j} = \frac{1}{t} \sum^{t}_{\tau=1} r^k_{n_j}(\tau) s^k_{n_j}(\tau)
 \end{equation}
 ```
--  While this change makes the stability region analysis a bit more complicated, it is likely to reduce the complexity of the solution to the caching problem (*currently a strong hypothesis*)
+**Expectation**: Stability region and its analysis changes significantly; complexity of caching problem solution reduces
 
 ::: {.footer}
 Proposed Work
