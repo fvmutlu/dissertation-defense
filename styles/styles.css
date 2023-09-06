@@ -2,6 +2,10 @@
     font-size: 80px !important;
 }
 
+.body-highlight {
+    color: #A4804A;
+}
+
 .reveal .slide-number {
     font-size: 48px !important;
     color: white !important;
@@ -17,6 +21,10 @@
     height: 100%;
     width: auto;
     z-index: 2;
+}
+
+.reveal h1 {
+    color: #C8102E !important;
 }
 
 .reveal h2 {

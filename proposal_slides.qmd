@@ -962,7 +962,7 @@ Super Funny Joke
 :::
 
 ## Cache Read Bandwidth {.smaller}
-Current model assumes read rate of each object is independent of all others.
+Current model assumes read rate of each object is [independent]{.body-highlight} of all others. 
 ```{=tex}
 \begin{equation}
     V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
