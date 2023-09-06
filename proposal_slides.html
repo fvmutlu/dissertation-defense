@@ -1086,7 +1086,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="solutions-to-optimization-problems" class="slide level2 smaller">
 <h2>Solutions to Optimization Problems</h2>
-<p><strong>Caching</strong>: We can rewrite the optimization problem for the caching step.</p>
+<p>We can rewrite the optimization problem for the <span class="body-highlight">caching</span> step.</p>
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
@@ -1109,7 +1109,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="solutions-to-optimization-problems-1" class="slide level2 smaller">
 <h2>Solutions to Optimization Problems</h2>
-<p><strong>Caching</strong>: We can rewrite the optimization problem for the caching step.</p>
+<p>We can rewrite the optimization problem for the <span class="body-highlight">caching</span> step.</p>
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
@@ -1130,7 +1130,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="solutions-to-optimization-problems-2" class="slide level2 smaller">
 <h2>Solutions to Optimization Problems</h2>
-<p><strong>Caching</strong>: Using a transformation of variables, the problem can be written as a linear assignment problem. We can interpret this as deciding on caching variables per one-object cache space associated with each cache tier, rather than per-tier<sup>1</sup>.</p>
+<p>Using a transformation of variables, the problem can be written as a <span class="body-highlight">linear assignment problem</span>. We can interpret this as deciding on caching variables for each one-object cache <em>slot</em>, rather than for each tier as a whole<sup>1</sup>.</p>
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
@@ -1145,20 +1145,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>Only possible due to same size objects assumption</p></li></ol></aside></section>
 <section id="solutions-to-optimization-problems-3" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-
-<img data-src="images/gap.svg" class="r-stretch"><div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems-4" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-
-<img data-src="images/rlap.svg" class="r-stretch"><div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems-5" class="slide level2 smaller">
 <h2>Solutions to Optimization Problems</h2>
 <p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is as in (Yeh, 2014).</p>
 <span class="math display">\[\begin{align}
@@ -1205,11 +1191,11 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="data-plane-caching" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
-<p>Define the <span class="body-highlight"><strong>cache score</strong></span> metric as follows:</p>
+<p>Define the <span class="body-highlight">cache score</span> metric as follows:</p>
 <span class="math display">\[\begin{equation}
     CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
 \end{equation}\]</span>
-<p>Define the <span class="body-highlight"><strong>eviction target</strong></span> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
+<p>Define the <span class="body-highlight">eviction target</span> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
 <span class="math display">\[\begin{equation}
    k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
 \end{equation}\]</span>
@@ -1246,7 +1232,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="data-plane-caching-1" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
-<p>Define the <span class="body-highlight"><strong>cache benefit</strong></span> metric as follows:</p>
+<p>Define the <span class="body-highlight">cache benefit</span> metric as follows:</p>
 <span class="math display">\[\begin{equation}
     CB^k_{n_j}(t) = \begin{cases}
         \begin{array}{l}
@@ -1255,7 +1241,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
         \end{array}
     \end{cases}
 \end{equation}\]</span>
-<p>When a data object <span class="math inline">\(k \not \in \mc{K}_{n_j}\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, <span class="body-highlight"><strong>data plane caching policy</strong></span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
+<p>When a data object <span class="math inline">\(k \not \in \mc{K}_{n_j}\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <ul>
 <li>Determine the cache tier which offers the highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
 <li>If <span class="math inline">\(CB^k_{n_{j^*}}(t) &gt; 0\)</span>, admit object into tier <span class="math inline">\(j^*\)</span>
@@ -1566,23 +1552,23 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="cache-exclusivity" class="slide level2 smaller">
 <h2>Cache Exclusivity</h2>
-<p><strong>Cache Exclusivity Constraint</strong>: There is good reason to enforce this constraint in view of interest aggregation and hardware limitations. However, there are strong arguments in support of removing it:</p>
+<span class="math display">\[\begin{equation}
+\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
+\end{equation}\]</span>
+<p>Useful in view of <span class="body-highlight">interest aggregation</span> and hardware limitations.</p>
+<p>Arguments in support of removing it:</p>
 <ul>
-<li>Under cache exclusivity, the data plane strategy can’t naturally handle <em>upward migrations</em></li>
-<li>Lifting this constraint would make the algorithm less complex as it would simply operate over individual tiers independently
-<ul>
-<li>This also has the benefit of not requiring any adaptations to baselines</li>
-</ul></li>
-<li>As peer-to-peer DMA becomes more widely available and reliable, the assumption that multiple cache devices can supply the link simultaneously and increase read rates may be better supported</li>
+<li>Cache exclusivity makes <span class="body-highlight">upward migrations</span> difficult</li>
+<li>Without this constraint, algorithm operates over individual tiers independently; adaptations to baselines unnecessary</li>
+<li>Hardware limitations may not be there for long (peer-to-peer DMA) Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.</li>
 </ul>
-<p>While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements.</p>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
 </section>
-<section id="unequal-object-sizes" class="slide level2 smaller">
-<h2>Unequal Object Sizes</h2>
-<p><strong>Equal Object Sizes Assumption</strong>: While this assumption makes our analysis and solution much more straightforward, it is hardly realistic.</p>
+<section id="different-object-sizes" class="slide level2 smaller">
+<h2>Different Object Sizes</h2>
+<p>Equal object sizes assumption makes analysis straightforward, but is not realistic.</p>
 <p>Let <span class="math inline">\(z^k\)</span> be the size of object <span class="math inline">\(k\)</span> in bits. Redefine <span class="math inline">\(L_{n_j}\)</span> be the cache capacity of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> in bits, instead of objects. The caching problem changes as follows:</p>
 <span class="math display">\[\begin{align}
     \text{maximize}
@@ -1592,32 +1578,27 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
         &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
         &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
 \end{align}\]</span>
+<p>Problem no longer a LAP but a GAP instead (NP-hard).</p>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<p>The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be NP-hard.</p>
 </section>
-<section id="unequal-object-sizes-1" class="slide level2 smaller">
-<h2>Unequal Object Sizes</h2>
-<p><strong>Equal Object Sizes Assumption</strong>: This change brings with it a set of other considerations:</p>
+<section id="different-object-sizes-1" class="slide level2 smaller">
+<h2>Different Object Sizes</h2>
 <ul>
-<li>If combined with the enforcing of cache bandwidth constraints, the problem may reveal a low-complexity “greedy” solution (<em>currently a hypothesis</em>)</li>
-<li>However, we also have to reevaluate how we treat VIPs for objects
+<li>Combined with cache bandwidth constraints, solution may still be low-complexity</li>
+<li>We have to reevaluate how we treat VIP counts:
 <ul>
 <li>Copies of a larger object are produced at a slower rate</li>
-<li>Therefore, VIPs for a smaller object can be drained at a higher rate</li>
-<li>If we do not alter the VIP metric to account for object sizes, this may skew network service (both caching and forwarding) to prioritize smaller objects</li>
+<li>VIPs for smaller objects can be drained at a higher rate</li>
+<li>Without adjustments, service may prioritize smaller objects</li>
+</ul></li>
+<li>Combined with multi-tiered caches, raises the <span class="body-highlight">integrity</span> question, i.e.&nbsp;should we mandate that nodes cache all chunks of an object in the same tier?
+<ul>
+<li>If not, complexity of the caching problem increases dramatically</li>
+<li>Chunk-level strategy may serve this scenario better</li>
 </ul></li>
 </ul>
-<div class="fragment semi-fade-out">
-<ul>
-<li>Combining multi-tiered caches with varying object sizes also raises questions about <em>cache integrity</em>, i.e.&nbsp;should we mandate that nodes cache all chunks of an object in the same tier?
-<ul>
-<li>If not, the complexity of the caching problem increases dramatically</li>
-<li>It may be better to approach this version of the problem with a chunk-level strategy</li>
-</ul></li>
-</ul>
-</div>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
@@ -1639,25 +1620,23 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Proposed Work</p>
 </div>
 </section>
-<section id="uh-better-experiments-obviously" class="slide level2 smaller">
-<h2>Uh, Better Experiments, Obviously</h2>
-<p><strong>Simulation Performance and Reproducibility</strong>: The simulation framework performs decently and is relatively clean, but it can be improved significantly.</p>
+<section id="better-experiments" class="slide level2">
+<h2>Better Experiments</h2>
 <ul>
-<li>Python, while convenient, is not the best choice to build highly-scalable DES frameworks. Julia is a great alternative that maintains convenience while providing much better performance</li>
-<li>Per-experiment multi-threading is not capturing parallelism effectively. Building the core components of the simulator in a multi-threaded way to improve <em>scale-up</em>, then enabling per-experiment <em>scale-out</em> will greatly improve performance.</li>
-<li>The current codebase has useful comments but little documentation and examples. Overall it doesn’t offer the best basis for reproducibility and future improvements.</li>
-<li>Addressing these will result in a robust codebase that allows me to run a more thorough experimental study, improve the credibility of my results and potentially give other researchers a tool to build upon</li>
+<li>Python is convenient but not highly-scalable for DES frameworks. Julia is a great alternative for both convenience and performance.</li>
+<li>Per-experiment multi-threading is not effective. Simulator core should be multi-threaded to improve <span class="body-highlight">scale-up</span>; per-experiment <span class="body-highlight">scale-out</span> can also be used.</li>
+<li>Current codebase has some comments but little documentation and examples. Easily <span class="body-highlight">improvable</span> simulator and <span class="body-highlight">reproducible</span> results crucial.</li>
 </ul>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
 </section></section>
 <section>
-<section id="appendices" class="title-slide slide level1 center">
+<section id="appendices" class="title-slide slide level1 center" data-visibility="uncounted">
 <h1>Appendices</h1>
 
 </section>
-<section id="appendix-a-other-references" class="slide level2 smaller scrollable">
+<section id="appendix-a-other-references" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix A: Other References</h2>
 <ul>
 <li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
@@ -1665,7 +1644,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li><em>“HCaching: High-Speed Caching for Information-Centric Networking”</em>, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017</li>
 </ul>
 </section>
-<section id="appendix-b-model-notation" class="slide level2 smaller scrollable">
+<section id="appendix-b-model-notation" class="slide level2 smaller scrollable" data-visibility="uncounted">
 <h2>Appendix B: Model Notation</h2>
 <table>
 <caption>Table of Notations</caption>
@@ -1763,7 +1742,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </tbody>
 </table>
 </section>
-<section id="appendix-c-analysis-notation" class="slide level2 smaller scrollable">
+<section id="appendix-c-analysis-notation" class="slide level2 smaller scrollable" data-visibility="uncounted">
 <h2>Appendix C: Analysis Notation</h2>
 <table>
 <colgroup>
@@ -1816,7 +1795,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </tbody>
 </table>
 </section>
-<section id="appendix-d-simulator-snippets" class="slide level2 smaller">
+<section id="appendix-d-simulator-snippets" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix D: Simulator Snippets</h2>
 <div class="panel-tabset">
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Node</a></li><li><a href="#tabset-1-2">Cache</a></li><li><a href="#tabset-1-3">Link</a></li><li><a href="#tabset-1-4">Caching Policy</a></li><li><a href="#tabset-1-5">Forwarding Policy</a></li></ul>
@@ -1925,9 +1904,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <span id="cb5-12"><a href="#cb5-12"></a>      <span class="va">self</span>.sendInterestPacket(remote_id, request)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</div>
-<div class="footer">
-<p>Experiments</p>
 </div>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">

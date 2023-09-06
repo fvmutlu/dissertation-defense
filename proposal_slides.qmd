@@ -521,7 +521,7 @@ Optimization Framework
 :::
 
 ## Solutions to Optimization Problems {.smaller}
-**Caching**: We can rewrite the optimization problem for the caching step.
+We can rewrite the optimization problem for the [caching]{.body-highlight} step.
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -548,7 +548,7 @@ Optimization Framework
 :::
 
 ## Solutions to Optimization Problems {.smaller}
-**Caching**: We can rewrite the optimization problem for the caching step.
+We can rewrite the optimization problem for the [caching]{.body-highlight} step.
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -573,7 +573,7 @@ Optimization Framework
 :::
 
 ## Solutions to Optimization Problems {.smaller}
-**Caching**: Using a transformation of variables, the problem can be written as a linear assignment problem. We can interpret this as deciding on caching variables per one-object cache space associated with each cache tier, rather than per-tier[^1].
+Using a transformation of variables, the problem can be written as a [linear assignment problem]{.body-highlight}. We can interpret this as deciding on caching variables for each one-object cache *slot*, rather than for each tier as a whole[^1].
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -587,22 +587,6 @@ Optimization Framework
 $\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}$. If $i \in \mc{I}_{n_j} = \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}$, then $b^k_{n_j}(t) = b^k_{n_i}(t)$ and $s^k_{n_j}(t) = s^k_{n_i}(t)$.
 
 [^1]: Only possible due to same size objects assumption
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Solutions to Optimization Problems {.smaller}
-
-![](images/gap.svg)
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Solutions to Optimization Problems {.smaller}
-
-![](images/rlap.svg)
 
 ::: {.footer}
 Optimization Framework
@@ -659,14 +643,14 @@ Data Plane Strategy
 
 ## Data Plane Caching {.smaller}
 
-Define the [**cache score**]{.body-highlight} metric as follows:
+Define the [cache score]{.body-highlight} metric as follows:
 ```{=tex}
 \begin{equation}
     CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
 \end{equation}
 ```
 
-Define the [**eviction target**]{.body-highlight} for tier $j$ at node $n$ as follows:
+Define the [eviction target]{.body-highlight} for tier $j$ at node $n$ as follows:
 ```{=tex}
 \begin{equation}
    k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
@@ -686,7 +670,7 @@ Data Plane Strategy
 
 ## Data Plane Caching {.smaller}
 
-Define the [**cache benefit**]{.body-highlight} metric as follows:
+Define the [cache benefit]{.body-highlight} metric as follows:
 ```{=tex}
 \begin{equation}
     CB^k_{n_j}(t) = \begin{cases}
@@ -698,7 +682,7 @@ Define the [**cache benefit**]{.body-highlight} metric as follows:
 \end{equation}
 ```
 
-When a data object $k \not \in \mc{K}_{n_j}$ arrives at $n$ during slot $t$, [**data plane caching policy**]{.body-highlight} at $n$ behaves as follows:
+When a data object $k \not \in \mc{K}_{n_j}$ arrives at $n$ during slot $t$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
 
 -  Determine the cache tier which offers the highest cache benefit, i.e. $j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)$
 -  If $CB^k_{n_{j^*}}(t) > 0$, admit object into tier $j^*$
@@ -927,23 +911,27 @@ Proposed Work
 :::
 
 ## Cache Exclusivity {.smaller}
+```{=tex}
+\begin{equation}
+\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
+\end{equation}
+```
+Useful in view of [interest aggregation]{.body-highlight} and hardware limitations.
 
-**Cache Exclusivity Constraint**: There is good reason to enforce this constraint in view of interest aggregation and hardware limitations. However, there are strong arguments in support of removing it:
+Arguments in support of removing it:
 
--  Under cache exclusivity, the data plane strategy can't naturally handle *upward migrations*
--  Lifting this constraint would make the algorithm less complex as it would simply operate over individual tiers independently
-   -  This also has the benefit of not requiring any adaptations to baselines
--  As peer-to-peer DMA becomes more widely available and reliable, the assumption that multiple cache devices can supply the link simultaneously and increase read rates may be better supported
-
-While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements.
+-  Cache exclusivity makes [upward migrations]{.body-highlight} difficult
+-  Without this constraint, algorithm operates over individual tiers independently; adaptations to baselines unnecessary
+-  Hardware limitations may not be there for long (peer-to-peer DMA)
+Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.
 
 ::: {.footer}
 Proposed Work
 :::
 
-## Unequal Object Sizes {.smaller}
+## Different Object Sizes {.smaller}
 
-**Equal Object Sizes Assumption**: While this assumption makes our analysis and solution much more straightforward, it is hardly realistic.
+Equal object sizes assumption makes analysis straightforward, but is not realistic.
 
 Let $z^k$ be the size of object $k$ in bits. Redefine $L_{n_j}$ be the cache capacity of tier $j$ at node $n$ in bits, instead of objects. The caching problem changes as follows:
 ```{=tex}
@@ -956,28 +944,22 @@ Let $z^k$ be the size of object $k$ in bits. Redefine $L_{n_j}$ be the cache cap
         & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
 \end{align}
 ```
+Problem no longer a LAP but a GAP instead (NP-hard).
 
 ::: {.footer}
 Proposed Work
 :::
 
-The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be NP-hard.
+## Different Object Sizes {.smaller}
 
-## Unequal Object Sizes {.smaller}
-
-**Equal Object Sizes Assumption**: This change brings with it a set of other considerations:
-
--  If combined with the enforcing of cache bandwidth constraints, the problem may reveal a low-complexity "greedy" solution (*currently a hypothesis*)
--  However, we also have to reevaluate how we treat VIPs for objects
+-  Combined with cache bandwidth constraints, solution may still be low-complexity
+-  We have to reevaluate how we treat VIP counts:
    -  Copies of a larger object are produced at a slower rate
-   -  Therefore, VIPs for a smaller object can be drained at a higher rate
-   -  If we do not alter the VIP metric to account for object sizes, this may skew network service (both caching and forwarding) to prioritize smaller objects
-
-::: {.fragment .semi-fade-out}
--  Combining multi-tiered caches with varying object sizes also raises questions about *cache integrity*, i.e. should we mandate that nodes cache all chunks of an object in the same tier?
-   -  If not, the complexity of the caching problem increases dramatically
-   -  It may be better to approach this version of the problem with a chunk-level strategy
-:::
+   -  VIPs for smaller objects can be drained at a higher rate
+   -  Without adjustments, service may prioritize smaller objects
+-  Combined with multi-tiered caches, raises the [integrity]{.body-highlight} question, i.e. should we mandate that nodes cache all chunks of an object in the same tier?
+   -  If not, complexity of the caching problem increases dramatically
+   -  Chunk-level strategy may serve this scenario better
 
 ::: {.footer}
 Proposed Work
@@ -998,27 +980,25 @@ Proposed Work
 Proposed Work
 :::
 
-## Uh, Better Experiments, Obviously {.smaller}
+## Better Experiments
 
-**Simulation Performance and Reproducibility**: The simulation framework performs decently and is relatively clean, but it can be improved significantly.
-
--  Python, while convenient, is not the best choice to build highly-scalable DES frameworks. Julia is a great alternative that maintains convenience while providing much better performance
--  Per-experiment multi-threading is not capturing parallelism effectively. Building the core components of the simulator in a multi-threaded way to improve *scale-up*, then enabling per-experiment *scale-out* will greatly improve performance.
--  The current codebase has useful comments but little documentation and examples. Overall it doesn't offer the best basis for reproducibility and future improvements.
--  Addressing these will result in a robust codebase that allows me to run a more thorough experimental study, improve the credibility of my results and potentially give other researchers a tool to build upon
+-  Python is convenient but not highly-scalable for DES frameworks. Julia is a great alternative for both convenience and performance.
+-  Per-experiment multi-threading is not effective. Simulator core should be multi-threaded to improve [scale-up]{.body-highlight}; per-experiment [scale-out]{.body-highlight} can also be used.
+-  Current codebase has some comments but little documentation and examples. Easily [improvable]{.body-highlight} simulator and [reproducible]{.body-highlight} results crucial.
 
 ::: {.footer}
 Proposed Work
 :::
 
-# Appendices
+# Appendices {visibility="uncounted"}
 
-## Appendix A: Other References {.smaller .scrollable}
+## Appendix A: Other References {.smaller visibility="uncounted"}
 -  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
 -  *"On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks"*, S. Shukla, A. A. Abouzeid, WiOpt 2016
 -  *"HCaching: High-Speed Caching for Information-Centric Networking"*, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017
 
-## Appendix B: Model Notation {.smaller .scrollable}
+
+## Appendix B: Model Notation {.smaller .scrollable visibility="uncounted"}
 
 | Notation | Definition |
 |:--:|:--------|
@@ -1044,7 +1024,7 @@ Proposed Work
 |$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
 : Table of Notations {tbl-colwidths="[20,80]"}
 
-## Appendix C: Analysis Notation {.smaller .scrollable}
+## Appendix C: Analysis Notation {.smaller .scrollable visibility="uncounted"}
 
 | Notation | Definition |
 |:--:|:--------|
@@ -1058,7 +1038,7 @@ Proposed Work
 |$r_{n,max}$| Maximum total rate that can be served by all cache tiers at $n$|
 |$\Psi(\boldsymbol{\lambda})$|Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy|
 
-## Appendix D: Simulator Snippets {.smaller}
+## Appendix D: Simulator Snippets {.smaller visibility="uncounted"}
 
 ::: {.panel-tabset}
 
@@ -1179,8 +1159,4 @@ class RoundRobinNode(Node):
       self.link_queues[object_id].rotate(1)
       self.sendInterestPacket(remote_id, request)
 ```
-:::
-
-::: {.footer}
-Experiments
 :::
