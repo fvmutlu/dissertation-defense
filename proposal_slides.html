@@ -556,6 +556,12 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/toynet.svg" style="width:60.0%;height:60.0%"></p>
 </figure>
 </div>
+<ul>
+<li>Catalog of 1000 objects, ranked in popularity according to Zipf’s law</li>
+<li>Forwarder responds to requests from cache or forwards them to server</li>
+<li>Caching at the forwarder is fixed: most popular <span class="math inline">\(L_{f}\)</span> objects are cached
+<hr></li>
+</ul>
 <div class="columns">
 <div class="column" style="width:50%;">
 <table>
@@ -575,6 +581,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <td style="text-align: left;">Set of consumer nodes</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(L_{a}\)</span></td>
+<td style="text-align: left;">Cache size (in packets) at node <span class="math inline">\(a\)</span></td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
 <td style="text-align: left;">Set of data objects</td>
 </tr>
@@ -583,25 +604,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <td style="text-align: left;">Zipf’s law parameter</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(L_{a}\)</span></td>
-<td style="text-align: left;">Cache size (in packets) at node <span class="math inline">\(a\)</span></td>
-</tr>
-<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(\lambda\)</span></td>
 <td style="text-align: left;">Total incoming request rate at forwarder</td>
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
-<ul>
-<li>Catalog of <span class="math inline">\(|\mathcal{K}|=1000\)</span> single-packet objects, ranked in popularity according to Zipf’s law with parameter <span class="math inline">\(\alpha=0.75\)</span></li>
-<li>Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server</li>
-<li>Caching at the forwarder is clairvoyant, i.e.&nbsp;most popular <span class="math inline">\(L_{f}\)</span> objects are cached</li>
-</ul>
 </div>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="case-for-larger-caches" class="slide level2 smaller">
@@ -656,11 +667,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </tr>
 </tbody>
 </table>
-<p>Numbered nodes connected by green edges represent potential cache tiers</p>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Same catalog and popularity distribution, three possible cache tiers</li>
-<li>Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when current one is full</li>
+<li>Numbered nodes connected by green edges represent potential cache tiers</li>
+<li>Most popular 10 objects are cached in tier 1, objects ranked 11-40 are cached in tier 2, objects ranked 41-100 are cached in tier 3</li>
 </ul>
 </div>
 </div>
@@ -694,7 +704,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 </section>
 <section id="the-cost-challenge" class="slide level2">
-<h2>The Cost Challenge*</h2>
+<h2>The Cost Challenge</h2>
 <div>
 <ul>
 <li class="fragment">Caches are not free to use, every admission and replacement has a cost</li>
@@ -711,7 +721,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 </section>
 <section id="coupling-caching-with-forwarding" class="slide level2">
-<h2>Coupling Caching with Forwarding*</h2>
+<h2>Coupling Caching with Forwarding</h2>
 <div>
 <ul>
 <li class="fragment">Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled

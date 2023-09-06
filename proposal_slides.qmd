@@ -146,26 +146,30 @@ Introduction
 
 ![](images/toynet.svg){width=60% height=60% fig-align="center"}
 
+-  Catalog of 1000 objects, ranked in popularity according to Zipf's law
+-  Forwarder responds to requests from cache or forwards them to server
+-  Caching at the forwarder is fixed: most popular $L_{f}$ objects are cached
+<hr>
+
 ::: columns
 ::: {.column width="50%"}
 | Notation | Definition |
 |:-:|:---------------|
 |$C_{ab}$|Capacity of link $(a,b)$|
 |$\mathcal{N}_c$|Set of consumer nodes|
-|$\mathcal{K}$|Set of data objects|
-|$\alpha$|Zipf's law parameter|
 |$L_{a}$|Cache size (in packets) at node $a$|
-|$\lambda$|Total incoming request rate at forwarder|
 :::
 ::: {.column width="50%"}
--  Catalog of $|\mathcal{K}|=1000$ single-packet objects, ranked in popularity according to Zipf's law with parameter $\alpha=0.75$
--  Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server
--  Caching at the forwarder is clairvoyant, i.e. most popular $L_{f}$ objects are cached
+| Notation | Definition |
+|:-:|:---------------|
+|$\mathcal{K}$|Set of data objects|
+|$\alpha$|Zipf's law parameter|
+|$\lambda$|Total incoming request rate at forwarder|
 :::
 :::
 
 ::: {.footer}
-Motivation
+Introduction
 :::
 
 ## Case for Larger Caches {.smaller}
@@ -193,8 +197,6 @@ Motivation
 Motivation
 :::
 
-
-
 ## Extended Toy Example {.smaller}
 
 ![](images/toynet_cache.svg){width=75% height=75% fig-align="center"}
@@ -205,12 +207,10 @@ Motivation
 |:-:|:---------------|
 |$r_{n_j}$|Read rate of tier $j$ at $n$|
 |$L_{n_j}$|Cache size of tier $j$ at $n$|
-
-Numbered nodes connected by green edges represent potential cache tiers
 :::
 ::: {.column width="50%"}
--  Same catalog and popularity distribution, three possible cache tiers
--  Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when current one is full
+-   Numbered nodes connected by green edges represent potential cache tiers
+-   Most popular 10 objects are cached in tier 1, objects ranked 11-40 are cached in tier 2, objects ranked 41-100 are cached in tier 3
 :::
 :::
 
@@ -243,7 +243,7 @@ Motivation
 Motivation
 :::
 
-## The Cost Challenge*
+## The Cost Challenge
 
 ::: {.incremental}
 -  Caches are not free to use, every admission and replacement has a cost
@@ -257,7 +257,7 @@ Motivation
 Motivation
 :::
 
-## Coupling Caching with Forwarding*
+## Coupling Caching with Forwarding
 
 ::: {.incremental}
 -  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
