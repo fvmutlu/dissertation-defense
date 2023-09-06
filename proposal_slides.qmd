@@ -288,37 +288,83 @@ Related Work
 # System Model
 
 ## Data Plane Model {.smaller}
+Network model is based on general ICN principles:
 
-::: {.incremental}
--  Unit of content in the network is a *data object* (*object* for short), each object has the same size (in bits), a unique identifier, and a fixed unique source, i.e. an *object source*
--  Exogenous requests for objects can enter the network at any node and are forwarded through the network until reaching an object source or a node that caches the object
--  Responses to requests forward the object back to the requester using the reverse of the path followed by the request
--  Any node can have one or more cache tiers and a cache tier is defined by its capacity (in objects), read rate (in objects/sec) and admission / eviction penalties (arbitrary unit)
--  A node can cache an object in any of its tiers, unless it is the source for that object
--  A node can cache the same object in at most one of its tiers (*cache exclusivity* assumption)
--  An object evicted from a cache tier is allowed to potentially migrate to another tier at the same node
-:::
+-   Unit of content is *data object*; each object has equal size, and a unique source
+-   Requests can enter network at any node; sources or caching nodes can respond to requests with data
+-   Data responses follow reverse of request path back to requester
+<hr>
 
-::: {.footer}
-System Model
-:::
-
-## Control Plane Model {.smaller}
-
-::: {.incremental}
--  Control algorithms operate in a time-slotted *virtual control plane* added above the data plane just described
--  Whenever an exogenous request for an object arrives at a node, a *virtual interest packet* (*VIP*) for that object is generated at that node
--  Each node maintains a *VIP counter* for each object in the network; generating a VIP means incrementing this counter by 1
--  The *VIP count* of an object at a node can be interpreted as a queue that represents the unsatisfied demand for that object at that node
--  VIPs are forwarded through the network in the virtual plane using virtual links; at the beginning of each time slot, each node decides where and how to forward its VIPs
--  VIPs for an object are removed either at the source for that object, or at nodes that cache the object
-:::
+| Notation | Definition |
+|:-:|:---------|
+|$\mathcal{G}$|Directed graph representing network topology|
+|$(\mathcal{N},\mathcal{L})$|Set of nodes and links in $\mathcal{G}$|
+|$C_{ab}$|Transmission capacity (in objects/sec) of link $(a,b)$|
+|$\mathcal{K}$|Set of data objects in network|
+|$\mc{S}(k)$|Source node for $k \in \mathcal{K}$|
+|$\lambda^k_n$|Exogenous request arrival rate for $k$ at $n$|
 
 ::: {.footer}
 System Model
 :::
 
-# Virtual Plane Optimization Framework
+## Data Plane Model {.smaller}
+Multi-tiered caching model has following properties:
+
+-   Any node can have cache tiers and can cache an object unless it is already the source for that object
+-   A node can cache an object in at most one of its tiers (*cache exclusivity*)
+-   An object evicted from one tier can migrate to another tier at the same node
+<hr>
+
+| Notation | Definition |
+|:-:|:---------|
+|$\mathcal{J}_n$ | Set of cache tiers at node $n \in \mathcal{N}$|
+|$L_{n_j}$ | Size (in objects) of cache tier $j \in \mathcal{J}_n$ at $n$|
+|$r_{n_j}$ | Read rate of tier $j$ at node $n$|
+|$c^a_{n_j}$| Admission cost of tier $j$ at node $n$|
+|$c^e_{n_j}$| Eviction cost of tier $j$ at node $n$|
+
+::: {.footer}
+System Model
+:::
+
+## Virtual Plane Model {.smaller}
+Virtual plane model is based on (Yeh, 2014):
+
+-  Integer time slots depicted as $t = \{1,2,...\}$
+-  A *virtual interest packet* (*VIP*) is generated alongside each exogenous request entering network; each node maintains a *VIP counter* for each object in the network
+-  At the beginning of each time slot, each node decides where and how to forward its VIPs
+-  VIPs are removed at object sources and caching nodes
+<hr>
+
+| Notation | Definition |
+|:--:|:--------|
+|$t$|Time slot referring to time interval $[t, t+1)$|
+|$V^k_n(t)$|VIP count for $k$ at $n$ during $t$|
+|$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
+|$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
+
+::: {.footer}
+System Model
+:::
+
+## Virtual Plane Model {.smaller}
+Model is expanded with multiple cache tiers and *penalties*:
+
+-   Each cache admission and eviction in virtual plane incurs a penalty
+-   A configurable weight $\omega$ lets network determine importance of penalties in objective
+<hr>
+
+| Notation | Definition |
+|:--:|:--------|
+|$s^k_{n_j}(t)$ | Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$|
+|$p^k_{n_j}(t)$ | Penalty incurred by choice of $s^k_{n_j}(t)$|
+|$p(t)$|Sum penalty incurred during $t$|
+|$\omega$|Penalty importance weight|
+
+::: {.footer}
+System Model
+:::
 
 ## VIP Queue and Penalty Dynamics {.smaller}
 The VIP queue evolution for object $k$ at node $n$ can be described with the following, where $(x)^+ = max(x,0)$:
@@ -346,11 +392,13 @@ The penalty incurred by the caching action $s^k_{n_j}(t)$ can be defined in term
 With the sum penalty incurred during slot $t$ denoted as $p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$.
 
 ::: {.footer}
-Optimization Framework
+System Model
 :::
 
+# Virtual Plane Optimization
+
 ## Optimization Goal {.smaller}
-We aim to operate as close to the boundary of the VIP network stability region as possible while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.
+Operate close to VIP network stability region while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.
 
 More precisely, our objective is to minimize the following *drift-plus-penalty* expression:
 ```{=tex}
