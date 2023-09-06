@@ -234,7 +234,7 @@ Motivation
 
 ::: {.fragment}
 -  Addition of the third tier impacts performance negatively
--  **Lesson**: Cache tiers need to outpace their own *hit rate*
+-  This is due to trading link delay with cache read delay
 :::
 :::
 :::
@@ -987,6 +987,26 @@ Proposed Work
 ::: {.footer}
 Proposed Work
 :::
+
+# Other Contributions & Conclusion
+
+## Power & Caching in Wireless HetNets*
+
+Placeholder
+
+## Other Work*
+
+Placeholder
+
+## Conclusion*
+
+Placeholder
+
+## Acknowledgements*
+
+Placeholder
+
+# Questions
 
 # Appendices {visibility="uncounted"}
 
