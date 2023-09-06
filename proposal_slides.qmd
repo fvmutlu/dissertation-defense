@@ -920,8 +920,8 @@ Useful in view of [interest aggregation]{.body-highlight} and hardware limitatio
 
 Arguments in support of removing it:
 
--  Cache exclusivity makes [upward migrations]{.body-highlight} difficult
--  Without this constraint, algorithm operates over individual tiers independently; adaptations to baselines unnecessary
+-  Cache exclusivity makes [upward migrations]{.body-highlight} difficult in data plane
+-  Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary
 -  Hardware limitations may not be there for long (peer-to-peer DMA)
 Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.
 
@@ -965,16 +965,14 @@ Proposed Work
 Proposed Work
 :::
 
-## Gap Between Planes {.smaller}
+## Virtual Plane - Data Plane Gap {.smaller}
 
-**Control Plane - Data Plane Gap**: The algorithm and its analysis in the virtual control plane does not directly transfer to the data plane.
-
--  In the virtual plane, it is assumed that a node can immediately retrieve and cache any object in the network
--  The backpressure-based forwarding strategy in the virtual plane is prone to making impractical choices at a per-time-slot granularity, specifically in low traffic scenarios
--  These and other disparities lead to a *gap* between the two planes that is difficult to amend
--  While the data plane strategy works decently in practice, I believe this gap must be studied and quantified, even if it can't be practically amended. For instance:
-   -  Measure the delay between a caching decision being made in the virtual plane, and if/when that decision is realized in the data plane
-   -  Estimate the difference between performance and cost metrics that would be obtained under virtual plane assumptions vs. experiment results
+-   Some disparities between the two planes lead to a gap building over time
+    -   Virtual plane assumes nodes can immediately cache any object in the network
+    -   Length of time slots, interest aggregation etc. further extend this gap
+-   Amending the gap is difficult, but it must be quantified:
+    -   Measure delay between a caching decision in the virtual plane, and when it is realized in data plane
+    -   Estimate difference between performance and cost metrics under virtual plane assumptions vs. data plane results
 
 ::: {.footer}
 Proposed Work

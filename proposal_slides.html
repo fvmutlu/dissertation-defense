@@ -1558,8 +1558,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Useful in view of <span class="body-highlight">interest aggregation</span> and hardware limitations.</p>
 <p>Arguments in support of removing it:</p>
 <ul>
-<li>Cache exclusivity makes <span class="body-highlight">upward migrations</span> difficult</li>
-<li>Without this constraint, algorithm operates over individual tiers independently; adaptations to baselines unnecessary</li>
+<li>Cache exclusivity makes <span class="body-highlight">upward migrations</span> difficult in data plane</li>
+<li>Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary</li>
 <li>Hardware limitations may not be there for long (peer-to-peer DMA) Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.</li>
 </ul>
 <div class="footer">
@@ -1603,17 +1603,18 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Proposed Work</p>
 </div>
 </section>
-<section id="gap-between-planes" class="slide level2 smaller">
-<h2>Gap Between Planes</h2>
-<p><strong>Control Plane - Data Plane Gap</strong>: The algorithm and its analysis in the virtual control plane does not directly transfer to the data plane.</p>
+<section id="virtual-plane---data-plane-gap" class="slide level2 smaller">
+<h2>Virtual Plane - Data Plane Gap</h2>
 <ul>
-<li>In the virtual plane, it is assumed that a node can immediately retrieve and cache any object in the network</li>
-<li>The backpressure-based forwarding strategy in the virtual plane is prone to making impractical choices at a per-time-slot granularity, specifically in low traffic scenarios</li>
-<li>These and other disparities lead to a <em>gap</em> between the two planes that is difficult to amend</li>
-<li>While the data plane strategy works decently in practice, I believe this gap must be studied and quantified, even if it can’t be practically amended. For instance:
+<li>Some disparities between the two planes lead to a gap building over time
 <ul>
-<li>Measure the delay between a caching decision being made in the virtual plane, and if/when that decision is realized in the data plane</li>
-<li>Estimate the difference between performance and cost metrics that would be obtained under virtual plane assumptions vs.&nbsp;experiment results</li>
+<li>Virtual plane assumes nodes can immediately cache any object in the network</li>
+<li>Length of time slots, interest aggregation etc. further extend this gap</li>
+</ul></li>
+<li>Amending the gap is difficult, but it must be quantified:
+<ul>
+<li>Measure delay between a caching decision in the virtual plane, and when it is realized in data plane</li>
+<li>Estimate difference between performance and cost metrics under virtual plane assumptions vs.&nbsp;data plane results</li>
 </ul></li>
 </ul>
 <div class="footer">
