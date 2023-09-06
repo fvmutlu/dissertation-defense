@@ -13,12 +13,14 @@ format:
 
 ## Outline
 
-The outline of this presentation is as follows:
-
-1. General Context
-2. Joint Caching and Forwarding in Networks with Hybrid Storage Systems
-3. Other Contributions
-4. Conclusion and Acknowledgements
+- General Context
+- Primary Contribution and Proposed Work
+    -   **Introduction**: Motivation, Challenges, Related Work
+    -   **Technical**: System Model, Optimization Framework
+    -   **Practical**: Strategy, Experiments, Results
+    -   **Extensions**: Proposed Work, Out-of-scope Outlook*
+- Other Contributions
+- Conclusion and Acknowledgements
 
 ::: {.footer}
 Outline
@@ -72,16 +74,13 @@ Context
 
 ## Overview {.smaller}
 
-::: {.incremental}
 -  **Motivation**: Data volume grows exponentially, cache capacities are stagnant
 -  **Challenge**: Enabling larger caches in a cost-effective way is difficult
--  **Considerations**:
    -  How beneficial are larger caches?
    -  Are slower and larger storage elements viable as caches?
    -  What are the costs of operating large caches?
    -  How can we get the most out of caches in the network?
--  **Goal**: Develop a policy that observes network traffic patterns and cache device characteristics to make smart caching and forwarding decisions
-:::
+-  **Goal**: Develop a policy that observes network traffic patterns and diverse cache device characteristics to make intelligent caching and forwarding decisions
 
 ::: {.footer}
 Introduction
@@ -210,7 +209,7 @@ Motivation
 ![](images/two_tiers.svg)
 
 ::: {.fragment}
--  Although second tier operates slower than line rate, it improves delay at high request rates
+-  Second tier operates slower but improves delay for high request rates
 -  This is due to the diminishing returns emerging from Zipf's law
 :::
 :::
@@ -271,15 +270,6 @@ Motivation
    -  Follow-up to above work, prototype implementation
 -  *"Exploiting parallelism in hierarchical content stores for high-speed ICN routers"*, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017
    -  Follow-up to above works, integrates HCS design with NDN Forwarding Daemon (NFD)
-
-::: {.footer}
-Related Work
-:::
-
-## Related Work* {.smaller}
--  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
--  *"On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks"*, S. Shukla, A. A. Abouzeid, WiOpt 2016
--  *"HCaching: High-Speed Caching for Information-Centric Networking"*, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017
 
 ::: {.footer}
 Related Work
@@ -407,7 +397,7 @@ Optimization Framework
 ## Virtual Plane Forwarding Algorithm {.smaller}
 At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform **forwarding** as follows:
 
-- Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose:
+- Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose $\mu^k_{ab}(t)$ to:
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -565,13 +555,8 @@ Optimization Framework
         & \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
 \end{align}
 ```
+<hr>
 
-::: {.footer}
-Optimization Framework
-:::
-
-## Solutions to Optimization Problems {.smaller}
-**Forwarding**: The solution to the forwarding optimization problem is as in (Yeh, 2014).
 ```{=tex}
 \begin{equation}
    \mu^k_{ab}(t) =
@@ -1058,7 +1043,12 @@ Proposed Work
 
 # Appendices
 
-## Appendix A: Model Notation {.smaller .scrollable}
+## Appendix A: Other References {.smaller .scrollable}
+-  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
+-  *"On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks"*, S. Shukla, A. A. Abouzeid, WiOpt 2016
+-  *"HCaching: High-Speed Caching for Information-Centric Networking"*, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017
+
+## Appendix B: Model Notation {.smaller .scrollable}
 
 | Notation | Definition |
 |:--:|:--------|
@@ -1084,11 +1074,7 @@ Proposed Work
 |$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
 : Table of Notations {tbl-colwidths="[20,80]"}
 
-::: {.footer}
-System Model Notation
-:::
-
-## Appendix B: Analysis Notation {.smaller .scrollable}
+## Appendix C: Analysis Notation {.smaller .scrollable}
 
 | Notation | Definition |
 |:--:|:--------|

@@ -405,13 +405,18 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
-<p>The outline of this presentation is as follows:</p>
-<ol type="1">
+<ul>
 <li>General Context</li>
-<li>Joint Caching and Forwarding in Networks with Hybrid Storage Systems</li>
+<li>Primary Contribution and Proposed Work
+<ul>
+<li><strong>Introduction</strong>: Motivation, Challenges, Related Work</li>
+<li><strong>Technical</strong>: System Model, Optimization Framework</li>
+<li><strong>Practical</strong>: Strategy, Experiments, Results</li>
+<li><strong>Extensions</strong>: Proposed Work, Out-of-scope Outlook*</li>
+</ul></li>
 <li>Other Contributions</li>
 <li>Conclusion and Acknowledgements</li>
-</ol>
+</ul>
 <div class="footer">
 <p>Outline</p>
 </div>
@@ -468,20 +473,17 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="overview" class="slide level2 smaller">
 <h2>Overview</h2>
-<div>
 <ul>
-<li class="fragment"><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
-<li class="fragment"><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult</li>
-<li class="fragment"><strong>Considerations</strong>:
+<li><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
+<li><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult
 <ul>
-<li class="fragment">How beneficial are larger caches?</li>
-<li class="fragment">Are slower and larger storage elements viable as caches?</li>
-<li class="fragment">What are the costs of operating large caches?</li>
-<li class="fragment">How can we get the most out of caches in the network?</li>
+<li>How beneficial are larger caches?</li>
+<li>Are slower and larger storage elements viable as caches?</li>
+<li>What are the costs of operating large caches?</li>
+<li>How can we get the most out of caches in the network?</li>
 </ul></li>
-<li class="fragment"><strong>Goal</strong>: Develop a policy that observes network traffic patterns and cache device characteristics to make smart caching and forwarding decisions</li>
+<li><strong>Goal</strong>: Develop a policy that observes network traffic patterns and diverse cache device characteristics to make intelligent caching and forwarding decisions</li>
 </ul>
-</div>
 <div class="footer">
 <p>Introduction</p>
 </div>
@@ -661,7 +663,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/two_tiers.svg"></p>
 <div class="fragment">
 <ul>
-<li>Although second tier operates slower than line rate, it improves delay at high request rates</li>
+<li>Second tier operates slower but improves delay for high request rates</li>
 <li>This is due to the diminishing returns emerging from Zipf’s law</li>
 </ul>
 </div>
@@ -741,18 +743,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Related Work</p>
 </div>
 </section>
-<section id="related-work-1" class="slide level2 smaller">
-<h2>Related Work*</h2>
-<ul>
-<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
-<li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
-<li><em>“HCaching: High-Speed Caching for Information-Centric Networking”</em>, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017</li>
-</ul>
-<div class="footer">
-<p>Related Work</p>
-</div>
-</section>
-<section id="related-work-2" class="slide level2">
+<section id="related-work-1" class="slide level2">
 <h2>Related Work*</h2>
 <ul>
 <li><em>“VIP: a framework for joint dynamic forwarding and caching in named data networks”</em>, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014
@@ -872,7 +863,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>Virtual Plane Forwarding Algorithm</h2>
 <p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform <strong>forwarding</strong> as follows:</p>
 <ul>
-<li>Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
+<li>Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose <span class="math inline">\(\mu^k_{ab}(t)\)</span> to:</li>
 </ul>
 <span class="math display">\[\begin{align}
     \text{maximize}
@@ -1022,13 +1013,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
         &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
         &amp; \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
 \end{align}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems-6" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is as in (Yeh, 2014).</p>
+<hr>
 <span class="math display">\[\begin{equation}
    \mu^k_{ab}(t) =
    \left\{ \begin{array}{ll}
@@ -1570,8 +1555,16 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h1>Appendices</h1>
 
 </section>
-<section id="appendix-a-model-notation" class="slide level2 smaller scrollable">
-<h2>Appendix A: Model Notation</h2>
+<section id="appendix-a-other-references" class="slide level2 smaller scrollable">
+<h2>Appendix A: Other References</h2>
+<ul>
+<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
+<li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
+<li><em>“HCaching: High-Speed Caching for Information-Centric Networking”</em>, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017</li>
+</ul>
+</section>
+<section id="appendix-b-model-notation" class="slide level2 smaller scrollable">
+<h2>Appendix B: Model Notation</h2>
 <table>
 <caption>Table of Notations</caption>
 <colgroup>
@@ -1667,12 +1660,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </tr>
 </tbody>
 </table>
-<div class="footer">
-<p>System Model Notation</p>
-</div>
 </section>
-<section id="appendix-b-analysis-notation" class="slide level2 smaller scrollable">
-<h2>Appendix B: Analysis Notation</h2>
+<section id="appendix-c-analysis-notation" class="slide level2 smaller scrollable">
+<h2>Appendix C: Analysis Notation</h2>
 <table>
 <colgroup>
 <col style="width: 30%">
