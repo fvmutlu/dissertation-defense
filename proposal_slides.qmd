@@ -23,6 +23,7 @@ format:
           };
           </script>
 mainfont: Lato
+fig-cap-location: top
 ---
 
 ## Outline
@@ -658,25 +659,26 @@ Data Plane Strategy
 
 ## Data Plane Caching {.smaller}
 
-Define the *cache score* metric as follows:
+Define the [**cache score**]{.body-highlight} metric as follows:
 ```{=tex}
 \begin{equation}
     CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
 \end{equation}
 ```
 
-Define the *eviction target* for tier $j$ at node $n$ as follows:
+Define the [**eviction target**]{.body-highlight} for tier $j$ at node $n$ as follows:
 ```{=tex}
 \begin{equation}
    k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
 \end{equation}
 ```
+<hr>
 
 | Notation | Definition |
-|:--:|:--------|
+|:-:|:---------|
 |$\mc{v}^k_{ab}$|Actual number of VIPs for $k$ transmitted over $(a,b)$ during $t$|
-|$T$|Size of a sliding window of time slots|
-|$\mc{K}_{n_j}$|Set of objects currently cached in tier $j$ at $n$|
+|$T$|Size of sliding window in time slots|
+|$\mc{K}_{n_j}(t)$|Set of objects cached in tier $j$ at $n$ during $t$|
 
 ::: {.footer}
 Data Plane Strategy
@@ -684,7 +686,7 @@ Data Plane Strategy
 
 ## Data Plane Caching {.smaller}
 
-Define the *cache benefit* metric as follows:
+Define the [**cache benefit**]{.body-highlight} metric as follows:
 ```{=tex}
 \begin{equation}
     CB^k_{n_j}(t) = \begin{cases}
@@ -696,7 +698,7 @@ Define the *cache benefit* metric as follows:
 \end{equation}
 ```
 
-**Data Plane Caching**: When a data object $k \not \in \mc{K}_{n_j}$ arrives at $n$ during slot $t$, caching policy at $n$ behaves as follows.
+When a data object $k \not \in \mc{K}_{n_j}$ arrives at $n$ during slot $t$, [**data plane caching policy**]{.body-highlight} at $n$ behaves as follows:
 
 -  Determine the cache tier which offers the highest cache benefit, i.e. $j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)$
 -  If $CB^k_{n_{j^*}}(t) > 0$, admit object into tier $j^*$
@@ -709,7 +711,7 @@ Data Plane Strategy
 
 ## Data Plane Forwarding
 
-**Data Plane Forwarding**: Forwarding strategy is as in (Yeh, 2014). When a request for object $k \not \in \mc{K}_{n_j}, \; \forall \jin$, arrives at $n$, the request is forwarded to the following node.
+Forwarding strategy is as in (Yeh, 2014). When a request for object $k \not \in \mc{K}_{n_j}(t), \; \forall \jin$, arrives at $n$ during $t$, the request is forwarded to the following node:
 
 ```{=tex}
 \begin{equation}
@@ -723,7 +725,7 @@ Data Plane Strategy
 
 ## Chunk-level Decisions
 
-At the chunk-level in the data plane, we observe the following principles:
+At chunk-level in data plane, we observe the following principles:
 
 -   If a data object is admitted to (evicted from) a cache tier, all its chunks must be admitted to (evicted from) that tier.
 -   Forwarding decision is made upon receiving request for a first chunk. Requests for subsequent chunks are forwarded to the same node.
@@ -736,9 +738,9 @@ Data Plane Strategy
 
 ## Simulation Setup
 
--  Object-level simulation environment built with Python using the SimPy library
+-  Object-level simulation framework built with Python using the SimPy library
 -  Modular, object-oriented design to allow future extension
--  Multi-threading allowing for thread-per-experiment execution
+-  Multi-threading allowing thread-per-experiment execution
 -  Experiment parameters and output in JSON format for easy parsing
 -  Thorough statistic logging
 
@@ -746,127 +748,23 @@ Data Plane Strategy
 Experiments
 :::
 
-## Simulation Setup {.smaller}
+## Experiment Setting {.smaller}
 
-::: {.panel-tabset}
+::: columns
+::: {.column width="50%"}
 
-### Node
+![Abilene (11 nodes)](images/abilene.svg)
 
-```{.python}
-class Node(object):
-   # ...
-   def packetReceiver(self, remote_id):
-      while True:
-         pkt = yield self.in_links[remote_id].get()
-         if pkt.isData():
-               yield self.env.timeout(1/self.in_links[remote_id].link_cap)
-         if pkt.isData() or pkt.isInterest():
-               self.pkt_buffer.put((remote_id, pkt))
-   def packetProcessor(self):
-      while True:
-         remote_id, pkt = yield self.pkt_buffer.get()
-         if pkt.isInterest():
-               self.receiveInterest(remote_id, pkt.request)
-         elif pkt.isData():
-               self.receiveData(pkt.request)
-   # ...
-   def forwardInterest(self, request):
-        self.sendInterestPacket(self.fib[request.object_id][0], request)
-        return
+![GEANT (34 nodes)](images/geant.svg)
 
-    def decideCaching(self, object_id):
-        yield self.env.timeout(0)
-        return
-   # ...
-```
+:::
+::: {.column width="50%"}
 
-### Cache
+![4x4 Grid (16 nodes)](images/grid.svg)
 
-```{.python}
-class Cache(object):
-   def cacheController(self):
-      while True:
-         task = yield self.task_queue.get()
-         if task.type == 'r':
-               obj = yield self.env.process(self.readProcess(task.object_id))
-               self.out_buffer.put(obj)
-         elif task.type == 'w':
-               yield self.env.process(self.writeProcess(task.object_id))
-   #...
-   def readObject(self, object_id):
-      self.stats['reads'] += 1            
-      task = CacheTask(type = 'r', object_id = object_id)
-      tic = self.env.now
-      self.task_queue.put(task)
-      obj = yield self.out_buffer.get()
-      self.stats['read_delay'] += self.env.now - tic
-      return obj
-   def cacheObject(self, object_id):
-      self.stats['writes'] += 1
-      self.contents.append(object_id)
-      self.cur_size += 1
-      task = CacheTask(type = 'w', object_id = object_id)
-      self.task_queue.put(task)
-      return True
-```
+![3-Regular (50 nodes)](images/3reg.svg)
 
-### Link
-
-```{.python}
-class Link(object):
-   def __init__(self, env, link_cap, prop_delay):
-      self.env = env
-      self.link_cap = link_cap
-      self.pipe = sp.Store(env)
-   def put(self, pkt):
-      self.pipe.put(pkt)
-   def get(self):
-      return self.pipe.get()
-
-class VipLink(object):
-    def __init__(self, env):
-        self.env = env
-        self.update_pipe = sp.Store(env)
-        self.vip_pipe = sp.Store(env)    
-    def pushUpdate(self, pkt):
-        self.update_pipe.put(pkt)    
-    def getUpdate(self):
-        return self.update_pipe.get()    
-    def pushVips(self, pkt):
-        self.vip_pipe.put(pkt)    
-    def getVips(self):
-        return self.vip_pipe.get()
-```
-
-### Caching Policy
-
-```{.python}
-class UNIFNode(Node):
-   def decideCaching(self, object_id):
-      cache = np.random.choice(self.caches)
-      if cache.isFull():
-         victim_id = np.random.choice(cache.contents)
-         yield self.env.process(cache.replaceObject(victim_id, object_id))
-      else:
-         cache.cacheObject(object_id)
-```
-
-### Forwarding Policy
-
-```{.python}
-class RoundRobinNode(Node):
-   def addFIB(self, fib):
-      super().addFIB(fib)
-      self.link_queues = {}
-      for k in fib:
-         self.link_queues[k] = deque(fib[k])
-   
-   def forwardInterest(self, request):
-      object_id = request.object_id
-      remote_id = self.link_queues[object_id][0]
-      self.link_queues[object_id].rotate(1)
-      self.sendInterestPacket(remote_id, request)
-```
+:::
 :::
 
 ::: {.footer}
@@ -875,16 +773,13 @@ Experiments
 
 ## Experiment Setting {.smaller}
 
--  Experiments over four topologies: Abilene, GEANT, 4x4 Grid, 3-regular graph
--  All nodes have caches, can be content sources and can generate requests
--  For each $k$ a node is selected as $\mc{S}(k)$ uniformly at random
--  Content sources have infinite read rate*
--  Routing scheme: Allow $n$ to forward requests for $k$ to any neighbor on *any* shortest path between $n$ and $\mc{S}(k)$ (in number of hops)*
--  Multi-tier adapted cost-unaware replacement baselines: LRU, LFU, FIFO, RANDOM
-   -  LRU, FIFO and RANDOM paired with LCE admission
--  Multi-tier adapted cost-aware baseline: Penalty Aware LFU
+-  Content source for each $k$ is selected uniformly at random; content sources have infinite read rate
+-  Routing: Allow $n$ to forward requests for $k$ to any neighbor on *any* shortest path between $n$ and $\mc{S}(k)$ (in number of hops)
+-  Adapted replacement baselines: LRU, LFU, FIFO, RANDOM
+   -  LRU, FIFO and RANDOM cost-unaware, paired with LCE admission
+   -  LFU has both aware and unaware adaptations, admission based on frequency
 -  All baseline caching policies paired with Least Response Time forwarding
--  Multi-tier VIP ran with slot length of 1 sec and sliding window of size $T=100$
+-  Virtual plane algorithm with slot length of 1 sec and sliding window of size $T=100$
 
 ::: {.footer}
 Experiments
@@ -912,32 +807,47 @@ Experiments
 ## Results I {.smaller}
 **Scenario**: No penalties ($\omega=0$) and $L_{n_2} = 100$ at each $n$.
 
-Total delay, as fraction of total delay without any caching
+![Total delay, as fraction of total delay without any caching](images/tops_delay_v3.svg){width=75% height=75% fig-align="center"}
 
-![](images/tops_delay_v3.svg){width=75% height=75% fig-align="center"}
-
-Cache hits, percentage of hits in the first tier on the left, total number of hits on the right
-
-![](images/tops_hits_v3.svg){width=75% height=75% fig-align="center"}
+![Cache hits, percentage of hits in the first tier on the left, total number of hits on the right](images/tops_hits_v3.svg){width=75% height=75% fig-align="center"}
 
 ::: {.footer}
 Experiments
 :::
 
 ## Results II {.smaller}
-**Scenario**: Exclude cost-unaware policies, vary $\omega$. Pick best-performing $L_{n_2}$ value for each of LFU and VIP.
+**Scenario**: Cost-unaware policies excluded, $\omega > 0$. Best value of $L_{n_2}$ picked.
 
-Delay vs. penalty ($\omega$ decreasing to the right)
+::: {.body-centered}
+Delay vs. penalty ($\omega$ decreases to the right)
+:::
 
 ::: columns
-::: {.column width="33%"}
-![](images/pen_vs_delay_abilene_v2.svg)
+::: {.column width="50%"}
+![Abilene](images/pen_vs_delay_abilene_v2.svg)
 :::
-::: {.column width="33%"}
-![](images/pen_vs_delay_grid_v2.svg)
+::: {.column width="50%"}
+![4x4 Grid](images/pen_vs_delay_grid_v2.svg)
 :::
-::: {.column width="33%"}
-![](images/pen_vs_delay_regular_v2.svg)
+:::
+
+::: {.footer}
+Experiments
+:::
+
+## Results II {.smaller}
+**Scenario**: Cost-unaware policies excluded, $\omega > 0$. Best value of $L_{n_2}$ picked.
+
+::: {.body-centered}
+Delay vs. penalty ($\omega$ decreases to the right)
+:::
+
+::: columns
+::: {.column width="50%"}
+![GEANT](images/pen_vs_delay_geant_v2.svg)
+:::
+::: {.column width="50%"}
+![3-Regular](images/pen_vs_delay_regular_v2.svg)
 :::
 :::
 
@@ -954,7 +864,9 @@ There is room for improvement
 :::
 
 ::: {.fragment}
-![... and it's a big room](images/big-room.webp){width=65% height=65% fig-align="left"}
+![](images/big-room.webp){width=65% height=65% fig-align="left"}
+
+... and it's a big room
 :::
 
 ::: {.footer}
@@ -962,7 +874,7 @@ Super Funny Joke
 :::
 
 ## Cache Read Bandwidth {.smaller}
-Current model assumes read rate of each object is [independent]{.body-highlight} of all others. 
+Current model assumes read rate of each object is independent of all others. 
 ```{=tex}
 \begin{equation}
     V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
@@ -1145,3 +1057,130 @@ Proposed Work
 |$\mu^{in}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(a,n) \in \mc{L}$, i.e. $\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}$|
 |$r_{n,max}$| Maximum total rate that can be served by all cache tiers at $n$|
 |$\Psi(\boldsymbol{\lambda})$|Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy|
+
+## Appendix D: Simulator Snippets {.smaller}
+
+::: {.panel-tabset}
+
+### Node
+
+```{.python}
+class Node(object):
+   # ...
+   def packetReceiver(self, remote_id):
+      while True:
+         pkt = yield self.in_links[remote_id].get()
+         if pkt.isData():
+               yield self.env.timeout(1/self.in_links[remote_id].link_cap)
+         if pkt.isData() or pkt.isInterest():
+               self.pkt_buffer.put((remote_id, pkt))
+   def packetProcessor(self):
+      while True:
+         remote_id, pkt = yield self.pkt_buffer.get()
+         if pkt.isInterest():
+               self.receiveInterest(remote_id, pkt.request)
+         elif pkt.isData():
+               self.receiveData(pkt.request)
+   # ...
+   def forwardInterest(self, request):
+        self.sendInterestPacket(self.fib[request.object_id][0], request)
+        return
+
+    def decideCaching(self, object_id):
+        yield self.env.timeout(0)
+        return
+   # ...
+```
+
+### Cache
+
+```{.python}
+class Cache(object):
+   def cacheController(self):
+      while True:
+         task = yield self.task_queue.get()
+         if task.type == 'r':
+               obj = yield self.env.process(self.readProcess(task.object_id))
+               self.out_buffer.put(obj)
+         elif task.type == 'w':
+               yield self.env.process(self.writeProcess(task.object_id))
+   #...
+   def readObject(self, object_id):
+      self.stats['reads'] += 1            
+      task = CacheTask(type = 'r', object_id = object_id)
+      tic = self.env.now
+      self.task_queue.put(task)
+      obj = yield self.out_buffer.get()
+      self.stats['read_delay'] += self.env.now - tic
+      return obj
+   def cacheObject(self, object_id):
+      self.stats['writes'] += 1
+      self.contents.append(object_id)
+      self.cur_size += 1
+      task = CacheTask(type = 'w', object_id = object_id)
+      self.task_queue.put(task)
+      return True
+```
+
+### Link
+
+```{.python}
+class Link(object):
+   def __init__(self, env, link_cap, prop_delay):
+      self.env = env
+      self.link_cap = link_cap
+      self.pipe = sp.Store(env)
+   def put(self, pkt):
+      self.pipe.put(pkt)
+   def get(self):
+      return self.pipe.get()
+
+class VipLink(object):
+    def __init__(self, env):
+        self.env = env
+        self.update_pipe = sp.Store(env)
+        self.vip_pipe = sp.Store(env)    
+    def pushUpdate(self, pkt):
+        self.update_pipe.put(pkt)    
+    def getUpdate(self):
+        return self.update_pipe.get()    
+    def pushVips(self, pkt):
+        self.vip_pipe.put(pkt)    
+    def getVips(self):
+        return self.vip_pipe.get()
+```
+
+### Caching Policy
+
+```{.python}
+class UNIFNode(Node):
+   def decideCaching(self, object_id):
+      cache = np.random.choice(self.caches)
+      if cache.isFull():
+         victim_id = np.random.choice(cache.contents)
+         yield self.env.process(cache.replaceObject(victim_id, object_id))
+      else:
+         cache.cacheObject(object_id)
+```
+
+### Forwarding Policy
+
+```{.python}
+class RoundRobinNode(Node):
+   def addFIB(self, fib):
+      super().addFIB(fib)
+      self.link_queues = {}
+      for k in fib:
+         self.link_queues[k] = deque(fib[k])
+   
+   def forwardInterest(self, request):
+      object_id = request.object_id
+      remote_id = self.link_queues[object_id][0]
+      self.link_queues[object_id].rotate(1)
+      self.sendInterestPacket(remote_id, request)
+```
+:::
+
+::: {.footer}
+Experiments
+:::

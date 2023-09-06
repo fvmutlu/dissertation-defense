@@ -6,6 +6,10 @@
     color: #A4804A;
 }
 
+.body-centered {
+    text-align: center !important;
+}
+
 .reveal .slide-number {
     font-size: 48px !important;
     color: white !important;
@@ -15,7 +19,7 @@
 .reveal .slide-logo {
     display: block;
     position: fixed;
-    bottom: 0;
+    bottom: 30px !important;
     right: 12px;
     max-height: 4rem !important;
     height: 100%;
@@ -23,21 +27,19 @@
     z-index: 2;
 }
 
+.reveal img {
+    margin-bottom: -1vw;
+}
+
+.reveal .slide figure>figcaption {
+    text-align: center !important;
+}
+
 .reveal h1 {
     color: #C8102E !important;
 }
 
 .reveal h2 {
-    color: white !important;
-    background-color: #C8102E !important;
-    width: 200vw;
-    height: 4vw;
-    position: relative;
-    left: -20vw;
-    padding-left: 20vw;
-}
-
-.reveal .scrollable h2 {
     color: white !important;
     background-color: #C8102E !important;
     width: 200vw;
