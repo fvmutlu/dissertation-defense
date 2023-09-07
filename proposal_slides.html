@@ -1661,28 +1661,111 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 
 </section>
 <section id="power-caching-in-wireless-hetnets" class="slide level2 smaller">
-<h2>Power &amp; Caching in Wireless HetNets*</h2>
-<ul>
-<li><strong>Model</strong>: Arbitrary multi-hop wireless heterogenous network (HetNet) topology
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Model</strong>: Arbitrary multi-hop wireless heterogenous network (HetNet) topology:</p>
 <ul>
 <li>MCs, SCs, and users; MCs and SCs have wireline backhaul connections</li>
 <li>All wireless transmissions share channel, i.e.&nbsp;no interference management</li>
 <li>All nodes can be equipped with caches</li>
 <li>Pre-determined shortest path (in hops) routing</li>
-</ul></li>
-<li><strong>Optimization</strong>: Minimize total delay of user requests
-<ul>
-<li>Wireless link transmission delay dependent on SINR</li>
-<li>Request rates known a priori</li>
-<li>Problem is NP-hard due to integer constraints on caching variables</li>
-<li>Convex relaxation on these leads to reduced-complexity formulation (RCF)</li>
-<li>RCF is not jointly convex in power and caching</li>
-</ul></li>
 </ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>HetNet illustration</figcaption>
+<p><img data-src="images/hetnet.svg"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="power-caching-in-wireless-hetnets-1" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
+<ul>
+<li><p>Wireless link transmission delay dependent on SINR</p>
+<span class="math display">\[\begin{equation}
+\text{SINR}_{vu}(S)=\frac{ G_{vu}s_{vu}}{N_u+  \sum\limits_{j\in V\backslash v}G_{ju}\sum\limits_{w}s_{jw}+G_{vu}\sum\limits_{w\neq u}s_{vw}}
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
+\end{equation}\]</span></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-2" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
+<ul>
+<li><p>Wireless link transmission delay dependent on SINR</p></li>
+<li><p>Problem is NP-hard due to integer constraints on caching variables</p>
+<span class="math display">\[\begin{equation}
+D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\limits_{l=1}^k (1-x_{p_l i})
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
+\end{equation}\]</span></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-3" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
+<ul>
+<li><p>Wireless link transmission delay dependent on SINR</p></li>
+<li><p>Problem is NP-hard due to integer constraints on caching variables</p></li>
+<li><p>Convex relaxation on these leads to reduced-complexity formulation (RCF)</p>
+<span class="math display">\[\begin{equation}
+D_{(i,p)}(Y,S)={\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S)) g_{p_k i}(Y) }
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, y_{p_li}\in [0, 1]
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+\end{equation}\]</span></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
+<ul>
+<li><p>Wireless link transmission delay dependent on SINR</p></li>
+<li><p>Problem is NP-hard due to integer constraints on caching variables</p></li>
+<li><p>Convex relaxation on these leads to reduced-complexity formulation (RCF)</p>
+<span class="math display">\[\begin{equation}
+D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+\end{equation}\]</span></li>
+<li><p>RCF is not jointly convex in power and caching</p></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets*</h2>
-<p>Placeholder</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Approach</strong>:</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Projected Subgradient Method</strong></p>
+<ul>
+<li><p>Initialize: Choose <span class="math inline">\(S^{0}\)</span>, <span class="math inline">\(\boldsymbol{y}^{0}\)</span></p></li>
+<li><p><strong>do</strong></p>
+<ul>
+<li>Compute subgradient <span class="math inline">\(d^t_S, d^t_{\boldsymbol{y}}\)</span></li>
+<li>Determine step sizes <span class="math inline">\(\xi^t_{\boldsymbol{y}}\)</span>, <span class="math inline">\(\xi_S^t\)</span></li>
+<li>Compute projected variables <span class="math inline">\(\boldsymbol{\bar{y}}^t\)</span>, <span class="math inline">\(\bar{S}^t\)</span></li>
+<li>Update <span class="math inline">\(S^{t+1}\)</span> and <span class="math inline">\(\boldsymbol{y}^{t+1}\)</span></li>
+<li>Let <span class="math inline">\(t=t+1\)</span></li>
+</ul></li>
+<li><p><strong>while</strong> <span class="math inline">\(D^t - D^{t-1} &gt; \epsilon\)</span></p></li>
+<li><p>Let <span class="math inline">\((\boldsymbol{y}^{*}_{sub},S^{*}_{sub}) = (\boldsymbol{y}^{t},S^{t})\)</span></p></li>
+<li><p>Do rounding</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets*</h2>
+<p><strong>Results</strong>:</p>
 </section>
 <section id="other-work" class="slide level2">
 <h2>Other Work*</h2>

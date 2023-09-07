@@ -1006,25 +1006,120 @@ Proposed Work
 
 # Other Contributions & Conclusion
 
+## Power & Caching in Wireless HetNets {.smaller}
+
+::: columns
+::: {.column width=50%}
+**Model**: Arbitrary multi-hop wireless heterogenous network (HetNet) topology:
+
+-   MCs, SCs, and users; MCs and SCs have wireline backhaul connections
+-   All wireless transmissions share channel, i.e. no interference management
+-   All nodes can be equipped with caches
+-   Pre-determined shortest path (in hops) routing
+:::
+::: {.column width=50%}
+![HetNet illustration](images/hetnet.svg)
+:::
+:::
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+**Optimization**: Minimize total delay of user requests:
+
+-   Wireless link transmission delay dependent on SINR
+    ```{=tex}
+    \begin{equation}
+    \text{SINR}_{vu}(S)=\frac{ G_{vu}s_{vu}}{N_u+  \sum\limits_{j\in V\backslash v}G_{ju}\sum\limits_{w}s_{jw}+G_{vu}\sum\limits_{w\neq u}s_{vw}}
+    \end{equation}
+    ```
+    ```{=tex}
+    \begin{equation}
+    f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
+    \end{equation}
+    ```
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+**Optimization**: Minimize total delay of user requests:
+
+-   Wireless link transmission delay dependent on SINR
+-   Problem is NP-hard due to integer constraints on caching variables
+    ```{=tex}
+    \begin{equation}
+    D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\limits_{l=1}^k (1-x_{p_l i})
+    \end{equation}
+    ```
+    ```{=tex}
+    \begin{equation}
+    D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
+    \end{equation}
+    ```
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+**Optimization**: Minimize total delay of user requests:
+
+-   Wireless link transmission delay dependent on SINR
+-   Problem is NP-hard due to integer constraints on caching variables
+-   Convex relaxation on these leads to reduced-complexity formulation (RCF)
+    ```{=tex}
+    \begin{equation}
+    D_{(i,p)}(Y,S)={\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S)) g_{p_k i}(Y) }
+    \end{equation}
+    ```
+    ```{=tex}
+    \begin{equation}
+    g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, y_{p_li}\in [0, 1]
+    \end{equation}
+    ```
+    ```{=tex}
+    \begin{equation}
+    D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+    \end{equation}
+    ```
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+**Optimization**: Minimize total delay of user requests:
+
+-   Wireless link transmission delay dependent on SINR
+-   Problem is NP-hard due to integer constraints on caching variables
+-   Convex relaxation on these leads to reduced-complexity formulation (RCF)
+    ```{=tex}
+    \begin{equation}
+    D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+    \end{equation}
+    ```
+-   RCF is not jointly convex in power and caching
+
 ## Power & Caching in Wireless HetNets* {.smaller}
+::: columns
+::: {.column width=50%}
+**Approach**:
+:::
+::: {.column width=50%}
+**Projected Subgradient Method**
 
--   **Model**: Arbitrary multi-hop wireless heterogenous network (HetNet) topology
-    -   MCs, SCs, and users; MCs and SCs have wireline backhaul connections
-    -   All wireless transmissions share channel, i.e. no interference management
-    -   All nodes can be equipped with caches
-    -   Pre-determined shortest path (in hops) routing
--   **Optimization**: Minimize total delay of user requests
-    -   Wireless link transmission delay dependent on SINR
-    -   Request rates known a priori
-    -   Problem is NP-hard due to integer constraints on caching variables
-    -   Convex relaxation on these leads to reduced-complexity formulation (RCF)
-    -   RCF is not jointly convex in power and caching
+- Initialize: Choose $S^{0}$, $\boldsymbol{y}^{0}$
+
+- **do**
+
+    - Compute subgradient $d^t_S, d^t_{\boldsymbol{y}}$
+    - Determine step sizes $\xi^t_{\boldsymbol{y}}$, $\xi_S^t$
+    - Compute projected variables $\boldsymbol{\bar{y}}^t$, $\bar{S}^t$
+    - Update $S^{t+1}$ and $\boldsymbol{y}^{t+1}$
+    - Let $t=t+1$
+
+- **while** $D^t - D^{t-1} > \epsilon$
+
+- Let $(\boldsymbol{y}^{*}_{sub},S^{*}_{sub}) = (\boldsymbol{y}^{t},S^{t})$
+
+- Do rounding
+:::
+:::
 
 ## Power & Caching in Wireless HetNets* {.smaller}
--   **Approach**:
--   **Results**:
-
-Placeholder
+**Results**:
 
 ## Other Work*
 
