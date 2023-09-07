@@ -88,14 +88,23 @@ Context
 
 # Introduction
 
-## Overview {.smaller}
+## Overview
 
 -  **Motivation**: Data volume grows exponentially, cache capacities are stagnant
 -  **Challenge**: Enabling larger caches in a cost-effective way is difficult
    -  How beneficial are larger caches?
-   -  Are slower and larger storage elements viable as caches?
+   -  Are slower storage elements viable as caches?
    -  What are the costs of operating large caches?
    -  How can we get the most out of caches in the network?
+
+::: {.footer}
+Introduction
+:::
+
+## Overview
+
+-  **Motivation**: Data volume grows exponentially, cache capacities are stagnant
+-  **Challenge**: Enabling larger caches in a cost-effective way is difficult
 -  **Goal**: Develop a policy that observes network traffic patterns and diverse cache device characteristics to make intelligent caching and forwarding decisions
 
 ::: {.footer}
@@ -291,11 +300,14 @@ Motivation
 Related Work
 :::
 
-## Related Work*
+## Related Work: VIP
 
--  *"VIP: a framework for joint dynamic forwarding and caching in named data networks"*, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014
-    -   Model already includes read rate of caches
-    -   Lyapunov drift analysis integrates easily with costs
+*"VIP: a framework for joint dynamic forwarding and caching in named data networks"*, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014
+
+-   Couples caching and forwarding
+-   Models read rate of caches
+-   Lyapunov drift analysis integrates easily with costs
+-   Virtual and data plane separation makes algorithm simpler to operate
 
 ::: {.footer}
 Related Work
@@ -1002,11 +1014,7 @@ Placeholder
 
 Placeholder
 
-## Acknowledgements*
-
-Placeholder
-
-# Questions
+# Thanks & Questions
 
 # Appendices {visibility="uncounted"}
 
