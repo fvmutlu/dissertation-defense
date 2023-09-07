@@ -506,6 +506,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult</li>
 <li><strong>Goal</strong>: Develop a policy that observes network traffic patterns and diverse cache device characteristics to make intelligent caching and forwarding decisions</li>
 </ul>
+<div class="footer">
+<p>Introduction</p>
+</div>
 </section>
 <section id="use-case-data-intensive-science" class="slide level2">
 <h2>Use Case: Data-Intensive Science</h2>
@@ -644,7 +647,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="extended-toy-example" class="slide level2 smaller">
@@ -682,7 +685,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="case-for-additional-slower-caches" class="slide level2 smaller">
@@ -707,7 +710,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="the-cost-challenge" class="slide level2">
@@ -724,7 +727,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </ul>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="coupling-caching-with-forwarding" class="slide level2">
@@ -742,14 +745,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </ul>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="goal" class="slide level2">
 <h2>Goal*</h2>
 <p>Placeholder.</p>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="related-work" class="slide level2 smaller">
@@ -1532,6 +1535,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
     V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
     + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{#C8102E}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+
 \end{equation}\]</span>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
 </section>
 <section id="cache-read-bandwidth-1" class="slide level2 smaller">
 <h2>Cache Read Bandwidth</h2>
@@ -1654,7 +1660,27 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h1>Other Contributions &amp; Conclusion</h1>
 
 </section>
-<section id="power-caching-in-wireless-hetnets" class="slide level2">
+<section id="power-caching-in-wireless-hetnets" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets*</h2>
+<ul>
+<li><strong>Model</strong>: Arbitrary multi-hop wireless heterogenous network (HetNet) topology
+<ul>
+<li>MCs, SCs, and users; MCs and SCs have wireline backhaul connections</li>
+<li>All wireless transmissions share channel, i.e.&nbsp;no interference management</li>
+<li>All nodes can be equipped with caches</li>
+<li>Pre-determined shortest path (in hops) routing</li>
+</ul></li>
+<li><strong>Optimization</strong>: Minimize total delay of user requests
+<ul>
+<li>Wireless link transmission delay dependent on SINR</li>
+<li>Request rates known a priori</li>
+<li>Problem is NP-hard due to integer constraints on caching variables</li>
+<li>Convex relaxation on these leads to reduced-complexity formulation (RCF)</li>
+<li>RCF is not jointly convex in power and caching</li>
+</ul></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-1" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets*</h2>
 <p>Placeholder</p>
 </section>
