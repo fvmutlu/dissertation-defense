@@ -1740,10 +1740,20 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </ul>
 </section>
 <section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller">
-<h2>Power &amp; Caching in Wireless HetNets*</h2>
+<h2>Power &amp; Caching in Wireless HetNets</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><strong>Approach</strong>:</p>
+<p>Use projected subgradient method to solve for local minima in general case</p>
+<span class="math display">\[\begin{equation}
+\begin{aligned}
+    &amp; S^{t+1} = S^t + \xi_S^t(\bar{S}^t - S^t) \\
+    &amp; \bar{S}^t = [S^t - w_S^t d_S^t]^+_{\mathcal{D}_S} \\
+    &amp; \boldsymbol{y}^{t+1} = \boldsymbol{y}^t + \xi^t_{\boldsymbol{y}}(\boldsymbol{\bar{y}}^t - \boldsymbol{y}^t) \\
+    &amp; \boldsymbol{\bar{y}}^t = [\boldsymbol{y}^t - w_Y^t d^t_{\boldsymbol{y}}]^+_{\mathcal{D}_{\boldsymbol{y}}} \\
+    &amp; d_S^t = \nabla_S D(Y^t,S^t), \; d^t_{\boldsymbol{y}} \in \partial_{\boldsymbol{y}}D(Y^t,S^t) \\
+    &amp; \xi^t_{\boldsymbol{y}} = \frac{D^t - \hat{D}^t}{||d_{\boldsymbol{y}}^t||^2}, \; \xi_S^t = \frac{D^t - \hat{D}^t}{||d_S^t||^2}
+\end{aligned}
+\end{equation}\]</span>
 </div><div class="column" style="width:50%;">
 <p><strong>Projected Subgradient Method</strong></p>
 <ul>
@@ -1758,14 +1768,41 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </ul></li>
 <li><p><strong>while</strong> <span class="math inline">\(D^t - D^{t-1} &gt; \epsilon\)</span></p></li>
 <li><p>Let <span class="math inline">\((\boldsymbol{y}^{*}_{sub},S^{*}_{sub}) = (\boldsymbol{y}^{t},S^{t})\)</span></p></li>
-<li><p>Do rounding</p></li>
+<li><p>Rounding</p></li>
 </ul>
 </div>
 </div>
 </section>
 <section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets*</h2>
-<p><strong>Results</strong>:</p>
+<p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Power budget</figcaption>
+<p><img data-src="images/hetnet_result1.svg"></p>
+</figure>
+</div>
+<p>Placeholder</p>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>SC cache capacity</figcaption>
+<p><img data-src="images/hetnet_result3.svg"></p>
+</figure>
+</div>
+<p>Placeholder</p>
+</div><div class="column" style="width:33%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Zipf parameter</figcaption>
+<p><img data-src="images/hetnet_result2.svg"></p>
+</figure>
+</div>
+<p>Placeholder</p>
+</div>
+</div>
 </section>
 <section id="other-work" class="slide level2">
 <h2>Other Work*</h2>

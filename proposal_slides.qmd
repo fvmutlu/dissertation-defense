@@ -1092,10 +1092,22 @@ Proposed Work
     ```
 -   RCF is not jointly convex in power and caching
 
-## Power & Caching in Wireless HetNets* {.smaller}
+## Power & Caching in Wireless HetNets {.smaller}
 ::: columns
 ::: {.column width=50%}
-**Approach**:
+Use projected subgradient method to solve for local minima in general case
+```{=tex}
+\begin{equation}
+\begin{aligned}
+    & S^{t+1} = S^t + \xi_S^t(\bar{S}^t - S^t) \\
+    & \bar{S}^t = [S^t - w_S^t d_S^t]^+_{\mathcal{D}_S} \\
+    & \boldsymbol{y}^{t+1} = \boldsymbol{y}^t + \xi^t_{\boldsymbol{y}}(\boldsymbol{\bar{y}}^t - \boldsymbol{y}^t) \\
+    & \boldsymbol{\bar{y}}^t = [\boldsymbol{y}^t - w_Y^t d^t_{\boldsymbol{y}}]^+_{\mathcal{D}_{\boldsymbol{y}}} \\
+    & d_S^t = \nabla_S D(Y^t,S^t), \; d^t_{\boldsymbol{y}} \in \partial_{\boldsymbol{y}}D(Y^t,S^t) \\
+    & \xi^t_{\boldsymbol{y}} = \frac{D^t - \hat{D}^t}{||d_{\boldsymbol{y}}^t||^2}, \; \xi_S^t = \frac{D^t - \hat{D}^t}{||d_S^t||^2}
+\end{aligned}
+\end{equation}
+```
 :::
 ::: {.column width=50%}
 **Projected Subgradient Method**
@@ -1114,12 +1126,30 @@ Proposed Work
 
 - Let $(\boldsymbol{y}^{*}_{sub},S^{*}_{sub}) = (\boldsymbol{y}^{t},S^{t})$
 
-- Do rounding
+- Rounding
 :::
 :::
 
 ## Power & Caching in Wireless HetNets* {.smaller}
-**Results**:
+Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
+
+::: columns
+::: {.column width=33%}
+![Power budget](images/hetnet_result1.svg)
+
+Placeholder
+:::
+::: {.column width=33%}
+![SC cache capacity](images/hetnet_result3.svg)
+
+Placeholder
+:::
+::: {.column width=33%}
+![Zipf parameter](images/hetnet_result2.svg)
+
+Placeholder
+:::
+:::
 
 ## Other Work*
 
