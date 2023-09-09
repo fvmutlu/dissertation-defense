@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Research Advisor: Edmund Yeh Committee Members: Elif Uysal, Stratis Ioannidis">
-  <title>Placeholder Title</title>
+  <title>Cost-aware Joint Caching and Forwarding in Networks with Diverse Cache Resources</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -96,7 +96,7 @@
     code span.wa { color: #da4453; } /* Warning */
   </style>
   <link rel="stylesheet" href="proposal_slides_files/libs/revealjs/dist/theme/quarto.css">
-  <link rel="stylesheet" href="styles/logo.css">
+  <link rel="stylesheet" href="styles/styles.css">
   <link href="proposal_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="proposal_slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="proposal_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -385,14 +385,15 @@
       margin-right: 0; 
     }
   </style>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Placeholder Title</h1>
-  <p class="subtitle">Faruk Volkan Mutlu - PhD Proposal Review</p>
+  <h1 class="title">Cost-aware Joint Caching and Forwarding in Networks with Diverse Cache Resources</h1>
+  <p class="subtitle"><s>Farouk Multi</s> Faruk Volkan Mutlu - PhD Proposal Review</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -405,13 +406,18 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
-<p>The outline of this presentation is as follows:</p>
-<ol type="1">
+<ul>
 <li>General Context</li>
-<li>Joint Caching and Forwarding in Networks with Hybrid Storage Systems</li>
+<li>Primary Contribution and Proposed Work
+<ul>
+<li><strong>Introduction</strong>: Motivation, Challenges, Related Work</li>
+<li><strong>Technical</strong>: System Model, Optimization Framework</li>
+<li><strong>Practical</strong>: Strategy, Experiments, Results</li>
+<li><strong>Extensions</strong>: Proposed Work</li>
+</ul></li>
 <li>Other Contributions</li>
 <li>Conclusion and Acknowledgements</li>
-</ol>
+</ul>
 <div class="footer">
 <p>Outline</p>
 </div>
@@ -436,6 +442,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\pen}{\mathbb{E}[p(t)|\mathbf{V}(t)]}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
+\definecolor{neured}{RGB}{200, 16, 46}
 \]</span></p>
 </div>
 </section>
@@ -461,27 +468,86 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Context</p>
 </div>
 </section>
-<section id="overview" class="slide level2 smaller">
-<h2>Overview*</h2>
-<div>
+<section>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
+
+</section>
+<section id="overview" class="slide level2">
+<h2>Overview</h2>
 <ul>
-<li class="fragment"><strong>Motivation</strong>: Data volume is growing exponentially, but capacities of in-network caches are stagnant</li>
-<li class="fragment"><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is not trivial</li>
-<li class="fragment"><strong>Considerations</strong>:
+<li><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
+<li><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult
 <ul>
-<li class="fragment">How beneficial are larger caches?</li>
-<li class="fragment">Are slower and larger storage elements viable as caches?</li>
-<li class="fragment">What are the costs of operating large caches?</li>
-<li class="fragment">How can we get the most out of caches in the network?</li>
+<li>How beneficial are larger caches?</li>
+<li>Are slower storage elements viable as caches?</li>
+<li>What are the costs of operating large caches?</li>
+<li>How can we get the most out of caches in the network?</li>
 </ul></li>
-<li class="fragment"><strong>Goal</strong>: Develop a policy that observes network traffic patterns and cache device characteristics to make smart caching and forwarding decisions</li>
 </ul>
+<div class="footer">
+<p>Introduction</p>
 </div>
 </section>
-<section>
-<section id="motivation" class="title-slide slide level1 center">
-<h1>Motivation</h1>
-
+<section id="overview-1" class="slide level2">
+<h2>Overview</h2>
+<ul>
+<li><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
+<li><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult</li>
+<li><strong>Goal</strong>: Develop a policy that observes network traffic patterns and diverse cache device characteristics to make intelligent caching and forwarding decisions</li>
+</ul>
+<div class="footer">
+<p>Introduction</p>
+</div>
+</section>
+<section id="use-case-data-intensive-science" class="slide level2">
+<h2>Use Case: Data-Intensive Science</h2>
+<div>
+<ul>
+<li class="fragment">Data-intensive science experiments (high-energy physics, genomics etc.) process huge amounts of data
+<ul>
+<li class="fragment">In one year of LHC running, over an exabyte of data is accessed</li>
+<li class="fragment">In November 2018, 15.8 petabytes of data were written on tape at CERN</li>
+</ul></li>
+<li class="fragment">Data is continuously distributed across the world for research</li>
+</ul>
+</div>
+<div class="footer">
+<p>Introduction</p>
+</div>
+</section>
+<section id="use-case-data-intensive-science-1" class="slide level2">
+<h2>Use Case: Data-Intensive Science</h2>
+<div>
+<ul>
+<li class="fragment"><em>“N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science”</em>, Y. Wu, F. V. Mutlu, et al.
+<ul>
+<li class="fragment">NDN-based high-throughput data distribution, caching and access system</li>
+<li class="fragment">Each router allocated 20 gigabytes DRAM cache space</li>
+</ul></li>
+<li class="fragment"><em>“NDN-DPDK: NDN Forwarding at 100 Gbps on Commodity Hardware”</em>, J. Shi, D. Pesavento, L. Benmohamed
+<ul>
+<li class="fragment">Increasing capacities via NVMe SSDs require novel caching strategies due to their slow speeds</li>
+</ul></li>
+</ul>
+</div>
+<div class="footer">
+<p>Introduction</p>
+</div>
+</section>
+<section id="the-capacity-challenge" class="slide level2">
+<h2>The Capacity Challenge</h2>
+<div>
+<ul>
+<li class="fragment">DRAM is the primary cache device since it is fast, i.e.&nbsp;<em>line rate</em> (12.8-25.6 GB/s for DDR4, 32-64 GB/s for DDR5)</li>
+<li class="fragment">However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
+<li class="fragment">Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
+<li class="fragment">NVMe SSDs can be much slower than DRAM (11.7 GB/s ideal read rate for fastest PCIe 5.0)</li>
+</ul>
+</div>
+<div class="footer">
+<p>Introduction</p>
+</div>
 </section>
 <section id="toy-example" class="slide level2 smaller">
 <h2>Toy Example</h2>
@@ -490,6 +556,12 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/toynet.svg" style="width:60.0%;height:60.0%"></p>
 </figure>
 </div>
+<ul>
+<li>Catalog of 1000 objects, ranked in popularity according to Zipf’s law</li>
+<li>Forwarder responds to requests from cache or forwards them to server</li>
+<li>Caching at the forwarder is fixed: most popular <span class="math inline">\(L_{f}\)</span> objects are cached
+<hr></li>
+</ul>
 <div class="columns">
 <div class="column" style="width:50%;">
 <table>
@@ -509,6 +581,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <td style="text-align: left;">Set of consumer nodes</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(L_{a}\)</span></td>
+<td style="text-align: left;">Cache size (in packets) at node <span class="math inline">\(a\)</span></td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
 <td style="text-align: left;">Set of data objects</td>
 </tr>
@@ -517,25 +604,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <td style="text-align: left;">Zipf’s law parameter</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(L_{a}\)</span></td>
-<td style="text-align: left;">Cache size (in packets) at node <span class="math inline">\(a\)</span></td>
-</tr>
-<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(\lambda\)</span></td>
 <td style="text-align: left;">Total incoming request rate at forwarder</td>
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
-<ul>
-<li>Catalog of <span class="math inline">\(|\mathcal{K}|=1000\)</span> single-packet objects, ranked in popularity according to Zipf’s law with parameter <span class="math inline">\(\alpha=0.75\)</span></li>
-<li>Consumer nodes send requests to the forwarder node, which either responds from its cache or forwards them upstream to server</li>
-<li>Caching at the forwarder is clairvoyant, i.e.&nbsp;most popular <span class="math inline">\(L_{f}\)</span> objects are cached</li>
-</ul>
 </div>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="case-for-larger-caches" class="slide level2 smaller">
@@ -545,8 +622,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/zipf_1k.svg"></p>
 <div class="fragment">
 <ul>
-<li>Most popular 10% of objects make up half of all requests</li>
 <li>Most popular 1% of objects make up one fifth of all requests</li>
+<li>Most popular 10% of objects make up half of all requests</li>
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
@@ -560,21 +637,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 </div>
 <div class="footer">
-<p>Motivation</p>
-</div>
-</section>
-<section id="the-capacity-challenge" class="slide level2">
-<h2>The Capacity Challenge</h2>
-<div>
-<ul>
-<li class="fragment">DRAM is the primary cache device since it is fast, i.e.&nbsp;can operate at <em>line rate</em></li>
-<li class="fragment">However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
-<li class="fragment">Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
-<li class="fragment">NVMe SSDs can be an order of magnitude slower than DRAM</li>
-</ul>
-</div>
-<div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="extended-toy-example" class="slide level2 smaller">
@@ -604,16 +667,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </tr>
 </tbody>
 </table>
-<p>Numbered nodes connected by green edges represent potential cache tiers</p>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Same catalog and popularity distribution, three possible cache tiers</li>
-<li>Objects are cached in order of popularity, starting from tier 1 and moving onto next tier when current one is full</li>
+<li>Numbered nodes connected by green edges represent potential cache tiers</li>
+<li>Most popular 10 objects are cached in tier 1, objects ranked 11-40 are cached in tier 2, objects ranked 41-100 are cached in tier 3</li>
 </ul>
 </div>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="case-for-additional-slower-caches" class="slide level2 smaller">
@@ -623,7 +685,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/two_tiers.svg"></p>
 <div class="fragment">
 <ul>
-<li>Although second tier operates slower than line rate, it improves delay at high request rates</li>
+<li>Second tier operates slower but improves delay for high request rates</li>
 <li>This is due to the diminishing returns emerging from Zipf’s law</li>
 </ul>
 </div>
@@ -632,17 +694,17 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="fragment">
 <ul>
 <li>Addition of the third tier impacts performance negatively</li>
-<li><strong>Lesson</strong>: Cache tiers need to outpace their own <em>hit rate</em></li>
+<li>This is due to trading link delay with cache read delay</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="the-cost-challenge" class="slide level2">
-<h2>The Cost Challenge*</h2>
+<h2>The Cost Challenge</h2>
 <div>
 <ul>
 <li class="fragment">Caches are not free to use, every admission and replacement has a cost</li>
@@ -655,32 +717,45 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </ul>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
-<section id="coupling-caching-with-forwarding" class="slide level2 smaller">
-<h2>Coupling Caching with Forwarding*</h2>
+<section id="coupling-caching-with-forwarding" class="slide level2">
+<h2>Coupling Caching with Forwarding</h2>
 <div>
 <ul>
-<li class="fragment">Benefits of ubiquitous caching offered by ICN architectures are more pronounced when caching and forwarding decisions are tightly coupled
+<li class="fragment">Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
 <ul>
 <li class="fragment">“<em>Coupling caching and forwarding: benefits, analysis, and implementation</em>”, G. Rossini, D. Rossi, ACM ICN 2014</li>
 </ul></li>
-<li class="fragment">The need for this coupling is even more prevalent with larger, slower caches
+<li class="fragment">This is even more critical with larger, slower caches
 <ul>
-<li class="fragment">Based on current demand in different regions of the network, a cache miss at a node could be directed towards a closer node which caches the object in a slower tier or a further node which does so in a faster tier</li>
+<li class="fragment">Should we direct a cache miss toward a node where we might hit a slow cache or a more distant node where we might hit a faster cache?</li>
 </ul></li>
 </ul>
 </div>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="goal" class="slide level2">
-<h2>Goal*</h2>
-<p>Placeholder.</p>
+<h2>Goal</h2>
+<p>Develop a joint forwarding and caching policy that:</p>
+<ul>
+<li>Tracks user demand for objects as basis for decisions</li>
+<li>Utilizes diverse cache resources effectively:
+<ul>
+<li>Ensures devices are receiving <span class="body-highlight">sustainable hit rates</span></li>
+<li>Makes <span class="body-highlight">high-value</span> replacement decisions</li>
+</ul></li>
+<li>Utilizes bandwidth resources effectively:
+<ul>
+<li>Steers requests toward caching points</li>
+<li>Forwards requests avoiding congestion</li>
+</ul></li>
+</ul>
 <div class="footer">
-<p>Motivation</p>
+<p>Introduction</p>
 </div>
 </section>
 <section id="related-work" class="slide level2 smaller">
@@ -703,24 +778,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Related Work</p>
 </div>
 </section>
-<section id="related-work-1" class="slide level2 smaller">
-<h2>Related Work*</h2>
+<section id="related-work-vip" class="slide level2">
+<h2>Related Work: VIP</h2>
+<p><em>“VIP: a framework for joint dynamic forwarding and caching in named data networks”</em>, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014</p>
 <ul>
-<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
-<li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
-</ul>
-<div class="footer">
-<p>Related Work</p>
-</div>
-</section>
-<section id="related-work-2" class="slide level2">
-<h2>Related Work*</h2>
-<ul>
-<li><em>“VIP: a framework for joint dynamic forwarding and caching in named data networks”</em>, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014
-<ul>
-<li>Model already includes read rate of caches</li>
+<li>Couples caching and forwarding</li>
+<li>Models read rate of caches</li>
 <li>Lyapunov drift analysis integrates easily with costs</li>
-</ul></li>
+<li>Virtual and data plane separation makes algorithm simpler to operate</li>
 </ul>
 <div class="footer">
 <p>Related Work</p>
@@ -733,39 +798,1045 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="data-plane-model" class="slide level2 smaller">
 <h2>Data Plane Model</h2>
-<div>
+<p>Network model is based on general ICN principles:</p>
 <ul>
-<li class="fragment">Unit of content in the network is a <em>data object</em> (<em>object</em> for short), each object has the same size (in bits), a unique identifier, and a fixed unique source, i.e.&nbsp;an <em>object source</em></li>
-<li class="fragment">Exogenous requests for objects can enter the network at any node and are forwarded through the network until reaching an object source or a node that caches the object</li>
-<li class="fragment">Responses to requests forward the object back to the requester using the reverse of the path followed by the request</li>
-<li class="fragment">Any node can have one or more cache tiers and a cache tier is defined by its capacity (in objects), read rate (in objects/sec) and admission / eviction penalties (arbitrary unit)</li>
-<li class="fragment">A node can cache an object in any of its tiers, unless it is the source for that object</li>
-<li class="fragment">A node can cache the same object in at most one of its tiers (<em>cache exclusivity</em> assumption)</li>
-<li class="fragment">An object evicted from a cache tier is allowed to potentially migrate to another tier at the same node</li>
+<li>Unit of content is <em>data object</em>; each object has equal size, and a unique source</li>
+<li>Requests can enter network at any node; sources or caching nodes can respond to requests with data</li>
+<li>Data responses follow reverse of request path back to requester
+<hr></li>
 </ul>
-</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mathcal{G}\)</span></td>
+<td style="text-align: left;">Directed graph representing network topology</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((\mathcal{N},\mathcal{L})\)</span></td>
+<td style="text-align: left;">Set of nodes and links in <span class="math inline">\(\mathcal{G}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(C_{ab}\)</span></td>
+<td style="text-align: left;">Transmission capacity (in objects/sec) of link <span class="math inline">\((a,b)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
+<td style="text-align: left;">Set of data objects in network</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mc{S}(k)\)</span></td>
+<td style="text-align: left;">Source node for <span class="math inline">\(k \in \mathcal{K}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
+<td style="text-align: left;">Exogenous request arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+</tbody>
+</table>
 <div class="footer">
 <p>System Model</p>
 </div>
 </section>
-<section id="control-plane-model" class="slide level2 smaller">
-<h2>Control Plane Model</h2>
-<div>
+<section id="data-plane-model-1" class="slide level2 smaller">
+<h2>Data Plane Model</h2>
+<p>Multi-tiered caching model has following properties:</p>
 <ul>
-<li class="fragment">Control algorithms operate in a time-slotted <em>virtual control plane</em> added above the data plane just described</li>
-<li class="fragment">Whenever an exogenous request for an object arrives at a node, a <em>virtual interest packet</em> (<em>VIP</em>) for that object is generated at that node</li>
-<li class="fragment">Each node maintains a <em>VIP counter</em> for each object in the network; generating a VIP means incrementing this counter by 1</li>
-<li class="fragment">The <em>VIP count</em> of an object at a node can be interpreted as a queue that represents the unsatisfied demand for that object at that node</li>
-<li class="fragment">VIPs are forwarded through the network in the virtual plane using virtual links; at the beginning of each time slot, each node decides where and how to forward its VIPs</li>
-<li class="fragment">VIPs for an object are removed either at the source for that object, or at nodes that cache the object</li>
+<li>Any node can have cache tiers and can cache an object unless it is already the source for that object</li>
+<li>A node can cache an object in at most one of its tiers (<em>cache exclusivity</em>)</li>
+<li>An object evicted from one tier can migrate to another tier at the same node
+<hr></li>
 </ul>
-</div>
+<table>
+<colgroup>
+<col style="width: 23%">
+<col style="width: 76%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mathcal{J}_n\)</span></td>
+<td style="text-align: left;">Set of cache tiers at node <span class="math inline">\(n \in \mathcal{N}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(L_{n_j}\)</span></td>
+<td style="text-align: left;">Size (in objects) of cache tier <span class="math inline">\(j \in \mathcal{J}_n\)</span> at <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
+<td style="text-align: left;">Read rate of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(c^a_{n_j}\)</span></td>
+<td style="text-align: left;">Admission cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(c^e_{n_j}\)</span></td>
+<td style="text-align: left;">Eviction cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
+</tr>
+</tbody>
+</table>
 <div class="footer">
 <p>System Model</p>
 </div>
 </section>
-<section id="model-notation" class="slide level2 smaller scrollable">
-<h2>Model Notation</h2>
+<section id="virtual-plane-model" class="slide level2 smaller">
+<h2>Virtual Plane Model</h2>
+<p>Virtual plane model is based on (Yeh, 2014):</p>
+<ul>
+<li>Integer time slots depicted as <span class="math inline">\(t = \{1,2,...\}\)</span></li>
+<li>A <em>virtual interest packet</em> (<em>VIP</em>) is generated alongside each exogenous request entering network; each node maintains a <em>VIP counter</em> for each object in the network</li>
+<li>At the beginning of each time slot, each node decides where and how to forward its VIPs</li>
+<li>VIPs are removed at object sources and caching nodes
+<hr></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
+<td style="text-align: left;">Time slot referring to time interval <span class="math inline">\([t, t+1)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
+<td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A^k_n(t)\)</span></td>
+<td style="text-align: left;">Number of exogenous requests for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
+<td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="footer">
+<p>System Model</p>
+</div>
+</section>
+<section id="virtual-plane-model-1" class="slide level2 smaller">
+<h2>Virtual Plane Model</h2>
+<p>Model is expanded with multiple cache tiers and <em>penalties</em>:</p>
+<ul>
+<li>Each cache admission and eviction in virtual plane incurs a penalty</li>
+<li>A configurable weight <span class="math inline">\(\omega\)</span> lets network determine importance of penalties in objective
+<hr></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(s^k_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(p^k_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Penalty incurred by choice of <span class="math inline">\(s^k_{n_j}(t)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(p(t)\)</span></td>
+<td style="text-align: left;">Sum penalty incurred during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\omega\)</span></td>
+<td style="text-align: left;">Penalty importance weight</td>
+</tr>
+</tbody>
+</table>
+<div class="footer">
+<p>System Model</p>
+</div>
+</section>
+<section id="vip-queue-and-penalty-dynamics" class="slide level2 smaller">
+<h2>VIP Queue and Penalty Dynamics</h2>
+<p>The VIP queue evolution for object <span class="math inline">\(k\)</span> at node <span class="math inline">\(n\)</span> can be described with the following, where <span class="math inline">\((x)^+ = max(x,0)\)</span>:</p>
+<span class="math display">\[\begin{equation}
+\begin{split}
+    V^k_n(t+1) \leq &amp; \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} r_{n_j} s^k_{n_j}(t) \Bigg)^+    
+\end{split}
+\end{equation}\]</span>
+<p>The penalty incurred by the caching action <span class="math inline">\(s^k_{n_j}(t)\)</span> can be defined in terms of utilization costs as follows:</p>
+<span class="math display">\[\begin{equation}
+    p^k_{n_j}(t) \triangleq
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+       0, &amp; \text{otherwise}
+   \end{array} \right.
+\end{equation}\]</span>
+<p>With the sum penalty incurred during slot <span class="math inline">\(t\)</span> denoted as <span class="math inline">\(p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)\)</span>.</p>
+<div class="footer">
+<p>System Model</p>
+</div>
+</section></section>
+<section>
+<section id="virtual-plane-optimization" class="title-slide slide level1 center">
+<h1>Virtual Plane Optimization</h1>
+
+</section>
+<section id="optimization-goal" class="slide level2 smaller">
+<h2>Optimization Goal</h2>
+<p>Operate close to VIP network stability region boundary while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.</p>
+<p>More precisely, our objective is to minimize the following <em>drift-plus-penalty</em> expression:</p>
+<span class="math display">\[\begin{equation}
+    \drift + \omega \pen
+\end{equation}\]</span>
+<p>where <span class="math inline">\(\drift\)</span> is the drift component defined as:</p>
+<span class="math display">\[\begin{equation}
+    \drift = \mathbb{E}[\mathcal{L}(\mathbf{V}(t+1))-\mc{L}(\mathbf{V}(t))|\mathbf{V}(t)]
+\end{equation}\]</span>
+<p>and <span class="math inline">\(\mc{L}(\mathbf{V}(t))\)</span> is the Lyapunov function defined as:</p>
+<span class="math display">\[\begin{equation}
+    \mc{L}(\mathbf{V}(t)) = \sum\limits_{\nin, \kin} (V^k_n(t))^2
+\end{equation}\]</span>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
+<section id="virtual-plane-caching-algorithm" class="slide level2 smaller">
+<h2>Virtual Plane Caching Algorithm</h2>
+<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform <strong>caching</strong> as follows:</p>
+<ul>
+<li>Choose <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</li>
+</ul>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}\]</span>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
+<section id="virtual-plane-forwarding-algorithm" class="slide level2 smaller">
+<h2>Virtual Plane Forwarding Algorithm</h2>
+<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform <strong>forwarding</strong> as follows:</p>
+<ul>
+<li>Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose <span class="math inline">\(\mu^k_{ab}(t)\)</span> to:</li>
+</ul>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
+        &amp; \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
+\end{align}\]</span>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
+<section id="analysis" class="slide level2 smaller">
+<h2>Analysis</h2>
+<p>The VIP <strong>stability region</strong> <span class="math inline">\(\Lambda\)</span> of the network <span class="math inline">\(\mc{G} = (\mc{N},\mc{L})\)</span>, is the set <span class="math inline">\(\Lambda\)</span> consisting of all VIP arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that the following holds:</p>
+<span class="math display">\[\begin{equation}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \quad \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+\end{equation}\]</span>
+<table>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(f^k_{ab}\)</span></td>
+<td style="text-align: left;">Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\mc{B}_{n,i}\)</span></td>
+<td style="text-align: left;">i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
+<td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
+<section id="analysis-1" class="slide level2 smaller">
+<h2>Analysis</h2>
+<p>Given VIP arrival rate vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following:</p>
+<span class="math display">\[\begin{equation}
+    \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+    \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+    B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
+\end{equation}\]</span>
+<p><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> is the minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.</p>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
+<section id="solutions-to-optimization-problems" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p>We can rewrite the optimization problem for the <span class="body-highlight">caching</span> step.</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}\]</span>
+<span class="math display">\[\begin{equation}
+    p^k_{n_j}(t) \triangleq
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+       0, &amp; \text{otherwise}
+   \end{array} \right.
+\end{equation}\]</span>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
+<section id="solutions-to-optimization-problems-1" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p>We can rewrite the optimization problem for the <span class="body-highlight">caching</span> step.</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}\]</span>
+<span class="math display">\[\begin{equation}
+    b^k_{n_j}(t) \triangleq \left\{ \begin{array}{ll}
+        r_{n_j} V^k_n(t) - \omega c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 0 \\
+        r_{n_j} V^k_n(t) + \omega c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 1
+    \end{array} \right.
+\end{equation}\]</span>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
+<section id="solutions-to-optimization-problems-2" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p>Using a transformation of variables, the problem can be written as a <span class="body-highlight">linear assignment problem</span>. We can interpret this as deciding on caching variables for each one-object cache <em>slot</em>, rather than for each tier as a whole<sup>1</sup>.</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} s^k_{n_i}(t) \leq 1, \; \iin \\
+        &amp; \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_i}(t) \in \{0, 1\}, \; \kin, \; \iin
+\end{align}\]</span>
+<p><span class="math inline">\(\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}\)</span>. If <span class="math inline">\(i \in \mc{I}_{n_j} = \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}\)</span>, then <span class="math inline">\(b^k_{n_j}(t) = b^k_{n_i}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t) = s^k_{n_i}(t)\)</span>.</p>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Only possible due to same size objects assumption</p></li></ol></aside></section>
+<section id="solutions-to-optimization-problems-3" class="slide level2 smaller">
+<h2>Solutions to Optimization Problems</h2>
+<p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is as in (Yeh, 2014).</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
+        &amp; \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
+\end{align}\]</span>
+<hr>
+<span class="math display">\[\begin{equation}
+   \mu^k_{ab}(t) =
+   \left\{ \begin{array}{ll}
+      C_{ba}, &amp; \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) &gt; 0 \\
+      0, &amp; \text{otherwise}
+   \end{array} \right.
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+\begin{split}
+   W^k_{ab}(t) &amp; \triangleq V^k_a(t) - V^k_b(t), \\
+   k^*_{ab}(t) &amp; \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
+\end{split}
+\end{equation}\]</span>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section></section>
+<section>
+<section id="data-plane-strategy" class="title-slide slide level1 center">
+<h1>Data Plane Strategy</h1>
+
+</section>
+<section id="transition-to-data-plane" class="slide level2">
+<h2>Transition to Data Plane</h2>
+<p>There are several considerations when applying our approach in the data plane:</p>
+<ul>
+<li>Per-packet forwarding and caching decisions</li>
+<li>Assumption of immediate access to any object for caching purposes does not hold</li>
+<li><span class="body-highlight">Oscillatory</span> nature of VIP counts impractical for data plane caching</li>
+</ul>
+<div class="footer">
+<p>Data Plane Strategy</p>
+</div>
+</section>
+<section id="data-plane-caching" class="slide level2 smaller">
+<h2>Data Plane Caching</h2>
+<p>Define the <span class="body-highlight">cache score</span> metric as follows:</p>
+<span class="math display">\[\begin{equation}
+    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
+\end{equation}\]</span>
+<p>Define the <span class="body-highlight">eviction target</span> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
+<span class="math display">\[\begin{equation}
+   k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
+\end{equation}\]</span>
+<hr>
+<table>
+<colgroup>
+<col style="width: 23%">
+<col style="width: 76%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mc{v}^k_{ab}\)</span></td>
+<td style="text-align: left;">Actual number of VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;">Size of sliding window in time slots</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mc{K}_{n_j}(t)\)</span></td>
+<td style="text-align: left;">Set of objects cached in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="footer">
+<p>Data Plane Strategy</p>
+</div>
+</section>
+<section id="data-plane-caching-1" class="slide level2 smaller">
+<h2>Data Plane Caching</h2>
+<p>Define the <span class="body-highlight">cache benefit</span> metric as follows:</p>
+<span class="math display">\[\begin{equation}
+    CB^k_{n_j}(t) = \begin{cases}
+        \begin{array}{l}
+             r_{n_j}(CS^k_n(t) - CS^{k'_{n_j}}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
+             r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
+        \end{array}
+    \end{cases}
+\end{equation}\]</span>
+<p>When a data object <span class="math inline">\(k \not \in \mc{K}_{n_j}\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
+<ul>
+<li>Determine the cache tier which offers the highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
+<li>If <span class="math inline">\(CB^k_{n_{j^*}}(t) &gt; 0\)</span>, admit object into tier <span class="math inline">\(j^*\)</span>
+<ul>
+<li>If <span class="math inline">\(j^*\)</span> is full, i.e.&nbsp;<span class="math inline">\(|\mc{K}_{n_{j^*}}| = L_{n_{j^*}}\)</span>, <span class="math inline">\(k\)</span> replaces <span class="math inline">\(k'_{n_{j^*}}\)</span></li>
+</ul></li>
+<li>If a replacement happened in <span class="math inline">\(j^* &lt; |\mc{J}_n|\)</span>, set <span class="math inline">\(k = k'_{n_{j^*}}\)</span>, then start the process over</li>
+</ul>
+<div class="footer">
+<p>Data Plane Strategy</p>
+</div>
+</section>
+<section id="data-plane-forwarding" class="slide level2">
+<h2>Data Plane Forwarding</h2>
+<p>Forwarding strategy is as in (Yeh, 2014). When a request for object <span class="math inline">\(k \not \in \mc{K}_{n_j}(t), \; \forall \jin\)</span>, arrives at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span>, the request is forwarded to the following node:</p>
+<span class="math display">\[\begin{equation}
+    b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
+\end{equation}\]</span>
+<div class="footer">
+<p>Data Plane Strategy</p>
+</div>
+</section>
+<section id="chunk-level-decisions" class="slide level2">
+<h2>Chunk-level Decisions</h2>
+<p>At chunk-level in data plane, we observe the following principles:</p>
+<ul>
+<li>If a data object is admitted to (evicted from) a cache tier, all its chunks must be admitted to (evicted from) that tier.</li>
+<li>Forwarding decision is made upon receiving request for a first chunk. Requests for subsequent chunks are forwarded to the same node.</li>
+</ul>
+<div class="footer">
+<p>Data Plane Strategy</p>
+</div>
+</section></section>
+<section>
+<section id="experiments" class="title-slide slide level1 center">
+<h1>Experiments</h1>
+
+</section>
+<section id="simulation-setup" class="slide level2">
+<h2>Simulation Setup</h2>
+<ul>
+<li>Object-level simulation framework built with Python using the SimPy library</li>
+<li>Modular, object-oriented design to allow future extension</li>
+<li>Multi-threading allowing thread-per-experiment execution</li>
+<li>Experiment parameters and output in JSON format for easy parsing</li>
+<li>Thorough statistic logging</li>
+</ul>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="experiment-setting" class="slide level2 smaller">
+<h2>Experiment Setting</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Abilene (11 nodes)</figcaption>
+<p><img data-src="images/abilene.svg"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>GEANT (34 nodes)</figcaption>
+<p><img data-src="images/geant.svg"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>4x4 Grid (16 nodes)</figcaption>
+<p><img data-src="images/grid.svg"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>3-Regular (50 nodes)</figcaption>
+<p><img data-src="images/3reg.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="experiment-setting-1" class="slide level2 smaller">
+<h2>Experiment Setting</h2>
+<ul>
+<li>Content source for each <span class="math inline">\(k\)</span> is selected uniformly at random; content sources have infinite read rate</li>
+<li>Routing: Allow <span class="math inline">\(n\)</span> to forward requests for <span class="math inline">\(k\)</span> to any neighbor on <em>any</em> shortest path between <span class="math inline">\(n\)</span> and <span class="math inline">\(\mc{S}(k)\)</span> (in number of hops)</li>
+<li>Adapted replacement baselines: LRU, LFU, FIFO, RANDOM
+<ul>
+<li>LRU, FIFO and RANDOM cost-unaware, paired with LCE admission</li>
+<li>LFU has both aware and unaware adaptations, admission based on frequency</li>
+</ul></li>
+<li>All baseline caching policies paired with Least Response Time forwarding</li>
+<li>Virtual plane algorithm with slot length of 1 sec and sliding window of size <span class="math inline">\(T=100\)</span></li>
+</ul>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="experiment-setting-2" class="slide level2 smaller">
+<h2>Experiment Setting</h2>
+<table>
+<caption>Parameters for all topologies</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 80%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Parameter</th>
+<th style="text-align: center;">Description</th>
+<th style="text-align: center;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(K\)</span></td>
+<td style="text-align: center;">Number of objects in catalog <span class="math inline">\(\mc{K}\)</span></td>
+<td style="text-align: center;">1000</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\sum_{\kin} \lambda^k_n\)</span></td>
+<td style="text-align: center;">Total request arrival rate at each <span class="math inline">\(n\)</span> in objects/sec</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: center;">Zipf’s law parameter for object popularity distribution</td>
+<td style="text-align: center;">0.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(C_{ab}\)</span></td>
+<td style="text-align: center;">Capacity of each link <span class="math inline">\(\abin\)</span>, in objects</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(L_{n_1}\)</span></td>
+<td style="text-align: center;">Capacity of tier 1 at each <span class="math inline">\(n\)</span>, in objects</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(r_{n_1}\)</span></td>
+<td style="text-align: center;">Read rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
+<td style="text-align: center;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(c^a_{n_1}\)</span>, <span class="math inline">\(c^e_{n_1}\)</span></td>
+<td style="text-align: center;">Admission and eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;">4, 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(r_{n_2}\)</span></td>
+<td style="text-align: center;">Read rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(c^a_{n_2}\)</span>, <span class="math inline">\(c^e_{n_2}\)</span></td>
+<td style="text-align: center;">Admission and eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;">2, 1</td>
+</tr>
+</tbody>
+</table>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="results-i" class="slide level2 smaller">
+<h2>Results I</h2>
+<p><strong>Scenario</strong>: No penalties (<span class="math inline">\(\omega=0\)</span>) and <span class="math inline">\(L_{n_2} = 100\)</span> at each <span class="math inline">\(n\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>  Total delay, as fraction of total delay without any caching</figcaption>
+<p><img data-src="images/tops_delay_v3.svg" style="width:75.0%;height:75.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Cache hits, percentage of hits in the first tier on the left, total number of hits on the right</figcaption>
+<p><img data-src="images/tops_hits_v3.svg" style="width:75.0%;height:75.0%"></p>
+</figure>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="results-ii" class="slide level2 smaller">
+<h2>Results II</h2>
+<p><strong>Scenario</strong>: Cost-unaware policies excluded, <span class="math inline">\(\omega &gt; 0\)</span>. Best value of <span class="math inline">\(L_{n_2}\)</span> picked.</p>
+<div class="body-centered">
+<p>Delay vs.&nbsp;penalty (<span class="math inline">\(\omega\)</span> decreases to the right)</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>   Abilene</figcaption>
+<p><img data-src="images/pen_vs_delay_abilene_v2.svg"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>     4x4 Grid</figcaption>
+<p><img data-src="images/pen_vs_delay_grid_v2.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="results-ii-1" class="slide level2 smaller">
+<h2>Results II</h2>
+<p><strong>Scenario</strong>: Cost-unaware policies excluded, <span class="math inline">\(\omega &gt; 0\)</span>. Best value of <span class="math inline">\(L_{n_2}\)</span> picked.</p>
+<div class="body-centered">
+<p>Delay vs.&nbsp;penalty (<span class="math inline">\(\omega\)</span> decreases to the right)</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>    GEANT</figcaption>
+<p><img data-src="images/pen_vs_delay_geant_v2.svg"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>    3-Regular</figcaption>
+<p><img data-src="images/pen_vs_delay_regular_v2.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section></section>
+<section>
+<section id="proposed-work" class="title-slide slide level1 center">
+<h1>Proposed Work</h1>
+
+</section>
+<section id="improvements" class="slide level2">
+<h2>Improvements</h2>
+<div class="fragment">
+<p>There is room for improvement</p>
+</div>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="images/big-room.webp" style="width:65.0%;height:65.0%"></p>
+</figure>
+</div>
+<p>… and it’s a big room</p>
+</div>
+<div class="footer">
+<p>Super Funny Joke</p>
+</div>
+</section>
+<section id="cache-read-bandwidth" class="slide level2 smaller">
+<h2>Cache Read Bandwidth</h2>
+<p>Current model assumes read rate of each object is independent of all others.</p>
+<span class="math display">\[\begin{equation}
+    V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{#C8102E}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+
+\end{equation}\]</span>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+</section>
+<section id="cache-read-bandwidth-1" class="slide level2 smaller">
+<h2>Cache Read Bandwidth</h2>
+<p>Current model assumes read rate of each object is independent of all others.</p>
+<span class="math display">\[\begin{equation}
+    \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r_{n_j}} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}    
+\end{equation}\]</span>
+<p>We need to make this more accurate when considering slower caches.</p>
+<span class="math display">\[\begin{equation}
+   \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
+   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r^k_{n_j}(t)} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \; \forall t   
+\end{equation}\]</span>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+</section>
+<section id="cache-read-bandwidth-2" class="slide level2 smaller">
+<h2>Cache Read Bandwidth</h2>
+<p>Additional control action each time slot, in product form with another control action</p>
+<span class="math display">\[\begin{equation}
+\text{maximize} \quad \sum\limits_{\kin} \sum\limits_{\jin} V^k_{n}(t) r^k_{n_j}(t) s^k_{n_j}(t) - p^k_{n_j}(t)
+\end{equation}\]</span>
+<p>Read rate no longer a constant, VIPs drained via caching represented with a flow variable, like VIP flow terms over links</p>
+<span class="math display">\[\begin{equation}
+   F^k_{n_j}(t) \triangleq r^k_{n_j}(t) s^k_{n_j}(t), \qquad f^k_{n_j} = \frac{1}{t} \sum^{t}_{\tau=1} r^k_{n_j}(\tau) s^k_{n_j}(\tau)
+\end{equation}\]</span>
+<p><strong>Expectation</strong>: Stability region and its analysis changes significantly; complexity of caching problem solution reduces</p>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+</section>
+<section id="cache-exclusivity" class="slide level2 smaller">
+<h2>Cache Exclusivity</h2>
+<span class="math display">\[\begin{equation}
+\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
+\end{equation}\]</span>
+<p>Useful in view of <span class="body-highlight">interest aggregation</span> and hardware limitations.</p>
+<p>Arguments in support of removing it:</p>
+<ul>
+<li>Cache exclusivity makes <span class="body-highlight">upward migrations</span><sup>1</sup> difficult in data plane</li>
+<li>Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary</li>
+<li>Hardware limitations may not be there for long (peer-to-peer DMA) Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.</li>
+</ul>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
+<section id="different-object-sizes" class="slide level2 smaller">
+<h2>Different Object Sizes</h2>
+<p>Equal object sizes assumption makes analysis straightforward, but is not realistic.</p>
+<p>Let <span class="math inline">\(z^k\)</span> be the size of object <span class="math inline">\(k\)</span> in bits. Redefine <span class="math inline">\(L_{n_j}\)</span> be the cache capacity of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> in bits, instead of objects. The caching problem changes as follows:</p>
+<span class="math display">\[\begin{align}
+    \text{maximize}
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+    \text{subject to}
+        &amp; \quad \sum\limits_{\kin} z^k s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
+        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
+        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+\end{align}\]</span>
+<p>Problem no longer a LAP but a GAP instead (NP-hard).</p>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+</section>
+<section id="different-object-sizes-1" class="slide level2 smaller">
+<h2>Different Object Sizes</h2>
+<ul>
+<li>Combined with cache bandwidth constraints, solution may still be low-complexity</li>
+<li>We have to reevaluate how we treat VIP counts:
+<ul>
+<li>Copies of a larger object are produced at a slower rate</li>
+<li>VIPs for smaller objects can be drained at a higher rate</li>
+<li>Without adjustments, service may prioritize smaller objects</li>
+</ul></li>
+<li>Combined with multi-tiered caches, raises the <span class="body-highlight">integrity</span> question, i.e.&nbsp;should we require that nodes cache all chunks of an object in the same tier?
+<ul>
+<li>If not, complexity of the caching problem increases dramatically</li>
+<li>Chunk-level strategy may serve this scenario better</li>
+</ul></li>
+</ul>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+</section>
+<section id="virtual-plane---data-plane-gap" class="slide level2 smaller">
+<h2>Virtual Plane - Data Plane Gap</h2>
+<ul>
+<li>Some disparities between the two planes lead to a gap building over time
+<ul>
+<li>Virtual plane assumes nodes can immediately cache any object in the network</li>
+<li>Data plane requires nodes to respond to requests from cache if available</li>
+<li>Length of time slots, interest aggregation etc. further extend this gap</li>
+</ul></li>
+<li>Amending the gap is difficult, but it must be quantified:
+<ul>
+<li>Measure delay between a caching decision in the virtual plane, and when it is realized in data plane</li>
+<li>Estimate difference between performance and cost metrics under virtual plane assumptions vs.&nbsp;data plane results</li>
+</ul></li>
+</ul>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+</section>
+<section id="better-experiments" class="slide level2">
+<h2>Better Experiments</h2>
+<ul>
+<li>Python is convenient but not highly-scalable for DES frameworks. Julia is a great alternative for both convenience and performance.</li>
+<li>Per-experiment multi-threading is not effective. Simulator core should be multi-threaded to improve <span class="body-highlight">scale-up</span>; per-experiment <span class="body-highlight">scale-out</span> can also be used.</li>
+<li>Current codebase has some comments but little documentation and examples. Easily <span class="body-highlight">improvable</span> simulator and <span class="body-highlight">reproducible</span> results crucial.</li>
+</ul>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+</section></section>
+<section>
+<section id="conclusion-other-contributions" class="title-slide slide level1 center">
+<h1>Conclusion &amp; Other Contributions</h1>
+
+</section>
+<section id="conclusion" class="slide level2">
+<h2>Conclusion</h2>
+<div>
+<ul>
+<li class="fragment">We identified a critical and practical problem in scaling high-throughput caching networks</li>
+<li class="fragment">Our proposed model and approach achieves our goals and performs decently, but has shortcomings</li>
+<li class="fragment">Some improvements can be made by reiterating on technical details, further fine tuning requires experimentation</li>
+</ul>
+</div>
+</section>
+<section id="power-caching-in-wireless-hetnets" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Model</strong>: Arbitrary multi-hop wireless heterogenous network (HetNet) topology:</p>
+<ul>
+<li>MCs, SCs, and users; MCs and SCs have wireline backhaul connections</li>
+<li>All wireless transmissions share channel, i.e.&nbsp;no interference management</li>
+<li>All nodes can be equipped with caches</li>
+<li>Pre-determined shortest path (in hops) routing</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>HetNet illustration</figcaption>
+<p><img data-src="images/hetnet.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="power-caching-in-wireless-hetnets-1" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
+<ul>
+<li><p>Wireless link transmission delay dependent on SINR</p>
+<span class="math display">\[\begin{equation}
+\text{SINR}_{vu}(S)=\frac{ G_{vu}s_{vu}}{N_u+  \sum\limits_{j\in V\backslash v}G_{ju}\sum\limits_{w}s_{jw}+G_{vu}\sum\limits_{w\neq u}s_{vw}}
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
+\end{equation}\]</span></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-2" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
+<ul>
+<li><p>Wireless link transmission delay dependent on SINR</p></li>
+<li><p>Problem is NP-hard due to integer constraints on caching variables</p>
+<span class="math display">\[\begin{equation}
+D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\limits_{l=1}^k (1-x_{p_l i})
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
+\end{equation}\]</span></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-3" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
+<ul>
+<li><p>Wireless link transmission delay dependent on SINR</p></li>
+<li><p>Problem is NP-hard due to integer constraints on caching variables</p></li>
+<li><p>Convex relaxation on these leads to reduced-complexity formulation (RCF)</p>
+<span class="math display">\[\begin{equation}
+D_{(i,p)}(Y,S)={\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S)) g_{p_k i}(Y) }
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, y_{p_li}\in [0, 1]
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+\end{equation}\]</span></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
+<ul>
+<li><p>Wireless link transmission delay dependent on SINR</p></li>
+<li><p>Problem is NP-hard due to integer constraints on caching variables</p></li>
+<li><p>Convex relaxation on these leads to reduced-complexity formulation (RCF)</p>
+<span class="math display">\[\begin{equation}
+D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+\end{equation}\]</span></li>
+<li><p>RCF is not jointly convex in power and caching</p></li>
+</ul>
+</section>
+<section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Use projected subgradient method to solve for local minima in general case</p>
+<span class="math display">\[\begin{equation}
+\begin{aligned}
+    &amp; S^{t+1} = S^t + \xi_S^t(\bar{S}^t - S^t) \\
+    &amp; \bar{S}^t = [S^t - w_S^t d_S^t]^+_{\mathcal{D}_S} \\
+    &amp; \boldsymbol{y}^{t+1} = \boldsymbol{y}^t + \xi^t_{\boldsymbol{y}}(\boldsymbol{\bar{y}}^t - \boldsymbol{y}^t) \\
+    &amp; \boldsymbol{\bar{y}}^t = [\boldsymbol{y}^t - w_Y^t d^t_{\boldsymbol{y}}]^+_{\mathcal{D}_{\boldsymbol{y}}} \\
+    &amp; d_S^t = \nabla_S D(Y^t,S^t), \; d^t_{\boldsymbol{y}} \in \partial_{\boldsymbol{y}}D(Y^t,S^t) \\
+    &amp; \xi^t_{\boldsymbol{y}} = \frac{D^t - \hat{D}^t}{||d_{\boldsymbol{y}}^t||^2}, \; \xi_S^t = \frac{D^t - \hat{D}^t}{||d_S^t||^2}
+\end{aligned}
+\end{equation}\]</span>
+</div><div class="column" style="width:50%;">
+<p><strong>Projected Subgradient Method</strong></p>
+<ul>
+<li><p>Initialize: Choose <span class="math inline">\(S^{0}\)</span>, <span class="math inline">\(\boldsymbol{y}^{0}\)</span></p></li>
+<li><p><strong>do</strong></p>
+<ul>
+<li>Compute subgradient <span class="math inline">\(d^t_S, d^t_{\boldsymbol{y}}\)</span></li>
+<li>Determine step sizes <span class="math inline">\(\xi^t_{\boldsymbol{y}}\)</span>, <span class="math inline">\(\xi_S^t\)</span></li>
+<li>Compute projected variables <span class="math inline">\(\boldsymbol{\bar{y}}^t\)</span>, <span class="math inline">\(\bar{S}^t\)</span></li>
+<li>Update <span class="math inline">\(S^{t+1}\)</span> and <span class="math inline">\(\boldsymbol{y}^{t+1}\)</span></li>
+<li>Let <span class="math inline">\(t=t+1\)</span></li>
+</ul></li>
+<li><p><strong>while</strong> <span class="math inline">\(D^t - D^{t-1} &gt; \epsilon\)</span></p></li>
+<li><p>Let <span class="math inline">\((\boldsymbol{y}^{*}_{sub},S^{*}_{sub}) = (\boldsymbol{y}^{t},S^{t})\)</span></p></li>
+<li><p>Rounding</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>     Power budget</figcaption>
+<p><img data-src="images/hetnet_result1.svg" style="width:55.0%;height:55.0%"></p>
+</figure>
+</div>
+</section>
+<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>     SC cache capacity</figcaption>
+<p><img data-src="images/hetnet_result3.svg" style="width:55.0%;height:55.0%"></p>
+</figure>
+</div>
+</section>
+<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>     Zipf parameter</figcaption>
+<p><img data-src="images/hetnet_result2.svg" style="width:55.0%;height:55.0%"></p>
+</figure>
+</div>
+</section></section>
+<section id="thanks-questions" class="title-slide slide level1 center">
+<h1>Thanks &amp; Questions</h1>
+
+</section>
+
+<section>
+<section id="appendices" class="title-slide slide level1 center" data-visibility="uncounted">
+<h1>Appendices</h1>
+
+</section>
+<section id="appendix-a-other-references" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Appendix A: Other References</h2>
+<ul>
+<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
+<li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
+<li><em>“HCaching: High-Speed Caching for Information-Centric Networking”</em>, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017</li>
+</ul>
+</section>
+<section id="appendix-b-model-notation" class="slide level2 smaller scrollable" data-visibility="uncounted">
+<h2>Appendix B: Model Notation</h2>
 <table>
 <caption>Table of Notations</caption>
 <colgroup>
@@ -861,95 +1932,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </tr>
 </tbody>
 </table>
-<div class="footer">
-<p>System Model</p>
-</div>
-</section></section>
-<section>
-<section id="virtual-plane-optimization-framework" class="title-slide slide level1 center">
-<h1>Virtual Plane Optimization Framework</h1>
-
 </section>
-<section id="vip-queue-and-penalty-dynamics" class="slide level2 smaller">
-<h2>VIP Queue and Penalty Dynamics</h2>
-<p>The VIP queue evolution for object <span class="math inline">\(k\)</span> at node <span class="math inline">\(n\)</span> can be described with the following, where <span class="math inline">\((x)^+ = max(x,0)\)</span>:</p>
-<span class="math display">\[\begin{equation}
-\begin{split}
-    V^k_n(t+1) \leq &amp; \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} r_{n_j} s^k_{n_j}(t) \Bigg)^+    
-\end{split}
-\end{equation}\]</span>
-<p>The penalty incurred by the caching action <span class="math inline">\(s^k_{n_j}(t)\)</span> can be defined in terms of utilization costs as follows:</p>
-<span class="math display">\[\begin{equation}
-    p^k_{n_j}(t) \triangleq
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-       0, &amp; \text{otherwise}
-   \end{array} \right.
-\end{equation}\]</span>
-<p>With the sum penalty incurred during slot <span class="math inline">\(t\)</span> denoted as <span class="math inline">\(p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)\)</span>.</p>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="optimization-goal" class="slide level2 smaller">
-<h2>Optimization Goal</h2>
-<p>Rather than aiming to make the optimal choice for all <span class="math inline">\(s^k_{n_j}(t)\)</span> and <span class="math inline">\(\mu^k_{ab}(t)\)</span> at each <span class="math inline">\(t\)</span>, our objective is to minimize the following <em>drift-plus-penalty</em> expression:</p>
-<span class="math display">\[\begin{equation}
-    \drift + \omega \pen
-\end{equation}\]</span>
-<p>where <span class="math inline">\(\drift\)</span> is the drift component defined as:</p>
-<span class="math display">\[\begin{equation}
-    \drift = \mathbb{E}[\mathcal{L}(\mathbf{V}(t+1))-\mc{L}(\mathbf{V}(t))|\mathbf{V}(t)]
-\end{equation}\]</span>
-<p>and <span class="math inline">\(\mc{L}(\mathbf{V}(t))\)</span> is the Lyapunov function defined as:</p>
-<span class="math display">\[\begin{equation}
-    \mc{L}(\mathbf{V}(t)) = \sum\limits_{\nin, \kin} (V^k_n(t))^2
-\end{equation}\]</span>
-<p><strong>Interpretation</strong>: We want to minimize a combined bound of time-average queue backlog growth and accumulated penalty.</p>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="virtual-plane-caching-algorithm" class="slide level2 smaller">
-<h2>Virtual Plane Caching Algorithm</h2>
-<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
-<ul>
-<li><strong>Caching</strong>: Choose <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</li>
-</ul>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
-\end{align}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="virtual-plane-forwarding-algorithm" class="slide level2 smaller">
-<h2>Virtual Plane Forwarding Algorithm</h2>
-<p>At the beginning of each time slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe queueues <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> then perform caching and forwarding as follows:</p>
-<ul>
-<li><strong>Forwarding</strong>: Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose:</li>
-</ul>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
-        &amp; \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
-\end{align}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="analysis" class="slide level2 smaller">
-<h2>Analysis</h2>
+<section id="appendix-c-analysis-notation" class="slide level2 smaller scrollable" data-visibility="uncounted">
+<h2>Appendix C: Analysis Notation</h2>
 <table>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Notation</th>
@@ -965,96 +1955,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <td style="text-align: center;"><span class="math inline">\(F^k_{ab}(t)\)</span></td>
 <td style="text-align: left;">Number of VIPs of <span class="math inline">\(k\)</span> sent over <span class="math inline">\((a,b)\)</span> during slot <span class="math inline">\(t\)</span></td>
 </tr>
-</tbody>
-</table>
-<span class="math display">\[\begin{equation}
-f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
-\end{equation}\]</span>
-<p><span class="math inline">\(F^k_{ab}(t)\)</span> satisfy the following for all <span class="math inline">\(t \geq 1\)</span>:</p>
-<span class="math display">\[\begin{equation}
-    F^k_{ab}(t) \geq 0, F^k_{nn}(t) = 0, F^k_{\mc{S}(k)n}(t) = 0, \; \forall a,b,n \in \mc{N}, \kin,
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    F^k_{ab}(t) = 0, \; \forall a,b \in \mc{N}, \kin, (a,b) \not \in \mc{L}^k
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-   \sum\limits_{\kin} F^k_{ab}(t) \leq C_{ba}, \; \forall \abin
-\end{equation}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="analysis-1" class="slide level2 smaller">
-<h2>Analysis</h2>
-<table>
-<colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\sigma_n\)</span></td>
-<td style="text-align: left;">The total number of possible ways any number of objects <span class="math inline">\(\kin\)</span> can be placed in cache tiers at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mc{B}_{n,i}\)</span></td>
-<td style="text-align: left;">i-th among all <span class="math inline">\(\sigma_n\)</span> cache placement sets at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
-<td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span></td>
-</tr>
-</tbody>
-</table>
-<p>The elements of set <span class="math inline">\(\mc{B}_{n,i}\)</span> are pairs in the form of <span class="math inline">\((k,j)\)</span>, such that if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span>, object <span class="math inline">\(k\)</span> is cached in tier <span class="math inline">\(j\)</span>. <span class="math inline">\(\beta_{n,i}\)</span> satisfy the following:</p>
-<span class="math display">\[\begin{equation}
-    0 \leq \beta_{n,i} \leq 1, \quad i = 1,\cdots,\sigma_n, \quad \nin
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    \betasum = 1, \quad \forall \nin
-\end{equation}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="analysis-2" class="slide level2 smaller">
-<h2>Analysis</h2>
-<p><strong>Stability Region</strong>: We say that the queue <span class="math inline">\(V^k_n(t)\)</span> is stable if:</p>
-<span class="math display">\[\begin{equation}
-\begin{split}
-    \limsup\limits_{t \rightarrow \infty} \frac{1}{t} \sum^t_{\tau = 1} 1_{[V^k_n(\tau) &gt; \xi]} d\tau \rightarrow 0 \; \text{as} \; \xi \rightarrow \infty
-\end{split}
-\end{equation}\]</span>
-<p>where <span class="math inline">\(1_{\{\cdot\}}\)</span> is the indicator function.</p>
-<p>The VIP stability region <span class="math inline">\(\Lambda\)</span> of the network <span class="math inline">\(\mc{G} = (\mc{N},\mc{L})\)</span>, is the set <span class="math inline">\(\Lambda\)</span> consisting of all VIP arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that the following holds:</p>
-<span class="math display">\[\begin{equation}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \quad \forall \nin, \; \kin, \; n \not = \mc{S}(k)
-\end{equation}\]</span>
-<p>When all exogenous request arrival rates abide by the bound described above, there is a feasible forwarding and caching policy in the virtual plane that can stabilize all VIP queues.</p>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="analysis-3" class="slide level2 smaller">
-<h2>Analysis</h2>
-<table>
-<colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
 <tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(N\)</span></td>
 <td style="text-align: left;">Number of nodes in the network, i.e.&nbsp;<span class="math inline">\(N = |\mc{N}|\)</span></td>
@@ -1085,258 +1985,9 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 </tr>
 </tbody>
 </table>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
 </section>
-<section id="analysis-4" class="slide level2 smaller">
-<h2>Analysis</h2>
-<p><strong>VIP Backlog/Penalty Bounds</strong>: Given VIP arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon} = (\epsilon^k_n)_{\nin, \kin} \succ \mathbf{0}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following bounds:</p>
-<span class="math display">\[\begin{equation}
-    \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
-\end{equation}\]</span>
-<p><strong>Interpretation</strong>: We can pick a large <span class="math inline">\(\omega\)</span> to push the time average penalty close to <span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> at the cost of significantly increasing the average queue backlog and vice-versa.</p>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p><strong>Caching</strong>: We can rewrite the optimization problem for the caching step.</p>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
-\end{align}\]</span>
-<span class="math display">\[\begin{equation}
-    p^k_{n_j}(t) \triangleq
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-       0, &amp; \text{otherwise}
-   \end{array} \right.
-\end{equation}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems-1" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p><strong>Caching</strong>: Intuitively, we can think of the <em>net benefit</em> of admitting an object as its objective value minus the weighted cost of admission. Similarly, we can think of the net benefit of keeping an object in cache as its objective value plus the weighted cost of eviction.</p>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
-\end{align}\]</span>
-<span class="math display">\[\begin{equation}
-    b^k_{n_j}(t) \triangleq \left\{ \begin{array}{ll}
-        r_{n_j} V^k_n(t) - \omega c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 0 \\
-        r_{n_j} V^k_n(t) + \omega c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 1
-    \end{array} \right.
-\end{equation}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems-2" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p><strong>Caching</strong>: Using a transformation of variables, the problem can be written as a linear assignment problem. We can interpret this as deciding on caching variables per one-object cache space associated with each cache tier, rather than per-tier<sup>1</sup>.</p>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} s^k_{n_i}(t) \leq 1, \; \iin \\
-        &amp; \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \kin \\
-        &amp; \quad s^k_{n_i}(t) \in \{0, 1\}, \; \kin, \; \iin
-\end{align}\]</span>
-<p><span class="math inline">\(\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}\)</span>. If <span class="math inline">\(i \in \mc{I}_{n_j} = \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}\)</span>, then <span class="math inline">\(b^k_{n_j}(t) = b^k_{n_i}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t) = s^k_{n_i}(t)\)</span>.</p>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>Only possible due to same size objects assumption</p></li></ol></aside></section>
-<section id="solutions-to-optimization-problems-3" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-
-<img data-src="images/gap.svg" class="r-stretch"><div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems-4" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-
-<img data-src="images/rlap.svg" class="r-stretch"><div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems-5" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is the classical <em>backpressure</em> solution.</p>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
-        &amp; \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
-\end{align}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section>
-<section id="solutions-to-optimization-problems-6" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p><strong>Forwarding</strong>: The entire reverse link capacity would be allocated to transmitting VIPs for the object with the highest queue backlog differential between the two nodes.</p>
-<span class="math display">\[\begin{equation}
-   \mu^k_{ab}(t) =
-   \left\{ \begin{array}{ll}
-      C_{ba}, &amp; \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) &gt; 0 \\
-      0, &amp; \text{otherwise}
-   \end{array} \right.
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-\begin{split}
-   W^k_{ab}(t) &amp; \triangleq V^k_a(t) - V^k_b(t), \\
-   k^*_{ab}(t) &amp; \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
-\end{split}
-\end{equation}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-</section></section>
-<section>
-<section id="data-plane-strategy" class="title-slide slide level1 center">
-<h1>Data Plane Strategy</h1>
-
-</section>
-<section id="transition-to-data-plane" class="slide level2">
-<h2>Transition to Data Plane</h2>
-<p>There are several considerations when applying our approach in the data plane:</p>
-<ul>
-<li>Per-packet forwarding and caching decisions need to be made</li>
-<li>Assumption that we have immediate access to any object for caching purposes does not hold</li>
-<li>Algorithm can lead to oscillatory behavior for caching decisions</li>
-</ul>
-<div class="footer">
-<p>Data Plane Strategy</p>
-</div>
-</section>
-<section id="data-plane-caching" class="slide level2 smaller">
-<h2>Data Plane Caching</h2>
-<table>
-<colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mc{v}^k_{ab}\)</span></td>
-<td style="text-align: left;">Actual number of VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(T\)</span></td>
-<td style="text-align: left;">Size of a sliding window of time slots</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mc{K}_{n_j}\)</span></td>
-<td style="text-align: left;">Set of objects currently cached in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-</tbody>
-</table>
-<p>Define the <em>cache score</em> metric as follows:</p>
-<span class="math display">\[\begin{equation}
-    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
-\end{equation}\]</span>
-<p>Define the <em>eviction target</em> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
-<span class="math display">\[\begin{equation}
-   k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
-\end{equation}\]</span>
-<div class="footer">
-<p>Data Plane Strategy</p>
-</div>
-</section>
-<section id="data-plane-caching-1" class="slide level2 smaller">
-<h2>Data Plane Caching</h2>
-<p>Define the <em>cache benefit</em> metric as follows:</p>
-<span class="math display">\[\begin{equation}
-    CB^k_{n_j}(t) = \begin{cases}
-        \begin{array}{l}
-             r_{n_j}(CS^k_n(t) - CS^{k'_{n_j}}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
-             r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
-        \end{array}
-    \end{cases}
-\end{equation}\]</span>
-<p><strong>Data Plane Caching</strong>: When a data object <span class="math inline">\(k \not \in \mc{K}_{n_j}\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, caching policy at <span class="math inline">\(n\)</span> behaves as follows.</p>
-<ul>
-<li>Determine the cache tier which offers the highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
-<li>If <span class="math inline">\(CB^k_{n_{j^*}}(t) &gt; 0\)</span>, admit object into tier <span class="math inline">\(j^*\)</span>
-<ul>
-<li>If <span class="math inline">\(j^*\)</span> is full, i.e.&nbsp;<span class="math inline">\(|\mc{K}_{n_{j^*}}| = L_{n_{j^*}}\)</span>, <span class="math inline">\(k\)</span> replaces <span class="math inline">\(k'_{n_{j^*}}\)</span></li>
-</ul></li>
-<li>If a replacement happened in <span class="math inline">\(j^* &lt; |\mc{J}_n|\)</span>, set <span class="math inline">\(k = k'_{n_{j^*}}\)</span>, then start the process over</li>
-</ul>
-<div class="footer">
-<p>Data Plane Strategy</p>
-</div>
-</section>
-<section id="data-plane-forwarding" class="slide level2">
-<h2>Data Plane Forwarding</h2>
-<p><strong>Data Plane Forwarding</strong>: When a request for object <span class="math inline">\(k \not \in \mc{K}_{n_j}, \; \forall \jin\)</span>, arrives at <span class="math inline">\(n\)</span>, the request is forwarded to the following node.</p>
-<span class="math display">\[\begin{equation}
-    b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
-\end{equation}\]</span>
-<div class="footer">
-<p>Data Plane Strategy</p>
-</div>
-</section>
-<section id="chunk-level-decisions" class="slide level2 smaller">
-<h2>Chunk-level Decisions</h2>
-<p>Note that our model describes the data plane in object-level terms as well. When applying our approach at the chunk-level in the data plane, we observe the following principles:</p>
-<ul>
-<li>If a data object is admitted to a cache tier, all its chunks must be admitted to the same tier.</li>
-<li>If a data object is evicted from a cache tier, all its chunks must be evicted from that tier.</li>
-<li>The forwarding decision described in (26) is made when a request for the first chunk of object <span class="math inline">\(k\)</span> arrives at node <span class="math inline">\(n\)</span>. Requests for subsequent chunks of <span class="math inline">\(k\)</span> are forwarded to the same node, until the ending chunk is forwarded, after which time if a first chunk request arrives again, the decision will be made again.</li>
-</ul>
-<div class="footer">
-<p>Data Plane Strategy</p>
-</div>
-</section></section>
-<section>
-<section id="experiments" class="title-slide slide level1 center">
-<h1>Experiments</h1>
-
-</section>
-<section id="simulation-setup" class="slide level2">
-<h2>Simulation Setup</h2>
-<ul>
-<li>Object-level simulation environment built with Python using the SimPy library</li>
-<li>Modular, object-oriented design to allow future extension</li>
-<li>Multi-threading allowing for thread-per-experiment execution</li>
-<li>Experiment parameters and output in JSON format for easy parsing</li>
-<li>Thorough statistic logging</li>
-</ul>
-<div class="footer">
-<p>Experiments</p>
-</div>
-</section>
-<section id="simulation-setup-1" class="slide level2 smaller">
-<h2>Simulation Setup</h2>
+<section id="appendix-d-simulator-snippets" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Appendix D: Simulator Snippets</h2>
 <div class="panel-tabset">
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Node</a></li><li><a href="#tabset-1-2">Cache</a></li><li><a href="#tabset-1-3">Link</a></li><li><a href="#tabset-1-4">Caching Policy</a></li><li><a href="#tabset-1-5">Forwarding Policy</a></li></ul>
 <div class="tab-content">
@@ -1444,294 +2095,6 @@ f^k_{ab} = \frac{1}{t}\sum^{t}_{\tau=1} F^k_{ab}(\tau)
 <span id="cb5-12"><a href="#cb5-12"></a>      <span class="va">self</span>.sendInterestPacket(remote_id, request)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-</section>
-<section id="experiment-setting" class="slide level2 smaller">
-<h2>Experiment Setting</h2>
-<ul>
-<li>Experiments over four topologies: Abilene, GEANT, 4x4 Grid, 3-regular graph</li>
-<li>All nodes have caches, can be content sources and can generate requests</li>
-<li>For each <span class="math inline">\(k\)</span> a node is selected as <span class="math inline">\(\mc{S}(k)\)</span> uniformly at random</li>
-<li>Content sources have infinite read rate*</li>
-<li>Routing scheme: Allow <span class="math inline">\(n\)</span> to forward requests for <span class="math inline">\(k\)</span> to any neighbor on <em>any</em> shortest path between <span class="math inline">\(n\)</span> and <span class="math inline">\(\mc{S}(k)\)</span> (in number of hops)*</li>
-<li>Multi-tier adapted cost-unaware replacement baselines: LRU, LFU, FIFO, RANDOM
-<ul>
-<li>LRU, FIFO and RANDOM paired with LCE admission</li>
-</ul></li>
-<li>Multi-tier adapted cost-aware baseline: Penalty Aware LFU</li>
-<li>All baseline caching policies paired with Least Response Time forwarding</li>
-<li>Multi-tier VIP ran with slot length of 1 sec and sliding window of size <span class="math inline">\(T=100\)</span></li>
-</ul>
-<div class="footer">
-<p>Experiments</p>
-</div>
-</section>
-<section id="experiment-setting-1" class="slide level2 smaller scrollable">
-<h2>Experiment Setting</h2>
-<table>
-<caption>Parameters for all topologies</caption>
-<colgroup>
-<col style="width: 10%">
-<col style="width: 80%">
-<col style="width: 10%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Parameter</th>
-<th style="text-align: center;">Description</th>
-<th style="text-align: center;">Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(K\)</span></td>
-<td style="text-align: center;">Number of objects in catalog <span class="math inline">\(\mc{K}\)</span></td>
-<td style="text-align: center;">1000</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\sum_{\kin} \lambda^k_n\)</span></td>
-<td style="text-align: center;">Total request arrival rate at each <span class="math inline">\(n\)</span> in objects/sec</td>
-<td style="text-align: center;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\alpha\)</span></td>
-<td style="text-align: center;">Zipf’s law parameter for object popularity distribution</td>
-<td style="text-align: center;">0.75</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(C_{ab}\)</span></td>
-<td style="text-align: center;">Capacity of each link <span class="math inline">\(\abin\)</span>, in objects</td>
-<td style="text-align: center;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(L_{n_1}\)</span></td>
-<td style="text-align: center;">Capacity of tier 1 at each <span class="math inline">\(n\)</span>, in objects</td>
-<td style="text-align: center;">5</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(r_{n_1}\)</span></td>
-<td style="text-align: center;">Read rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
-<td style="text-align: center;">20</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(c^a_{n_1}\)</span>, <span class="math inline">\(c^e_{n_1}\)</span></td>
-<td style="text-align: center;">Admission and eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
-<td style="text-align: center;">4, 2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(r_{n_2}\)</span></td>
-<td style="text-align: center;">Read rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
-<td style="text-align: center;">10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(c^a_{n_2}\)</span>, <span class="math inline">\(c^e_{n_2}\)</span></td>
-<td style="text-align: center;">Admission and eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
-<td style="text-align: center;">2, 1</td>
-</tr>
-</tbody>
-</table>
-<div class="footer">
-<p>Experiments</p>
-</div>
-</section>
-<section id="results-i" class="slide level2 smaller">
-<h2>Results I</h2>
-<p><strong>Scenario</strong>: No penalties (<span class="math inline">\(\omega=0\)</span>) and <span class="math inline">\(L_{n_2} = 100\)</span> at each <span class="math inline">\(n\)</span>.</p>
-<p>Total delay, as fraction of total delay without any caching</p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/tops_delay_v3.svg" style="width:75.0%;height:75.0%"></p>
-</figure>
-</div>
-<p>Cache hits, percentage of hits in the first tier on the left, total number of hits on the right</p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/tops_hits_v3.svg" style="width:75.0%;height:75.0%"></p>
-</figure>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-</section>
-<section id="results-ii" class="slide level2 smaller">
-<h2>Results II</h2>
-<p><strong>Scenario</strong>: Exclude cost-unaware policies, vary <span class="math inline">\(\omega\)</span>. Pick best-performing <span class="math inline">\(L_{n_2}\)</span> value for each of LFU and VIP.</p>
-<p>Delay vs.&nbsp;penalty (<span class="math inline">\(\omega\)</span> decreasing to the right)</p>
-<div class="columns">
-<div class="column" style="width:33%;">
-<p><img data-src="images/pen_vs_delay_abilene_v2.svg"></p>
-</div><div class="column" style="width:33%;">
-<p><img data-src="images/pen_vs_delay_grid_v2.svg"></p>
-</div><div class="column" style="width:33%;">
-<p><img data-src="images/pen_vs_delay_regular_v2.svg"></p>
-</div>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-</section></section>
-<section>
-<section id="proposed-work" class="title-slide slide level1 center">
-<h1>Proposed Work</h1>
-
-</section>
-<section id="improvements" class="slide level2">
-<h2>Improvements</h2>
-<div class="fragment">
-<p>There is room for improvement</p>
-</div>
-<div class="fragment">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><img data-src="images/big-room.webp" style="width:65.0%;height:65.0%"></p>
-<figcaption>… and it’s a big room</figcaption>
-</figure>
-</div>
-</div>
-<div class="footer">
-<p>Super Funny Joke</p>
-</div>
-</section>
-<section id="cache-read-bandwidth" class="slide level2 smaller">
-<h2>Cache Read Bandwidth</h2>
-<p><strong>Cache Bandwidth Constraint</strong>: Current model assumes read rate of each object is independent of all others.</p>
-<span class="math display">\[\begin{equation}
-    V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+    
-\end{equation}\]</span>
-<p>We need to make this more accurate when considering slower caches.</p>
-<span class="math display">\[\begin{equation}
-   \small{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{red}{r^k_{n_j}(t)} s^k_{n_j}(t) \Bigg)^+}    
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \; \forall t   
-\end{equation}\]</span>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-</section>
-<section id="cache-read-bandwidth-1" class="slide level2 smaller">
-<h2>Cache Read Bandwidth</h2>
-<p><strong>Cache Bandwidth Constraint</strong>: This seemingly small change has the following consequences we have to reanalyze:</p>
-<ul>
-<li>We now have a third control action each time slot, which is in product form with another control action</li>
-</ul>
-<span class="math display">\[\begin{equation}
-\text{maximize} \quad \sum\limits_{\kin} \sum\limits_{\jin} V^k_{n}(t) r^k_{n_j}(t) s^k_{n_j}(t) - p^k_{n_j}(t)
-\end{equation}\]</span>
-<ul>
-<li>This changes the stability region analysis significantly, as it involves computing expected values for VIP flows and cache placements using a randomized policy</li>
-</ul>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-</section>
-<section id="cache-read-bandwidth-2" class="slide level2 smaller">
-<h2>Cache Read Bandwidth</h2>
-<p><strong>Cache Bandwidth Constraint</strong>: This seemingly small change has the following consequences we have to reanalyze:</p>
-<ul>
-<li>As the read rate for each object each slot is no longer a constant, terms in various expressions that relate to VIPs that are drained via caching will now resemble a flow variable, much like other terms</li>
-</ul>
-<span class="math display">\[\begin{equation}
-   F^k_{n_j}(t) \triangleq r^k_{n_j}(t) s^k_{n_j}(t), \qquad f^k_{n_j} = \frac{1}{t} \sum^{t}_{\tau=1} r^k_{n_j}(\tau) s^k_{n_j}(\tau)
-\end{equation}\]</span>
-<ul>
-<li>While this change makes the stability region analysis a bit more complicated, it is likely to reduce the complexity of the solution to the caching problem (<em>currently a strong hypothesis</em>)</li>
-</ul>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-</section>
-<section id="cache-exclusivity" class="slide level2 smaller">
-<h2>Cache Exclusivity</h2>
-<p><strong>Cache Exclusivity Constraint</strong>: There is good reason to enforce this constraint in view of interest aggregation and hardware limitations. However, there are strong arguments in support of removing it:</p>
-<ul>
-<li>Under cache exclusivity, the data plane strategy can’t naturally handle <em>upward migrations</em></li>
-<li>Lifting this constraint would make the algorithm less complex as it would simply operate over individual tiers independently
-<ul>
-<li>This also has the benefit of not requiring any adaptations to baselines</li>
-</ul></li>
-<li>As peer-to-peer DMA becomes more widely available and reliable, the assumption that multiple cache devices can supply the link simultaneously and increase read rates may be better supported</li>
-</ul>
-<p>While this alternative does not require significant reanalysis, it does require extensive testing as it is not immediately clear whether it would converge to overly redundant cache placements.</p>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-</section>
-<section id="unequal-object-sizes" class="slide level2 smaller">
-<h2>Unequal Object Sizes</h2>
-<p><strong>Equal Object Sizes Assumption</strong>: While this assumption makes our analysis and solution much more straightforward, it is hardly realistic.</p>
-<p>Let <span class="math inline">\(z^k\)</span> be the size of object <span class="math inline">\(k\)</span> in bits. Redefine <span class="math inline">\(L_{n_j}\)</span> be the cache capacity of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> in bits, instead of objects. The caching problem changes as follows:</p>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} z^k s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
-\end{align}\]</span>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-<p>The problem can no longer be rewritten as a LAP and, as a GAP, it is known to be NP-hard.</p>
-</section>
-<section id="unequal-object-sizes-1" class="slide level2 smaller">
-<h2>Unequal Object Sizes</h2>
-<p><strong>Equal Object Sizes Assumption</strong>: This change brings with it a set of other considerations:</p>
-<ul>
-<li>If combined with the enforcing of cache bandwidth constraints, the problem may reveal a low-complexity “greedy” solution (<em>currently a hypothesis</em>)</li>
-<li>However, we also have to reevaluate how we treat VIPs for objects
-<ul>
-<li>Copies of a larger object are produced at a slower rate</li>
-<li>Therefore, VIPs for a smaller object can be drained at a higher rate</li>
-<li>If we do not alter the VIP metric to account for object sizes, this may skew network service (both caching and forwarding) to prioritize smaller objects</li>
-</ul></li>
-</ul>
-<div class="fragment semi-fade-out">
-<ul>
-<li>Combining multi-tiered caches with varying object sizes also raises questions about <em>cache integrity</em>, i.e.&nbsp;should we mandate that nodes cache all chunks of an object in the same tier?
-<ul>
-<li>If not, the complexity of the caching problem increases dramatically</li>
-<li>It may be better to approach this version of the problem with a chunk-level strategy</li>
-</ul></li>
-</ul>
-</div>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-</section>
-<section id="gap-between-planes" class="slide level2 smaller">
-<h2>Gap Between Planes</h2>
-<p><strong>Control Plane - Data Plane Gap</strong>: The algorithm and its analysis in the virtual control plane does not directly transfer to the data plane.</p>
-<ul>
-<li>In the virtual plane, it is assumed that a node can immediately retrieve and cache any object in the network</li>
-<li>The backpressure-based forwarding strategy in the virtual plane is prone to making impractical choices at a per-time-slot granularity, specifically in low traffic scenarios</li>
-<li>These and other disparities lead to a <em>gap</em> between the two planes that is difficult to amend</li>
-<li>While the data plane strategy works decently in practice, I believe this gap must be studied and quantified, even if it can’t be practically amended. For instance:
-<ul>
-<li>Measure the delay between a caching decision being made in the virtual plane, and if/when that decision is realized in the data plane</li>
-<li>Estimate the difference between performance and cost metrics that would be obtained under virtual plane assumptions vs.&nbsp;experiment results</li>
-</ul></li>
-</ul>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-</section>
-<section id="uh-better-experiments-obviously" class="slide level2 smaller">
-<h2>Uh, Better Experiments, Obviously</h2>
-<p><strong>Simulation Performance and Reproducibility</strong>: The simulation framework performs decently and is relatively clean, but it can be improved significantly.</p>
-<ul>
-<li>Python, while convenient, is not the best choice to build highly-scalable DES frameworks. Julia is a great alternative that maintains convenience while providing much better performance</li>
-<li>Per-experiment multi-threading is not capturing parallelism effectively. Building the core components of the simulator in a multi-threaded way to improve <em>scale-up</em>, then enabling per-experiment <em>scale-out</em> will greatly improve performance.</li>
-<li>The current codebase has useful comments but little documentation and examples. Overall it doesn’t offer the best basis for reproducibility and future improvements.</li>
-<li>Addressing these will result in a robust codebase that allows me to run a more thorough experimental study, improve the credibility of my results and potentially give other researchers a tool to build upon</li>
-</ul>
-<div class="footer">
-<p>Proposed Work</p>
 </div>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
