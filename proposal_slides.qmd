@@ -267,9 +267,17 @@ Introduction
 Introduction
 :::
 
-## Goal*
+## Goal
 
-Placeholder.
+Develop a joint forwarding and caching policy that:
+
+-   Tracks user demand for objects as basis for decisions
+-   Utilizes diverse cache resources effectively:
+    -   Ensures devices are receiving [sustainable hit rates]{.body-highlight}
+    -   Makes [high-value]{.body-highlight} replacement decisions
+-   Utilizes bandwidth resources effectively:
+    -   Steers requests toward caching points
+    -   Forwards requests avoiding congestion
 
 ::: {.footer}
 Introduction
@@ -995,7 +1003,15 @@ Proposed Work
 Proposed Work
 :::
 
-# Other Contributions & Conclusion
+# Conclusion & Other Contributions
+
+## Conclusion
+
+::: {.incremental}
+-   We identified a critical and practical problem in scaling high-throughput caching networks
+-   Our proposed model and approach achieves our goals and performs decently, but has shortcomings
+-   Some improvements can be made by reiterating on technical details, further fine tuning requires experimentation
+:::
 
 ## Power & Caching in Wireless HetNets {.smaller}
 
@@ -1143,10 +1159,6 @@ Placeholder
 :::
 
 ## Other Work*
-
-Placeholder
-
-## Conclusion*
 
 Placeholder
 
