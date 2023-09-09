@@ -799,7 +799,7 @@ Experiments
 ## Results I {.smaller}
 **Scenario**: No penalties ($\omega=0$) and $L_{n_2} = 100$ at each $n$.
 
-![Total delay, as fraction of total delay without any caching](images/tops_delay_v3.svg){width=75% height=75% fig-align="center"}
+![&emsp; Total delay, as fraction of total delay without any caching](images/tops_delay_v3.svg){width=75% height=75% fig-align="center"}
 
 ![Cache hits, percentage of hits in the first tier on the left, total number of hits on the right](images/tops_hits_v3.svg){width=75% height=75% fig-align="center"}
 
@@ -816,10 +816,10 @@ Delay vs. penalty ($\omega$ decreases to the right)
 
 ::: columns
 ::: {.column width="50%"}
-![Abilene](images/pen_vs_delay_abilene_v2.svg)
+![&emsp;&emsp; Abilene](images/pen_vs_delay_abilene_v2.svg)
 :::
 ::: {.column width="50%"}
-![4x4 Grid](images/pen_vs_delay_grid_v2.svg)
+![&emsp;&emsp;&emsp;&emsp; 4x4 Grid](images/pen_vs_delay_grid_v2.svg)
 :::
 :::
 
@@ -836,10 +836,10 @@ Delay vs. penalty ($\omega$ decreases to the right)
 
 ::: columns
 ::: {.column width="50%"}
-![GEANT](images/pen_vs_delay_geant_v2.svg)
+![&emsp;&emsp;&emsp; GEANT](images/pen_vs_delay_geant_v2.svg)
 :::
 ::: {.column width="50%"}
-![3-Regular](images/pen_vs_delay_regular_v2.svg)
+![&emsp;&emsp;&emsp; 3-Regular](images/pen_vs_delay_regular_v2.svg)
 :::
 :::
 
@@ -1137,30 +1137,20 @@ Use projected subgradient method to solve for local minima in general case
 :::
 :::
 
-## Power & Caching in Wireless HetNets* {.smaller}
+## Power & Caching in Wireless HetNets {.smaller}
 Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
-::: columns
-::: {.column width=33%}
-![Power budget](images/hetnet_result1.svg)
+![&emsp;&emsp;&emsp;&emsp; Power budget](images/hetnet_result1.svg){width="55%" height="55%"}
 
-Placeholder
-:::
-::: {.column width=33%}
-![SC cache capacity](images/hetnet_result3.svg)
+## Power & Caching in Wireless HetNets {.smaller}
+Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
-Placeholder
-:::
-::: {.column width=33%}
-![Zipf parameter](images/hetnet_result2.svg)
+![&emsp;&emsp;&emsp;&emsp; SC cache capacity](images/hetnet_result3.svg){width="55%" height="55%"}
 
-Placeholder
-:::
-:::
+## Power & Caching in Wireless HetNets {.smaller}
+Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
-## Other Work*
-
-Placeholder
+![&emsp;&emsp;&emsp;&emsp; Zipf parameter](images/hetnet_result2.svg){width="55%" height="55%"}
 
 # Thanks & Questions
 
