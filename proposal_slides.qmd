@@ -10,18 +10,6 @@ format:
     css: styles/styles.css
     highlight-style: atom-one
     header-includes: <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
-    include-in-header:
-      - text: |
-          <script>
-          window.MathJax = {
-            loader: {
-              load: ['[tex]/color']
-            },
-            tex: {
-              packages: {'[+]': ['color']}
-            }
-          };
-          </script>
 mainfont: Lato
 fig-cap-location: top
 ---
@@ -645,9 +633,9 @@ Optimization Framework
 
 There are several considerations when applying our approach in the data plane:
 
--  Per-packet forwarding and caching decisions need to be made
--  Assumption that we have immediate access to any object for caching purposes does not hold 
--  Algorithm can lead to oscillatory behavior for caching decisions
+-  Per-packet forwarding and caching decisions
+-  Assumption of immediate access to any object for caching purposes does not hold 
+-  [Oscillatory]{.body-highlight} nature of VIP counts impractical for data plane caching
 
 ::: {.footer}
 Data Plane Strategy
@@ -936,10 +924,12 @@ Useful in view of [interest aggregation]{.body-highlight} and hardware limitatio
 
 Arguments in support of removing it:
 
--  Cache exclusivity makes [upward migrations]{.body-highlight} difficult in data plane
+-  Cache exclusivity makes [upward migrations]{.body-highlight}[^*] difficult in data plane
 -  Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary
 -  Hardware limitations may not be there for long (peer-to-peer DMA)
 Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.
+
+[^*]: When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier
 
 ::: {.footer}
 Proposed Work
@@ -973,7 +963,7 @@ Proposed Work
    -  Copies of a larger object are produced at a slower rate
    -  VIPs for smaller objects can be drained at a higher rate
    -  Without adjustments, service may prioritize smaller objects
--  Combined with multi-tiered caches, raises the [integrity]{.body-highlight} question, i.e. should we mandate that nodes cache all chunks of an object in the same tier?
+-  Combined with multi-tiered caches, raises the [integrity]{.body-highlight} question, i.e. should we require that nodes cache all chunks of an object in the same tier?
    -  If not, complexity of the caching problem increases dramatically
    -  Chunk-level strategy may serve this scenario better
 
@@ -985,6 +975,7 @@ Proposed Work
 
 -   Some disparities between the two planes lead to a gap building over time
     -   Virtual plane assumes nodes can immediately cache any object in the network
+    -   Data plane requires nodes to respond to requests from cache if available
     -   Length of time slots, interest aggregation etc. further extend this gap
 -   Amending the gap is difficult, but it must be quantified:
     -   Measure delay between a caching decision in the virtual plane, and when it is realized in data plane

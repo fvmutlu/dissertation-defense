@@ -385,16 +385,6 @@
       margin-right: 0; 
     }
   </style>
-  <script>
-  window.MathJax = {
-    loader: {
-      load: ['[tex]/color']
-    },
-    tex: {
-      packages: {'[+]': ['color']}
-    }
-  };
-  </script>
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body class="quarto-light">
@@ -1201,9 +1191,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>Transition to Data Plane</h2>
 <p>There are several considerations when applying our approach in the data plane:</p>
 <ul>
-<li>Per-packet forwarding and caching decisions need to be made</li>
-<li>Assumption that we have immediate access to any object for caching purposes does not hold</li>
-<li>Algorithm can lead to oscillatory behavior for caching decisions</li>
+<li>Per-packet forwarding and caching decisions</li>
+<li>Assumption of immediate access to any object for caching purposes does not hold</li>
+<li><span class="body-highlight">Oscillatory</span> nature of VIP counts impractical for data plane caching</li>
 </ul>
 <div class="footer">
 <p>Data Plane Strategy</p>
@@ -1581,14 +1571,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Useful in view of <span class="body-highlight">interest aggregation</span> and hardware limitations.</p>
 <p>Arguments in support of removing it:</p>
 <ul>
-<li>Cache exclusivity makes <span class="body-highlight">upward migrations</span> difficult in data plane</li>
+<li>Cache exclusivity makes <span class="body-highlight">upward migrations</span><sup>1</sup> difficult in data plane</li>
 <li>Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary</li>
 <li>Hardware limitations may not be there for long (peer-to-peer DMA) Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.</li>
 </ul>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
 <section id="different-object-sizes" class="slide level2 smaller">
 <h2>Different Object Sizes</h2>
 <p>Equal object sizes assumption makes analysis straightforward, but is not realistic.</p>
@@ -1616,7 +1606,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>VIPs for smaller objects can be drained at a higher rate</li>
 <li>Without adjustments, service may prioritize smaller objects</li>
 </ul></li>
-<li>Combined with multi-tiered caches, raises the <span class="body-highlight">integrity</span> question, i.e.&nbsp;should we mandate that nodes cache all chunks of an object in the same tier?
+<li>Combined with multi-tiered caches, raises the <span class="body-highlight">integrity</span> question, i.e.&nbsp;should we require that nodes cache all chunks of an object in the same tier?
 <ul>
 <li>If not, complexity of the caching problem increases dramatically</li>
 <li>Chunk-level strategy may serve this scenario better</li>
@@ -1632,6 +1622,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Some disparities between the two planes lead to a gap building over time
 <ul>
 <li>Virtual plane assumes nodes can immediately cache any object in the network</li>
+<li>Data plane requires nodes to respond to requests from cache if available</li>
 <li>Length of time slots, interest aggregation etc. further extend this gap</li>
 </ul></li>
 <li>Amending the gap is difficult, but it must be quantified:

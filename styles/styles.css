@@ -12,9 +12,9 @@
 }
 
 .reveal .slide-number {
-    font-size: 48px !important;
+    font-size: 5.5vh !important;
     color: white !important;
-    margin-top: 3vw;
+    margin-top: 6.25vh;
 }
 
 .reveal .slide-logo {
@@ -44,7 +44,7 @@
     color: white !important;
     background-color: #C8102E !important;
     width: 200vw;
-    height: 4vw;
+    height: 1.2em;
     position: relative;
     left: -20vw;
     padding-left: 20vw;
