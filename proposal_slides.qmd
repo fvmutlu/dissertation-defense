@@ -775,11 +775,12 @@ Experiments
 |$\sum_{\kin} \lambda^k_n$|Total request arrival rate at each $n$ in objects/sec|10|
 |$\alpha$|Zipf's law parameter for object popularity distribution|0.75|
 |$C_{ab}$|Capacity of each link $\abin$, in objects|10|
+|$|\mc{J}_n|$|Number of cache tiers at each $n$|2|
 |$L_{n_1}$|Capacity of tier 1 at each $n$, in objects|5|
 |$r_{n_1}$|Read rate of tier 1 at each $n$, in objects/sec|20|
 |$c^a_{n_1}$, $c^e_{n_1}$| Admission and eviction costs of tier 1 at each $n$|4, 2|
-|$r_{n_2}$|Read rate of tier 1 at each $n$, in objects/sec|10|
-|$c^a_{n_2}$, $c^e_{n_2}$| Admission and eviction costs of tier 1 at each $n$|2, 1|
+|$r_{n_2}$|Read rate of tier 2 at each $n$, in objects/sec|10|
+|$c^a_{n_2}$, $c^e_{n_2}$| Admission and eviction costs of tier 2 at each $n$|2, 1|
 : Parameters for all topologies {tbl-colwidths="[10,80,10]"}
 
 ::: {.footer}
