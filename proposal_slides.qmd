@@ -429,7 +429,7 @@ Optimization Framework
 :::
 
 ## Virtual Plane Caching Algorithm {.smaller}
-At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform **caching** as follows:
+At the beginning of each time slot $t$, at each node $n$, observe queues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform [caching]{.body-highlight} as follows:
 
 - Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
 ```{=tex}
@@ -437,9 +437,9 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
     \text{maximize}
         & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
     \text{subject to}
-        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \forall \, \jin \\
+        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \forall \, \kin \\
+        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \forall \, \kin, \; \jin
 \end{align}
 ```
 
@@ -448,7 +448,7 @@ Optimization Framework
 :::
 
 ## Virtual Plane Forwarding Algorithm {.smaller}
-At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform **forwarding** as follows:
+At the beginning of each time slot $t$, at each node $n$, observe queues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform [forwarding]{.body-highlight} as follows:
 
 - Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose $\mu^k_{ab}(t)$ to:
 ```{=tex}
@@ -456,8 +456,9 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
     \text{maximize}
         & \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
     \text{subject to} 
-        & \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
-        & \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
+        & \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \forall \, \abin \\
+        & \quad \mu^k_{ab}(t) \geq 0, \; \forall \, \kin, \; \abin \\
+        & \quad \mu^k_{ab}(t) = 0, \; \forall \, \kin, \; (a,b) \not \in \mc{L}^k
 \end{align}
 ```
 
@@ -467,10 +468,10 @@ Optimization Framework
 
 ## Analysis {.smaller}
 
-The VIP **stability region** $\Lambda$ of the network $\mc{G} = (\mc{N},\mc{L})$, is the set $\Lambda$ consisting of all VIP arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that the following holds:
+The VIP [stability region]{.body-highlight} $\Lambda$ of the network $\mc{G} = (\mc{N},\mc{L})$, is the set $\Lambda$ consisting of all VIP arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that the following holds:
 ```{=tex}
 \begin{equation}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \quad \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \; \forall \nin, \; \kin, \; n \not = \mc{S}(k)
 \end{equation}
 ```
 
@@ -516,9 +517,9 @@ We can rewrite the optimization problem for the [caching]{.body-highlight} step.
     \text{maximize}
         & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
     \text{subject to}
-        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \forall \, \jin \\
+        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \forall \, \kin \\
+        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \forall \, \kin, \; \jin
 \end{align}
 ```
 ```{=tex}
@@ -543,9 +544,9 @@ We can rewrite the optimization problem for the [caching]{.body-highlight} step.
     \text{maximize}
         & \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
     \text{subject to}
-        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
+        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \forall \, \jin \\
+        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \forall \, \kin \\
+        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \forall \, \kin, \; \jin
 \end{align}
 ```
 ```{=tex}
@@ -568,14 +569,14 @@ Using a transformation of variables, the problem can be written as a [linear ass
     \text{maximize}
         & \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
     \text{subject to} 
-        & \quad \sum\limits_{\kin} s^k_{n_i}(t) \leq 1, \; \iin \\
-        & \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \kin \\
-        & \quad s^k_{n_i}(t) \in \{0, 1\}, \; \kin, \; \iin
+        & \quad \sum\limits_{\kin} s^k_{n_i}(t) \leq 1, \; \forall \, \iin \\
+        & \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \forall \, \kin \\
+        & \quad s^k_{n_i}(t) \in \{0, 1\}, \; \forall \, \kin, \; \iin
 \end{align}
 ```
 $\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}$. If $i \in \mc{I}_{n_j} = \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}$, then $b^k_{n_j}(t) = b^k_{n_i}(t)$ and $s^k_{n_j}(t) = s^k_{n_i}(t)$.
 
-[^1]: Only possible due to same size objects assumption
+[^1]: Only possible due to equal object size assumption
 
 ::: {.footer}
 Optimization Framework
@@ -588,8 +589,8 @@ Optimization Framework
     \text{maximize}
         & \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
     \text{subject to} 
-        & \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \abin \\
-        & \quad \mu^k_{ab}(t) \geq 0, \; \kin, \; \abin
+        & \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \forall \, \abin \\
+        & \quad \mu^k_{ab}(t) \geq 0, \; \forall \, \kin, \; \abin
 \end{align}
 ```
 <hr>
@@ -940,7 +941,7 @@ Let $z^k$ be the size of object $k$ in bits. Redefine $L_{n_j}$ be the cache cap
 ```{=tex}
 \begin{align}
     \text{maximize}
-        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
     \text{subject to}
         & \quad \sum\limits_{\kin} z^k s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
         & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
@@ -997,7 +998,7 @@ Proposed Work
 ## Conclusion
 
 ::: {.incremental}
--   We identified a critical and practical problem in scaling high-throughput caching networks
+-   We address a critical and practical problem in scaling high-throughput caching networks
 -   Our proposed model and approach achieves our goals and performs decently, but has shortcomings
 -   Some improvements can be made by reiterating on technical details, further fine tuning requires experimentation
 :::
