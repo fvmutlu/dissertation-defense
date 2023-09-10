@@ -16,12 +16,11 @@ fig-cap-location: top
 
 ## Outline
 
-- General Context
-- Primary Contribution and Proposed Work
+- Primary Contribution
     -   **Introduction**: Motivation, Challenges, Related Work
     -   **Technical**: System Model, Optimization Framework
     -   **Practical**: Strategy, Experiments, Results
-    -   **Extensions**: Proposed Work, Out-of-scope Outlook*
+    -   **Proposed Work**
 - Other Contributions
 - Conclusion and Acknowledgements
 
@@ -54,46 +53,33 @@ $$
 $$
 :::
 
-## Information Centric Networking
-
-- **Motivation**: The Internet is primarily a data distribution network, yet its principles are those of a communication network
-- **Premise**: Make uniquely named data the primary entity of the network, instead of endpoints
-- **Advantages**: Improve efficiency and scalability by decoupling data from location and session
-
-::: {.footer}
-Context
-:::
-
-## In-network Caching
-
-- **Motivation**: Current caching infrastructure is mostly proprietary and centralized
-- **Premise**: Enable every router in the network to maintain its own cache
-- **Advantages**: Caching becomes decentralized, reducing network congestion and improving scalability
-
-::: {.footer}
-Context
-:::
-
 # Introduction
 
 ## Overview
 
--  **Motivation**: Data volume grows exponentially, cache capacities are stagnant
--  **Challenge**: Enabling larger caches in a cost-effective way is difficult
-   -  How beneficial are larger caches?
-   -  Are slower storage elements viable as caches?
-   -  What are the costs of operating large caches?
-   -  How can we get the most out of caches in the network?
+- **Context**: Information-centric networking, content delivery networks, in-network caching
+- **Motivation**: Data volume grows exponentially, cache capacities are stagnant
+- **Challenge**: Enabling larger caches in a cost-effective way is difficult
+    - Are slower storage elements viable as caches?
+    - What are the costs of operating large caches?
+    - How can we get the most out of caches in the network?
 
 ::: {.footer}
 Introduction
+:::
+
+::: {.notes}
+- ICN: Move Internet from communication network to data distribution network by making data the primary entity
+- Work is applicable in traditional CDN contexts, could be used as an overlay
+- In-network caching: Enable every router to maintain its own cache to move away from centralized caching
 :::
 
 ## Overview
 
--  **Motivation**: Data volume grows exponentially, cache capacities are stagnant
--  **Challenge**: Enabling larger caches in a cost-effective way is difficult
--  **Goal**: Develop a policy that observes network traffic patterns and diverse cache device characteristics to make intelligent caching and forwarding decisions
+- **Context**: Information-centric networking, content delivery networks, in-network caching
+- **Motivation**: Data volume grows exponentially, cache capacities are stagnant
+- **Challenge**: Enabling larger caches in a cost-effective way is difficult
+- **Goal**: Policy layer approach that addresses these considerations
 
 ::: {.footer}
 Introduction
@@ -101,12 +87,10 @@ Introduction
 
 ## Use Case: Data-Intensive Science
 
-::: {.incremental}
 -   Data-intensive science experiments (high-energy physics, genomics etc.) process huge amounts of data
     -   In one year of LHC running, over an exabyte of data is accessed
     -   In November 2018, 15.8 petabytes of data were written on tape at CERN
 -   Data is continuously distributed across the world for research
-:::
 
 ::: {.footer}
 Introduction
@@ -114,26 +98,25 @@ Introduction
 
 ## Use Case: Data-Intensive Science
 
-::: {.incremental}
 -   *"N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science"*, Y. Wu, F. V. Mutlu, et al.
     -   NDN-based high-throughput data distribution, caching and access system
-    -   Each router allocated 20 gigabytes DRAM cache space
--   *"NDN-DPDK: NDN Forwarding at 100 Gbps on Commodity Hardware"*, J. Shi, D. Pesavento, L. Benmohamed
-    -   Increasing capacities via NVMe SSDs require novel caching strategies due to their slow speeds
-:::
+    -   Each router allocated 20 GB DRAM cache space, each object in catalog around 5 GB
+    -   Increasing capacities via NVMe SSDs require novel caching strategies (paper on NDN-DPDK forwarder)
 
 ::: {.footer}
 Introduction
 :::
 
+::: {.notes}
+NDN-DPDK forwarder is a state-of-the-art high-throughput NDN forwarder and a core enabler of the N-DISE system, and in the paper that introduced that forwarder the need for specialized policies to operate SSD-based larger caches was outlined
+:::
+
 ## The Capacity Challenge
 
-::: {.incremental}
 -  DRAM is the primary cache device since it is fast, i.e. *line rate* (12.8-25.6 GB/s for DDR4, 32-64 GB/s for DDR5)
 -  However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)
 -  Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)
 -  NVMe SSDs can be much slower than DRAM (11.7 GB/s ideal read rate for fastest PCIe 5.0)
-:::
 
 ::: {.footer}
 Introduction
@@ -175,18 +158,14 @@ Introduction
 ::: {.column width="50%"}
 ![](images/zipf_1k.svg)
 
-::: {.fragment}
 -  Most popular 1% of objects make up one fifth of all requests
 -  Most popular 10% of objects make up half of all requests
-:::
 :::
 ::: {.column width="50%"}
 ![](images/cache_size.svg)
 
-::: {.fragment}
 -  Increasing cache sizes can help reduce delay significantly
 -  Note that the gain from size increase has diminishing returns
-:::
 :::
 :::
 
@@ -221,18 +200,16 @@ Introduction
 ::: {.column width="50%"}
 ![](images/two_tiers.svg)
 
-::: {.fragment}
 -  Second tier operates slower but improves delay for high request rates
 -  This is due to the diminishing returns emerging from Zipf's law
-:::
+
 :::
 ::: {.column width="50%"}
 ![](images/three_tiers.svg)
 
-::: {.fragment}
 -  Addition of the third tier impacts performance negatively
 -  This is due to trading link delay with cache read delay
-:::
+
 :::
 :::
 
@@ -242,29 +219,33 @@ Introduction
 
 ## The Cost Challenge
 
-::: {.incremental}
--  Caches are not free to use, every admission and replacement has a cost
+-  Caches are not free to use: admissions, replacements, even idle operation has a cost
 -  With additional cache devices, these are more pronounced:
-   -  SSDs can wear out over time
-   -  Their slower rates mean cache state transitions take longer
+   -  SSDs wear out over time as they're written
+   -  Slow transfers mean cache state transitions take longer
    -  They introduce additional power consumption
-:::
 
 ::: {.footer}
 Introduction
+:::
+
+::: {.notes}
+- The most significant operational cost is power
+- Difficult to represent the costs of idle operation, but we model admission and replacement costs as we'll see
 :::
 
 ## Coupling Caching with Forwarding
 
-::: {.incremental}
 -  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
    -  "*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ACM ICN 2014
 -  This is even more critical with larger, slower caches
-   -  Should we direct a cache miss toward a node where we might hit a slow cache or a more distant node where we might hit a faster cache?
-:::
 
 ::: {.footer}
 Introduction
+:::
+
+::: {.notes}
+-  Should we direct a cache miss toward a node where we might hit a slow cache or a more distant node where we might hit a faster cache?
 :::
 
 ## Goal
@@ -357,7 +338,7 @@ Virtual plane model is based on (Yeh, 2014):
 
 -  Integer time slots depicted as $t = \{1,2,...\}$
 -  A *virtual interest packet* (*VIP*) is generated alongside each exogenous request entering network; each node maintains a *VIP counter* for each object in the network
--  At the beginning of each time slot, each node decides where and how to forward its VIPs
+-  Beginning of each time slot, each node decides where and how to forward its VIPs
 -  VIPs are removed at object sources and caching nodes
 <hr>
 
@@ -413,7 +394,7 @@ The penalty incurred by the caching action $s^k_{n_j}(t)$ can be defined in term
 \end{equation}
 ```
 
-With the sum penalty incurred during slot $t$ denoted as $p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$.
+Sum penalty incurred during slot $t$ denoted as $p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$ .
 
 ::: {.footer}
 System Model
@@ -454,7 +435,7 @@ At the beginning of each time slot $t$, at each node $n$, observe queueues $(V^k
 ```{=tex}
 \begin{align}
     \text{maximize}
-        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
     \text{subject to}
         & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
         & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
@@ -533,7 +514,7 @@ We can rewrite the optimization problem for the [caching]{.body-highlight} step.
 ```{=tex}
 \begin{align}
     \text{maximize}
-        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
     \text{subject to}
         & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
         & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
@@ -651,7 +632,7 @@ Data Plane Strategy
 
 ## Data Plane Caching {.smaller}
 
-Define the [cache score]{.body-highlight} metric as follows:
+Define the [cache score]{.body-highlight} metric as in (Yeh, 2014):
 ```{=tex}
 \begin{equation}
     CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
@@ -661,7 +642,7 @@ Define the [cache score]{.body-highlight} metric as follows:
 Define the [eviction target]{.body-highlight} for tier $j$ at node $n$ as follows:
 ```{=tex}
 \begin{equation}
-   k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
+   k^{min}_{n_j}(t) = \argmin_{\{k \in \mc{K}_{n_j}(t)\}} CS^k_n(t)
 \end{equation}
 ```
 <hr>
@@ -676,6 +657,10 @@ Define the [eviction target]{.body-highlight} for tier $j$ at node $n$ as follow
 Data Plane Strategy
 :::
 
+::: {.notes}
+- Cache score is based on a sliding window average of received VIPs
+:::
+
 ## Data Plane Caching {.smaller}
 
 Define the [cache benefit]{.body-highlight} metric as follows:
@@ -683,22 +668,26 @@ Define the [cache benefit]{.body-highlight} metric as follows:
 \begin{equation}
     CB^k_{n_j}(t) = \begin{cases}
         \begin{array}{l}
-             r_{n_j}(CS^k_n(t) - CS^{k'_{n_j}}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
+             r_{n_j}(CS^k_n(t) - CS^{k^{min}_{n_j}(t)}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
              r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
         \end{array}
     \end{cases} 
 \end{equation}
 ```
 
-When a data object $k \not \in \mc{K}_{n_j}$ arrives at $n$ during slot $t$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
+When data object $k \not \in \mc{K}_{n_j}(t)$ arrives at $n$ during slot $t$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
 
--  Determine the cache tier which offers the highest cache benefit, i.e. $j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)$
+-  Determine cache tier which offers highest cache benefit, i.e. $j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)$
 -  If $CB^k_{n_{j^*}}(t) > 0$, admit object into tier $j^*$
-   -  If $j^*$ is full, i.e. $|\mc{K}_{n_{j^*}}| = L_{n_{j^*}}$, $k$ replaces $k'_{n_{j^*}}$
--  If a replacement happened in $j^* < |\mc{J}_n|$, set $k = k'_{n_{j^*}}$, then start the process over
+   -  If $j^*$ is full, i.e. $|\mc{K}_{n_{j^*}}(t)| = L_{n_{j^*}}$, $k$ replaces $k^{min}_{n_{j^*}}$
+-  If a replacement happened in $j^* < |\mc{J}_n|$, set $k = k^{min}_{n_{j^*}}$, then start the process over
 
 ::: {.footer}
 Data Plane Strategy
+:::
+
+::: {.notes}
+- Cache benefit balances cache score against weighted penalty
 :::
 
 ## Data Plane Forwarding

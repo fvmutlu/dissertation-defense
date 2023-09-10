@@ -407,13 +407,12 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
 <ul>
-<li>General Context</li>
-<li>Primary Contribution and Proposed Work
+<li>Primary Contribution
 <ul>
 <li><strong>Introduction</strong>: Motivation, Challenges, Related Work</li>
 <li><strong>Technical</strong>: System Model, Optimization Framework</li>
 <li><strong>Practical</strong>: Strategy, Experiments, Results</li>
-<li><strong>Extensions</strong>: Proposed Work, Out-of-scope Outlook*</li>
+<li><strong>Proposed Work</strong></li>
 </ul></li>
 <li>Other Contributions</li>
 <li>Conclusion and Acknowledgements</li>
@@ -446,28 +445,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \]</span></p>
 </div>
 </section>
-<section id="information-centric-networking" class="slide level2">
-<h2>Information Centric Networking</h2>
-<ul>
-<li><strong>Motivation</strong>: The Internet is primarily a data distribution network, yet its principles are those of a communication network</li>
-<li><strong>Premise</strong>: Make uniquely named data the primary entity of the network, instead of endpoints</li>
-<li><strong>Advantages</strong>: Improve efficiency and scalability by decoupling data from location and session</li>
-</ul>
-<div class="footer">
-<p>Context</p>
-</div>
-</section>
-<section id="in-network-caching" class="slide level2">
-<h2>In-network Caching</h2>
-<ul>
-<li><strong>Motivation</strong>: Current caching infrastructure is mostly proprietary and centralized</li>
-<li><strong>Premise</strong>: Enable every router in the network to maintain its own cache</li>
-<li><strong>Advantages</strong>: Caching becomes decentralized, reducing network congestion and improving scalability</li>
-</ul>
-<div class="footer">
-<p>Context</p>
-</div>
-</section>
 <section>
 <section id="introduction" class="title-slide slide level1 center">
 <h1>Introduction</h1>
@@ -476,10 +453,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
 <ul>
+<li><strong>Context</strong>: Information-centric networking, content delivery networks, in-network caching</li>
 <li><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
 <li><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult
 <ul>
-<li>How beneficial are larger caches?</li>
 <li>Are slower storage elements viable as caches?</li>
 <li>What are the costs of operating large caches?</li>
 <li>How can we get the most out of caches in the network?</li>
@@ -488,13 +465,31 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<ul>
+<li>ICN: Move Internet from communication network to data distribution network by making data the primary entity</li>
+<li>Work is applicable in traditional CDN contexts, could be used as an overlay</li>
+<li>In-network caching: Enable every router to maintain its own cache to move away from centralized caching</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="overview-1" class="slide level2">
 <h2>Overview</h2>
 <ul>
+<li><strong>Context</strong>: Information-centric networking, content delivery networks, in-network caching</li>
 <li><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
 <li><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult</li>
-<li><strong>Goal</strong>: Develop a policy that observes network traffic patterns and diverse cache device characteristics to make intelligent caching and forwarding decisions</li>
+<li><strong>Goal</strong>: Policy layer approach that addresses these considerations</li>
 </ul>
 <div class="footer">
 <p>Introduction</p>
@@ -502,49 +497,53 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="use-case-data-intensive-science" class="slide level2">
 <h2>Use Case: Data-Intensive Science</h2>
-<div>
 <ul>
-<li class="fragment">Data-intensive science experiments (high-energy physics, genomics etc.) process huge amounts of data
+<li>Data-intensive science experiments (high-energy physics, genomics etc.) process huge amounts of data
 <ul>
-<li class="fragment">In one year of LHC running, over an exabyte of data is accessed</li>
-<li class="fragment">In November 2018, 15.8 petabytes of data were written on tape at CERN</li>
+<li>In one year of LHC running, over an exabyte of data is accessed</li>
+<li>In November 2018, 15.8 petabytes of data were written on tape at CERN</li>
 </ul></li>
-<li class="fragment">Data is continuously distributed across the world for research</li>
+<li>Data is continuously distributed across the world for research</li>
 </ul>
-</div>
 <div class="footer">
 <p>Introduction</p>
 </div>
 </section>
 <section id="use-case-data-intensive-science-1" class="slide level2">
 <h2>Use Case: Data-Intensive Science</h2>
-<div>
 <ul>
-<li class="fragment"><em>“N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science”</em>, Y. Wu, F. V. Mutlu, et al.
+<li><em>“N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science”</em>, Y. Wu, F. V. Mutlu, et al.
 <ul>
-<li class="fragment">NDN-based high-throughput data distribution, caching and access system</li>
-<li class="fragment">Each router allocated 20 gigabytes DRAM cache space</li>
-</ul></li>
-<li class="fragment"><em>“NDN-DPDK: NDN Forwarding at 100 Gbps on Commodity Hardware”</em>, J. Shi, D. Pesavento, L. Benmohamed
-<ul>
-<li class="fragment">Increasing capacities via NVMe SSDs require novel caching strategies due to their slow speeds</li>
+<li>NDN-based high-throughput data distribution, caching and access system</li>
+<li>Each router allocated 20 GB DRAM cache space, each object in catalog around 5 GB</li>
+<li>Increasing capacities via NVMe SSDs require novel caching strategies (paper on NDN-DPDK forwarder)</li>
 </ul></li>
 </ul>
-</div>
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<p>NDN-DPDK forwarder is a state-of-the-art high-throughput NDN forwarder and a core enabler of the N-DISE system, and in the paper that introduced that forwarder the need for specialized policies to operate SSD-based larger caches was outlined</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="the-capacity-challenge" class="slide level2">
 <h2>The Capacity Challenge</h2>
-<div>
 <ul>
-<li class="fragment">DRAM is the primary cache device since it is fast, i.e.&nbsp;<em>line rate</em> (12.8-25.6 GB/s for DDR4, 32-64 GB/s for DDR5)</li>
-<li class="fragment">However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
-<li class="fragment">Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
-<li class="fragment">NVMe SSDs can be much slower than DRAM (11.7 GB/s ideal read rate for fastest PCIe 5.0)</li>
+<li>DRAM is the primary cache device since it is fast, i.e.&nbsp;<em>line rate</em> (12.8-25.6 GB/s for DDR4, 32-64 GB/s for DDR5)</li>
+<li>However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
+<li>Next best storage element is the NVMe SSD, offering large cache sizes at significantly lower costs ($0.1 / GB)</li>
+<li>NVMe SSDs can be much slower than DRAM (11.7 GB/s ideal read rate for fastest PCIe 5.0)</li>
 </ul>
-</div>
 <div class="footer">
 <p>Introduction</p>
 </div>
@@ -620,20 +619,16 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><img data-src="images/zipf_1k.svg"></p>
-<div class="fragment">
 <ul>
 <li>Most popular 1% of objects make up one fifth of all requests</li>
 <li>Most popular 10% of objects make up half of all requests</li>
 </ul>
-</div>
 </div><div class="column" style="width:50%;">
 <p><img data-src="images/cache_size.svg"></p>
-<div class="fragment">
 <ul>
 <li>Increasing cache sizes can help reduce delay significantly</li>
 <li>Note that the gain from size increase has diminishing returns</li>
 </ul>
-</div>
 </div>
 </div>
 <div class="footer">
@@ -683,20 +678,16 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><img data-src="images/two_tiers.svg"></p>
-<div class="fragment">
 <ul>
 <li>Second tier operates slower but improves delay for high request rates</li>
 <li>This is due to the diminishing returns emerging from Zipf’s law</li>
 </ul>
-</div>
 </div><div class="column" style="width:50%;">
 <p><img data-src="images/three_tiers.svg"></p>
-<div class="fragment">
 <ul>
 <li>Addition of the third tier impacts performance negatively</li>
 <li>This is due to trading link delay with cache read delay</li>
 </ul>
-</div>
 </div>
 </div>
 <div class="footer">
@@ -705,38 +696,46 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="the-cost-challenge" class="slide level2">
 <h2>The Cost Challenge</h2>
-<div>
 <ul>
-<li class="fragment">Caches are not free to use, every admission and replacement has a cost</li>
-<li class="fragment">With additional cache devices, these are more pronounced:
+<li>Caches are not free to use: admissions, replacements, even idle operation has a cost (power)</li>
+<li>With additional cache devices, these are more pronounced:
 <ul>
-<li class="fragment">SSDs can wear out over time</li>
-<li class="fragment">Their slower rates mean cache state transitions take longer</li>
-<li class="fragment">They introduce additional power consumption</li>
+<li>SSDs wear out over time as they’re written</li>
+<li>Slow transfers mean cache state transitions take longer</li>
+<li>They introduce additional power consumption</li>
 </ul></li>
 </ul>
-</div>
 <div class="footer">
 <p>Introduction</p>
 </div>
 </section>
 <section id="coupling-caching-with-forwarding" class="slide level2">
 <h2>Coupling Caching with Forwarding</h2>
-<div>
 <ul>
-<li class="fragment">Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
+<li>Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
 <ul>
-<li class="fragment">“<em>Coupling caching and forwarding: benefits, analysis, and implementation</em>”, G. Rossini, D. Rossi, ACM ICN 2014</li>
+<li>“<em>Coupling caching and forwarding: benefits, analysis, and implementation</em>”, G. Rossini, D. Rossi, ACM ICN 2014</li>
 </ul></li>
-<li class="fragment">This is even more critical with larger, slower caches
-<ul>
-<li class="fragment">Should we direct a cache miss toward a node where we might hit a slow cache or a more distant node where we might hit a faster cache?</li>
-</ul></li>
+<li>This is even more critical with larger, slower caches</li>
 </ul>
-</div>
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Should we direct a cache miss toward a node where we might hit a slow cache or a more distant node where we might hit a faster cache?</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="goal" class="slide level2">
 <h2>Goal</h2>
@@ -896,7 +895,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>Integer time slots depicted as <span class="math inline">\(t = \{1,2,...\}\)</span></li>
 <li>A <em>virtual interest packet</em> (<em>VIP</em>) is generated alongside each exogenous request entering network; each node maintains a <em>VIP counter</em> for each object in the network</li>
-<li>At the beginning of each time slot, each node decides where and how to forward its VIPs</li>
+<li>Beginning of each time slot, each node decides where and how to forward its VIPs</li>
 <li>VIPs are removed at object sources and caching nodes
 <hr></li>
 </ul>
@@ -990,7 +989,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
        0, &amp; \text{otherwise}
    \end{array} \right.
 \end{equation}\]</span>
-<p>With the sum penalty incurred during slot <span class="math inline">\(t\)</span> denoted as <span class="math inline">\(p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)\)</span>.</p>
+<p>Sum penalty incurred during slot <span class="math inline">\(t\)</span> denoted as <span class="math inline">\(p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)\)</span> .</p>
 <div class="footer">
 <p>System Model</p>
 </div>
@@ -1027,7 +1026,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </ul>
 <span class="math display">\[\begin{align}
     \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
     \text{subject to}
         &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
         &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
@@ -1112,7 +1111,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>We can rewrite the optimization problem for the <span class="body-highlight">caching</span> step.</p>
 <span class="math display">\[\begin{align}
     \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - p^k_{n_j}(t) \\
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
     \text{subject to}
         &amp; \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
         &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
@@ -1214,13 +1213,13 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="data-plane-caching" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
-<p>Define the <span class="body-highlight">cache score</span> metric as follows:</p>
+<p>Define the <span class="body-highlight">cache score</span> metric as in (Yeh, 2014):</p>
 <span class="math display">\[\begin{equation}
     CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
 \end{equation}\]</span>
 <p>Define the <span class="body-highlight">eviction target</span> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
 <span class="math display">\[\begin{equation}
-   k'_{n_j} = \argmin_{\{k \in \mc{K}_{n_j}\}} CS^k_n(t)
+   k^{min}_{n_j}(t) = \argmin_{\{k \in \mc{K}_{n_j}(t)\}} CS^k_n(t)
 \end{equation}\]</span>
 <hr>
 <table>
@@ -1252,6 +1251,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Cache score is based on a sliding window average of received VIPs</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="data-plane-caching-1" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
@@ -1259,23 +1273,38 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <span class="math display">\[\begin{equation}
     CB^k_{n_j}(t) = \begin{cases}
         \begin{array}{l}
-             r_{n_j}(CS^k_n(t) - CS^{k'_{n_j}}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
+             r_{n_j}(CS^k_n(t) - CS^{k^{min}_{n_j}(t)}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
              r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
         \end{array}
     \end{cases}
 \end{equation}\]</span>
-<p>When a data object <span class="math inline">\(k \not \in \mc{K}_{n_j}\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
+<p>When data object <span class="math inline">\(k \not \in \mc{K}_{n_j}(t)\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <ul>
-<li>Determine the cache tier which offers the highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
+<li>Determine cache tier which offers highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
 <li>If <span class="math inline">\(CB^k_{n_{j^*}}(t) &gt; 0\)</span>, admit object into tier <span class="math inline">\(j^*\)</span>
 <ul>
-<li>If <span class="math inline">\(j^*\)</span> is full, i.e.&nbsp;<span class="math inline">\(|\mc{K}_{n_{j^*}}| = L_{n_{j^*}}\)</span>, <span class="math inline">\(k\)</span> replaces <span class="math inline">\(k'_{n_{j^*}}\)</span></li>
+<li>If <span class="math inline">\(j^*\)</span> is full, i.e.&nbsp;<span class="math inline">\(|\mc{K}_{n_{j^*}}(t)| = L_{n_{j^*}}\)</span>, <span class="math inline">\(k\)</span> replaces <span class="math inline">\(k^{min}_{n_{j^*}}\)</span></li>
 </ul></li>
-<li>If a replacement happened in <span class="math inline">\(j^* &lt; |\mc{J}_n|\)</span>, set <span class="math inline">\(k = k'_{n_{j^*}}\)</span>, then start the process over</li>
+<li>If a replacement happened in <span class="math inline">\(j^* &lt; |\mc{J}_n|\)</span>, set <span class="math inline">\(k = k^{min}_{n_{j^*}}\)</span>, then start the process over</li>
 </ul>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Cache benefit balances cache score against weighted penalty</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="data-plane-forwarding" class="slide level2">
 <h2>Data Plane Forwarding</h2>
