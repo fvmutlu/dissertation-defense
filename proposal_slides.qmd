@@ -522,6 +522,13 @@ At the beginning of each time slot $t$, at each node $n$, observe queues $(V^k_n
 Optimization Framework
 :::
 
+::: {.notes}
+- And here's how we tackle this optimization. We devise an algorithm that's made of two steps (caching and forwarding), which chooses the respective variables every time slot, to optimize a certain objective based on the VIP counts. We're looking at the caching step right now.
+- Obviously there is a lot of math to get to this expression for the objective function, but I'll give you the intuition briefly.
+- Because we want to remove as many VIPs from the network as fast as possible, we want to cache the higher VIP count objects in the faster tiers, which is why the read rate multiplies the VIP count here.
+- However, we also want to make sure that our choices in caching actions do not add large penalties that outweigh the benefits. Of course the importance of that is determined by omega.
+:::
+
 ## Virtual Plane Forwarding Algorithm {.smaller}
 At the beginning of each time slot $t$, at each node $n$, observe queues $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ then perform [forwarding]{.body-highlight} as follows:
 
@@ -539,6 +546,11 @@ At the beginning of each time slot $t$, at each node $n$, observe queues $(V^k_n
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+- And here's the forwarding step.
+- The intuition here again comes from thinking of VIP counts as potential representing unsatisfied demand. So with the forwarding step, we're making sure VIP flows follow large differences in potential, essentially steering interests toward sinks, meaning sources or caches.
 :::
 
 ## Analysis {.smaller}
@@ -559,6 +571,11 @@ The VIP [stability region]{.body-highlight} $\Lambda$ of the network $\mc{G} = (
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+- The analysis of our approach comes in two steps. If you recall my statement about Lyapunov drift analysis, we're following that structure here to first define the stability region of the network of VIP counts (which can be seen as queues) in the virtual plane.
+- The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rate that can be satisfied contingent on the long term average VIP flow over links, as well as VIPs removed via cache tiers.
 :::
 
 ## Analysis {.smaller}
@@ -583,6 +600,10 @@ $\Psi(\boldsymbol{\lambda})$ is the minimum time-average sum penalty achievable 
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+
 :::
 
 ## Solutions to Optimization Problems {.smaller}

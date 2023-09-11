@@ -528,7 +528,12 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Introduction</p>
 </div>
 <aside class="notes">
-<p>To expand on our motivation, let’s begin with the use case that inspired my work</p>
+<ul>
+<li>To expand on my motivation, I’ll first talk about the use case that initially inspired my work.</li>
+<li>As you know, large science programs in fields like high-energy physics, genomics etc. deal with experiments that produce huge amounts of data.</li>
+<li>For instance, for the LHC, in one year, over an exabyte of data is accessed. In only one month even back in 2018, 16 PB of data were written on permanent storage.</li>
+<li>This data then has to constantly be distributed across the world for research, which is a significant networking challenge.</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -556,8 +561,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>N-DISE paper appeared in ACM ICN 2022</li>
-<li>NDN-DPDK forwarder is a state-of-the-art high-throughput NDN forwarder and a core enabler of the N-DISE system, and in the paper that introduced that forwarder the need for specialized policies to operate SSD-based larger caches was outlined</li>
+<li>To address this, our lab led a project effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.</li>
+<li>The point here is, even in this state-of-the-art project, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we’re working with.</li>
+<li>To drive the point home further I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for pecialized policies for operating larger caches was specifically outlined.</li>
+<li>So that gap is what motivated my work.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -575,13 +582,28 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>The Capacity Challenge</h2>
 <ul>
 <li>DRAM is the primary cache device since it is fast, i.e.&nbsp;<em>line rate</em> (12.8-25.6 GB/s for DDR4, 32-64 GB/s for DDR5)</li>
-<li>However, DRAM offers small cache sizes at a high and exponentially increasing cost ($3 to $12 / GB)</li>
+<li>However, DRAM offers small capacities at a high and exponentially increasing cost ($3 to $12 / GB)</li>
 <li>Next best storage element is the NVMe SSD, offering large capacities at significantly lower costs ($0.1 / GB)</li>
 <li>NVMe SSDs can be much slower than DRAM (11.7 GB/s ideal read rate for fastest PCIe 5.0)</li>
 </ul>
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<ul>
+<li>I now want to give you a better idea about why scaling capacities is a challenge.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="capacity-challenge-toy-example" class="slide level2 smaller">
 <h2>Capacity Challenge: Toy Example</h2>
@@ -634,7 +656,11 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Introduction</p>
 </div>
 <aside class="notes">
-<p>To illustrate my point further, I brought a toy example</p>
+<ul>
+<li>Now, to both illustrate the capacity challenge more precisely, and to underline how slower caches may help us here, I brought in a toy example.</li>
+<li>Here we’re looking at a simple network with a catalog of objects, all hosted by one server. We assume the popularity distribution of these objects are governed by Zipf’s law. We have a set of consumers making requests for these objects, which go through a forwarder. If the forwarder can respond to a request from one its cache tiers, it does so instead of forwarding it to the server. There is a fixed caching policy at the forwarder, according to a priori knowledge of object popularities, as you can see on the screen.</li>
+<li>We have three potential tiers of cache, with the first being a fast and small tier, the middling being a lot larger but slower, then the last one being even larger but much slower.</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -667,6 +693,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<ul>
+<li>First off, on the left hand side, we see the CDF for Zipf’s law. The key observation there is that, in this network, 1% of objects will make up roughly one fifth of all requests, and 10% of objects will make up half of all requests.</li>
+<li>Now, on the right hand side, we see how adding the middling tier on top of the first tier impacts the total delay in the network. Even though the second tier is slower, it improves delay when there’s more traffic. This can be linked directly to our observation from Zipf’s law, because even though the second tier has a larger amount of objects cached, the frequency of requests that hit the second tier does not exceed its read capacity, since those objects are less popular.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="case-for-additional-slower-caches-1" class="slide level2 smaller">
 <h2>Case for Additional, Slower Caches</h2>
@@ -688,6 +730,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<ul>
+<li>However, adding the last tier, even though it expands our total cache capacity, impacts delay negatively, because what I just explained does not hold for the third tier since its much larger and much slower, so we end up trading delay on the server link with worse read delay on the third tier.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="the-cost-challenge" class="slide level2">
 <h2>The Cost Challenge</h2>
@@ -704,6 +761,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now of course the capacity challenge is not the only obstacle in our way. There’s another major consideration which is operational costs.</li>
+<li>Caches are not free to use, each admission and replacement, and even idle operation has a real cost in energy so if we’re adding even more cache devices we have to be mindful of this cost.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="the-cost-challenge-1" class="slide level2">
 <h2>The Cost Challenge</h2>
@@ -715,6 +788,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <img data-src="images/ssd_endurance.png" class="r-stretch"><div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<ul>
+<li>And on top of that, SSDs also wear out as they’re written, which, although modern SSDs are very durable, is still a significant consideration because dynamic caching operates at a small time scale so storage will be rewritten quite frequently</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="coupling-caching-with-forwarding" class="slide level2">
 <h2>Coupling Caching with Forwarding</h2>
@@ -729,7 +817,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Introduction</p>
 </div>
 <aside class="notes">
-
+<ul>
+<li>Finally, we look at the question of, we can handle caching adequately, how can we make sure we’re actually making the most of those caches in the network?</li>
+<li>This is where the act of tying caching and forwarding together comes in.</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -761,6 +852,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now, having looked at these considerations, let’s reiterate our goal.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="related-work" class="slide level2 smaller">
 <h2>Related Work</h2>
@@ -782,7 +888,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Related Work</p>
 </div>
 <aside class="notes">
-
+<ul>
+<li>Now, to conclude the introduction, I want to briefly point out some related work.</li>
+<li>This connected series of papers you see on the screen, which come from the same group that authored the one about coupling caching and forwarding that I just discussed, is the closest related work in my opinion.</li>
+<li>These papers lay out similar concerns about cache capacities and the relevant challenges.</li>
+<li>However, their work targets the system layer. They deal with lower level implementation details of how to integrate SSDs into the actual data structures that make up the caches in ICNs.</li>
+<li>In these works, while the authors rely on traditional cache admission and replacement policies, they also point out that specialized policies may result in better performant systems.</li>
+<li>They also do not consider the coupling of forwarding decisions.</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -809,7 +922,12 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Recall the earlier paper I mentioned about coupling caching and forwarding, coincidentally the two papers appeared in the same conference.</li>
+<li>Lastly, perhaps the single most important paper for my work is the VIP paper by Prof.&nbsp;Yeh and co-authors, as my work directly extends this paper.</li>
+<li>So let me go over why that is.</li>
+<li>Recall the earlier paper I mentioned about coupling caching and forwarding; coincidentally these two papers appeared in the same conference and the VIP paper proposed a strategy that does exactly that, which suits our goals as well.</li>
+<li>Furthermore, this paper includes the read capacities of cache devices in its system model, which is one of the parameters of primary concern to us.</li>
+<li>The core feature of this paper is a separation of the data plane mechanisms from the “virtual plane”, where control decisions take place, which we also adopt as it makes building these strategies simpler.</li>
+<li>Finally, there is a technical benefit here because the analysis for VIP is based on Lyapunov drift, which has an extension called drift-plus-penalty, that gives us a direct venue for incorporating cache utilization costs.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
