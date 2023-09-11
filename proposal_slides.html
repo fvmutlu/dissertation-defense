@@ -564,19 +564,13 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Introduction</p>
 </div>
 </section>
-<section id="toy-example" class="slide level2 smaller">
-<h2>Toy Example</h2>
+<section id="capacity-challenge-toy-example" class="slide level2 smaller">
+<h2>Capacity Challenge: Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/toynet.svg" style="width:60.0%;height:60.0%"></p>
+<p><img data-src="images/toynet_cache.svg" style="width:75.0%;height:75.0%"></p>
 </figure>
 </div>
-<ul>
-<li>Catalog of 1000 objects, ranked in popularity according to <span class="body-highlight">Zipf’s law</span></li>
-<li>Forwarder responds to requests from cache or forwards them to server</li>
-<li>Caching at the forwarder is fixed: most popular <span class="math inline">\(L_{f}\)</span> objects are cached
-<hr></li>
-</ul>
 <div class="columns">
 <div class="column" style="width:50%;">
 <table>
@@ -596,79 +590,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <td style="text-align: left;">Set of consumer nodes</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(L_{a}\)</span></td>
-<td style="text-align: left;">Cache size (in packets) at node <span class="math inline">\(a\)</span></td>
-</tr>
-</tbody>
-</table>
-</div><div class="column" style="width:50%;">
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
-<td style="text-align: left;">Set of data objects</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\alpha\)</span></td>
-<td style="text-align: left;">Zipf’s law parameter</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\lambda\)</span></td>
-<td style="text-align: left;">Total incoming request rate at forwarder</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="footer">
-<p>Introduction</p>
-</div>
-</section>
-<section id="case-for-larger-caches" class="slide level2 smaller">
-<h2>Case for Larger Caches</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><img data-src="images/zipf_1k.svg"></p>
-<ul>
-<li>Most popular 1% of objects make up one fifth of all requests</li>
-<li>Most popular 10% of objects make up half of all requests</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><img data-src="images/cache_size.svg"></p>
-<ul>
-<li>Increasing cache sizes can help reduce delay significantly</li>
-<li>Note that the gain from size increase has diminishing returns</li>
-</ul>
-</div>
-</div>
-<div class="footer">
-<p>Introduction</p>
-</div>
-</section>
-<section id="extended-toy-example" class="slide level2 smaller">
-<h2>Extended Toy Example</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/toynet_cache.svg" style="width:75.0%;height:75.0%"></p>
-</figure>
-</div>
-<div class="columns">
-<div class="column" style="width:50%;">
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
 <td style="text-align: left;">Read rate of tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></td>
 </tr>
@@ -680,8 +601,13 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </table>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Numbered nodes connected by green edges represent potential cache tiers</li>
-<li>Most popular 10 objects are cached in tier 1, objects ranked 11-40 are cached in tier 2, objects ranked 41-100 are cached in tier 3</li>
+<li>Catalog of 1000 objects, ranked in popularity by <span class="body-highlight">Zipf’s law</span></li>
+<li>Objects cached by rank:
+<ul>
+<li>Tier 1: 1-10</li>
+<li>Tier 2: 11-40</li>
+<li>Tier 3: 41-100</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -693,10 +619,31 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>Case for Additional, Slower Caches</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
+<p><img data-src="images/zipf_1k.svg"></p>
+<ul>
+<li>Most popular 1% of objects make up one fifth of all requests</li>
+<li>Most popular 10% of objects make up half of all requests</li>
+</ul>
+</div><div class="column" style="width:50%;">
 <p><img data-src="images/two_tiers.svg"></p>
 <ul>
 <li>Second tier operates slower but improves delay for high request rates</li>
 <li>This is due to the diminishing returns emerging from Zipf’s law</li>
+</ul>
+</div>
+</div>
+<div class="footer">
+<p>Introduction</p>
+</div>
+</section>
+<section id="case-for-additional-slower-caches-1" class="slide level2 smaller">
+<h2>Case for Additional, Slower Caches</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/zipf_1k.svg"></p>
+<ul>
+<li>Most popular 1% of objects make up one fifth of all requests</li>
+<li>Most popular 10% of objects make up half of all requests</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><img data-src="images/three_tiers.svg"></p>
@@ -713,33 +660,29 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="the-cost-challenge" class="slide level2">
 <h2>The Cost Challenge</h2>
 <ul>
-<li>Caches are not free to use: admissions, replacements, even idle operation has a cost</li>
-<li>With additional cache devices, these are more pronounced:
-<ul>
-<li>SSDs wear out over time as they’re written</li>
-<li>Slow transfers mean cache state transitions take longer</li>
-<li>They introduce additional power consumption</li>
-</ul></li>
+<li>Caches are not free to use: admissions, replacements, even idle operation has a power cost</li>
 </ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/dram_power.png"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/ssd_power.png"></p>
+</div>
+</div>
 <div class="footer">
 <p>Introduction</p>
 </div>
-<aside class="notes">
+</section>
+<section id="the-cost-challenge-1" class="slide level2">
+<h2>The Cost Challenge</h2>
 <ul>
-<li>The most significant operational cost is power</li>
-<li>Difficult to represent the costs of idle operation, but we model admission and replacement costs as we’ll see</li>
+<li>Caches are not free to use: admissions, replacements, even idle operation has a power cost</li>
+<li>SSDs also wear out over time as they’re written</li>
 </ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+
+<img data-src="images/ssd_endurance.png" class="r-stretch"><div class="footer">
+<p>Introduction</p>
+</div>
 </section>
 <section id="coupling-caching-with-forwarding" class="slide level2">
 <h2>Coupling Caching with Forwarding</h2>
@@ -821,6 +764,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Related Work</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Recall the earlier paper I mentioned about coupling caching and forwarding, coincidentally the two papers appeared in the same conference.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="system-model" class="title-slide slide level1 center">
@@ -1048,11 +1006,40 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>System Model</p>
 </div>
+<aside class="notes">
+<ul>
+<li>The inequality at the top shows how VIP counts change from slot to slot in the virtual plane</li>
+<li>First term is VIPs forwarded away from the node, then we have the exogenous arrivals, then VIPs that arrive from other nodes and finally, VIPs removed due to caching. Notice that this term is dependent on the read rate of the cache tier</li>
+<li>The definition at the bottom shows how the caching actions translate to penalties incurred</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="virtual-plane-optimization" class="title-slide slide level1 center">
 <h1>Virtual Plane Optimization</h1>
-
+<aside class="notes">
+<p>With the system model described, we will now look at our control algorithm in the virtual plane</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="optimization-goal" class="slide level2 smaller">
 <h2>Optimization Goal</h2>

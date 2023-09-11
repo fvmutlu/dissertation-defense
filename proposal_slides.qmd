@@ -127,58 +127,7 @@ Introduction
 Introduction
 :::
 
-## Toy Example {.smaller}
-
-![](images/toynet.svg){width=60% height=60% fig-align="center"}
-
--  Catalog of 1000 objects, ranked in popularity according to [Zipf's law]{.body-highlight}
--  Forwarder responds to requests from cache or forwards them to server
--  Caching at the forwarder is fixed: most popular $L_{f}$ objects are cached
-<hr>
-
-::: columns
-::: {.column width="50%"}
-| Notation | Definition |
-|:-:|:---------------|
-|$C_{ab}$|Capacity of link $(a,b)$|
-|$\mathcal{N}_c$|Set of consumer nodes|
-|$L_{a}$|Cache size (in packets) at node $a$|
-:::
-::: {.column width="50%"}
-| Notation | Definition |
-|:-:|:---------------|
-|$\mathcal{K}$|Set of data objects|
-|$\alpha$|Zipf's law parameter|
-|$\lambda$|Total incoming request rate at forwarder|
-:::
-:::
-
-::: {.footer}
-Introduction
-:::
-
-## Case for Larger Caches {.smaller}
-
-::: columns
-::: {.column width="50%"}
-![](images/zipf_1k.svg)
-
--  Most popular 1% of objects make up one fifth of all requests
--  Most popular 10% of objects make up half of all requests
-:::
-::: {.column width="50%"}
-![](images/cache_size.svg)
-
--  Increasing cache sizes can help reduce delay significantly
--  Note that the gain from size increase has diminishing returns
-:::
-:::
-
-::: {.footer}
-Introduction
-:::
-
-## Extended Toy Example {.smaller}
+## Capacity Challenge: Toy Example {.smaller}
 
 ![](images/toynet_cache.svg){width=75% height=75% fig-align="center"}
 
@@ -186,12 +135,17 @@ Introduction
 ::: {.column width="50%"}
 | Notation | Definition |
 |:-:|:---------------|
+|$C_{ab}$|Capacity of link $(a,b)$|
+|$\mathcal{N}_c$|Set of consumer nodes|
 |$r_{n_j}$|Read rate of tier $j$ at $n$|
 |$L_{n_j}$|Cache size of tier $j$ at $n$|
 :::
 ::: {.column width="50%"}
--   Numbered nodes connected by green edges represent potential cache tiers
--   Most popular 10 objects are cached in tier 1, objects ranked 11-40 are cached in tier 2, objects ranked 41-100 are cached in tier 3
+- Catalog of 1000 objects, ranked in popularity by [Zipf's law]{.body-highlight}
+- Objects cached by rank:
+    - Tier 1: 1-10
+    - Tier 2: 11-40
+    - Tier 3: 41-100
 :::
 :::
 
@@ -203,18 +157,37 @@ Introduction
 
 ::: columns
 ::: {.column width="50%"}
+![](images/zipf_1k.svg)
+
+-  Most popular 1% of objects make up one fifth of all requests
+-  Most popular 10% of objects make up half of all requests
+:::
+::: {.column width="50%"}
 ![](images/two_tiers.svg)
 
 -  Second tier operates slower but improves delay for high request rates
 -  This is due to the diminishing returns emerging from Zipf's law
+:::
+:::
 
+::: {.footer}
+Introduction
+:::
+
+## Case for Additional, Slower Caches {.smaller}
+
+::: columns
+::: {.column width="50%"}
+![](images/zipf_1k.svg)
+
+-  Most popular 1% of objects make up one fifth of all requests
+-  Most popular 10% of objects make up half of all requests
 :::
 ::: {.column width="50%"}
 ![](images/three_tiers.svg)
 
 -  Addition of the third tier impacts performance negatively
 -  This is due to trading link delay with cache read delay
-
 :::
 :::
 
@@ -224,19 +197,30 @@ Introduction
 
 ## The Cost Challenge
 
--  Caches are not free to use: admissions, replacements, even idle operation has a cost
--  With additional cache devices, these are more pronounced:
-   -  SSDs wear out over time as they're written
-   -  Slow transfers mean cache state transitions take longer
-   -  They introduce additional power consumption
+-  Caches are not free to use: admissions, replacements, even idle operation has a power cost
+
+::: columns
+::: {.column width="50%"}
+![](images/dram_power.png)
+:::
+::: {.column width="50%"}
+![](images/ssd_power.png)
+:::
+:::
 
 ::: {.footer}
 Introduction
 :::
 
-::: {.notes}
-- The most significant operational cost is power
-- Difficult to represent the costs of idle operation, but we model admission and replacement costs as we'll see
+## The Cost Challenge
+
+-  Caches are not free to use: admissions, replacements, even idle operation has a power cost
+-  SSDs also wear out over time as they're written
+
+![](images/ssd_endurance.png)
+
+::: {.footer}
+Introduction
 :::
 
 ## Coupling Caching with Forwarding
@@ -250,7 +234,6 @@ Introduction
 :::
 
 ::: {.notes}
--  Should we direct a cache miss toward a node where we might hit a slow cache or a more distant node where we might hit a faster cache?
 :::
 
 ## Goal
@@ -288,8 +271,8 @@ Related Work
 
 -   Couples caching and forwarding
 -   Models read rate of caches
--   Lyapunov drift analysis integrates easily with costs
 -   Virtual and data plane separation makes algorithm simpler to operate
+-   Lyapunov drift analysis integrates easily with costs
 
 ::: {.footer}
 Related Work
