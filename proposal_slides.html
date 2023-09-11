@@ -516,7 +516,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>NDN-based high-throughput data distribution, caching and access system</li>
 <li>Each router allocated 20 GB DRAM cache space, each object in catalog around 5 GB</li>
-<li>Increasing capacities via NVMe SSDs require novel caching strategies (paper on NDN-DPDK forwarder)</li>
+<li>“Increasing capacities via NVMe SSDs require novel caching strategies” (paper on NDN-DPDK forwarder)</li>
 </ul></li>
 </ul>
 <div class="footer">
@@ -556,7 +556,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </figure>
 </div>
 <ul>
-<li>Catalog of 1000 objects, ranked in popularity according to Zipf’s law</li>
+<li>Catalog of 1000 objects, ranked in popularity according to <span class="body-highlight">Zipf’s law</span></li>
 <li>Forwarder responds to requests from cache or forwards them to server</li>
 <li>Caching at the forwarder is fixed: most popular <span class="math inline">\(L_{f}\)</span> objects are cached
 <hr></li>
@@ -1408,11 +1408,25 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>LFU has both aware and unaware adaptations, admission based on frequency</li>
 </ul></li>
 <li>All baseline caching policies paired with Least Response Time forwarding</li>
+<li>Nodes generate requests for 100 seconds</li>
 <li>Virtual plane algorithm with slot length of 1 sec and sliding window of size <span class="math inline">\(T=100\)</span></li>
 </ul>
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<p>Cost-aware LFU adaptation uses a similar cache benefit metric</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="experiment-setting-2" class="slide level2 smaller">
 <h2>Experiment Setting</h2>
@@ -1486,6 +1500,19 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<p>Important parameters: number of tiers, capacity of first tier</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="results-i" class="slide level2 smaller">
 <h2>Results I</h2>

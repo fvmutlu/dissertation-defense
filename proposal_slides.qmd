@@ -101,14 +101,14 @@ Introduction
 -   *"N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science"*, Y. Wu, F. V. Mutlu, et al.
     -   NDN-based high-throughput data distribution, caching and access system
     -   Each router allocated 20 GB DRAM cache space, each object in catalog around 5 GB
-    -   Increasing capacities via NVMe SSDs require novel caching strategies (paper on NDN-DPDK forwarder)
+    -   "Increasing capacities via NVMe SSDs require novel caching strategies" (paper on NDN-DPDK forwarder)
 
 ::: {.footer}
 Introduction
 :::
 
 ::: {.notes}
-NDN-DPDK forwarder is a state-of-the-art high-throughput NDN forwarder and a core enabler of the N-DISE system, and in the paper that introduced that forwarder the need for specialized policies to operate SSD-based larger caches was outlined
+- NDN-DPDK forwarder is a state-of-the-art high-throughput NDN forwarder and a core enabler of the N-DISE system, and in the paper that introduced that forwarder the need for specialized policies to operate SSD-based larger caches was outlined
 :::
 
 ## The Capacity Challenge
@@ -126,7 +126,7 @@ Introduction
 
 ![](images/toynet.svg){width=60% height=60% fig-align="center"}
 
--  Catalog of 1000 objects, ranked in popularity according to Zipf's law
+-  Catalog of 1000 objects, ranked in popularity according to [Zipf's law]{.body-highlight}
 -  Forwarder responds to requests from cache or forwards them to server
 -  Caching at the forwarder is fixed: most popular $L_{f}$ objects are cached
 <hr>
@@ -761,10 +761,15 @@ Experiments
    -  LRU, FIFO and RANDOM cost-unaware, paired with LCE admission
    -  LFU has both aware and unaware adaptations, admission based on frequency
 -  All baseline caching policies paired with Least Response Time forwarding
+-  Nodes generate requests for 100 seconds
 -  Virtual plane algorithm with slot length of 1 sec and sliding window of size $T=100$
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+Cost-aware LFU adaptation uses a similar cache benefit metric
 :::
 
 ## Experiment Setting {.smaller}
@@ -785,6 +790,10 @@ Experiments
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+Important parameters: number of tiers, capacity of first tier
 :::
 
 ## Results I {.smaller}
