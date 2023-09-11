@@ -357,12 +357,17 @@ That concludes the introduction and leads me into the system model that we're de
 System Model
 :::
 
-## Data Plane Model {.smaller}
-Network model is based on general ICN principles:
+::: {.notes}
+- Here's a simple illustration of the system model the separation and interaction between the virtual and data planes we're adopting from the VIP paper.
+- The data plane is where actual network functionality is performed. The virtual plane uses the request arrival information from the data plane; its where control decisions are made.
+:::
 
--   Unit of content is *data object*; each object has equal size, and a unique source
+## Data Plane Model {.smaller}
+Data plane network model is based on general ICN principles:
+
+-   Unit of content is *data object*; each object has a unique source and is of equal size 
 -   Requests can enter network at any node; sources or caching nodes can respond to requests with data
--   Data responses follow reverse of request path back to requester
+-   Data responses follow request path back to requester
 <hr>
 
 | Notation | Definition |
@@ -376,6 +381,14 @@ Network model is based on general ICN principles:
 
 ::: {.footer}
 System Model
+:::
+
+::: {.notes}
+- The principles of the data plane are based on those of a classical ICN.
+- We use "data object" as the unit of content in the network and assume that each object has a unique source node.
+- We particularly assume every object has the same size, which is a crucial assumption we'll need to remember for later.
+- Requests can enter network at any node. A request for an object can be met with a data response at the source node for that object or at any node that caches that object.
+- Those data responses will follow the path of the request back to the requester (inverse of the path, of course)
 :::
 
 ## Data Plane Model {.smaller}
@@ -398,13 +411,20 @@ Multi-tiered caching model has following properties:
 System Model
 :::
 
+::: {.notes}
+- The multi-tiered caching model I propose adds the following properties to those basic mechanisms.
+- Any node can have cache tiers and can cache any object in one of those tiers unless it already sources that object.
+- A node can cache an object in at most one of its tiers. This means that we don't duplicate objects across cache tiers. This is a crucial constraint we'll also need to remember for later.
+- An object evicted from one tier can migrate to another tier at the same node. So an eviction from one tier is not necessarily final for an object.
+:::
+
 ## Virtual Plane Model {.smaller}
 Virtual plane model is based on (Yeh, 2014):
 
--  Integer time slots depicted as $t = \{1,2,...\}$
 -  A *virtual interest packet* (*VIP*) is generated alongside each exogenous request entering network; each node maintains a *VIP counter* for each object in the network
--  Beginning of each time slot, each node decides where and how to forward its VIPs
 -  VIPs are removed at object sources and caching nodes
+-  Integer time slots depicted as $t = \{1,2,...\}$
+-  Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects
 <hr>
 
 | Notation | Definition |
@@ -418,8 +438,15 @@ Virtual plane model is based on (Yeh, 2014):
 System Model
 :::
 
+::: {.notes}
+- Now, on to the virtual plane model, which is largely based on the original VIP paper. We'll go over it briefly.
+- First off, anytime an exogenous request enters the data plane network, a virtual interest packet (VIP for short) is generated in the virtual plane at that node. These VIPs can only be removed at sources or caching points.
+- Each node maintains a VIP counter for each object in the network. We can interpret these counts as queues that describe unsatisfied demand for objects. Another useful way to think of VIP counts is as a "potential" value, where the potential is high at request entry points and low at sources and caching points. We'll refer back to this interpretation later.
+- We're considering integer time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot and network state changes via events that happen in the data plane within the window from the beginning of one time slot to the next.
+:::
+
 ## Virtual Plane Model {.smaller}
-Model is expanded with multiple cache tiers and *penalties*:
+Model is expanded with multiple cache tiers and [penalties]{.body-highlight}:
 
 -   Each cache admission and eviction in virtual plane incurs a penalty
 -   A configurable weight $\omega$ lets network determine importance of penalties in objective
@@ -434,6 +461,11 @@ Model is expanded with multiple cache tiers and *penalties*:
 
 ::: {.footer}
 System Model
+:::
+
+::: {.notes}
+- The multi-tiered caching model that I propose, which incorporates cache utilization costs, extends the virtual plane model.
+- Each cache admission and eviction in virtual plane incurs a penalty, and a configurable weight parameter, $\omega$, lets the network determine the importance of penalties in its overall objective
 :::
 
 ## VIP Queue and Penalty Dynamics {.smaller}
@@ -505,7 +537,7 @@ Optimization Framework
 
 ::: {.notes}
 - The goal of our optimization in the virtual plane, is to operate as close as possible to the boundary of the stability region (which we will define formally later) of the network of VIP queues, while keeping penalties accumulated small
-- So in this way, we're not trying to make a precisely optimal decision each time slot, but rather trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely
+- So in this way, we're not trying to make a precisely optimal decision each time slot, but rather we're trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely
 :::
 
 ## Virtual Plane Caching Algorithm {.smaller}

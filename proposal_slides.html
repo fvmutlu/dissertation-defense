@@ -968,14 +968,30 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>System Model</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Here’s a simple illustration of the system model the separation and interaction between the virtual and data planes we’re adopting from the VIP paper.</li>
+<li>The data plane is where actual network functionality is performed. The virtual plane uses the request arrival information from the data plane; its where control decisions are made.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="data-plane-model" class="slide level2 smaller">
 <h2>Data Plane Model</h2>
-<p>Network model is based on general ICN principles:</p>
+<p>Data plane network model is based on general ICN principles:</p>
 <ul>
-<li>Unit of content is <em>data object</em>; each object has equal size, and a unique source</li>
+<li>Unit of content is <em>data object</em>; each object has a unique source and is of equal size</li>
 <li>Requests can enter network at any node; sources or caching nodes can respond to requests with data</li>
-<li>Data responses follow reverse of request path back to requester
+<li>Data responses follow request path back to requester
 <hr></li>
 </ul>
 <table>
@@ -1015,6 +1031,25 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>System Model</p>
 </div>
+<aside class="notes">
+<ul>
+<li>The principles of the data plane are based on those of a classical ICN.</li>
+<li>We use “data object” as the unit of content in the network and assume that each object has a unique source node.</li>
+<li>We particularly assume every object has the same size, which is a crucial assumption we’ll need to remember for later.</li>
+<li>Requests can enter network at any node. A request for an object can be met with a data response at the source node for that object or at any node that caches that object.</li>
+<li>Those data responses will follow the path of the request back to the requester (inverse of the path, of course)</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="data-plane-model-1" class="slide level2 smaller">
 <h2>Data Plane Model</h2>
@@ -1062,6 +1097,24 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>System Model</p>
 </div>
+<aside class="notes">
+<ul>
+<li>The multi-tiered caching model I propose adds the following properties to those basic mechanisms.</li>
+<li>Any node can have cache tiers and can cache any object in one of those tiers unless it already sources that object.</li>
+<li>A node can cache an object in at most one of its tiers. This means that we don’t duplicate objects across cache tiers. This is a crucial constraint we’ll also need to remember for later.</li>
+<li>An object evicted from one tier can migrate to another tier at the same node. So an eviction from one tier is not necessarily final for an object.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="virtual-plane-model" class="slide level2 smaller">
 <h2>Virtual Plane Model</h2>
@@ -1069,7 +1122,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>Integer time slots depicted as <span class="math inline">\(t = \{1,2,...\}\)</span></li>
 <li>A <em>virtual interest packet</em> (<em>VIP</em>) is generated alongside each exogenous request entering network; each node maintains a <em>VIP counter</em> for each object in the network</li>
-<li>Beginning of each time slot, each node decides where and how to forward its VIPs</li>
+<li>Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects</li>
 <li>VIPs are removed at object sources and caching nodes
 <hr></li>
 </ul>
@@ -1102,6 +1155,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>System Model</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now, on to the virtual plane model, which is largely based on the original VIP paper. We’ll go over it briefly.</li>
+<li>we’re considering integer time slots in the virtual plane.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="virtual-plane-model-1" class="slide level2 smaller">
 <h2>Virtual Plane Model</h2>
@@ -1223,7 +1292,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <aside class="notes">
 <ul>
 <li>The goal of our optimization in the virtual plane, is to operate as close as possible to the boundary of the stability region (which we will define formally later) of the network of VIP queues, while keeping penalties accumulated small</li>
-<li>So in this way, we’re not trying to make a precisely optimal decision each time slot, but rather trying to</li>
+<li>So in this way, we’re not trying to make a precisely optimal decision each time slot, but rather we’re trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
