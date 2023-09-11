@@ -57,9 +57,9 @@ $$
 
 ## Overview
 
-- **Context**: Information-centric networking, content delivery networks, in-network caching
+- **Context**: Information-centric networking (ICN), content delivery networks, in-network caching
 - **Motivation**: Data volume grows exponentially, cache capacities are stagnant
-- **Challenge**: Enabling larger caches in a cost-effective way is difficult
+- **Challenge**: Operating larger caches in a efficiently is difficult
     - Are slower storage elements viable as caches?
     - What are the costs of operating large caches?
     - How can we get the most out of caches in the network?
@@ -78,8 +78,8 @@ Introduction
 
 - **Context**: Information-centric networking, content delivery networks, in-network caching
 - **Motivation**: Data volume grows exponentially, cache capacities are stagnant
-- **Challenge**: Enabling larger caches in a cost-effective way is difficult
-- **Goal**: Policy layer approach that addresses these considerations
+- **Challenge**: Operating larger caches in a efficiently is difficult
+- **Goal**: Caching policy that addresses these considerations
 
 ::: {.footer}
 Introduction
@@ -96,6 +96,10 @@ Introduction
 Introduction
 :::
 
+::: {.notes}
+To expand on our motivation, let's begin with the use case that inspired my work
+:::
+
 ## Use Case: Data-Intensive Science
 
 -   *"N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science"*, Y. Wu, F. V. Mutlu, et al.
@@ -108,6 +112,7 @@ Introduction
 :::
 
 ::: {.notes}
+- N-DISE paper appeared in ACM ICN 2022
 - NDN-DPDK forwarder is a state-of-the-art high-throughput NDN forwarder and a core enabler of the N-DISE system, and in the paper that introduced that forwarder the need for specialized policies to operate SSD-based larger caches was outlined
 :::
 
@@ -290,7 +295,23 @@ Related Work
 Related Work
 :::
 
+::: {.notes}
+- Recall the earlier paper I mentioned about coupling caching and forwarding, coincidentally the two papers appeared in the same conference.
+:::
+
 # System Model
+
+::: {.notes}
+That concludes the introduction and leads me into the system model that we're dealing with
+:::
+
+## System Model
+
+![](images/system_model.svg){fig-align="center" width="60%" height="60%"}
+
+::: {.footer}
+System Model
+:::
 
 ## Data Plane Model {.smaller}
 Network model is based on general ICN principles:
@@ -400,7 +421,17 @@ Sum penalty incurred during slot $t$ denoted as $p(t) = \sum_{\kin, \nin, \jin} 
 System Model
 :::
 
+::: {.notes}
+- The inequality at the top shows how VIP counts change from slot to slot in the virtual plane
+- First term is VIPs forwarded away from the node, then we have the exogenous arrivals, then VIPs that arrive from other nodes and finally, VIPs removed due to caching. Notice that this term is dependent on the read rate of the cache tier
+- The definition at the bottom shows how the caching actions translate to penalties incurred
+:::
+
 # Virtual Plane Optimization
+
+::: {.notes}
+With the system model described, we will now look at our control algorithm in the virtual plane
+:::
 
 ## Optimization Goal {.smaller}
 Operate close to VIP network stability region boundary while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.

@@ -453,9 +453,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
 <ul>
-<li><strong>Context</strong>: Information-centric networking, content delivery networks, in-network caching</li>
+<li><strong>Context</strong>: Information-centric networking (ICN), content delivery networks, in-network caching</li>
 <li><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
-<li><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult
+<li><strong>Challenge</strong>: Operating larger caches in a efficiently is difficult
 <ul>
 <li>Are slower storage elements viable as caches?</li>
 <li>What are the costs of operating large caches?</li>
@@ -488,8 +488,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li><strong>Context</strong>: Information-centric networking, content delivery networks, in-network caching</li>
 <li><strong>Motivation</strong>: Data volume grows exponentially, cache capacities are stagnant</li>
-<li><strong>Challenge</strong>: Enabling larger caches in a cost-effective way is difficult</li>
-<li><strong>Goal</strong>: Policy layer approach that addresses these considerations</li>
+<li><strong>Challenge</strong>: Operating larger caches in a efficiently is difficult</li>
+<li><strong>Goal</strong>: Caching policy that addresses these considerations</li>
 </ul>
 <div class="footer">
 <p>Introduction</p>
@@ -508,6 +508,19 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Introduction</p>
 </div>
+<aside class="notes">
+<p>To expand on our motivation, let’s begin with the use case that inspired my work</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="use-case-data-intensive-science-1" class="slide level2">
 <h2>Use Case: Data-Intensive Science</h2>
@@ -523,7 +536,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Introduction</p>
 </div>
 <aside class="notes">
-<p>NDN-DPDK forwarder is a state-of-the-art high-throughput NDN forwarder and a core enabler of the N-DISE system, and in the paper that introduced that forwarder the need for specialized policies to operate SSD-based larger caches was outlined</p>
+<ul>
+<li>N-DISE paper appeared in ACM ICN 2022</li>
+<li>NDN-DPDK forwarder is a state-of-the-art high-throughput NDN forwarder and a core enabler of the N-DISE system, and in the paper that introduced that forwarder the need for specialized policies to operate SSD-based larger caches was outlined</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -809,7 +825,30 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section>
 <section id="system-model" class="title-slide slide level1 center">
 <h1>System Model</h1>
-
+<aside class="notes">
+<p>That concludes the introduction and leads me into the system model that we’re dealing with</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="system-model-1" class="slide level2">
+<h2>System Model</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/system_model.svg" style="width:60.0%;height:60.0%"></p>
+</figure>
+</div>
+<div class="footer">
+<p>System Model</p>
+</div>
 </section>
 <section id="data-plane-model" class="slide level2 smaller">
 <h2>Data Plane Model</h2>
