@@ -346,7 +346,7 @@ Related Work
 # System Model
 
 ::: {.notes}
-That concludes the introduction and leads me into the system model that we're dealing with
+That concludes the introduction and leads me into the system model that we're dealing with.
 :::
 
 ## System Model
@@ -474,13 +474,13 @@ System Model
 # Virtual Plane Optimization
 
 ::: {.notes}
-With the system model described, we will now look at our control algorithm in the virtual plane
+With the system model described, we will now look at our control algorithm in the virtual plane.
 :::
 
 ## Optimization Goal {.smaller}
-Operate close to VIP network stability region boundary while keeping sum penalty small, thus achieving a balance between user demand rate satisfied and costs incurred.
+Operate close to VIP network stability region boundary while keeping sum penalty small, thus achieving a balance between satisfied user demand rate and incurred costs.
 
-More precisely, our objective is to minimize the following *drift-plus-penalty* expression:
+More precisely, our objective is to minimize the upper bound of the following [drift-plus-penalty]{.body-highlight} expression:
 ```{=tex}
 \begin{equation}
     \drift + \omega \pen
@@ -501,6 +501,11 @@ and $\mc{L}(\mathbf{V}(t))$ is the Lyapunov function defined as:
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+- The goal of our optimization in the virtual plane, is to operate as close as possible to the boundary of the stability region (which we will define formally later) of the network of VIP queues, while keeping penalties accumulated small
+- So in this way, we're not trying to make a precisely optimal decision each time slot, but rather trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely
 :::
 
 ## Virtual Plane Caching Algorithm {.smaller}
@@ -603,7 +608,9 @@ Optimization Framework
 :::
 
 ::: {.notes}
-
+- The second step of our analysis is what actually shows the guarantees that our algorithm can provide. Here, we use the definition of the stability region, which is why we needed the previous step.
+- These two expressions define the upper bounds for time average VIP queue sizes and accumulated penalty in the virtual plane network.
+- The essential observation here is the trade-off between the bounds. As you can see, the omega value controls which bound we wish to prioritize, because setting it small means lower average queue sizes which translates to better performance, but at the cost of potentially much larger penalties. Setting it large is the inverse of that situation.
 :::
 
 ## Solutions to Optimization Problems {.smaller}
@@ -633,6 +640,11 @@ We can rewrite the optimization problem for the [caching]{.body-highlight} step.
 Optimization Framework
 :::
 
+::: {.notes}
+- Now of course, the validity of our approach still hinges on whether we can solve the two optimization problems from the two steps of our algorithm.
+- To do so for the caching step, we will first rewrite it to clean up this unpleasant form we've shown before. And to do that, we will use a two-step transformation of variables.
+:::
+
 ## Solutions to Optimization Problems {.smaller}
 We can rewrite the optimization problem for the [caching]{.body-highlight} step.
 ```{=tex}
@@ -658,6 +670,11 @@ We can rewrite the optimization problem for the [caching]{.body-highlight} step.
 Optimization Framework
 :::
 
+::: {.notes}
+- The first step here is defining an auxiliary "benefit" term and using that to simplify the objective function.
+- You'll notice that the problem now looks to be in the form of a generalized assignment problem.
+:::
+
 ## Solutions to Optimization Problems {.smaller}
 Using a transformation of variables, the problem can be written as a [linear assignment problem]{.body-highlight}. We can interpret this as deciding on caching variables for each one-object cache *slot*, rather than for each tier as a whole[^1].
 ```{=tex}
@@ -676,6 +693,14 @@ $\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}$. If $i \in \mc{I}_{n_j} = \{1 + 
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+- Now please recall the assumption we made in our model that every data object has the same size, because it is critical here.
+- Using that assumption, we can think of each cache tier as made up of several "cache slots" that can each take one object, depending of course on the total capacity of the tier. Each of these cache slots of course have the same read rate and cost parameters as the tier it belongs in.
+- Now, also recall the cache exclusivity constraint of the original problem. We can easily see that exclusivity across tiers directly translates to exclusivity across these cache slots.
+- Using these facts we can rewrite the problem again, this time in the form of a linear assignment problem.
+- Luckily, there are methods that can solve this problem in polynomial time. We specifically rely on a modification of the Jonker-Volgenant algorithm.
 :::
 
 ## Solutions to Optimization Problems {.smaller}
@@ -711,6 +736,11 @@ Optimization Framework
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+- As for the solution to the forwarding step, a neat feature of our extension here is that we don't actually alter the results for forwarding from the original VIP paper.
+- So we can use the backpressure solution that was devised there directly.
 :::
 
 # Data Plane Strategy
