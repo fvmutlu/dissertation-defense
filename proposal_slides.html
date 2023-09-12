@@ -658,8 +658,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <aside class="notes">
 <ul>
 <li>Now, to both illustrate the capacity challenge more precisely, and to underline how slower caches may help us here, I brought in a toy example.</li>
-<li>Here we’re looking at a simple network with a catalog of objects, all hosted by one server. We assume the popularity distribution of these objects are governed by Zipf’s law. We have a set of consumers making requests for these objects, which go through a forwarder. If the forwarder can respond to a request from one its cache tiers, it does so instead of forwarding it to the server. There is a fixed caching policy at the forwarder, according to a priori knowledge of object popularities, as you can see on the screen.</li>
-<li>We have three potential tiers of cache, with the first being a fast and small tier, the middling being a lot larger but slower, then the last one being even larger but much slower.</li>
+<li>Here we’re looking at a simple network with a catalog of objects, all hosted by one server.</li>
+<li>We assume the popularity distribution of these objects are governed by Zipf’s law. We have a set of consumers making requests for these objects, which go through a forwarder.</li>
+<li>The forwarder has three potential tiers of cache, with the first being a fast and small tier, the middling being a lot larger but slower, then the last one being even larger but much slower.</li>
+<li>If the forwarder can respond to a request from one its cache tiers, it does so instead of forwarding it to the server. There is a fixed caching policy at the forwarder, according to a priori knowledge of object popularities, as you can see on the screen.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -695,8 +697,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>First off, on the left hand side, we see the CDF for Zipf’s law. The key observation there is that, in this network, 1% of objects will make up roughly one fifth of all requests, and 10% of objects will make up half of all requests.</li>
-<li>Now, on the right hand side, we see how adding the middling tier on top of the first tier impacts the total delay in the network. Even though the second tier is slower, it improves delay when there’s more traffic. This can be linked directly to our observation from Zipf’s law, because even though the second tier has a larger amount of objects cached, the frequency of requests that hit the second tier does not exceed its read capacity, since those objects are less popular.</li>
+<li>First off, on the left hand side, we see the CDF for Zipf’s law. The key observation there is that, in this network, roughly one fifth of all requests will be for the most popular 1% of objects, and half of all requests will be for the most popular 10%.</li>
+<li>Now, on the right hand side, we see how adding the middling tier on top of the first tier impacts the total delay in the network. Even though the second tier is slower, it improves delay when there’s more traffic.</li>
+<li>This can be linked directly to our observation from Zipf’s law, because even though the second tier has a larger amount of objects cached, the frequency of requests that hit the second tier does not exceed its read capacity, since those objects are less popular.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -732,7 +735,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>However, adding the last tier, even though it expands our total cache capacity, impacts delay negatively, because what I just explained does not hold for the third tier since its much larger and much slower, so we end up trading delay on the server link with worse read delay on the third tier.</li>
+<li>However, adding the last tier, even though it expands our total cache capacity, impacts delay negatively</li>
+<li>Because what I just explained does not hold for the third tier since its much larger and much slower</li>
+<li>So we end up trading the delay that would occur on the server link with worse read delay on the third tier.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -752,9 +757,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Caches are not free to use: admissions, replacements, even idle operation has an energy cost</li>
 </ul>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:42%;">
 <p><img data-src="images/dram_power.png"></p>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:58%;">
 <p><img data-src="images/ssd_power.png"></p>
 </div>
 </div>
@@ -1003,26 +1008,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mathcal{G}\)</span></td>
-<td style="text-align: left;">Directed graph representing network topology</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\((\mathcal{N},\mathcal{L})\)</span></td>
-<td style="text-align: left;">Set of nodes and links in <span class="math inline">\(\mathcal{G}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(C_{ab}\)</span></td>
-<td style="text-align: left;">Transmission capacity (in objects/sec) of link <span class="math inline">\((a,b)\)</span></td>
-</tr>
-<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
 <td style="text-align: left;">Set of data objects in network</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(\mc{S}(k)\)</span></td>
 <td style="text-align: left;">Source node for <span class="math inline">\(k \in \mathcal{K}\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
 <td style="text-align: left;">Exogenous request arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
 </tr>
@@ -1053,11 +1046,11 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="data-plane-model-1" class="slide level2 smaller">
 <h2>Data Plane Model</h2>
-<p>Multi-tiered caching model has following properties:</p>
+<p><span class="body-highlight">Multi-tiered caching model</span> adds following properties:</p>
 <ul>
 <li>Any node can have cache tiers and can cache an object unless it is already the source for that object</li>
-<li>A node can cache an object in at most one of its tiers (<em>cache exclusivity</em>)</li>
-<li>An object evicted from one tier can migrate to another tier at the same node
+<li>A node can cache an object in at most one of its tiers (<span class="body-highlight">cache exclusivity</span>)</li>
+<li>An object evicted from one tier can <span class="body-highlight">migrate</span> to another tier at the same node
 <hr></li>
 </ul>
 <table>
@@ -1120,7 +1113,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>Virtual Plane Model</h2>
 <p>Virtual plane model is based on (Yeh, 2014):</p>
 <ul>
-<li>A <em>virtual interest packet</em> (<em>VIP</em>) is generated alongside each exogenous request entering network; each node maintains a <em>VIP counter</em> for each object in the network</li>
+<li>A <em>virtual interest packet</em> (<em>VIP</em>) is generated alongside each exogenous request entering network; each node maintains a <span class="body-highlight">VIP counter</span> for each object in the network</li>
 <li>VIPs are removed at object sources and caching nodes</li>
 <li>Integer time slots depicted as <span class="math inline">\(t = \{1,2,...\}\)</span></li>
 <li>Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects
@@ -1135,18 +1128,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
-<td style="text-align: left;">Time slot referring to time interval <span class="math inline">\([t, t+1)\)</span></td>
-</tr>
-<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
 <td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(A^k_n(t)\)</span></td>
 <td style="text-align: left;">Number of exogenous requests for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
 <td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
 </tr>
@@ -1179,9 +1168,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Model is expanded with multiple cache tiers and <span class="body-highlight">penalties</span>:</p>
 <ul>
 <li>Each cache admission and eviction in virtual plane incurs a penalty</li>
-<li>A configurable weight <span class="math inline">\(\omega\)</span> lets network determine importance of penalties in objective
-<hr></li>
+<li>Network can determine <span class="body-highlight">weight of penalties</span> via parameter <span class="math inline">\(\omega\)</span></li>
 </ul>
+<hr>
 <table>
 <colgroup>
 <col style="width: 30%">
@@ -1646,7 +1635,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>Per-packet forwarding and caching decisions</li>
 <li>Assumption of immediate access to any object for caching purposes does not hold</li>
-<li><span class="body-highlight">Oscillatory</span> nature of VIP counts impractical for data plane caching</li>
+<li><span class="body-highlight">Oscillatory</span><sup>1</sup> nature of VIP counts impractical for data plane caching</li>
 </ul>
 <div class="footer">
 <p>Data Plane Strategy</p>
@@ -1656,7 +1645,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>So first off, there are several things about using the virtual plane algorithm with the mechanics of the data plane</li>
 <li>The virtual plane decisions are made in discrete time slots, but of course the data plane decisions have to be reactive and continuous</li>
 <li>Another major point is that, for caching decisions, when we change the relevant variables in the virtual plane, we inherently assume that we can have access to that object immediately, this obviously won’t hold in the data plane</li>
-<li>Finally, there’s an observation made in the original VIP paper about VIP counts, that also applies here, which is that they are oscillatory. This means that, because of the decisions we make in the virtual plane, when the VIP count for an object becomes large, we immediately make decisions that will quickly drive the count down. Basing caching on this behavior directly is impractical in the data plane.</li>
+<li>Finally, there’s an observation made in the original VIP paper about VIP counts which applies here, which is that they are oscillatory. Because VIP counts change frequently and drastically, cache states also tend to change quickly. Basing caching on this behavior directly is impractical in the data plane.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1669,7 +1658,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>When the VIP count for an object becomes large, we make decisions in the virtual plane that will quickly drive the count down.</p></li></ol></aside></section>
 <section id="data-plane-caching" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
 <p>Define the <span class="body-highlight">cache score</span> metric as in (Yeh, 2014):</p>
@@ -1740,7 +1729,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \end{equation}\]</span>
 <p>When data object <span class="math inline">\(k \not \in \mc{K}_{n_j}(t)\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <ul>
-<li>Determine cache tier which offers highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
+<li>Find cache tier offering highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
 <li>If <span class="math inline">\(CB^k_{n_{j^*}}(t) &gt; 0\)</span>, admit object into tier <span class="math inline">\(j^*\)</span>
 <ul>
 <li>If <span class="math inline">\(j^*\)</span> is full, i.e.&nbsp;<span class="math inline">\(|\mc{K}_{n_{j^*}}(t)| = L_{n_{j^*}}\)</span>, <span class="math inline">\(k\)</span> replaces <span class="math inline">\(k^{min}_{n_{j^*}}\)</span></li>
@@ -2374,7 +2363,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>Prefetching is actually one of the techniques G. Rossini, D. Rossi, et al.&nbsp;used to make SSDs viable as part of “content stores”</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Prefetching is actually one of the techniques G. Rossini, D. Rossi, et al.&nbsp;used to make SSDs viable as part of “content stores”</p></li></ol></aside></section>
 <section id="virtual-plane---data-plane-gap" class="slide level2 smaller">
 <h2>Virtual Plane - Data Plane Gap</h2>
 <div class="fragment">
@@ -2444,7 +2433,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn3"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
 <section id="cache-exclusivity" class="slide level2 smaller">
 <h2>Cache Exclusivity</h2>
 <span class="math display">\[\begin{equation}
@@ -2459,7 +2448,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
 <section id="better-experiments" class="slide level2">
 <h2>Better Experiments</h2>
 <ul>

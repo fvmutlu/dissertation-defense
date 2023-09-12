@@ -172,8 +172,10 @@ Introduction
 
 ::: {.notes}
 - Now, to both illustrate the capacity challenge more precisely, and to underline how slower caches may help us here, I brought in a toy example.
-- Here we're looking at a simple network with a catalog of objects, all hosted by one server. We assume the popularity distribution of these objects are governed by Zipf's law. We have a set of consumers making requests for these objects, which go through a forwarder. If the forwarder can respond to a request from one its cache tiers, it does so instead of forwarding it to the server. There is a fixed caching policy at the forwarder, according to a priori knowledge of object popularities, as you can see on the screen.
-- We have three potential tiers of cache, with the first being a fast and small tier, the middling being a lot larger but slower, then the last one being even larger but much slower. 
+- Here we're looking at a simple network with a catalog of objects, all hosted by one server.
+- We assume the popularity distribution of these objects are governed by Zipf's law. We have a set of consumers making requests for these objects, which go through a forwarder.
+- The forwarder has three potential tiers of cache, with the first being a fast and small tier, the middling being a lot larger but slower, then the last one being even larger but much slower. 
+- If the forwarder can respond to a request from one its cache tiers, it does so instead of forwarding it to the server. There is a fixed caching policy at the forwarder, according to a priori knowledge of object popularities, as you can see on the screen.
 :::
 
 ## Case for Additional, Slower Caches {.smaller}
@@ -198,8 +200,9 @@ Introduction
 :::
 
 ::: {.notes}
-- First off, on the left hand side, we see the CDF for Zipf's law. The key observation there is that, in this network, 1% of objects will make up roughly one fifth of all requests, and 10% of objects will make up half of all requests.
-- Now, on the right hand side, we see how adding the middling tier on top of the first tier impacts the total delay in the network. Even though the second tier is slower, it improves delay when there's more traffic. This can be linked directly to our observation from Zipf's law, because even though the second tier has a larger amount of objects cached, the frequency of requests that hit the second tier does not exceed its read capacity, since those objects are less popular.
+- First off, on the left hand side, we see the CDF for Zipf's law. The key observation there is that, in this network, roughly one fifth of all requests will be for the most popular 1% of objects, and half of all requests will be for the most popular 10%.
+- Now, on the right hand side, we see how adding the middling tier on top of the first tier impacts the total delay in the network. Even though the second tier is slower, it improves delay when there's more traffic.
+- This can be linked directly to our observation from Zipf's law, because even though the second tier has a larger amount of objects cached, the frequency of requests that hit the second tier does not exceed its read capacity, since those objects are less popular.
 :::
 
 ## Case for Additional, Slower Caches {.smaller}
@@ -224,7 +227,9 @@ Introduction
 :::
 
 ::: {.notes}
-- However, adding the last tier, even though it expands our total cache capacity, impacts delay negatively, because what I just explained does not hold for the third tier since its much larger and much slower, so we end up trading delay on the server link with worse read delay on the third tier.
+- However, adding the last tier, even though it expands our total cache capacity, impacts delay negatively
+- Because what I just explained does not hold for the third tier since its much larger and much slower
+- So we end up trading the delay that would occur on the server link with worse read delay on the third tier.
 :::
 
 ## The Cost Challenge
@@ -232,10 +237,10 @@ Introduction
 -  Caches are not free to use: admissions, replacements, even idle operation has an energy cost
 
 ::: columns
-::: {.column width="50%"}
+::: {.column width="42%"}
 ![](images/dram_power.png)
 :::
-::: {.column width="50%"}
+::: {.column width="58%"}
 ![](images/ssd_power.png)
 :::
 :::
@@ -372,9 +377,6 @@ Data plane network model is based on general ICN principles:
 
 | Notation | Definition |
 |:-:|:---------|
-|$\mathcal{G}$|Directed graph representing network topology|
-|$(\mathcal{N},\mathcal{L})$|Set of nodes and links in $\mathcal{G}$|
-|$C_{ab}$|Transmission capacity (in objects/sec) of link $(a,b)$|
 |$\mathcal{K}$|Set of data objects in network|
 |$\mc{S}(k)$|Source node for $k \in \mathcal{K}$|
 |$\lambda^k_n$|Exogenous request arrival rate for $k$ at $n$|
@@ -392,11 +394,11 @@ System Model
 :::
 
 ## Data Plane Model {.smaller}
-Multi-tiered caching model has following properties:
+[Multi-tiered caching model]{.body-highlight} adds following properties:
 
 -   Any node can have cache tiers and can cache an object unless it is already the source for that object
--   A node can cache an object in at most one of its tiers (*cache exclusivity*)
--   An object evicted from one tier can migrate to another tier at the same node
+-   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight})
+-   An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node
 <hr>
 
 | Notation | Definition |
@@ -421,7 +423,7 @@ System Model
 ## Virtual Plane Model {.smaller}
 Virtual plane model is based on (Yeh, 2014):
 
--  A *virtual interest packet* (*VIP*) is generated alongside each exogenous request entering network; each node maintains a *VIP counter* for each object in the network
+-  A *virtual interest packet* (*VIP*) is generated alongside each exogenous request entering network; each node maintains a [VIP counter]{.body-highlight} for each object in the network
 -  VIPs are removed at object sources and caching nodes
 -  Integer time slots depicted as $t = \{1,2,...\}$
 -  Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects
@@ -429,7 +431,6 @@ Virtual plane model is based on (Yeh, 2014):
 
 | Notation | Definition |
 |:--:|:--------|
-|$t$|Time slot referring to time interval $[t, t+1)$|
 |$V^k_n(t)$|VIP count for $k$ at $n$ during $t$|
 |$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
 |$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
@@ -449,7 +450,8 @@ System Model
 Model is expanded with multiple cache tiers and [penalties]{.body-highlight}:
 
 -   Each cache admission and eviction in virtual plane incurs a penalty
--   A configurable weight $\omega$ lets network determine importance of penalties in objective
+-   Network can determine [weight of penalties]{.body-highlight} via parameter $\omega$
+
 <hr>
 
 | Notation | Definition |
@@ -783,7 +785,9 @@ There are several considerations when applying our approach in the data plane:
 
 -  Per-packet forwarding and caching decisions
 -  Assumption of immediate access to any object for caching purposes does not hold 
--  [Oscillatory]{.body-highlight} nature of VIP counts impractical for data plane caching
+-  [Oscillatory]{.body-highlight}[^oscillatory] nature of VIP counts impractical for data plane caching
+
+[^oscillatory]: When the VIP count for an object becomes large, we make decisions in the virtual plane that will quickly drive the count down.
 
 ::: {.footer}
 Data Plane Strategy
@@ -793,7 +797,7 @@ Data Plane Strategy
 - So first off, there are several things about using the virtual plane algorithm with the mechanics of the data plane
 - The virtual plane decisions are made in discrete time slots, but of course the data plane decisions have to be reactive and continuous
 - Another major point is that, for caching decisions, when we change the relevant variables in the virtual plane, we inherently assume that we can have access to that object immediately, this obviously won't hold in the data plane
-- Finally, there's an observation made in the original VIP paper about VIP counts, that also applies here, which is that they are oscillatory. This means that, because of the decisions we make in the virtual plane, when the VIP count for an object becomes large, we immediately make decisions that will quickly drive the count down. Basing caching on this behavior directly is impractical in the data plane.
+- Finally, there's an observation made in the original VIP paper about VIP counts which applies here, which is that they are oscillatory. Because VIP counts change frequently and drastically, cache states also tend to change quickly. Basing caching on this behavior directly is impractical in the data plane.
 :::
 
 ## Data Plane Caching {.smaller}
@@ -844,7 +848,7 @@ Define the [cache benefit]{.body-highlight} metric as follows:
 
 When data object $k \not \in \mc{K}_{n_j}(t)$ arrives at $n$ during slot $t$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
 
--  Determine cache tier which offers highest cache benefit, i.e. $j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)$
+-  Find cache tier offering highest cache benefit, i.e. $j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)$
 -  If $CB^k_{n_{j^*}}(t) > 0$, admit object into tier $j^*$
    -  If $j^*$ is full, i.e. $|\mc{K}_{n_{j^*}}(t)| = L_{n_{j^*}}$, $k$ replaces $k^{min}_{n_{j^*}}$
 -  If a replacement happened in $j^* < |\mc{J}_n|$, set $k = k^{min}_{n_{j^*}}$, then start the process over
