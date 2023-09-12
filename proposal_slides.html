@@ -467,13 +467,13 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>So here’s a brief overview about my primary research that I will present today.</li>
+<li>To begin, here’s a brief overview of my primary research that I will present today.</li>
 <li>First off, for context, my work is based on the Information-centric Networking paradigm, or ICN for short.</li>
-<li>Internet today is built on communication network principles, whereas its primary use is data distribution, so ICN aims to steer it in that direction by making data the primary entity of the network, rather than endpoints.</li>
+<li>The Internet today is built on communication network principles, but its primary use is data distribution, so ICN aims to steer it in that direction by making data the primary entity of the network, rather than endpoints.</li>
 <li>In particular, I’m targeting a core functionality of ICNs called in-network caching, which lets every router in the network maintain its own cache, making caching decentralized and more scalable.</li>
-<li>However, my work is also applicable within today’s Internet, especially for systems like CDNs, as it could be used in an overlay.</li>
-<li>The main motivation for my work is that the volume of data we’re trying to distribute with these networks continuously grows, but the capacities of our caches are somewhat stagnant.</li>
-<li>There are many obstacles in the way of scaling cache capacities. Specifically we’ll look at these three considerations: (1) are slower storage elements viable as caches? (2) what are the costs of operating large caches? (3) how can we get the most out of caches in the network?</li>
+<li>However, my work is also applicable within today’s Internet, especially for systems like CDNs, where it could be used as an overlay.</li>
+<li>The main motivation for my work is simply that the volume of data continuously grows, but the capacities of our caches are somewhat stagnant.</li>
+<li>Of course there are many obstacles in the way of scaling cache capacities. We’ll specifically look at three considerations: (1) are slower storage elements viable as caches? (2) what are the costs of operating large caches? (3) how can we get the most out of caches in the network?</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -531,8 +531,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>To expand on my motivation, I’ll first talk about the use case that initially inspired my work.</li>
 <li>As you know, large science programs in fields like high-energy physics, genomics etc. deal with experiments that produce huge amounts of data.</li>
-<li>For instance, for the LHC, in one year, over an exabyte of data is accessed. In only one month even back in 2018, 16 PB of data were written on permanent storage.</li>
-<li>This data then has to constantly be distributed across the world for research, which is a significant networking challenge.</li>
+<li>For instance, for the LHC, in one year, over an exabyte of data is accessed.</li>
+<li>This data also has to constantly be distributed across the world for research, which is a significant networking challenge.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -561,10 +561,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>To address this, our lab led a project effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.</li>
-<li>The point here is, even in this state-of-the-art project, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we’re working with.</li>
-<li>To drive the point home further I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for pecialized policies for operating larger caches was specifically outlined.</li>
-<li>So that gap is what motivated my work.</li>
+<li>To address this, our lab led an effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.</li>
+<li>The point here is, even in this state-of-the-art prototype, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we expect to be working with.</li>
+<li>I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for specialized policies for operating larger caches was specifically outlined as part of future outlook.</li>
+<li>So there’s a gap here that motivated my work.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -591,7 +591,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>I now want to give you a better idea about why scaling capacities is a challenge.</li>
+<li>Now I want to give you a better idea about why scaling cache capacities is such a challenge.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1836,6 +1836,24 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Firstly, when I say experiments here I strictly mean simulation experiments</li>
+<li>And I wanted to throw in this slide here at the beginning because it took quite a bit of time and care to build the simulator that I used to run experiments for this work</li>
+<li>And I needed to build this because existing simulators didn’t cover what we needed, and were missing some features I wanted and modifying them would’ve taken even more time</li>
+<li>(Talk about bullet points)</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="experiment-setting" class="slide level2 smaller">
 <h2>Experiment Setting</h2>
@@ -1871,26 +1889,49 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is quite overwhelming and not straightforward</li>
+<li>So the results I’ll show here are those that I think most succinctly show that our approach can deliver on our goals</li>
+<li>To start off, these are the four topologies I conducted experiments over</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="experiment-setting-1" class="slide level2 smaller">
 <h2>Experiment Setting</h2>
 <ul>
 <li>Content source for each <span class="math inline">\(k\)</span> is selected uniformly at random; content sources have infinite read rate</li>
 <li>Routing: Allow <span class="math inline">\(n\)</span> to forward requests for <span class="math inline">\(k\)</span> to any neighbor on <em>any</em> shortest path between <span class="math inline">\(n\)</span> and <span class="math inline">\(\mc{S}(k)\)</span> (in number of hops)</li>
+<li>All nodes have the same two cache tiers available</li>
 <li>Adapted replacement baselines: LRU, LFU, FIFO, RANDOM
 <ul>
 <li>LRU, FIFO and RANDOM cost-unaware, paired with LCE admission</li>
 <li>LFU has both aware and unaware adaptations, admission based on frequency</li>
 </ul></li>
 <li>All baseline caching policies paired with Least Response Time forwarding</li>
-<li>Nodes generate requests for 100 seconds</li>
+<li>Nodes generate requests for some number of simulation seconds, simulation run terminates when all requests are resolved</li>
 <li>Virtual plane algorithm with slot length of 1 sec and sliding window of size <span class="math inline">\(T=100\)</span></li>
 </ul>
 <div class="footer">
 <p>Experiments</p>
 </div>
 <aside class="notes">
-<p>Cost-aware LFU adaptation uses a similar cache benefit metric</p>
+<ul>
+<li>And there are some additional assumptions that pertain to the experiment setting so let’s go over those</li>
+<li>(Talk about bullet points)</li>
+<li>Cost-aware LFU adaptation uses a similar cache benefit metric</li>
+<li>Least response time forwarding simply means that each node monitors, for each outgoing link, the delay of the last request sent over that link and satisfied, and chooses the link with the smallest delay to forward requests</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1976,7 +2017,11 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Experiments</p>
 </div>
 <aside class="notes">
-<p>Important parameters: number of tiers, capacity of first tier</p>
+<ul>
+<li>As I said, there are a great number of parameters for these experiments and I’m not going to cover each one but we have this table for reference</li>
+<li>Though it is critical to know that we’re only considering<br>
+</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;

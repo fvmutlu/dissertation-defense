@@ -907,6 +907,10 @@ Experiments
 :::
 
 ::: {.notes}
+- Firstly, when I say experiments here I strictly mean simulation experiments
+- And I wanted to throw in this slide here at the beginning because it took quite a bit of time and care to build the simulator that I used to run experiments for this work
+- And I needed to build this because existing simulators didn't cover what we needed, and were missing some features I wanted and modifying them would've taken even more time
+- (Talk about bullet points)
 :::
 
 ## Experiment Setting {.smaller}
@@ -932,15 +936,22 @@ Experiments
 Experiments
 :::
 
+::: {.notes}
+- Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is quite overwhelming and not straightforward
+- So the results I'll show here are those that I think most succinctly show that our approach can deliver on our goals
+- To start off, these are the four topologies I conducted experiments over
+:::
+
 ## Experiment Setting {.smaller}
 
 -  Content source for each $k$ is selected uniformly at random; content sources have infinite read rate
 -  Routing: Allow $n$ to forward requests for $k$ to any neighbor on *any* shortest path between $n$ and $\mc{S}(k)$ (in number of hops)
+-  All nodes have the same two cache tiers available
 -  Adapted replacement baselines: LRU, LFU, FIFO, RANDOM
    -  LRU, FIFO and RANDOM cost-unaware, paired with LCE admission
    -  LFU has both aware and unaware adaptations, admission based on frequency
 -  All baseline caching policies paired with Least Response Time forwarding
--  Nodes generate requests for 100 seconds
+-  Nodes generate requests for some number of simulation seconds, simulation run terminates when all requests are resolved
 -  Virtual plane algorithm with slot length of 1 sec and sliding window of size $T=100$
 
 ::: {.footer}
@@ -948,7 +959,10 @@ Experiments
 :::
 
 ::: {.notes}
-Cost-aware LFU adaptation uses a similar cache benefit metric
+- And there are some additional assumptions that pertain to the experiment setting so let's go over those
+- (Talk about bullet points)
+- Cost-aware LFU adaptation uses a cache benefit metric similar to that we devised for our approach
+- Least response time forwarding simply means that each node monitors, for each outgoing link, the delay of the last request sent over that link and satisfied, and chooses the link with the smallest delay to forward requests
 :::
 
 ## Experiment Setting {.smaller}
@@ -972,7 +986,7 @@ Experiments
 :::
 
 ::: {.notes}
-Important parameters: number of tiers, capacity of first tier
+- As I said, there are a great number of parameters for these experiments and I'm not going to cover each one in the interest of time, but we have this table for reference if needed
 :::
 
 ## Results I {.smaller}
@@ -984,6 +998,19 @@ Important parameters: number of tiers, capacity of first tier
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- Now I want to move on to our findings
+- First, I'll show results from a scenario where we actually ignore penalties, which we can easily do for our approach by setting omega to be zero
+- We're comparing our strategy to cost-unaware baselines here
+- The figure up top shows the total delay in the network, normalized to the total delay achieved without any caching
+- This figure illustrates our point about how managing larger caches is difficult, because as you can see, the "naive" policies are struggling quite a bit, at times showing worse performance than would be achieved with no caches at all
+- Our VIP-based approach performs the best across all experiments, though LFU is not that far behind
+- The bottom figure reveals more insights as to why the results are as they are because it shows the distribution of cache tiers among the two tiers as well as total cache hits
+- Now note that here the first tier can cache 5 objects, while the second tier can cache 100, so the capacity difference is 20-fold
+- However, anywhere between 15% to 20% of cache hits are occurring on the first tier with our approach, showing that it is able to balance the amount of cache hits better
+- You'll notice in most cases our approach doesn't even have the highest total number of cache hits, and that's because it is set up to handle the rate of cache hits properly
 :::
 
 ## Results II {.smaller}
@@ -1006,6 +1033,14 @@ Delay vs. penalty ($\omega$ decreases to the right)
 Experiments
 :::
 
+::: {.notes}
+- Now we move on to a scenario with penalties, dropping the "naive" policies and keeping only the cost-aware adaptation of LFU as a baseline
+- We'll be looking at how each policy balances the delay vs. penalty trade-off
+- Now I want to point out here that different second tier capacities are used for the two policies. This is because I experimented with a range of values for each and picked the best performing round value.
+- The reason for this again connects to the challenges in managing these larger, slower caches I talked about in the very beginning. This in itself is a long discussion, but the gist is that I wanted to represent the best of the competing policy here.
+- As we can see, in the Abilene and Grid topologies our approach is generally outperforming the adapted LFU
+:::
+
 ## Results II {.smaller}
 **Scenario**: Cost-unaware policies excluded, $\omega > 0$. Best value of $L_{n_2}$ picked.
 
@@ -1024,6 +1059,10 @@ Delay vs. penalty ($\omega$ decreases to the right)
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- The situation is similar for the Geant and 3-regular topologies as well, though in the latter, there is a small operating region where LFU overtakes our approach
 :::
 
 # Proposed Work
