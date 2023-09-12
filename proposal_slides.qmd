@@ -611,7 +611,7 @@ Optimization Framework
 :::
 
 ::: {.notes}
-- The analysis of our approach comes in two steps. If you recall my statement about Lyapunov drift analysis, we're following that structure here to first define the stability region of the network of VIP counts (which can be seen as queues) in the virtual plane.
+- The analysis of our approach comes in two steps. We're following the structure of Lyapunov drift-based analysis, which was also used in the VIP paper, to first define the stability region of the network of VIP counts (which can be seen as queues) in the virtual plane.
 - The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rate that can be satisfied contingent on the long term average VIP flow over links, as well as VIPs removed via cache tiers.
 :::
 
@@ -1301,6 +1301,10 @@ Proposed Work
 -   Some improvements can be made by reiterating on technical details, further fine tuning requires experimentation
 :::
 
+::: {.footer}
+Conclusion & Other Work
+:::
+
 ## Power & Caching in Wireless HetNets {.smaller}
 
 ::: columns
@@ -1311,10 +1315,16 @@ Proposed Work
 -   All wireless transmissions share channel, i.e. no interference management
 -   All nodes can be equipped with caches
 -   Pre-determined shortest path (in hops) routing
+
+**Goal**: Minimize delay in network by controlling power and caching allocation
 :::
 ::: {.column width=50%}
 ![HetNet illustration](images/hetnet.svg)
 :::
+:::
+
+::: {.footer}
+Conclusion & Other Work
 :::
 
 ## Power & Caching in Wireless HetNets {.smaller}
@@ -1333,6 +1343,10 @@ Proposed Work
     \end{equation}
     ```
 
+::: {.footer}
+Conclusion & Other Work
+:::
+
 ## Power & Caching in Wireless HetNets {.smaller}
 
 **Optimization**: Minimize total delay of user requests:
@@ -1349,6 +1363,10 @@ Proposed Work
     D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
     \end{equation}
     ```
+
+::: {.footer}
+Conclusion & Other Work
+:::
 
 ## Power & Caching in Wireless HetNets {.smaller}
 
@@ -1373,6 +1391,10 @@ Proposed Work
     \end{equation}
     ```
 
+::: {.footer}
+Conclusion & Other Work
+:::
+
 ## Power & Caching in Wireless HetNets {.smaller}
 
 **Optimization**: Minimize total delay of user requests:
@@ -1386,6 +1408,10 @@ Proposed Work
     \end{equation}
     ```
 -   RCF is not jointly convex in power and caching
+
+::: {.footer}
+Conclusion & Other Work
+:::
 
 ## Power & Caching in Wireless HetNets {.smaller}
 ::: columns
@@ -1425,20 +1451,36 @@ Use projected subgradient method to solve for local minima in general case
 :::
 :::
 
+::: {.footer}
+Conclusion & Other Work
+:::
+
 ## Power & Caching in Wireless HetNets {.smaller}
 Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
 ![&emsp;&emsp;&emsp;&emsp; Power budget](images/hetnet_result1.svg){width="55%" height="55%"}
+
+::: {.footer}
+Conclusion & Other Work
+:::
 
 ## Power & Caching in Wireless HetNets {.smaller}
 Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
 ![&emsp;&emsp;&emsp;&emsp; SC cache capacity](images/hetnet_result3.svg){width="55%" height="55%"}
 
+::: {.footer}
+Conclusion & Other Work
+:::
+
 ## Power & Caching in Wireless HetNets {.smaller}
 Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
 ![&emsp;&emsp;&emsp;&emsp; Zipf parameter](images/hetnet_result2.svg){width="55%" height="55%"}
+
+::: {.footer}
+Conclusion & Other Work
+:::
 
 # Thanks & Questions
 
@@ -1447,10 +1489,12 @@ Experimental results under different scenarios compare performance against basel
 ## Appendix A: Other References {.smaller visibility="uncounted"}
 -  *"Toward terabyte-scale caching with SSD in a named data networking router"*, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014
 -  *"On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks"*, S. Shukla, A. A. Abouzeid, WiOpt 2016
--  *"HCaching: High-Speed Caching for Information-Centric Networking"*, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017
 
+::: {.footer}
+Appendices
+:::
 
-## Appendix B: Model Notation {.smaller .scrollable visibility="uncounted"}
+## Appendix B: Model Notation {.smaller visibility="uncounted"}
 
 | Notation | Definition |
 |:--:|:--------|
@@ -1464,6 +1508,16 @@ Experimental results under different scenarios compare performance against basel
 |$r_{n_j}$ | Read rate of tier $j$ at node $n$|
 |$c^a_{n_j}$| Admission cost of tier $j$ at node $n$|
 |$c^e_{n_j}$| Eviction cost of tier $j$ at node $n$|
+: Table of Notations {tbl-colwidths="[20,80]"}
+
+::: {.footer}
+Appendices
+:::
+
+## Appendix B: Model Notation {.smaller visibility="uncounted"}
+
+| Notation | Definition |
+|:--:|:--------|
 |$\lambda^k_n$|Exogenous request arrival rate for $k$ at $n$|
 |$t$|Time slot referring to time interval $[t, t+1)$|
 |$A^k_n(t)$|Number of exogenous requests for $k$ at $n$ during $t$|
@@ -1476,19 +1530,24 @@ Experimental results under different scenarios compare performance against basel
 |$\mu^k_{ab}(t)$|Allocated rate of VIPs for $k$ over $(a,b)$ during $t$|
 : Table of Notations {tbl-colwidths="[20,80]"}
 
-## Appendix C: Analysis Notation {.smaller .scrollable visibility="uncounted"}
+::: {.footer}
+Appendices
+:::
+
+## Appendix C: Analysis Notation {.smaller visibility="uncounted"}
 
 | Notation | Definition |
 |:--:|:--------|
-|$f^k_{ab}$|Time-average VIP flow for $k$ over $(a,b)$|
-|$F^k_{ab}(t)$|Number of VIPs of $k$ sent over $(a,b)$ during slot $t$|
-|$N$|Number of nodes in the network, i.e. $N = |\mc{N}|$|
 |$A^k_{n,max}$| Finite value such that $A^k_n(t) \leq A^k_{n,max}$ for all $t$|
 |$A_{n,max}$| Maximum total exogenous arrivals at node $n$ during $t$ across all $\kin$, i.e. $A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}$|
 |$\mu^{out}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(n,b) \in \mc{L}$, i.e. $\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}$|
 |$\mu^{in}_{n,max}$| Maximum total allocated transmission rate for VIPs across all $(a,n) \in \mc{L}$, i.e. $\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}$|
 |$r_{n,max}$| Maximum total rate that can be served by all cache tiers at $n$|
 |$\Psi(\boldsymbol{\lambda})$|Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy|
+
+::: {.footer}
+Appendices
+:::
 
 ## Appendix D: Simulator Snippets {.smaller visibility="uncounted"}
 
@@ -1611,4 +1670,8 @@ class RoundRobinNode(Node):
       self.link_queues[object_id].rotate(1)
       self.sendInterestPacket(remote_id, request)
 ```
+:::
+
+::: {.footer}
+Appendices
 :::

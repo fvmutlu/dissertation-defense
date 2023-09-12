@@ -1431,7 +1431,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>The analysis of our approach comes in two steps. If you recall my statement about Lyapunov drift analysis, we’re following that structure here to first define the stability region of the network of VIP counts (which can be seen as queues) in the virtual plane.</li>
+<li>The analysis of our approach comes in two steps. We’re following the structure of Lyapunov drift-based analysis, which was also used in the VIP paper, to first define the stability region of the network of VIP counts (which can be seen as queues) in the virtual plane.</li>
 <li>The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rate that can be satisfied contingent on the long term average VIP flow over links, as well as VIPs removed via cache tiers.</li>
 </ul>
 <style type="text/css">
@@ -2126,9 +2126,11 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <aside class="notes">
 <ul>
 <li>Now we move on to a scenario with penalties, dropping the “naive” policies and keeping only the cost-aware adaptation of LFU as a baseline</li>
-<li>We’ll be looking at how each policy balances the delay vs.&nbsp;penalty trade-off</li>
-<li>Now I want to point out here that different second tier capacities are used for the two policies. This is because I experimented with a range of values for each and picked the best performing round value.</li>
-<li>The reason for this again connects to the challenges in managing these larger, slower caches I talked about in the very beginning. This in itself is a long discussion, but the gist is that I wanted to represent the best of the competing policy here.</li>
+<li>We’ll be looking at how each policy balances the delay vs.&nbsp;penalty trade-off; total delay on the y-axis, total penalty on the x-axis</li>
+<li>Now I want to point out here that different second tier capacities are used for the two policies. This is because I experimented with a range of values for each and picked the best performing round value</li>
+<li>The reason for this connects to the challenges in managing these larger, slower caches.</li>
+<li>I talked about this in the very beginning, and we’ve also seen how it manifests in the earlier results.</li>
+<li>This in itself is a long discussion, but the gist is that I wanted to represent the best of the competing policy here.</li>
 <li>As we can see, in the Abilene and Grid topologies our approach is generally outperforming the adapted LFU</li>
 </ul>
 <style type="text/css">
@@ -2483,6 +2485,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li class="fragment">Some improvements can be made by reiterating on technical details, further fine tuning requires experimentation</li>
 </ul>
 </div>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
 </section>
 <section id="power-caching-in-wireless-hetnets" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
@@ -2495,6 +2500,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>All nodes can be equipped with caches</li>
 <li>Pre-determined shortest path (in hops) routing</li>
 </ul>
+<p><strong>Goal</strong>: Minimize delay in network by controlling power and caching allocation</p>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -2503,6 +2509,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </figure>
 </div>
 </div>
+</div>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
 </div>
 </section>
 <section id="power-caching-in-wireless-hetnets-1" class="slide level2 smaller">
@@ -2517,6 +2526,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 \end{equation}\]</span></li>
 </ul>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
 </section>
 <section id="power-caching-in-wireless-hetnets-2" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
@@ -2531,6 +2543,9 @@ D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\li
 D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
 \end{equation}\]</span></li>
 </ul>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
 </section>
 <section id="power-caching-in-wireless-hetnets-3" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
@@ -2549,6 +2564,9 @@ g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, 
 D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 \end{equation}\]</span></li>
 </ul>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
 </section>
 <section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
@@ -2562,6 +2580,9 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 \end{equation}\]</span></li>
 <li><p>RCF is not jointly convex in power and caching</p></li>
 </ul>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
 </section>
 <section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
@@ -2596,6 +2617,9 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </ul>
 </div>
 </div>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
 </section>
 <section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
@@ -2605,6 +2629,9 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <figcaption>     Power budget</figcaption>
 <p><img data-src="images/hetnet_result1.svg" style="width:55.0%;height:55.0%"></p>
 </figure>
+</div>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
 </div>
 </section>
 <section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller">
@@ -2616,6 +2643,9 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p><img data-src="images/hetnet_result3.svg" style="width:55.0%;height:55.0%"></p>
 </figure>
 </div>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
 </section>
 <section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
@@ -2625,6 +2655,9 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <figcaption>     Zipf parameter</figcaption>
 <p><img data-src="images/hetnet_result2.svg" style="width:55.0%;height:55.0%"></p>
 </figure>
+</div>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
 </div>
 </section></section>
 <section id="thanks-questions" class="title-slide slide level1 center">
@@ -2642,10 +2675,12 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <ul>
 <li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
 <li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
-<li><em>“HCaching: High-Speed Caching for Information-Centric Networking”</em>, H. Li, H. Zhou, W. Quan, B. Feng, H. Zhang, S. Yu, GLOBECOM 2017</li>
 </ul>
+<div class="footer">
+<p>Appendices</p>
+</div>
 </section>
-<section id="appendix-b-model-notation" class="slide level2 smaller scrollable" data-visibility="uncounted">
+<section id="appendix-b-model-notation" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix B: Model Notation</h2>
 <table>
 <caption>Table of Notations</caption>
@@ -2700,6 +2735,27 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <td style="text-align: center;"><span class="math inline">\(c^e_{n_j}\)</span></td>
 <td style="text-align: left;">Eviction cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
 </tr>
+</tbody>
+</table>
+<div class="footer">
+<p>Appendices</p>
+</div>
+</section>
+<section id="appendix-b-model-notation-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Appendix B: Model Notation</h2>
+<table>
+<caption>Table of Notations</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Notation</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
 <td style="text-align: left;">Exogenous request arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
@@ -2742,8 +2798,11 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </tr>
 </tbody>
 </table>
+<div class="footer">
+<p>Appendices</p>
+</div>
 </section>
-<section id="appendix-c-analysis-notation" class="slide level2 smaller scrollable" data-visibility="uncounted">
+<section id="appendix-c-analysis-notation" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix C: Analysis Notation</h2>
 <table>
 <colgroup>
@@ -2758,43 +2817,34 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(f^k_{ab}\)</span></td>
-<td style="text-align: left;">Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(F^k_{ab}(t)\)</span></td>
-<td style="text-align: left;">Number of VIPs of <span class="math inline">\(k\)</span> sent over <span class="math inline">\((a,b)\)</span> during slot <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(N\)</span></td>
-<td style="text-align: left;">Number of nodes in the network, i.e.&nbsp;<span class="math inline">\(N = |\mc{N}|\)</span></td>
-</tr>
-<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(A^k_{n,max}\)</span></td>
 <td style="text-align: left;">Finite value such that <span class="math inline">\(A^k_n(t) \leq A^k_{n,max}\)</span> for all <span class="math inline">\(t\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(A_{n,max}\)</span></td>
 <td style="text-align: left;">Maximum total exogenous arrivals at node <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span> across all <span class="math inline">\(\kin\)</span>, i.e.&nbsp;<span class="math inline">\(A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(\mu^{out}_{n,max}\)</span></td>
 <td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((n,b) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(\mu^{in}_{n,max}\)</span></td>
 <td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((a,n) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(r_{n,max}\)</span></td>
 <td style="text-align: left;">Maximum total rate that can be served by all cache tiers at <span class="math inline">\(n\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span></td>
 <td style="text-align: left;">Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy</td>
 </tr>
 </tbody>
 </table>
+<div class="footer">
+<p>Appendices</p>
+</div>
 </section>
 <section id="appendix-d-simulator-snippets" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix D: Simulator Snippets</h2>
@@ -2905,6 +2955,9 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <span id="cb5-12"><a href="#cb5-12"></a>      <span class="va">self</span>.sendInterestPacket(remote_id, request)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+</div>
+<div class="footer">
+<p>Appendices</p>
 </div>
 
 <img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
