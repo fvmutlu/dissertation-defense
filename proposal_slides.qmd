@@ -69,13 +69,13 @@ Introduction
 :::
 
 ::: {.notes}
-- So here's a brief overview about my primary research that I will present today.
+- To begin, here's a brief overview of my primary research that I will present today.
 - First off, for context, my work is based on the Information-centric Networking paradigm, or ICN for short.
-- Internet today is built on communication network principles, whereas its primary use is data distribution, so ICN aims to steer it in that direction by making data the primary entity of the network, rather than endpoints.
+- The Internet today is built on communication network principles, but its primary use is data distribution, so ICN aims to steer it in that direction by making data the primary entity of the network, rather than endpoints.
 - In particular, I'm targeting a core functionality of ICNs called in-network caching, which lets every router in the network maintain its own cache, making caching decentralized and more scalable.
-- However, my work is also applicable within today's Internet, especially for systems like CDNs, as it could be used in an overlay.
-- The main motivation for my work is that the volume of data we're trying to distribute with these networks continuously grows, but the capacities of our caches are somewhat stagnant.
-- There are many obstacles in the way of scaling cache capacities. Specifically we'll look at these three considerations: (1) are slower storage elements viable as caches? (2) what are the costs of operating large caches? (3) how can we get the most out of caches in the network?
+- However, my work is also applicable within today's Internet, especially for systems like CDNs, where it could be used as an overlay.
+- The main motivation for my work is simply that the volume of data continuously grows, but the capacities of our caches are somewhat stagnant.
+- Of course there are many obstacles in the way of scaling cache capacities. We'll specifically look at three considerations: (1) are slower storage elements viable as caches? (2) what are the costs of operating large caches? (3) how can we get the most out of caches in the network?
 :::
 
 ## Overview
@@ -107,8 +107,8 @@ Introduction
 ::: {.notes}
 - To expand on my motivation, I'll first talk about the use case that initially inspired my work.
 - As you know, large science programs in fields like high-energy physics, genomics etc. deal with experiments that produce huge amounts of data.
-- For instance, for the LHC, in one year, over an exabyte of data is accessed. In only one month even back in 2018, 16 PB of data were written on permanent storage.
-- This data then has to constantly be distributed across the world for research, which is a significant networking challenge.
+- For instance, for the LHC, in one year, over an exabyte of data is accessed.
+- This data also has to constantly be distributed across the world for research, which is a significant networking challenge.
 :::
 
 ## Use Case: Data-Intensive Science
@@ -123,10 +123,10 @@ Introduction
 :::
 
 ::: {.notes}
-- To address this, our lab led a project effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.
-- The point here is, even in this state-of-the-art project, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we're working with.
-- To drive the point home further I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for pecialized policies for operating larger caches was specifically outlined.
-- So that gap is what motivated my work.
+- To address this, our lab led an effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.
+- The point here is, even in this state-of-the-art prototype, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we expect to be working with.
+- I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for specialized policies for operating larger caches was specifically outlined as part of future outlook.
+- So there's a gap here that motivated my work.
 :::
 
 ## The Capacity Challenge
@@ -141,7 +141,7 @@ Introduction
 :::
 
 ::: {.notes}
-- I now want to give you a better idea about why scaling capacities is a challenge.
+- Now I want to give you a better idea about why scaling cache capacities is such a challenge.
 :::
 
 ## Capacity Challenge: Toy Example {.smaller}
@@ -906,6 +906,9 @@ Data Plane Strategy
 Experiments
 :::
 
+::: {.notes}
+:::
+
 ## Experiment Setting {.smaller}
 
 ::: columns
@@ -1098,27 +1101,6 @@ Read rate no longer a constant, VIPs drained via caching represented with a flow
 Proposed Work
 :::
 
-## Cache Exclusivity {.smaller}
-```{=tex}
-\begin{equation}
-\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
-\end{equation}
-```
-Useful in view of [interest aggregation]{.body-highlight} and hardware limitations.
-
-Arguments in support of removing it:
-
--  Cache exclusivity makes [upward migrations]{.body-highlight}[^*] difficult in data plane
--  Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary
--  Hardware limitations may not be there for long (peer-to-peer DMA)
-Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.
-
-[^*]: When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier
-
-::: {.footer}
-Proposed Work
-:::
-
 ## Different Object Sizes {.smaller}
 
 Equal object sizes assumption makes analysis straightforward, but is not realistic.
@@ -1160,10 +1142,32 @@ Proposed Work
 -   Some disparities between the two planes lead to a gap building over time
     -   Virtual plane assumes nodes can immediately cache any object in the network
     -   Data plane requires nodes to respond to requests from cache if available
+        - This makes [upward migrations]{.body-highlight}[^*] difficult in data plane
     -   Length of time slots, interest aggregation etc. further extend this gap
 -   Amending the gap is difficult, but it must be quantified:
     -   Measure delay between a caching decision in the virtual plane, and when it is realized in data plane
     -   Estimate difference between performance and cost metrics under virtual plane assumptions vs. data plane results
+
+[^*]: When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier
+
+::: {.footer}
+Proposed Work
+:::
+
+## Cache Exclusivity {.smaller}
+```{=tex}
+\begin{equation}
+\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
+\end{equation}
+```
+Useful in view of [interest aggregation]{.body-highlight}[^+] and [hardware limitations]{.body-highlight}, but very restrictive:
+
+-  Hardware limitations may not be there for long (peer-to-peer DMA); without interest aggregation, duplicates across tiers could extend bandwidth
+-  Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary
+
+However, technical analysis is not sufficient to evaluate the impact of removing exclusivity; extensive testing required.
+
+[^+]: When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won't send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.
 
 ::: {.footer}
 Proposed Work

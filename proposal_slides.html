@@ -1120,10 +1120,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>Virtual Plane Model</h2>
 <p>Virtual plane model is based on (Yeh, 2014):</p>
 <ul>
-<li>Integer time slots depicted as <span class="math inline">\(t = \{1,2,...\}\)</span></li>
 <li>A <em>virtual interest packet</em> (<em>VIP</em>) is generated alongside each exogenous request entering network; each node maintains a <em>VIP counter</em> for each object in the network</li>
-<li>Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects</li>
-<li>VIPs are removed at object sources and caching nodes
+<li>VIPs are removed at object sources and caching nodes</li>
+<li>Integer time slots depicted as <span class="math inline">\(t = \{1,2,...\}\)</span></li>
+<li>Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects
 <hr></li>
 </ul>
 <table>
@@ -1158,7 +1158,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <aside class="notes">
 <ul>
 <li>Now, on to the virtual plane model, which is largely based on the original VIP paper. We’ll go over it briefly.</li>
-<li>we’re considering integer time slots in the virtual plane.</li>
+<li>First off, anytime an exogenous request enters the data plane network, a virtual interest packet (VIP for short) is generated in the virtual plane at that node. These VIPs can only be removed at sources or caching points.</li>
+<li>Each node maintains a VIP counter for each object in the network. We can interpret these counts as queues that describe unsatisfied demand for objects. Another useful way to think of VIP counts is as a “potential” value, where the potential is high at request entry points and low at sources and caching points. We’ll refer back to this interpretation later.</li>
+<li>We’re considering integer time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot and network state changes via events that happen in the data plane within the window from the beginning of one time slot to the next.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1174,7 +1176,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="virtual-plane-model-1" class="slide level2 smaller">
 <h2>Virtual Plane Model</h2>
-<p>Model is expanded with multiple cache tiers and <em>penalties</em>:</p>
+<p>Model is expanded with multiple cache tiers and <span class="body-highlight">penalties</span>:</p>
 <ul>
 <li>Each cache admission and eviction in virtual plane incurs a penalty</li>
 <li>A configurable weight <span class="math inline">\(\omega\)</span> lets network determine importance of penalties in objective
@@ -1213,6 +1215,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>System Model</p>
 </div>
+<aside class="notes">
+<ul>
+<li>The multi-tiered caching model that I propose, which incorporates cache utilization costs, extends the virtual plane model.</li>
+<li>Each cache admission and eviction in virtual plane incurs a penalty, and a configurable weight parameter, <span class="math inline">\(\omega\)</span>, lets the network determine the importance of penalties in its overall objective</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="vip-queue-and-penalty-dynamics" class="slide level2 smaller">
 <h2>VIP Queue and Penalty Dynamics</h2>
@@ -1602,7 +1620,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>As for the solution to the forwarding step, a neat feature of our extension here is that we don’t actually alter the results for forwarding from the original VIP paper.</li>
+<li>As for the solution to the forwarding step, a neat thing about our extension here is that we don’t actually alter the results for forwarding from the original VIP paper.</li>
 <li>So we can use the backpressure solution that was devised there directly.</li>
 </ul>
 <style type="text/css">
@@ -1633,6 +1651,24 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
+<aside class="notes">
+<ul>
+<li>So first off, there are several things about using the virtual plane algorithm with the mechanics of the data plane</li>
+<li>The virtual plane decisions are made in discrete time slots, but of course the data plane decisions have to be reactive and continuous</li>
+<li>Another major point is that, for caching decisions, when we change the relevant variables in the virtual plane, we inherently assume that we can have access to that object immediately, this obviously won’t hold in the data plane</li>
+<li>Finally, there’s an observation made in the original VIP paper about VIP counts, that also applies here, which is that they are oscillatory. This means that, because of the decisions we make in the virtual plane, when the VIP count for an object becomes large, we immediately make decisions that will quickly drive the count down. Basing caching on this behavior directly is impractical in the data plane.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="data-plane-caching" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
@@ -1676,7 +1712,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Cache score is based on a sliding window average of received VIPs</li>
+<li>So to address all of these, we begin by adopting the cache score metric, which is based on a sliding window average of received VIPs</li>
+<li>Then we define the eviction target for each cache tier, as shown in the second expression on screen</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1715,7 +1752,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Cache benefit balances cache score against weighted penalty</li>
+<li>Of course, because we also consider costs, we need a metric that incorporates those, in other words, balances cache scores against weighted penalties, whether it be for admission or replacement; we call this the cache benefit metric</li>
+<li>Now that the defined this, here’s the operation of the data plane caching policy</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1738,6 +1776,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
+<aside class="notes">
+<ul>
+<li>As for the forwarding, again we base it on the findings of the VIP paper, and use a similar sliding window average, this time of outgoing VIP flow, to make forwarding decisions</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="chunk-level-decisions" class="slide level2">
 <h2>Chunk-level Decisions</h2>
@@ -1749,6 +1802,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
+<aside class="notes">
+<ul>
+<li>As a final note, recall that our model and approach is at the object level, but in the real world, the data plane operates at a chunk (or packet) level</li>
+<li>So here are the two principles we would observe when applying our approach at the chunk level</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="experiments" class="title-slide slide level1 center">
@@ -2060,22 +2129,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Proposed Work</p>
 </div>
 </section>
-<section id="cache-exclusivity" class="slide level2 smaller">
-<h2>Cache Exclusivity</h2>
-<span class="math display">\[\begin{equation}
-\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
-\end{equation}\]</span>
-<p>Useful in view of <span class="body-highlight">interest aggregation</span> and hardware limitations.</p>
-<p>Arguments in support of removing it:</p>
-<ul>
-<li>Cache exclusivity makes <span class="body-highlight">upward migrations</span><sup>1</sup> difficult in data plane</li>
-<li>Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary</li>
-<li>Hardware limitations may not be there for long (peer-to-peer DMA) Not clear whether removing exclusivity constraint would make algorithm converge to overly redundant cache placements; extensive testing required.</li>
-</ul>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
 <section id="different-object-sizes" class="slide level2 smaller">
 <h2>Different Object Sizes</h2>
 <p>Equal object sizes assumption makes analysis straightforward, but is not realistic.</p>
@@ -2119,7 +2172,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Some disparities between the two planes lead to a gap building over time
 <ul>
 <li>Virtual plane assumes nodes can immediately cache any object in the network</li>
-<li>Data plane requires nodes to respond to requests from cache if available</li>
+<li>Data plane requires nodes to respond to requests from cache if available
+<ul>
+<li>This makes <span class="body-highlight">upward migrations</span><sup>1</sup> difficult in data plane</li>
+</ul></li>
 <li>Length of time slots, interest aggregation etc. further extend this gap</li>
 </ul></li>
 <li>Amending the gap is difficult, but it must be quantified:
@@ -2131,7 +2187,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
+<section id="cache-exclusivity" class="slide level2 smaller">
+<h2>Cache Exclusivity</h2>
+<span class="math display">\[\begin{equation}
+\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
+\end{equation}\]</span>
+<p>Useful in view of <span class="body-highlight">interest aggregation</span><sup>1</sup> and <span class="body-highlight">hardware limitations</span>, but very restrictive:</p>
+<ul>
+<li>Hardware limitations may not be there for long (peer-to-peer DMA); without interest aggregation, duplicates across tiers could extend bandwidth</li>
+<li>Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary</li>
+</ul>
+<p>However, technical analysis is not sufficient to evaluate the impact of removing exclusivity; extensive testing required.</p>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
 <section id="better-experiments" class="slide level2">
 <h2>Better Experiments</h2>
 <ul>
