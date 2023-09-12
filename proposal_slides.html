@@ -1806,6 +1806,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>As a final note, recall that our model and approach is at the object level, but in the real world, the data plane operates at a chunk (or packet) level</li>
 <li>So here are the two principles we would observe when applying our approach at the chunk level</li>
+<li>(Talk about bullet points)</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1822,7 +1823,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section>
 <section id="experiments" class="title-slide slide level1 center">
 <h1>Experiments</h1>
-
+<aside class="notes">
+<ul>
+<li>Alright, so how does our strategy fare in experimental evaluations</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="simulation-setup" class="slide level2">
 <h2>Simulation Setup</h2>
@@ -1840,8 +1855,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>Firstly, when I say experiments here I strictly mean simulation experiments</li>
 <li>And I wanted to throw in this slide here at the beginning because it took quite a bit of time and care to build the simulator that I used to run experiments for this work</li>
-<li>And I needed to build this because existing simulators didn’t cover what we needed, and were missing some features I wanted and modifying them would’ve taken even more time</li>
 <li>(Talk about bullet points)</li>
+<li>And I needed to build this because existing simulators didn’t cover what I needed, and were missing some features I wanted and modifying them would’ve taken even more time</li>
+<li>But of course this is also far from perfect, but we’ll get to that at the very end</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1894,6 +1910,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is quite overwhelming and not straightforward</li>
 <li>So the results I’ll show here are those that I think most succinctly show that our approach can deliver on our goals</li>
 <li>To start off, these are the four topologies I conducted experiments over</li>
+<li>On the left are Abilene and Geant which are real network topologies, and on the right are two stylized graphs</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1927,9 +1944,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>And there are some additional assumptions that pertain to the experiment setting so let’s go over those</li>
-<li>(Talk about bullet points)</li>
-<li>Cost-aware LFU adaptation uses a similar cache benefit metric</li>
+<li>Of course there are some additional assumptions that pertain to the experiment setting so let’s go over those</li>
+<li>Firstly, we pick the source for each object uniformly at random and we assume sources have infinite read rate; <em>this is not real world accurate since sources would also be holding objects in disks, but it helps to do this in simulations so we can focus on the caching side of things</em></li>
+<li>We assume routing is pre-determined, since it’s not in our scope here, and the given policy is simple: a node can forward requests for an object on any shortest path (in hops) between itself and the source node for that object.</li>
+<li><em>This may sound a bit limiting, but if we actually look at the topologies we’re dealing with, you can see that for a lot of source-destination pairs there is going to be many same-length shortest paths</em></li>
+<li>These experiments all have two tiers of cache at every node, <em>and this is again due to how large the parameter space is and comes from a point of trying to simplify that as much as possible</em></li>
+<li>Now, because there aren’t any policies, novel or established, we could directly compare against, we had to build our own baselines by adapting single-cache policies</li>
+<li>We adapted LRU, FIFO and RANDOM replacement but for these there isn’t a good way to incorporate costs, so those are cost-unaware and for admission they’re paired with the basic Leave Copy Everywhere policy</li>
+<li>We adapted LFU similarly, but also made a cost-aware LFU adaptation which uses a cache benefit metric similar to the one we devised for our aproach</li>
 <li>Least response time forwarding simply means that each node monitors, for each outgoing link, the delay of the last request sent over that link and satisfied, and chooses the link with the smallest delay to forward requests</li>
 </ul>
 <style type="text/css">
@@ -2018,9 +2040,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>As I said, there are a great number of parameters for these experiments and I’m not going to cover each one but we have this table for reference</li>
-<li>Though it is critical to know that we’re only considering<br>
-</li>
+<li>As I said, there are a great number of parameters for these experiments and I’m not going to cover each one in the interest of time, but we have this table for reference if needed</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -2036,7 +2056,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="results-i" class="slide level2 smaller">
 <h2>Results I</h2>
-<p><strong>Scenario</strong>: No penalties (<span class="math inline">\(\omega=0\)</span>) and <span class="math inline">\(L_{n_2} = 100\)</span> at each <span class="math inline">\(n\)</span>.</p>
+<p><strong>Scenario</strong>: No penalties (<span class="math inline">\(\omega=0\)</span>), <span class="math inline">\(L_{n_1} = 5\)</span> and <span class="math inline">\(L_{n_2} = 100\)</span> at each <span class="math inline">\(n\)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <figcaption>  Total delay, as fraction of total delay without any caching</figcaption>
@@ -2052,10 +2072,34 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now I want to move on to our findings</li>
+<li>First, I’ll show results from a scenario where we actually ignore penalties, which we can easily do for our approach by setting omega to be zero</li>
+<li>We’re comparing our strategy to cost-unaware baselines here</li>
+<li>The figure up top shows the total delay in the network, normalized to the total delay achieved without any caching</li>
+<li>This figure illustrates our point about how managing larger caches is difficult, because as you can see, the “naive” policies are struggling quite a bit, at times showing worse performance than would be achieved with no caches at all</li>
+<li>Our VIP-based approach performs the best across all experiments, though LFU is not that far behind</li>
+<li>The bottom figure reveals more insights as to why the results are as they are because it shows the distribution of cache tiers among the two tiers as well as total cache hits</li>
+<li>Now note that here the first tier can cache 5 objects, while the second tier can cache 100, so the capacity difference is 20-fold</li>
+<li>However, with our approach, anywhere between 15% to 20% of cache hits are occurring on the first tier, much larger than other baselines, showing that we’re able to balance the amount of cache hits better</li>
+<li>You’ll notice in most cases our approach doesn’t even have the highest total number of cache hits, and that’s because it is set up to handle the rate of cache hits properly</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="results-ii" class="slide level2 smaller">
 <h2>Results II</h2>
-<p><strong>Scenario</strong>: Cost-unaware policies excluded, <span class="math inline">\(\omega &gt; 0\)</span>. Best value of <span class="math inline">\(L_{n_2}\)</span> picked.</p>
+<p><strong>Scenario</strong>: Cost-unaware policies excluded, <span class="math inline">\(\omega &gt; 0\)</span>. <span class="math inline">\(L_{n_1}=5\)</span>, best value of <span class="math inline">\(L_{n_2}\)</span> picked.</p>
 <div class="body-centered">
 <p>Delay vs.&nbsp;penalty (<span class="math inline">\(\omega\)</span> decreases to the right)</p>
 </div>
@@ -2079,6 +2123,25 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now we move on to a scenario with penalties, dropping the “naive” policies and keeping only the cost-aware adaptation of LFU as a baseline</li>
+<li>We’ll be looking at how each policy balances the delay vs.&nbsp;penalty trade-off</li>
+<li>Now I want to point out here that different second tier capacities are used for the two policies. This is because I experimented with a range of values for each and picked the best performing round value.</li>
+<li>The reason for this again connects to the challenges in managing these larger, slower caches I talked about in the very beginning. This in itself is a long discussion, but the gist is that I wanted to represent the best of the competing policy here.</li>
+<li>As we can see, in the Abilene and Grid topologies our approach is generally outperforming the adapted LFU</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="results-ii-1" class="slide level2 smaller">
 <h2>Results II</h2>
@@ -2106,6 +2169,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>The situation is similar for the Geant and 3-regular topologies as well, though in the latter, there is a small operating region where LFU overtakes our approach</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="proposed-work" class="title-slide slide level1 center">
@@ -2115,10 +2193,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="improvements" class="slide level2">
 <h2>Improvements</h2>
 <div class="fragment">
-<p>There is room for improvement</p>
+<p>There is still room for improvement</p>
 </div>
 <div class="fragment">
-<div class="quarto-figure quarto-figure-left">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/big-room.webp" style="width:65.0%;height:65.0%"></p>
 </figure>
@@ -2128,6 +2206,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Super Funny Joke</p>
 </div>
+<aside class="notes">
+<ul>
+<li>So as much as I’d like to say I’ll be pursuing a shiny new goal for the remainder of my time here, there are still aspects of this work that needs to be covered</li>
+<li>So this section will be centered about those improvements I’m planning on pursuing</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="cache-read-bandwidth" class="slide level2 smaller">
 <h2>Cache Read Bandwidth</h2>
@@ -2139,6 +2233,23 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Proposed Work</p>
 </div>
+<aside class="notes">
+<ul>
+<li>First and foremost, while the modeling of read rate is essential in this work, the way we do it is not very accurate</li>
+<li>We treat the read rate parameter as if it is independent for each object, which indicates that there is a guaranteeable rate that can be provided per object, no matter how many objects are cached in that tier</li>
+<li>This is an okay assumption, but given the strict rate limitations we’re working with, is not great</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="cache-read-bandwidth-1" class="slide level2 smaller">
 <h2>Cache Read Bandwidth</h2>
@@ -2158,6 +2269,25 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Proposed Work</p>
 </div>
+<aside class="notes">
+<ul>
+<li>To be perfectly honest, this is an oversight on my end. This is something I’ve known about VIP for a bit, first pointed out to me by my labmate Yuanhao in fact, during one of our conversations about it</li>
+<li>For the original work, it may not matter as much, because there the target was still a small but fast cache, for which this assumption works better</li>
+<li>But in the beginning of this work I was trying to move a bit fast because I wanted to see how the strategy would perform, and at the time I had lofty goals about a real implementation as well</li>
+<li>But after many experiments, I am now convinced this is something we need to address</li>
+<li>And the way we’ll do that is simply by enforcing a cache read bandwidth constraint</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="cache-read-bandwidth-2" class="slide level2 smaller">
 <h2>Cache Read Bandwidth</h2>
@@ -2173,6 +2303,21 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Proposed Work</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now, how does that change things?</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="different-object-sizes" class="slide level2 smaller">
 <h2>Different Object Sizes</h2>
@@ -2190,6 +2335,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Proposed Work</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now, here’s another shortcoming of the model, which I alluded to earlier in the presentation</li>
+<li>(Go over slide content)</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="different-object-sizes-1" class="slide level2 smaller">
 <h2>Different Object Sizes</h2>
@@ -2201,17 +2362,53 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>VIPs for smaller objects can be drained at a higher rate</li>
 <li>Without adjustments, service may prioritize smaller objects</li>
 </ul></li>
-<li>Combined with multi-tiered caches, raises the <span class="body-highlight">integrity</span> question, i.e.&nbsp;should we require that nodes cache all chunks of an object in the same tier?
+<li>Combined with multi-tiered caches, this raises the <span class="body-highlight">integrity</span> question, i.e.&nbsp;should we require that nodes cache all chunks of an object in the same tier?
 <ul>
 <li>If not, complexity of the caching problem increases dramatically</li>
 <li>Chunk-level strategy may serve this scenario better</li>
+<li>Prefetching could be utilized<sup>1</sup></li>
 </ul></li>
 </ul>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Prefetching is actually one of the techniques G. Rossini, D. Rossi, et al.&nbsp;used to make SSDs viable as part of “content stores”</p></li></ol></aside></section>
 <section id="virtual-plane---data-plane-gap" class="slide level2 smaller">
+<h2>Virtual Plane - Data Plane Gap</h2>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>… oops, didn’t see you there</figcaption>
+<p><img data-src="images/elephant.webp" style="width:65.0%;height:65.0%"></p>
+</figure>
+</div>
+<audio data-autoplay="" id="elephant" src="audio/elephant.mp3">
+</audio>
+<script>
+  var audio = document.getElementById("elephant");
+  audio.volume = 0.1;
+</script>
+</div>
+<div class="footer">
+<p>Super Funny Callback</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Ah, I was hoping we wouldn’t run into him</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="virtual-plane---data-plane-gap-1" class="slide level2 smaller">
 <h2>Virtual Plane - Data Plane Gap</h2>
 <ul>
 <li>Some disparities between the two planes lead to a gap building over time
@@ -2232,22 +2429,35 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
 <section id="cache-exclusivity" class="slide level2 smaller">
 <h2>Cache Exclusivity</h2>
 <span class="math display">\[\begin{equation}
 \sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
 \end{equation}\]</span>
-<p>Useful in view of <span class="body-highlight">interest aggregation</span><sup>1</sup> and <span class="body-highlight">hardware limitations</span>, but very restrictive:</p>
+<p>Useful in view of <span class="body-highlight">interest aggregation</span><sup>1</sup>, but very restrictive:</p>
 <ul>
-<li>Hardware limitations may not be there for long (peer-to-peer DMA); without interest aggregation, duplicates across tiers could extend bandwidth</li>
+<li>Without interest aggregation, duplicates across tiers could extend bandwidth</li>
+<li>Removing cache exclusivity could also help with upward migration problem</li>
 <li>Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary</li>
 </ul>
-<p>However, technical analysis is not sufficient to evaluate the impact of removing exclusivity; extensive testing required.</p>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn3"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
 <section id="better-experiments" class="slide level2">
 <h2>Better Experiments</h2>
 <ul>
