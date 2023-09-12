@@ -771,7 +771,7 @@ Optimization Framework
 :::
 
 ::: {.notes}
-- As for the solution to the forwarding step, a neat feature of our extension here is that we don't actually alter the results for forwarding from the original VIP paper.
+- As for the solution to the forwarding step, a neat thing about our extension here is that we don't actually alter the results for forwarding from the original VIP paper.
 - So we can use the backpressure solution that was devised there directly.
 :::
 
@@ -787,6 +787,13 @@ There are several considerations when applying our approach in the data plane:
 
 ::: {.footer}
 Data Plane Strategy
+:::
+
+::: {.notes}
+- So first off, there are several things about using the virtual plane algorithm with the mechanics of the data plane
+- The virtual plane decisions are made in discrete time slots, but of course the data plane decisions have to be reactive and continuous
+- Another major point is that, for caching decisions, when we change the relevant variables in the virtual plane, we inherently assume that we can have access to that object immediately, this obviously won't hold in the data plane
+- Finally, there's an observation made in the original VIP paper about VIP counts, that also applies here, which is that they are oscillatory. This means that, because of the decisions we make in the virtual plane, when the VIP count for an object becomes large, we immediately make decisions that will quickly drive the count down. Basing caching on this behavior directly is impractical in the data plane.
 :::
 
 ## Data Plane Caching {.smaller}
@@ -817,7 +824,8 @@ Data Plane Strategy
 :::
 
 ::: {.notes}
-- Cache score is based on a sliding window average of received VIPs
+- So to address all of these, we begin by adopting the cache score metric, which is based on a sliding window average of received VIPs
+- Then we define the eviction target for each cache tier, as shown in the second expression on screen
 :::
 
 ## Data Plane Caching {.smaller}
@@ -846,7 +854,8 @@ Data Plane Strategy
 :::
 
 ::: {.notes}
-- Cache benefit balances cache score against weighted penalty
+- Of course, because we also consider costs, we need a metric that incorporates those, in other words, balances cache scores against weighted penalties, whether it be for admission or replacement; we call this the cache benefit metric
+- Now that the defined this, here's the operation of the data plane caching policy
 :::
 
 ## Data Plane Forwarding
@@ -863,6 +872,10 @@ Forwarding strategy is as in (Yeh, 2014). When a request for object $k \not \in 
 Data Plane Strategy
 :::
 
+::: {.notes}
+- As for the forwarding, again we base it on the findings of the VIP paper, and use a similar sliding window average, this time of outgoing VIP flow, to make forwarding decisions
+:::
+
 ## Chunk-level Decisions
 
 At chunk-level in data plane, we observe the following principles:
@@ -872,6 +885,11 @@ At chunk-level in data plane, we observe the following principles:
 
 ::: {.footer}
 Data Plane Strategy
+:::
+
+::: {.notes}
+- As a final note, recall that our model and approach is at the object level, but in the real world, the data plane operates at a chunk (or packet) level
+- So here are the two principles we would observe when applying our approach at the chunk level
 :::
 
 # Experiments
