@@ -470,8 +470,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <aside class="notes">
 <ul>
 <li>To begin, here’s a brief overview of my primary research that I will present today.</li>
-<li>First off, for context, my work is based on the Information-centric Networking paradigm, or ICN for short.</li>
-<li>The Internet today is built on communication network principles, but its primary use is data distribution, so ICN aims to steer it in that direction by making data the primary entity of the network, rather than endpoints.</li>
+<li>First off, for context, my work is based on the Information-centric Networking paradigm.</li>
 <li>In particular, I’m targeting a core functionality of ICNs called in-network caching, which lets every router in the network maintain its own cache, making caching decentralized and more scalable.</li>
 <li>However, my work is also applicable within today’s Internet, especially for systems like CDNs, where it could be used as an overlay.</li>
 <li>The main motivation for my work is simply that the volume of data continuously grows, but the capacities of our caches are somewhat stagnant.</li>
@@ -741,6 +740,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>However, adding the last tier, even though it expands our total cache capacity, impacts delay negatively</li>
 <li>Because what I just explained does not hold for the third tier since its much larger and much slower</li>
 <li>So we end up trading the delay that would occur on the server link with worse read delay on the third tier.</li>
+<li>In summary, larger and slower caches are viable, but we have to be careful in managing them.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -841,7 +841,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Finally, we look at the question of, we can handle caching adequately, how can we make sure we’re actually making the most of those caches in the network?</li>
+<li>Finally, we look at the question of how can we make sure we’re actually making the most of caches in the network?</li>
+<li>Because, now that we’re adding larger caches that are difficult to operate, and also adding costs into the equation, we really want to make sure we’re getting the benefits.</li>
 <li>This is where the act of tying caching and forwarding together comes in.</li>
 </ul>
 <style type="text/css">
@@ -877,7 +878,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Now, having looked at these considerations, let’s reiterate our goal.</li>
+<li>Now, having looked at these considerations, let’s make our goal more explicit.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -935,17 +936,46 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Related Work</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Obviously, there are a lot more works that explore similar problems from different angles. I can’t go into everything at the moment, but I still wanted to put these other works from the ICN literature in</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="related-work-hss" class="slide level2">
 <h2>Related Work: HSS</h2>
 <ul>
 <li><em>“AutoTiering: automatic data placement manager in multi-tier all-flash datacenter”</em>, Z. Yang, et al., IPCCC 2017</li>
-<li><em>“Hybrid storage systems: a survey of architectures and algorithms”</em>, J. Niu, et al., IEEE Access 6 2018</li>
 <li><em>“Sibyl: Adaptive and extensible data placement in hybrid storage systems using online reinforcement learning”</em>, G. Singh, et al., ISCA 2022</li>
 </ul>
 <div class="footer">
 <p>Related Work</p>
 </div>
+<aside class="notes">
+<ul>
+<li>As well as these works from the more tangentially related hybrid storage systems literature</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="related-work-vip" class="slide level2">
 <h2>Related Work: VIP</h2>
@@ -963,7 +993,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>Lastly, perhaps the single most important related work to cover here is the VIP paper by Prof.&nbsp;Yeh and co-authors, as my work directly extends this paper.</li>
 <li>So let me go over why that is.</li>
-<li>Recall the earlier paper I mentioned about coupling caching and forwarding; coincidentally these two papers appeared in the same conference and the VIP paper proposed a strategy that does exactly that, which suits our goals as well.</li>
+<li>Recall the earlier paper I mentioned about coupling caching and forwarding; coincidentally the VIP paper also appeared in the same conference and proposed a strategy that does exactly that, which suits our goals.</li>
 <li>Furthermore, this paper includes the read capacities of cache devices in its system model, which is one of the parameters of primary concern to us.</li>
 <li>The core feature of this paper is a separation of the data plane mechanisms from the “virtual plane”, where control decisions take place, which we also adopt as it makes building these strategies simpler.</li>
 <li>Finally, there is a technical benefit here because the analysis for VIP is based on Lyapunov drift, which has an extension called drift-plus-penalty, that gives us a direct venue for incorporating cache utilization costs.</li>
@@ -1077,7 +1107,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>The multi-tiered caching model I propose adds the following properties to those basic mechanisms.</li>
 <li>Any node can have cache tiers and can cache any object in one of those tiers unless it already sources that object.</li>
-<li>A node can cache an object in at most one of its tiers. This means that we don’t duplicate objects across cache tiers. This is a crucial constraint we’ll also need to remember for later.</li>
+<li>A node can cache an object in at most one of its tiers. This means that we don’t duplicate objects across cache tiers. This is also something critical to keep in mind.</li>
 <li>An object evicted from one tier can migrate to another tier at the same node. So an eviction from one tier is not necessarily final for an object.</li>
 </ul>
 <style type="text/css">
@@ -1111,8 +1141,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>Now, on to the virtual plane model, which is largely based on the original VIP paper. We’ll go over it briefly.</li>
 <li>First off, anytime an exogenous request enters the data plane network, a virtual interest packet (VIP for short) is generated in the virtual plane at that node. These VIPs can only be removed at sources or caching points.</li>
-<li>Each node maintains a VIP counter for each object in the network. We can interpret these counts as queues that describe unsatisfied demand for objects. Another useful way to think of VIP counts is as a “potential” value, where the potential is high at request entry points and low at sources and caching points. We’ll refer back to this interpretation later.</li>
-<li>We’re considering integer time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot and network state changes via events that happen in the data plane within the window from the beginning of one time slot to the next.</li>
+<li>Each node maintains a VIP counter for each object in the network. We can interpret these counts as queues that describe unsatisfied demand for objects. Another useful way to think of these counters is as “potential” values, much like electrical potential, where the potential is high at request entry points and low at sources and caching points.</li>
+<li>We’re considering discrete time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1180,7 +1210,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <aside class="notes">
 <ul>
 <li>This inequality shows how VIP counts change from slot to slot in the virtual plane</li>
-<li>First term is VIPs forwarded away from the node, then we have the exogenous arrivals, then VIPs that arrive from other nodes and finally, VIPs removed due to caching. Notice that this term is dependent on the read rate of the cache tier</li>
+<li>First term is VIPs forwarded away from the node, then we have the exogenous arrivals, then VIPs that arrive from other nodes and finally, VIPs removed due to caching. Notice that this term is dependent on the read rates of cache tiers.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1271,8 +1301,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>The goal of our optimization in the virtual plane, is to operate as close as possible to the boundary of the stability region (which we will define formally later) of the network of VIP queues, while keeping penalties accumulated small</li>
-<li>(Fragment in) So in this way, we’re not trying to make a precisely optimal decision each time slot, but rather we’re trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely</li>
+<li>The goal of our optimization in the virtual plane, is to operate as close as possible to the boundary of the stability region of the network of VIP queues, which we will define formally in a bit, while keeping penalties accumulated small.</li>
+<li>(Fragment in) In particular, we’re trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely.</li>
+<li>So in this way, we’re not necessarily trying to make a precisely optimal decision each time slot, but trying to minimize the expected value of an upper bound.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1308,6 +1339,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Obviously there is a lot of math to get to this expression for the objective function, but I’ll give you the intuition briefly.</li>
 <li>Because we want to remove as many VIPs from the network as fast as possible, we want to cache the higher VIP count objects in the faster tiers, which is why the read rate multiplies the VIP count here.</li>
 <li>However, we also want to make sure that our choices in caching actions do not add large penalties that outweigh the benefits. Of course the importance of that is determined by omega.</li>
+<li>And of course we have the cache tier capacity constraints and the cache exclusivity constraints</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1323,21 +1355,25 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="virtual-plane-forwarding" class="slide level2">
 <h2>Virtual Plane Forwarding</h2>
-<p>Perform <span class="body-highlight">forwarding</span> as in (Yeh, 2014), by choosing <span class="math inline">\(\mu^k_{ab}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin\)</span>:</p>
+<p>Perform <span class="body-highlight">forwarding</span> as in (Yeh, 2014), by choosing <span class="math inline">\(\mu^k_{ab}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>:</p>
 <div style="font-size: 70%;">
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \forall \, \abin \\
-        &amp; \quad \mu^k_{ab}(t) \geq 0, \; \forall \, \kin, \; \abin \\
-        &amp; \quad \mu^k_{ab}(t) = 0, \; \forall \, \kin, \; (a,b) \not \in \mc{L}^k
-\end{align}\]</span>
+<span class="math display">\[\begin{equation}
+   \mu^k_{ab}(t) =
+   \left\{ \begin{array}{ll}
+      C_{ba}, &amp; \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) &gt; 0 \\
+      0, &amp; \text{otherwise}
+   \end{array} \right.
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+\begin{split}
+   W^k_{ab}(t) &amp; \triangleq V^k_a(t) - V^k_b(t), \\
+   k^*_{ab}(t) &amp; \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
+\end{split}
+\end{equation}\]</span>
 </div>
 <hr>
 <div class="columns">
 <div class="column" style="font-size: 70%;">
-<p><span class="math inline">\(\mc{L}\)</span>: Set of links in network</p>
 <p><span class="math inline">\(C_{ab}\)</span>: Capacity of link <span class="math inline">\((a,b)\)</span></p>
 </div><div class="column" style="font-size: 70%;">
 <p><span class="math inline">\(\mc{L}^k\)</span>: Set of links allowed to transmit VIPs of <span class="math inline">\(k\)</span>, determined by routing policy</p>
@@ -1348,7 +1384,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>And here’s the forwarding step.</li>
+<li>And here’s the forwarding step. The neat thing about our extension here is that we don’t actually need to alter the results for forwarding from the original VIP paper, which were based on the backpressure technique.</li>
 <li>The intuition here again comes from thinking of VIP counts as potential representing unsatisfied demand. So with the forwarding step, we’re making sure VIP flows follow large differences in potential, essentially steering interests toward sinks, meaning sources or caches.</li>
 </ul>
 <style type="text/css">
@@ -1387,8 +1423,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>The analysis of our approach comes in two steps. We’re following the structure of Lyapunov drift-based analysis, which was also used in the VIP paper, to first define the stability region of the network of VIP counts (which can be seen as queues) in the virtual plane.</li>
-<li>The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rate that can be satisfied contingent on the long term average VIP flow over links, as well as VIPs removed via cache tiers.</li>
+<li>The analysis of our approach comes in two steps. We’re following the structure of Lyapunov drift-based analysis here, so we first define the stability region of the virtual plane network.</li>
+<li>The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rates that can be satisfied to the long term average VIP flow over links, as well as VIPs removed via cache tiers.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1461,8 +1497,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Now of course, the validity of our approach still hinges on whether we can solve the two optimization problems from the two steps of our algorithm.</li>
-<li>To do so for the caching step, we will first rewrite it to clean up this unpleasant form we’ve shown before. And to do that, we will use a two-step transformation of variables.</li>
+<li>Now of course, the validity of our approach hinges on whether we can solve the optimization problem from the caching step.</li>
+<li>To do so, we will first rewrite it to clean up this unpleasant form we’ve shown before. And to do that, we will use a two-step transformation of variables.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1528,8 +1564,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
         &amp; \quad s^k_{n_i}(t) \in \{0, 1\}, \; \forall \, \kin, \; \iin
 \end{align}\]</span>
 </div>
-<div style="font-size: 70%;">
-<p><span class="math inline">\(\mc{I}_n \triangleq \{1, 2, ..., \sum_{\jin} L_{n_j}\}, \; \mc{I}_{n_j} \triangleq \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}\)</span></p>
+<div style="font-size: 60%;">
+<span class="math display">\[\begin{equation}
+\mc{I}_n \triangleq \{1, 2, ..., \sum_{\jin} L_{n_j}\}, \; \mc{I}_{n_j} \triangleq \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}
+\end{equation}\]</span>
 <p>If <span class="math inline">\(i \in \mc{I}_{n_j}\)</span>, then <span class="math inline">\(b^k_{n_j}(t) = b^k_{n_i}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t) = s^k_{n_i}(t)\)</span>.</p>
 </div>
 <div class="footer">
@@ -1537,47 +1575,11 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Now recall the assumption we made in our model that every data object has the same size, because it is critical here.</li>
-<li>Using that assumption, we can think of each cache tier as made up of several “cache slots” that can each take one object, depending of course on the total capacity of the tier. Each of these cache slots of course have the same read rate and cost parameters as the tier it belongs in.</li>
+<li>Now recall the assumption we made in our model that every data object has the same size.</li>
+<li>Using that assumption, we can think of each cache tier as made up of several “cache slots” that can each take one object. The number of these per tier depend on the total capacity of that tier. These slots have the same read rate and cost parameters as the tier they belong in.</li>
 <li>Now, also recall the cache exclusivity constraint of the original problem. We can easily see that exclusivity across tiers directly translates to exclusivity across these cache slots.</li>
 <li>Using these facts we can rewrite the problem again, this time in the form of a linear assignment problem.</li>
 <li>Luckily, there are methods that can solve this problem in polynomial time. We specifically rely on a modification of the Jonker-Volgenant algorithm.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="forwarding-solution" class="slide level2">
-<h2>Forwarding Solution</h2>
-<p><em>Backpressure</em> solution to forwarding optimization problem as in (Yeh, 2014).</p>
-<span class="math display">\[\begin{equation}
-   \mu^k_{ab}(t) =
-   \left\{ \begin{array}{ll}
-      C_{ba}, &amp; \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) &gt; 0 \\
-      0, &amp; \text{otherwise}
-   \end{array} \right.
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-\begin{split}
-   W^k_{ab}(t) &amp; \triangleq V^k_a(t) - V^k_b(t), \\
-   k^*_{ab}(t) &amp; \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
-\end{split}
-\end{equation}\]</span>
-<div class="footer">
-<p>Optimization Framework</p>
-</div>
-<aside class="notes">
-<ul>
-<li>As for the solution to the forwarding step, a neat thing about our extension here is that we don’t actually alter the results for forwarding from the original VIP paper.</li>
-<li>So we can use the backpressure solution that was devised there directly.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
