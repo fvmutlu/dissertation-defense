@@ -1729,23 +1729,25 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </section>
 <section id="simulation-setup" class="slide level2">
 <h2>Simulation Setup</h2>
+<div>
 <ul>
-<li>Object-level simulation framework built with Python using the SimPy library</li>
-<li>Modular, object-oriented design to allow future extension</li>
-<li>Multi-threading allowing thread-per-experiment execution</li>
-<li>Experiment parameters and output in JSON format for easy parsing</li>
-<li>Thorough statistic logging</li>
+<li class="fragment">Object-level, DES framework built with Python using SimPy library</li>
+<li class="fragment">Modular design to allow future extension</li>
+<li class="fragment">Thread-per-experiment multi-threading</li>
+<li class="fragment">Detailed statistic logging</li>
+<li class="fragment">Parameter and output data in JSON format for easy parsing</li>
 </ul>
+</div>
 <div class="footer">
 <p>Experiments</p>
 </div>
 <aside class="notes">
 <ul>
 <li>Firstly, when I say experiments here I strictly mean simulation experiments</li>
-<li>And I wanted to throw in this slide here at the beginning because it took quite a bit of time and care to build the simulator that I used to run experiments for this work</li>
+<li>I built a simulator from scratch for this purpose, which took a bit of time and care</li>
 <li>(Talk about bullet points)</li>
-<li>And I needed to build this because existing simulators didn’t cover what I needed, and were missing some features I wanted and modifying them would’ve taken even more time</li>
-<li>But of course this is also far from perfect, but we’ll get to that at the very end</li>
+<li>I needed to build this because existing simulators didn’t cover what I needed, and modifying them would’ve taken even more time</li>
+<li>Of course this is also far from perfect, but I think it turned out to be something very useful and flexible</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1759,8 +1761,8 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="experiment-setting" class="slide level2 smaller">
-<h2>Experiment Setting</h2>
+<section id="topologies" class="slide level2 smaller">
+<h2>Topologies</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
@@ -1795,7 +1797,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </div>
 <aside class="notes">
 <ul>
-<li>Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is quite overwhelming and not straightforward</li>
+<li>Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous</li>
 <li>So the results I’ll show here are those that I think most succinctly show that our approach can deliver on our goals</li>
 <li>To start off, these are the four topologies I conducted experiments over</li>
 <li>On the left are Abilene and Geant which are real network topologies, and on the right are two stylized graphs</li>
@@ -1812,35 +1814,23 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="experiment-setting-1" class="slide level2 smaller">
+<section id="experiment-setting" class="slide level2">
 <h2>Experiment Setting</h2>
+<div>
 <ul>
-<li>Content source for each <span class="math inline">\(k\)</span> is selected uniformly at random; content sources have infinite read rate</li>
-<li>Routing: Allow <span class="math inline">\(n\)</span> to forward requests for <span class="math inline">\(k\)</span> to any neighbor on <em>any</em> shortest path between <span class="math inline">\(n\)</span> and <span class="math inline">\(\mc{S}(k)\)</span> (in number of hops)</li>
-<li>All nodes have the same two cache tiers available</li>
-<li>Adapted replacement baselines: LRU, LFU, FIFO, RANDOM
-<ul>
-<li>LRU, FIFO and RANDOM cost-unaware, paired with LCE admission</li>
-<li>LFU has both aware and unaware adaptations, admission based on frequency</li>
-</ul></li>
-<li>All baseline caching policies paired with Least Response Time forwarding</li>
-<li>Nodes generate requests for some number of simulation seconds, simulation run terminates when all requests are resolved</li>
-<li>Virtual plane algorithm with slot length of 1 sec and sliding window of size <span class="math inline">\(T=100\)</span></li>
+<li class="fragment"><span class="math inline">\(\mc{S}(k)\)</span> are selected uniformly at random</li>
+<li class="fragment">Routing: <em>Any</em> shortest path (in number of hops) between <span class="math inline">\(n\)</span> and <span class="math inline">\(\mc{S}(k)\)</span></li>
+<li class="fragment">Two cache tiers at every node</li>
+<li class="fragment">Requests generated for 100 simulation seconds, run terminates when all requests are resolved</li>
+<li class="fragment">Virtual plane algorithm slot length of 1 second, sliding window of size 100 slots</li>
 </ul>
+</div>
 <div class="footer">
 <p>Experiments</p>
 </div>
 <aside class="notes">
 <ul>
-<li>Of course there are some additional assumptions that pertain to the experiment setting so let’s go over those</li>
-<li>Firstly, we pick the source for each object uniformly at random and we assume sources have infinite read rate; <em>this is not real world accurate since sources would also be holding objects in disks, but it helps to do this in simulations so we can focus on the caching side of things</em></li>
-<li>We assume routing is pre-determined, since it’s not in our scope here, and the given policy is simple: a node can forward requests for an object on any shortest path (in hops) between itself and the source node for that object.</li>
-<li><em>This may sound a bit limiting, but if we actually look at the topologies we’re dealing with, you can see that for a lot of source-destination pairs there is going to be many same-length shortest paths</em></li>
-<li>These experiments all have two tiers of cache at every node, <em>and this is again due to how large the parameter space is and comes from a point of trying to simplify that as much as possible</em></li>
-<li>Now, because there aren’t any policies, novel or established, we could directly compare against, we had to build our own baselines by adapting single-cache policies</li>
-<li>We adapted LRU, FIFO and RANDOM replacement but for these there isn’t a good way to incorporate costs, so those are cost-unaware and for admission they’re paired with the basic Leave Copy Everywhere policy</li>
-<li>We adapted LFU similarly, but also made a cost-aware LFU adaptation which uses a cache benefit metric similar to the one we devised for our aproach</li>
-<li>Least response time forwarding simply means that each node monitors, for each outgoing link, the delay of the last request sent over that link and satisfied, and chooses the link with the smallest delay to forward requests</li>
+<li>There are some additional assumptions that pertain to the experiment setting so let’s go over those</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1854,10 +1844,47 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="experiment-setting-2" class="slide level2 smaller">
+<section id="baselines" class="slide level2">
+<h2>Baselines</h2>
+<div>
+<ul>
+<li class="fragment">Adapted replacements: LRU, LFU, FIFO, RANDOM
+<ul>
+<li class="fragment">LRU, FIFO and RANDOM are cost-unaware, paired with Leave Copy Everywhere admission</li>
+<li class="fragment">LFU admission based on frequency
+<ul>
+<li class="fragment">Cost-aware LFU adaptation uses similar benefit metric</li>
+</ul></li>
+</ul></li>
+<li class="fragment">All baseline caching policies paired with Least Response Time forwarding</li>
+</ul>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Because there aren’t really any policies, novel or established, we could directly compare against, we adapted our own baselines from well-known single-cache policies</li>
+<li>We adapted LRU, FIFO and RANDOM replacement but for these there isn’t a good metric to incorporate costs, so those are cost-unaware and for admission they’re paired with the basic Leave Copy Everywhere policy</li>
+<li>We adapted LFU similarly, but also made a cost-aware LFU adaptation which uses a cache benefit metric similar to the one we devised for our aproach</li>
+<li>Least response time forwarding simply chooses the link with smallest delay for last satisfied request</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="experiment-setting-1" class="slide level2 smaller">
 <h2>Experiment Setting</h2>
 <table>
-<caption>Parameters for all topologies</caption>
+<caption>Common parameters for all scenarios</caption>
 <colgroup>
 <col style="width: 10%">
 <col style="width: 80%">
@@ -1892,31 +1919,26 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <td style="text-align: center;">10</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(|\mc{J}_n|\)</span></td>
-<td style="text-align: center;">Number of cache tiers at each <span class="math inline">\(n\)</span></td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(L_{n_1}\)</span></td>
 <td style="text-align: center;">Capacity of tier 1 at each <span class="math inline">\(n\)</span>, in objects</td>
 <td style="text-align: center;">5</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(r_{n_1}\)</span></td>
 <td style="text-align: center;">Read rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
 <td style="text-align: center;">20</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(c^a_{n_1}\)</span>, <span class="math inline">\(c^e_{n_1}\)</span></td>
 <td style="text-align: center;">Admission and eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
 <td style="text-align: center;">4, 2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: center;"><span class="math inline">\(r_{n_2}\)</span></td>
 <td style="text-align: center;">Read rate of tier 2 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
 <td style="text-align: center;">10</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(c^a_{n_2}\)</span>, <span class="math inline">\(c^e_{n_2}\)</span></td>
 <td style="text-align: center;">Admission and eviction costs of tier 2 at each <span class="math inline">\(n\)</span></td>
 <td style="text-align: center;">2, 1</td>
