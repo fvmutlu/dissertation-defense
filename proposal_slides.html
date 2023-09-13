@@ -578,7 +578,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, Shi, J., Pesavento, D., &amp; Benmohamed, L, ACM ICN 2020.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020</p></li></ol></aside></section>
 <section id="the-capacity-challenge" class="slide level2">
 <h2>The Capacity Challenge</h2>
 <div>
@@ -1095,13 +1095,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="virtual-plane-model" class="slide level2">
 <h2>Virtual Plane Model</h2>
 <p>Virtual plane model based on (Yeh, 2014):</p>
+<div>
 <ul>
-<li><em>Virtual interest packets (VIPs)</em> generated alongside exogenous requests</li>
-<li>Every node keeps a <span class="body-highlight">VIP counter</span> for every object <span class="math inline">\(\kin\)</span></li>
-<li>VIPs are removed at object sources and caching nodes</li>
-<li>Discrete time slots <span class="math inline">\(t = \{1,2,...\}\)</span></li>
-<li>Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects</li>
+<li class="fragment"><em>Virtual interest packets (VIPs)</em> generated alongside exogenous requests</li>
+<li class="fragment">Every node keeps a <span class="body-highlight">VIP counter</span> for every object <span class="math inline">\(\kin\)</span></li>
+<li class="fragment">VIPs are removed at object sources and caching nodes</li>
+<li class="fragment">Discrete time slots <span class="math inline">\(t = \{1,2,...\}\)</span></li>
+<li class="fragment">Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects</li>
 </ul>
+</div>
 <div class="footer">
 <p>System Model</p>
 </div>
@@ -1203,7 +1205,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
        0, &amp; \text{otherwise}
    \end{array} \right.
 \end{equation}\]</span>
-Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inline">\(p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)\)</span>
+<span class="fragment">Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inline">\(p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)\)</span></span>
 <hr>
 <div class="columns">
 <div class="column" style="font-size: 75%;">
@@ -1218,6 +1220,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <aside class="notes">
 <ul>
 <li>This definition shows how caching actions translate to penalties incurred</li>
+<li>(Fragment in) We’ll also be concerned with the sum penalty across the network</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1251,6 +1254,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <section id="optimization-goal" class="slide level2">
 <h2>Optimization Goal</h2>
 <p><em>“Operate close to VIP network stability region boundary while keeping sum penalty small.”</em></p>
+<div class="fragment" data-fragment-index="1">
 <p>Minimize upper bound of <span class="body-highlight">drift-plus-penalty</span><sup>1</sup> expression:</p>
 <span class="math display">\[\begin{equation}
     \drift + \omega \pen
@@ -1261,13 +1265,14 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <span class="math display">\[\begin{equation}
     \mc{L}(\mathbf{V}(t)) \triangleq \sum\limits_{\nin, \kin} (V^k_n(t))^2
 \end{equation}\]</span>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
 <aside class="notes">
 <ul>
 <li>The goal of our optimization in the virtual plane, is to operate as close as possible to the boundary of the stability region (which we will define formally later) of the network of VIP queues, while keeping penalties accumulated small</li>
-<li>So in this way, we’re not trying to make a precisely optimal decision each time slot, but rather we’re trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely</li>
+<li>(Fragment in) So in this way, we’re not trying to make a precisely optimal decision each time slot, but rather we’re trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1280,7 +1285,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>“Energy optimal control for time-varying wireless networks.”, Neely, M. J, IEEE Trans. Inf. Theory, 2006.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p><span class="fragment" data-fragment-index="1">“Energy optimal control for time-varying wireless networks.”, M. J. Neely, IEEE Trans. Inf. Theory, 2006.</span></p></li></ol></aside></section>
 <section id="virtual-plane-caching" class="slide level2">
 <h2>Virtual Plane Caching</h2>
 <p>Beginning of each slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> and perform <span class="body-highlight">caching</span> by choosing <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and each <span class="math inline">\(j \in \mathcal{J}_n\)</span> with capacity <span class="math inline">\(L_{n_j}\)</span> to:</p>
@@ -1399,17 +1404,24 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </section>
 <section id="theorem-trade-off" class="slide level2 smaller">
 <h2>Theorem: Trade-off</h2>
-<p>Given VIP arrival rate vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following:</p>
+<p>For arrival rate vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following:</p>
+<div style="font-size: 110%;">
 <span class="math display">\[\begin{equation}
     \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
 \end{equation}\]</span>
 <span class="math display">\[\begin{equation}
     \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
 \end{equation}\]</span>
+</div>
+<div class="fragment" style="font-size: 80%;">
 <span class="math display">\[\begin{equation}
     B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
 \end{equation}\]</span>
-<p><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span> is the minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.</p>
+<span class="math display">\[\begin{equation}
+\epsilon \triangleq \textstyle \min_{\nin,\kin} \epsilon^k_n
+\end{equation}\]</span>
+<p><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span>: Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.</p>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1906,8 +1918,8 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="experiment-setting-1" class="slide level2 smaller">
-<h2>Experiment Setting</h2>
+<section id="parameter-reference-table" class="slide level2 smaller">
+<h2>Parameter Reference Table</h2>
 <table>
 <caption>Common parameters for all scenarios</caption>
 <colgroup>
@@ -2127,7 +2139,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </section>
 <section id="improvements" class="slide level2">
 <h2>Improvements</h2>
-<p>There is still room for improvement</p>
+<p>There is still room for improvement:</p>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -2158,12 +2170,14 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </section>
 <section id="improvements-1" class="slide level2">
 <h2>Improvements</h2>
+<p>There is still room for improvement:</p>
 <div>
 <ul>
 <li class="fragment">Modeling of cache read rates</li>
 <li class="fragment">Equal object sizes assumption</li>
 <li class="fragment">Virtual plane - data plane gap</li>
 <li class="fragment">Cache exclusivity assumption</li>
+<li class="fragment">Better scalable simulator</li>
 </ul>
 </div>
 <div class="footer">

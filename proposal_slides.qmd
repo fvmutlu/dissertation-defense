@@ -119,7 +119,7 @@ Introduction
     -   20 gigabytes ($2 \times 10^{10}$ bytes) of DRAM cache space at each node
     -   "Increasing capacities via NVMe SSDs require novel caching strategies" (NDN-DPDK forwarder paper[^ndndpdk])
 
-[^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", Shi, J., Pesavento, D., & Benmohamed, L, ACM ICN 2020.
+[^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020
 
 ::: {.footer}
 Introduction
@@ -437,11 +437,13 @@ System Model
 ## Virtual Plane Model
 Virtual plane model based on (Yeh, 2014):
 
+::: {.incremental}
 -  *Virtual interest packets (VIPs)* generated alongside exogenous requests
 -  Every node keeps a [VIP counter]{.body-highlight} for every object $\kin$
 -  VIPs are removed at object sources and caching nodes
 -  Discrete time slots $t = \{1,2,...\}$
 -  Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects
+:::
 
 ::: {.footer}
 System Model
@@ -521,7 +523,7 @@ Penalty incurred by caching action $s^k_{n_j}(t)$:
    \end{array} \right.
 \end{equation}
 ```
-Sum penalty during $t$: $p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$
+[Sum penalty during $t$: $p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$]{.fragment}
 <hr>
 
 ::: columns
@@ -540,6 +542,7 @@ System Model
 
 ::: {.notes}
 - This definition shows how caching actions translate to penalties incurred
+- (Fragment in) We'll also be concerned with the sum penalty across the network
 :::
 
 # Virtual Plane Optimization
@@ -551,6 +554,7 @@ With the system model described, we will now look at our control algorithm in th
 ## Optimization Goal
 *"Operate close to VIP network stability region boundary while keeping sum penalty small."*
 
+::: {.fragment fragment-index=1}
 Minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression:
 ```{=tex}
 \begin{equation}
@@ -567,8 +571,9 @@ Minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression:
     \mc{L}(\mathbf{V}(t)) \triangleq \sum\limits_{\nin, \kin} (V^k_n(t))^2
 \end{equation}
 ```
+:::
 
-[^dpp]: "Energy optimal control for time-varying wireless networks.", Neely, M. J, IEEE Trans. Inf. Theory, 2006.
+[^dpp]: ["Energy optimal control for time-varying wireless networks.", M. J. Neely, IEEE Trans. Inf. Theory, 2006.]{.fragment fragment-index=1}
 
 ::: {.footer}
 Optimization Framework
@@ -576,7 +581,7 @@ Optimization Framework
 
 ::: {.notes}
 - The goal of our optimization in the virtual plane, is to operate as close as possible to the boundary of the stability region (which we will define formally later) of the network of VIP queues, while keeping penalties accumulated small
-- So in this way, we're not trying to make a precisely optimal decision each time slot, but rather we're trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely
+- (Fragment in) So in this way, we're not trying to make a precisely optimal decision each time slot, but rather we're trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely
 :::
 
 ## Virtual Plane Caching
@@ -682,7 +687,9 @@ Optimization Framework
 
 ## Theorem: Trade-off {.smaller}
 
-Given VIP arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\epsilon}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then the network of VIP queues under the proposed algorithm satisfies the following:
+For arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\epsilon}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then the network of VIP queues under the proposed algorithm satisfies the following:
+
+::: {style="font-size: 110%;"}
 ```{=tex}
 \begin{equation}
     \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
@@ -693,12 +700,22 @@ Given VIP arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymb
     \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
 \end{equation}
 ```
+:::
+
+::: {.fragment style="font-size: 80%;"}
 ```{=tex}
 \begin{equation}
     B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
 \end{equation}
 ```
-$\Psi(\boldsymbol{\lambda})$ is the minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.
+```{=tex}
+\begin{equation}
+\epsilon \triangleq \textstyle \min_{\nin,\kin} \epsilon^k_n
+\end{equation}
+```
+
+$\Psi(\boldsymbol{\lambda})$: Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.
+:::
 
 ::: {.footer}
 Optimization Framework
@@ -1041,7 +1058,7 @@ Experiments
 - Least response time forwarding simply chooses the link with smallest delay for last satisfied request
 :::
 
-## Experiment Setting {.smaller}
+## Parameter Reference Table {.smaller}
 
 | Parameter | Description | Value |
 |:-:|:-:|:-:|
@@ -1144,7 +1161,7 @@ Experiments
 
 ## Improvements
 
-There is still room for improvement
+There is still room for improvement:
 
 ::: {.fragment}
 ![](images/big-room.webp){width=65% height=65% fig-align="center"}
@@ -1163,11 +1180,14 @@ Super Funny Joke
 
 ## Improvements
 
+There is still room for improvement:
+
 ::: {.incremental}
 - Modeling of cache read rates
 - Equal object sizes assumption
 - Virtual plane - data plane gap
 - Cache exclusivity assumption
+- Better scalable simulator
 :::
 
 ::: {.footer}
