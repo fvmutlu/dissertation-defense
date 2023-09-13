@@ -1291,20 +1291,28 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="virtual-plane-forwarding-algorithm" class="slide level2 smaller">
+<section id="virtual-plane-forwarding-algorithm" class="slide level2">
 <h2>Virtual Plane Forwarding Algorithm</h2>
-<p>Beginning of each slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> and perform <span class="body-highlight">forwarding</span>:</p>
-<ul>
-<li>Let <span class="math inline">\(\mc{L}^k\)</span> be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span>, choose <span class="math inline">\(\mu^k_{ab}(t)\)</span> to:</li>
-</ul>
+<p>Perform <span class="body-highlight">forwarding</span> as in (Yeh, 2014), by choosing <span class="math inline">\(\mu^k_{ab}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin\)</span>:</p>
+<div style="font-size: 70%;">
 <span class="math display">\[\begin{align}
     \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
+        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
     \text{subject to}
         &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \forall \, \abin \\
         &amp; \quad \mu^k_{ab}(t) \geq 0, \; \forall \, \kin, \; \abin \\
         &amp; \quad \mu^k_{ab}(t) = 0, \; \forall \, \kin, \; (a,b) \not \in \mc{L}^k
 \end{align}\]</span>
+</div>
+<hr>
+<div class="columns">
+<div class="column" style="font-size: 70%;">
+<p><span class="math inline">\(\mc{L}\)</span>: Set of links in network</p>
+<p><span class="math inline">\(C_{ab}\)</span>: Capacity of link <span class="math inline">\((a,b)\)</span></p>
+</div><div class="column" style="font-size: 70%;">
+<p><span class="math inline">\(\mc{L}^k\)</span>: Set of links allowed to transmit VIPs of <span class="math inline">\(k\)</span>, determined by routing policy</p>
+</div>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1325,38 +1333,25 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="analysis" class="slide level2 smaller">
-<h2>Analysis</h2>
-<p>The VIP <span class="body-highlight">stability region</span> <span class="math inline">\(\Lambda\)</span> of the network <span class="math inline">\(\mc{G} = (\mc{N},\mc{L})\)</span>, is the set <span class="math inline">\(\Lambda\)</span> consisting of all VIP arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that the following holds:</p>
+<section id="theorem-stability-region" class="slide level2">
+<h2>Theorem: Stability Region</h2>
+<p>VIP <span class="body-highlight">stability region</span> <span class="math inline">\(\Lambda\)</span> consists of all arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that:</p>
+<div style="font-size: 80%;">
 <span class="math display">\[\begin{equation}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \; \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind
 \end{equation}\]</span>
-<table>
-<colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(f^k_{ab}\)</span></td>
-<td style="text-align: left;">Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mc{B}_{n,i}\)</span></td>
-<td style="text-align: left;">i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\beta_{n,i}\)</span></td>
-<td style="text-align: left;">Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span></td>
-</tr>
-</tbody>
-</table>
+</div>
+<hr>
+<div style="font-size: 70%; text-align: center">
+<p><span class="math inline">\(f^k_{ab}\)</span>: Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></p>
+</div>
+<div class="columns">
+<div class="column" style="font-size: 70%;">
+<p><span class="math inline">\(\mc{B}_{n,i}\)</span>: i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1</p>
+</div><div class="column" style="font-size: 70%;">
+<p><span class="math inline">\(\beta_{n,i}\)</span>: Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span></p>
+</div>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1377,8 +1372,8 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="analysis-1" class="slide level2 smaller">
-<h2>Analysis</h2>
+<section id="theorem-trade-off" class="slide level2 smaller">
+<h2>Theorem: Trade-off</h2>
 <p>Given VIP arrival rate vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following:</p>
 <span class="math display">\[\begin{equation}
     \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen

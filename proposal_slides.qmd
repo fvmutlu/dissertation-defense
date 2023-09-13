@@ -584,20 +584,35 @@ Optimization Framework
 - However, we also want to make sure that our choices in caching actions do not add large penalties that outweigh the benefits. Of course the importance of that is determined by omega.
 :::
 
-## Virtual Plane Forwarding Algorithm {.smaller}
-Beginning of each slot $t$, at each node $n$, observe $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ and perform [forwarding]{.body-highlight}:
+## Virtual Plane Forwarding Algorithm
+Perform [forwarding]{.body-highlight} as in (Yeh, 2014), by choosing $\mu^k_{ab}(t)$ for each $\kin$ and $\abin$:
 
-- Let $\mc{L}^k$ be the set of links which are allowed to transmit VIPs of object k, determined by a routing policy. For each $\kin$ and $\abin^k$, choose $\mu^k_{ab}(t)$ to:
+::: {style="font-size: 70%;"}
 ```{=tex}
 \begin{align}
     \text{maximize}
-        & \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
+        & \quad \sum\limits_{\kin} \sum\limits_{\abin} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
     \text{subject to} 
         & \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \forall \, \abin \\
         & \quad \mu^k_{ab}(t) \geq 0, \; \forall \, \kin, \; \abin \\
         & \quad \mu^k_{ab}(t) = 0, \; \forall \, \kin, \; (a,b) \not \in \mc{L}^k
 \end{align}
 ```
+:::
+<hr>
+
+::: columns
+::: {.column width="50%" style="font-size: 70%;"}
+$\mc{L}$: Set of links in network
+
+$C_{ab}$: Capacity of link $(a,b)$
+:::
+::: {.column width="50%" style="font-size: 70%;"}
+$\mc{L}^k$: Set of links allowed to transmit VIPs of $k$, determined by routing policy
+:::
+:::
+
+
 
 ::: {.footer}
 Optimization Framework
@@ -608,21 +623,31 @@ Optimization Framework
 - The intuition here again comes from thinking of VIP counts as potential representing unsatisfied demand. So with the forwarding step, we're making sure VIP flows follow large differences in potential, essentially steering interests toward sinks, meaning sources or caches.
 :::
 
-## Analysis {.smaller}
+## Theorem: Stability Region
 
-The VIP [stability region]{.body-highlight} $\Lambda$ of the network $\mc{G} = (\mc{N},\mc{L})$, is the set $\Lambda$ consisting of all VIP arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that the following holds:
+VIP [stability region]{.body-highlight} $\Lambda$ consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
+
+::: {style="font-size: 80%;"}
 ```{=tex}
 \begin{equation}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind, \; \forall \nin, \; \kin, \; n \not = \mc{S}(k)
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} + \sum\limits_{\jin} r_{n_j} \betasumind
 \end{equation}
 ```
+:::
+<hr>
 
-| Notation | Definition |
-|:--:|:--------|
-|$f^k_{ab}$|Time-average VIP flow for $k$ over $(a,b)$|
-|$\mc{B}_{n,i}$|i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1|
-|$\beta_{n,i}$|Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$|
+::: {style="font-size: 70%; text-align: center"}
+$f^k_{ab}$: Time-average VIP flow for $k$ over $(a,b)$
+:::
 
+::: columns
+::: {.column width="50%" style="font-size: 70%;"}
+$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1
+:::
+::: {.column width="50%" style="font-size: 70%;"}
+$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$
+:::
+:::
 
 ::: {.footer}
 Optimization Framework
@@ -633,7 +658,7 @@ Optimization Framework
 - The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rate that can be satisfied contingent on the long term average VIP flow over links, as well as VIPs removed via cache tiers.
 :::
 
-## Analysis {.smaller}
+## Theorem: Trade-off {.smaller}
 
 Given VIP arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\epsilon}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then the network of VIP queues under the proposed algorithm satisfies the following:
 ```{=tex}
