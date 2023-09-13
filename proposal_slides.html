@@ -1500,7 +1500,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </div>
 <aside class="notes">
 <ul>
-<li>Now please recall the assumption we made in our model that every data object has the same size, because it is critical here.</li>
+<li>Now recall the assumption we made in our model that every data object has the same size, because it is critical here.</li>
 <li>Using that assumption, we can think of each cache tier as made up of several “cache slots” that can each take one object, depending of course on the total capacity of the tier. Each of these cache slots of course have the same read rate and cost parameters as the tier it belongs in.</li>
 <li>Now, also recall the cache exclusivity constraint of the original problem. We can easily see that exclusivity across tiers directly translates to exclusivity across these cache slots.</li>
 <li>Using these facts we can rewrite the problem again, this time in the form of a linear assignment problem.</li>
@@ -1557,25 +1557,39 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <section>
 <section id="data-plane-strategy" class="title-slide slide level1 center">
 <h1>Data Plane Strategy</h1>
-
-</section>
-<section id="transition-to-data-plane" class="slide level2">
-<h2>Transition to Data Plane</h2>
-<p>There are several considerations when applying our approach in the data plane:</p>
+<aside class="notes">
 <ul>
-<li>Per-packet forwarding and caching decisions</li>
-<li>Assumption of immediate access to any object for caching purposes does not hold</li>
-<li><span class="body-highlight">Oscillatory</span><sup>1</sup> nature of VIP counts impractical for data plane caching</li>
+<li>So there are several things about applying this virtual plane algorithm within the mechanics of the data plane</li>
+<li>Most obvious is that virtual plane decisions are made in discrete time slots, but of course the data plane decisions have to be reactive and continuous</li>
+<li>(Next slide)</li>
 </ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="data-plane-caching" class="slide level2">
+<h2>Data Plane Caching</h2>
+<p><span class="body-highlight">Oscillatory</span><sup>1</sup> nature of VIP counts impractical for data plane caching. Adapt <span class="body-highlight">cache score</span> metric from (Yeh, 2014), defined over sliding window of <span class="math inline">\(T\)</span> slots:</p>
+<span class="math display">\[\begin{equation}
+    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
+\end{equation}\]</span>
+<p><span class="math inline">\(\mc{v}^k_{ab}\)</span>: Number of VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></p>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
 <aside class="notes">
 <ul>
-<li>So first off, there are several things about using the virtual plane algorithm with the mechanics of the data plane</li>
-<li>The virtual plane decisions are made in discrete time slots, but of course the data plane decisions have to be reactive and continuous</li>
-<li>Another major point is that, for caching decisions, when we change the relevant variables in the virtual plane, we inherently assume that we can have access to that object immediately, this obviously won’t hold in the data plane</li>
-<li>Finally, there’s an observation made in the original VIP paper about VIP counts which applies here, which is that they are oscillatory. Because VIP counts change frequently and drastically, cache states also tend to change quickly. Basing caching on this behavior directly is impractical in the data plane.</li>
+<li>But there is another major consideration</li>
+<li>Because VIP counts change frequently and drastically, cache states also tend to change quickly. Basing caching on this behavior directly is impractical in the data plane, especially given that we’re now working with slower caches and considering costs, so we’re trying to be conservative in the replacements we make.</li>
+<li>So we adapt this cache score metric</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1589,50 +1603,30 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn3"><p>When the VIP count for an object becomes large, we make decisions in the virtual plane that will quickly drive the count down.</p></li></ol></aside></section>
-<section id="data-plane-caching" class="slide level2 smaller">
+<section id="data-plane-caching-1" class="slide level2">
 <h2>Data Plane Caching</h2>
-<p>Define the <span class="body-highlight">cache score</span> metric as in (Yeh, 2014):</p>
+<p>Define the <span class="body-highlight">cache benefit</span> metric as follows:</p>
+<div style="font-size: 75%;">
 <span class="math display">\[\begin{equation}
-    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
+    CB^k_{n_j}(t) = \begin{cases}
+        \begin{array}{l}
+             r_{n_j}(CS^k_n(t) - CS^{k^{min}_{n_j}(t)}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
+             r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
+        \end{array}
+    \end{cases}
 \end{equation}\]</span>
-<p>Define the <span class="body-highlight">eviction target</span> for tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> as follows:</p>
+</div>
 <span class="math display">\[\begin{equation}
    k^{min}_{n_j}(t) = \argmin_{\{k \in \mc{K}_{n_j}(t)\}} CS^k_n(t)
 \end{equation}\]</span>
-<hr>
-<table>
-<colgroup>
-<col style="width: 23%">
-<col style="width: 76%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mc{v}^k_{ab}\)</span></td>
-<td style="text-align: left;">Actual number of VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(T\)</span></td>
-<td style="text-align: left;">Size of sliding window in time slots</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mc{K}_{n_j}(t)\)</span></td>
-<td style="text-align: left;">Set of objects cached in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-</tbody>
-</table>
+<p><span class="math inline">\(\mc{K}_{n_j}(t)\)</span>: Set of objects cached in <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span>, in the data plane</p>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
 <aside class="notes">
 <ul>
-<li>So to address all of these, we begin by adopting the cache score metric, which is based on a sliding window average of received VIPs</li>
-<li>Then we define the eviction target for each cache tier, as shown in the second expression on screen</li>
+<li>But then, because we also consider costs, we need a metric that incorporates those</li>
+<li>So we define this cache benefit metric, which includes both the cache score and weighted utilization costs</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1646,18 +1640,9 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="data-plane-caching-1" class="slide level2 smaller">
+<section id="data-plane-caching-2" class="slide level2">
 <h2>Data Plane Caching</h2>
-<p>Define the <span class="body-highlight">cache benefit</span> metric as follows:</p>
-<span class="math display">\[\begin{equation}
-    CB^k_{n_j}(t) = \begin{cases}
-        \begin{array}{l}
-             r_{n_j}(CS^k_n(t) - CS^{k^{min}_{n_j}(t)}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
-             r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
-        \end{array}
-    \end{cases}
-\end{equation}\]</span>
-<p>When data object <span class="math inline">\(k \not \in \mc{K}_{n_j}(t)\)</span> arrives at <span class="math inline">\(n\)</span> during slot <span class="math inline">\(t\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
+<p>When <span class="math inline">\(k \not \in \mc{K}_{n_j}(t)\)</span> arrives at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <ul>
 <li>Find cache tier offering highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
 <li>If <span class="math inline">\(CB^k_{n_{j^*}}(t) &gt; 0\)</span>, admit object into tier <span class="math inline">\(j^*\)</span>
@@ -1669,22 +1654,6 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Of course, because we also consider costs, we need a metric that incorporates those, in other words, balances cache scores against weighted penalties, whether it be for admission or replacement; we call this the cache benefit metric</li>
-<li>Now that the defined this, here’s the operation of the data plane caching policy</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="data-plane-forwarding" class="slide level2">
 <h2>Data Plane Forwarding</h2>
