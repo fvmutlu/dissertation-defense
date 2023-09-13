@@ -72,8 +72,7 @@ Introduction
 
 ::: {.notes}
 - To begin, here's a brief overview of my primary research that I will present today.
-- First off, for context, my work is based on the Information-centric Networking paradigm, or ICN for short.
-- The Internet today is built on communication network principles, but its primary use is data distribution, so ICN aims to steer it in that direction by making data the primary entity of the network, rather than endpoints.
+- First off, for context, my work is based on the Information-centric Networking paradigm.
 - In particular, I'm targeting a core functionality of ICNs called in-network caching, which lets every router in the network maintain its own cache, making caching decentralized and more scalable.
 - However, my work is also applicable within today's Internet, especially for systems like CDNs, where it could be used as an overlay.
 - The main motivation for my work is simply that the volume of data continuously grows, but the capacities of our caches are somewhat stagnant.
@@ -235,6 +234,7 @@ Introduction
 - However, adding the last tier, even though it expands our total cache capacity, impacts delay negatively
 - Because what I just explained does not hold for the third tier since its much larger and much slower
 - So we end up trading the delay that would occur on the server link with worse read delay on the third tier.
+- In summary, larger and slower caches are viable, but we have to be careful in managing them.
 :::
 
 ## The Cost Challenge
@@ -285,7 +285,8 @@ Introduction
 :::
 
 ::: {.notes}
-- Finally, we look at the question of, we can handle caching adequately, how can we make sure we're actually making the most of those caches in the network?
+- Finally, we look at the question of how can we make sure we're actually making the most of caches in the network?
+- Because, now that we're adding larger caches that are difficult to operate, and also adding costs into the equation, we really want to make sure we're getting the benefits.
 - This is where the act of tying caching and forwarding together comes in. 
 :::
 
@@ -306,7 +307,7 @@ Introduction
 :::
 
 ::: {.notes}
-- Now, having looked at these considerations, let's reiterate our goal.
+- Now, having looked at these considerations, let's make our goal more explicit.
 :::
 
 ## Related Work: ICN
@@ -340,14 +341,21 @@ Related Work
 Related Work
 :::
 
+::: {.notes}
+- Obviously, there are a lot more works that explore similar problems from different angles. I can't go into everything at the moment, but I still wanted to put these other works from the ICN literature in
+:::
+
 ## Related Work: HSS
 
 -  *"AutoTiering: automatic data placement manager in multi-tier all-flash datacenter"*, Z. Yang, et al., IPCCC 2017
--  *"Hybrid storage systems: a survey of architectures and algorithms"*, J. Niu, et al., IEEE Access 6 2018
 -  *"Sibyl: Adaptive and extensible data placement in hybrid storage systems using online reinforcement learning"*, G. Singh, et al., ISCA 2022 
 
 ::: {.footer}
 Related Work
+:::
+
+::: {.notes}
+- As well as these works from the more tangentially related hybrid storage systems literature
 :::
 
 ## Related Work: VIP
@@ -366,7 +374,7 @@ Related Work
 ::: {.notes}
 - Lastly, perhaps the single most important related work to cover here is the VIP paper by Prof. Yeh and co-authors, as my work directly extends this paper.
 - So let me go over why that is.
-- Recall the earlier paper I mentioned about coupling caching and forwarding; coincidentally these two papers appeared in the same conference and the VIP paper proposed a strategy that does exactly that, which suits our goals as well.
+- Recall the earlier paper I mentioned about coupling caching and forwarding; coincidentally the VIP paper also appeared in the same conference and proposed a strategy that does exactly that, which suits our goals.
 - Furthermore, this paper includes the read capacities of cache devices in its system model, which is one of the parameters of primary concern to us.
 - The core feature of this paper is a separation of the data plane mechanisms from the "virtual plane", where control decisions take place, which we also adopt as it makes building these strategies simpler.
 - Finally, there is a technical benefit here because the analysis for VIP is based on Lyapunov drift, which has an extension called drift-plus-penalty, that gives us a direct venue for incorporating cache utilization costs.
@@ -430,7 +438,7 @@ System Model
 ::: {.notes}
 - The multi-tiered caching model I propose adds the following properties to those basic mechanisms.
 - Any node can have cache tiers and can cache any object in one of those tiers unless it already sources that object.
-- A node can cache an object in at most one of its tiers. This means that we don't duplicate objects across cache tiers. This is a crucial constraint we'll also need to remember for later.
+- A node can cache an object in at most one of its tiers. This means that we don't duplicate objects across cache tiers. This is also something critical to keep in mind.
 - An object evicted from one tier can migrate to another tier at the same node. So an eviction from one tier is not necessarily final for an object.
 :::
 
@@ -452,8 +460,8 @@ System Model
 ::: {.notes}
 - Now, on to the virtual plane model, which is largely based on the original VIP paper. We'll go over it briefly.
 - First off, anytime an exogenous request enters the data plane network, a virtual interest packet (VIP for short) is generated in the virtual plane at that node. These VIPs can only be removed at sources or caching points.
-- Each node maintains a VIP counter for each object in the network. We can interpret these counts as queues that describe unsatisfied demand for objects. Another useful way to think of VIP counts is as a "potential" value, where the potential is high at request entry points and low at sources and caching points. We'll refer back to this interpretation later.
-- We're considering integer time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot and network state changes via events that happen in the data plane within the window from the beginning of one time slot to the next.
+- Each node maintains a VIP counter for each object in the network. We can interpret these counts as queues that describe unsatisfied demand for objects. Another useful way to think of these counters is as "potential" values, much like electrical potential, where the potential is high at request entry points and low at sources and caching points.
+- We're considering discrete time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot.
 :::
 
 ## Virtual Plane Model
@@ -1186,7 +1194,7 @@ There is still room for improvement:
 - Modeling of cache read rates
 - Equal object sizes assumption
 - Virtual plane - data plane gap
-- Cache exclusivity assumption
+- Cache exclusivity constraint
 - Better scalable simulator
 :::
 
@@ -1308,13 +1316,10 @@ I also wanted to make "mind the gap" joke but there wasn't a good place for it
 
 ## Cache Exclusivity
 
-Useful in view of [interest aggregation]{.body-highlight}[^+], but very restrictive:
+This constraint is reasonable, but very restrictive:
 
--  Without interest aggregation, duplicates across tiers could extend bandwidth
--  Removing cache exclusivity could also help with upward migration problem
--  Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary
-
-[^+]: When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won't send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.
+-  Duplicates across tiers could extend bandwidth (SPDK, peer-to-peer DMA)
+-  Minimal analytical implications, true impact can only be evaluated via experimentation
 
 ::: {.footer}
 Proposed Work
@@ -1332,7 +1337,7 @@ Proposed Work
 Proposed Work
 :::
 
-# Conclusion & Other Contributions
+# Conclusion & Other Work
 
 ## Conclusion
 
@@ -1351,7 +1356,39 @@ Conclusion & Other Work
 - We're currently revising the paper for the upcoming ICC
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets
+
+- Delay minimization in multi-hop wireless HetNets via caching and power control (led by Derya Malak)
+
+<img src="images/hetnet.svg" style="display: block; margin-left: auto; margin-right: auto; width: 40%; height: 40%;">
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets
+
+- Delay minimization in multi-hop wireless HetNets via caching and power control
+- Contributed with:
+    - Joint convexity analysis of optimization problem
+    - Projected subgradient method algorithm for finding local minima
+    - Simulator built in Julia, numerical experiments using said simulator
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Other Work
+
+- N-DISE (led by Yuanhao Wu and Prof. Yeh):
+    - Helped build and test N-DISE WAN deployment
+    - Helped with demonstrations during SC19, SC21 and SC22
+    - Built local testbed for prototyping and preliminary experiments
+- Energy minimization in HetNets (led by Jinkun Zhang, small contribution)
+
+# Thanks & Questions
+
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 
 ::: columns
 ::: {.column width=50%}
@@ -1373,7 +1410,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 
 **Optimization**: Minimize total delay of user requests:
 
@@ -1393,7 +1430,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 
 **Optimization**: Minimize total delay of user requests:
 
@@ -1414,7 +1451,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 
 **Optimization**: Minimize total delay of user requests:
 
@@ -1441,7 +1478,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 
 **Optimization**: Minimize total delay of user requests:
 
@@ -1459,7 +1496,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 ::: columns
 ::: {.column width=50%}
 Use projected subgradient method to solve for local minima in general case
@@ -1501,7 +1538,7 @@ Use projected subgradient method to solve for local minima in general case
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
 ![&emsp;&emsp;&emsp;&emsp; Power budget](images/hetnet_result1.svg){width="55%" height="55%"}
@@ -1510,7 +1547,7 @@ Experimental results under different scenarios compare performance against basel
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
 ![&emsp;&emsp;&emsp;&emsp; SC cache capacity](images/hetnet_result3.svg){width="55%" height="55%"}
@@ -1519,7 +1556,7 @@ Experimental results under different scenarios compare performance against basel
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 
 ![&emsp;&emsp;&emsp;&emsp; Zipf parameter](images/hetnet_result2.svg){width="55%" height="55%"}
@@ -1527,8 +1564,6 @@ Experimental results under different scenarios compare performance against basel
 ::: {.footer}
 Conclusion & Other Work
 :::
-
-# Thanks & Questions
 
 # Appendices {visibility="uncounted"}
 

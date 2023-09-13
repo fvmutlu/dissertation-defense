@@ -2176,7 +2176,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li class="fragment">Modeling of cache read rates</li>
 <li class="fragment">Equal object sizes assumption</li>
 <li class="fragment">Virtual plane - data plane gap</li>
-<li class="fragment">Cache exclusivity assumption</li>
+<li class="fragment">Cache exclusivity constraint</li>
 <li class="fragment">Better scalable simulator</li>
 </ul>
 </div>
@@ -2324,16 +2324,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="cache-exclusivity" class="slide level2">
 <h2>Cache Exclusivity</h2>
-<p>Useful in view of <span class="body-highlight">interest aggregation</span><sup>1</sup>, but very restrictive:</p>
+<p>This constraint is reasonable, but very restrictive:</p>
 <ul>
-<li>Without interest aggregation, duplicates across tiers could extend bandwidth</li>
-<li>Removing cache exclusivity could also help with upward migration problem</li>
-<li>Without this constraint, algorithm operates over individual tiers independently; reduced complexity, adaptations to baselines unnecessary</li>
+<li>Duplicates across tiers could extend bandwidth (SPDK, peer-to-peer DMA)</li>
+<li>Minimal analytical implications, true impact can only be evaluated via experimentation</li>
 </ul>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
+</section>
 <section id="better-experiments" class="slide level2">
 <h2>Better Experiments</h2>
 <div>
@@ -2348,8 +2347,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 </section></section>
 <section>
-<section id="conclusion-other-contributions" class="title-slide slide level1 center">
-<h1>Conclusion &amp; Other Contributions</h1>
+<section id="conclusion-other-work" class="title-slide slide level1 center">
+<h1>Conclusion &amp; Other Work</h1>
 
 </section>
 <section id="conclusion" class="slide level2">
@@ -2381,7 +2380,49 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="power-caching-in-wireless-hetnets" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets" class="slide level2">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<ul>
+<li>Delay minimization in multi-hop wireless HetNets via caching and power control (led by Derya Malak)</li>
+</ul>
+<p><img src="images/hetnet.svg" style="display: block; margin-left: auto; margin-right: auto; width: 40%; height: 40%;"></p>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
+</section>
+<section id="power-caching-in-wireless-hetnets-1" class="slide level2">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<ul>
+<li>Delay minimization in multi-hop wireless HetNets via caching and power control</li>
+<li>Contributed with:
+<ul>
+<li>Joint convexity analysis of optimization problem</li>
+<li>Projected subgradient method algorithm for finding local minima</li>
+<li>Simulator built in Julia, numerical experiments using said simulator</li>
+</ul></li>
+</ul>
+<div class="footer">
+<p>Conclusion &amp; Other Work</p>
+</div>
+</section>
+<section id="other-work" class="slide level2">
+<h2>Other Work</h2>
+<ul>
+<li>N-DISE (led by Yuanhao Wu and Prof.&nbsp;Yeh):
+<ul>
+<li>Helped build and test N-DISE WAN deployment</li>
+<li>Helped with demonstrations during SC19, SC21 and SC22</li>
+<li>Built local testbed for prototyping and preliminary experiments</li>
+</ul></li>
+<li>Energy minimization in HetNets (led by Jinkun Zhang, small contribution)</li>
+</ul>
+</section></section>
+<section>
+<section id="thanks-questions" class="title-slide slide level1 center">
+<h1>Thanks &amp; Questions</h1>
+
+</section>
+<section id="power-caching-in-wireless-hetnets-2" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2406,7 +2447,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-1" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-3" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
 <ul>
@@ -2422,7 +2463,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-2" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
 <ul>
@@ -2439,7 +2480,7 @@ D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-3" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
 <ul>
@@ -2460,7 +2501,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
 <ul>
@@ -2476,7 +2517,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2513,7 +2554,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2526,7 +2567,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-9" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2539,7 +2580,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-10" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2552,11 +2593,6 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section></section>
-<section id="thanks-questions" class="title-slide slide level1 center">
-<h1>Thanks &amp; Questions</h1>
-
-</section>
-
 <section>
 <section id="appendices" class="title-slide slide level1 center" data-visibility="uncounted">
 <h1>Appendices</h1>
