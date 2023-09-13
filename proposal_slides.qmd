@@ -376,7 +376,7 @@ Data plane model based on general ICN principles:
 -   Unit of content is *data object*; each object $\kin$ has a unique source $\mc{S}(k)$
 -   Any node $n \not = \mc{S}(k)$ can cache $k$
 -   Every data object has the [same size]{.body-highlight}    
--   Requests can enter network at any node; sources or caching nodes can respond to requests with data
+-   Requests can enter network at any node; sources / caching nodes respond to requests with data
 -   Data responses follow request path back to requester
 :::
 
@@ -1122,9 +1122,7 @@ Experiments
 
 ## Improvements
 
-::: {.fragment}
 There is still room for improvement
-:::
 
 ::: {.fragment}
 ![](images/big-room.webp){width=65% height=65% fig-align="center"}
@@ -1137,47 +1135,70 @@ Super Funny Joke
 :::
 
 ::: {.notes}
-- So as much as I'd like to say I'll be pursuing a shiny new goal for the remainder of my time here, there are still aspects of this work that needs to be covered
-- So this section will be centered about those improvements I'm planning on pursuing
+- So as much as I'd like to say I'll be pursuing a shiny new goal for the remainder of my time here, there are still aspects of this work that needs to be covered and improved
+- So this section will outline those improvements I'm planning on pursuing
 :::
 
-## Cache Read Bandwidth {.smaller}
-Current model assumes read rate of each object is independent of all others. 
+## Improvements
+
+::: {.incremental}
+- Modeling of cache read rates
+- Equal object sizes assumption
+- Virtual plane - data plane gap
+- Cache exclusivity assumption
+:::
+
+::: {.footer}
+Proposed Work
+:::
+
+## Cache Read Bandwidth
+Model assumes read rate of each object is independent
+
+::: {style="font-size: 70%;"}
 ```{=tex}
 \begin{equation}
     V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
     + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{#C8102E}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+
 \end{equation}
 ```
+:::
 
 ::: {.footer}
 Proposed Work
 :::
 
 ::: {.notes}
-- First and foremost, while the modeling of read rate is essential in this work, the way we do it is not very accurate
 - We treat the read rate parameter as if it is independent for each object, which indicates that there is a guaranteeable rate that can be provided per object, no matter how many objects are cached in that tier
 - This is an okay assumption, but given the strict rate limitations we're working with, is not great
 :::
 
-## Cache Read Bandwidth {.smaller}
-Current model assumes read rate of each object is independent of all others.
+## Cache Read Bandwidth
+Model assumes read rate of each object is independent
+
+::: {style="font-size: 70%;"}
 ```{=tex}
 \begin{equation}
     \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
     + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r_{n_j}} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}    
 \end{equation}
 ```
-We need to make this more accurate when considering slower caches.
+:::
+
+Need to be more accurate for larger and slower caches
+
+::: {style="font-size: 70%;"}
 ```{=tex}
 \begin{equation}
    \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r^k_{n_j}(t)} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}
 \end{equation}
 ```
+:::
+
 ```{=tex}
 \begin{equation}
-   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \; \forall t   
+   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}   
 \end{equation}
 ```
 
@@ -1186,75 +1207,21 @@ Proposed Work
 :::
 
 ::: {.notes}
-- To be perfectly honest, this is an oversight on my end. This is something I've known about VIP for a bit, first pointed out to me by my labmate Yuanhao in fact, during one of our conversations about it
-- For the original work, it may not matter as much, because there the target was still a small but fast cache, for which this assumption works better
-- But in the beginning of this work I was trying to move a bit fast because I wanted to see how the strategy would perform, and at the time I had lofty goals about a real implementation as well
-- But after many experiments, I am now convinced this is something we need to address
-- And the way we'll do that is simply by enforcing a cache read bandwidth constraint
+- The way we'll do that is by enforcing a cache read bandwidth constraint
+- Additional control action each time slot, in product form with another control action
+- Stability region and its analysis changes significantly
+- Complexity of caching problem solution reduces
 :::
 
-## Cache Read Bandwidth {.smaller}
-Additional control action each time slot, in product form with another control action
-```{=tex}
-\begin{equation}
-\text{maximize} \quad \sum\limits_{\kin} \sum\limits_{\jin} V^k_{n}(t) r^k_{n_j}(t) s^k_{n_j}(t) - p^k_{n_j}(t)
-\end{equation}
-```
-Read rate no longer a constant, VIPs drained via caching represented with a flow variable, like VIP flow terms over links
-```{=tex}
-\begin{equation}
-   F^k_{n_j}(t) \triangleq r^k_{n_j}(t) s^k_{n_j}(t), \qquad f^k_{n_j} = \frac{1}{t} \sum^{t}_{\tau=1} r^k_{n_j}(\tau) s^k_{n_j}(\tau)
-\end{equation}
-```
-**Expectation**: Stability region and its analysis changes significantly; complexity of caching problem solution reduces
+## Different Object Sizes
 
-::: {.footer}
-Proposed Work
+::: {.incremental}
+- Equal object sizes assumption enables polynomial-time solution, but is not realistic
+- Without it, we'll need to solve a GAP (NP-hard)
+- Need to reevaluate how we treat VIP counts:
+   -  VIPs for smaller objects can be drained faster
+   -  Service may prioritize smaller objects
 :::
-
-::: {.notes}
-- Now, how does that change things?
-:::
-
-## Different Object Sizes {.smaller}
-
-Equal object sizes assumption makes analysis straightforward, but is not realistic.
-
-Let $z^k$ be the size of object $k$ in bits. Redefine $L_{n_j}$ be the cache capacity of tier $j$ at node $n$ in bits, instead of objects. The caching problem changes as follows:
-```{=tex}
-\begin{align}
-    \text{maximize}
-        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
-    \text{subject to}
-        & \quad \sum\limits_{\kin} z^k s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
-\end{align}
-```
-Problem no longer a LAP but a GAP instead (NP-hard).
-
-::: {.footer}
-Proposed Work
-:::
-
-::: {.notes}
-- Now, here's another shortcoming of the model, which I alluded to earlier in the presentation
-- (Go over slide content)
-:::
-
-## Different Object Sizes {.smaller}
-
--  Combined with cache bandwidth constraints, solution may still be low-complexity
--  We have to reevaluate how we treat VIP counts:
-   -  Copies of a larger object are produced at a slower rate
-   -  VIPs for smaller objects can be drained at a higher rate
-   -  Without adjustments, service may prioritize smaller objects
--  Combined with multi-tiered caches, this raises the [integrity]{.body-highlight} question, i.e. should we require that nodes cache all chunks of an object in the same tier?
-   -  If not, complexity of the caching problem increases dramatically
-   -  Chunk-level strategy may serve this scenario better
-   -  Prefetching could be utilized[^x]
-
-[^x]: Prefetching is actually one of the techniques G. Rossini, D. Rossi, et al. used to make SSDs viable as part of "content stores"  
 
 ::: {.footer}
 Proposed Work
@@ -1278,36 +1245,27 @@ Super Funny Callback
 :::
 
 ::: {.notes}
-- Ah, I was hoping we wouldn't run into him
+- So this is the elephant in our room for improvement
 :::
 
-## Virtual Plane - Data Plane Gap {.smaller}
+## Virtual Plane - Data Plane Gap
 
--   Some disparities between the two planes lead to a gap building over time
-    -   Virtual plane assumes nodes can immediately cache any object in the network
-    -   Data plane requires nodes to respond to requests from cache if available
-        - This makes [upward migrations]{.body-highlight}[^*] difficult in data plane
-    -   Length of time slots, interest aggregation etc. further extend this gap
--   Amending the gap is difficult, but it must be quantified:
-    -   Measure delay between a caching decision in the virtual plane, and when it is realized in data plane
-    -   Estimate difference between performance and cost metrics under virtual plane assumptions vs. data plane results
+Disparities between the planes lead to a gap:
 
-[^*]: When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier
+::: {.incremental}
+-   Virtual plane assumes nodes can immediately cache any object
+-   [Upward migrations]{.body-highlight} not possible in data plane
+-   Data plane doesn't allow [redirecting]{.body-highlight} of cache hits
+-   [Interest aggregation]{.body-highlight} extends this gap
+-   Amending the gap is difficult, but it can be quantified
+:::
 
 ::: {.footer}
-Proposed Work
+I also wanted to make "mind the gap" joke but there wasn't a good place for it
 :::
 
-::: {.notes}
+## Cache Exclusivity
 
-:::
-
-## Cache Exclusivity {.smaller}
-```{=tex}
-\begin{equation}
-\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
-\end{equation}
-```
 Useful in view of [interest aggregation]{.body-highlight}[^+], but very restrictive:
 
 -  Without interest aggregation, duplicates across tiers could extend bandwidth
@@ -1322,9 +1280,11 @@ Proposed Work
 
 ## Better Experiments
 
--  Python is convenient but not highly-scalable for DES frameworks. Julia is a great alternative for both convenience and performance.
--  Per-experiment multi-threading is not effective. Simulator core should be multi-threaded to improve [scale-up]{.body-highlight}; per-experiment [scale-out]{.body-highlight} can also be used.
--  Current codebase has some comments but little documentation and examples. Easily [improvable]{.body-highlight} simulator and [reproducible]{.body-highlight} results crucial.
+::: {.incremental}
+-  Python is convenient but not highly-scalable for the task. Julia is a great alternative.
+-  Simulator core should be multi-threaded to improve [scale-up]{.body-highlight}; per-experiment execution should [scale-out]{.body-highlight}.
+-  [Extendibility]{.body-highlight} and [reproducibility]{.body-highlight} can still be improved.
+:::
 
 ::: {.footer}
 Proposed Work

@@ -1008,7 +1008,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li class="fragment">Any node <span class="math inline">\(n \not = \mc{S}(k)\)</span> can cache <span class="math inline">\(k\)</span></li>
 <li class="fragment">Every data object has the <span class="body-highlight">same size</span><br>
 </li>
-<li class="fragment">Requests can enter network at any node; sources or caching nodes can respond to requests with data</li>
+<li class="fragment">Requests can enter network at any node; sources / caching nodes respond to requests with data</li>
 <li class="fragment">Data responses follow request path back to requester</li>
 </ul>
 </div>
@@ -1984,14 +1984,13 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </div>
 <aside class="notes">
 <ul>
-<li>Now I want to move on to our findings</li>
 <li>First, I’ll show results from a scenario where we actually ignore penalties, which we can easily do for our approach by setting omega to be zero</li>
-<li>We’re comparing our strategy to cost-unaware baselines here</li>
+<li>We’re comparing our strategy to cost-unaware baselines here and we’re just concerned about the capacity challenge</li>
 <li>The figure up top shows the total delay in the network, normalized to the total delay achieved without any caching</li>
 <li>This figure illustrates our point about how managing larger caches is difficult, because as you can see, the “naive” policies are struggling quite a bit, at times showing worse performance than would be achieved with no caches at all</li>
 <li>Our VIP-based approach performs the best across all experiments, though LFU is not that far behind</li>
-<li>The bottom figure reveals more insights as to why the results are as they are because it shows the distribution of cache tiers among the two tiers as well as total cache hits</li>
-<li>Now note that here the first tier can cache 5 objects, while the second tier can cache 100, so the capacity difference is 20-fold</li>
+<li>The bottom figure reveals more insights since it shows the distribution of cache hits among the two tiers as well as total cache hits</li>
+<li>Now note the cache capacities up top, the difference is 20-fold</li>
 <li>However, with our approach, anywhere between 15% to 20% of cache hits are occurring on the first tier, much larger than other baselines, showing that we’re able to balance the amount of cache hits better</li>
 <li>You’ll notice in most cases our approach doesn’t even have the highest total number of cache hits, and that’s because it is set up to handle the rate of cache hits properly</li>
 </ul>
@@ -2037,10 +2036,9 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <ul>
 <li>Now we move on to a scenario with penalties, dropping the “naive” policies and keeping only the cost-aware adaptation of LFU as a baseline</li>
 <li>We’ll be looking at how each policy balances the delay vs.&nbsp;penalty trade-off; total delay on the y-axis, total penalty on the x-axis</li>
-<li>Now I want to point out here that different second tier capacities are used for the two policies. This is because I experimented with a range of values for each and picked the best performing round value</li>
-<li>The reason for this connects to the challenges in managing these larger, slower caches.</li>
-<li>I talked about this in the very beginning, and we’ve also seen how it manifests in the earlier results.</li>
-<li>This in itself is a long discussion, but the gist is that I wanted to represent the best of the competing policy here.</li>
+<li>Now I want to point out here that different second tier capacities are used for the two policies. I experimented with a range of values for each and picked the best performing round value.</li>
+<li>The reason for this connects to how well policies can actually use the larger capacities. As we saw from the last slide, not every policy can handle the same cache capacity as well.</li>
+<li>The gist is that I want to represent the best of the competing policy and show that we’re still ahead.</li>
 <li>As we can see, in the Abilene and Grid topologies our approach is generally outperforming the adapted LFU</li>
 </ul>
 <style type="text/css">
@@ -2104,9 +2102,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </section>
 <section id="improvements" class="slide level2">
 <h2>Improvements</h2>
-<div class="fragment">
 <p>There is still room for improvement</p>
-</div>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -2120,8 +2116,8 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </div>
 <aside class="notes">
 <ul>
-<li>So as much as I’d like to say I’ll be pursuing a shiny new goal for the remainder of my time here, there are still aspects of this work that needs to be covered</li>
-<li>So this section will be centered about those improvements I’m planning on pursuing</li>
+<li>So as much as I’d like to say I’ll be pursuing a shiny new goal for the remainder of my time here, there are still aspects of this work that needs to be covered and improved</li>
+<li>So this section will outline those improvements I’m planning on pursuing</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -2135,19 +2131,34 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-read-bandwidth" class="slide level2 smaller">
+<section id="improvements-1" class="slide level2">
+<h2>Improvements</h2>
+<div>
+<ul>
+<li class="fragment">Modeling of cache read rates</li>
+<li class="fragment">Equal object sizes assumption</li>
+<li class="fragment">Virtual plane - data plane gap</li>
+<li class="fragment">Cache exclusivity assumption</li>
+</ul>
+</div>
+<div class="footer">
+<p>Proposed Work</p>
+</div>
+</section>
+<section id="cache-read-bandwidth" class="slide level2">
 <h2>Cache Read Bandwidth</h2>
-<p>Current model assumes read rate of each object is independent of all others.</p>
+<p>Model assumes read rate of each object is independent</p>
+<div style="font-size: 70%;">
 <span class="math display">\[\begin{equation}
     V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
     + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{#C8102E}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+
 \end{equation}\]</span>
+</div>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
 <aside class="notes">
 <ul>
-<li>First and foremost, while the modeling of read rate is essential in this work, the way we do it is not very accurate</li>
 <li>We treat the read rate parameter as if it is independent for each object, which indicates that there is a guaranteeable rate that can be provided per object, no matter how many objects are cached in that tier</li>
 <li>This is an okay assumption, but given the strict rate limitations we’re working with, is not great</li>
 </ul>
@@ -2163,31 +2174,34 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-read-bandwidth-1" class="slide level2 smaller">
+<section id="cache-read-bandwidth-1" class="slide level2">
 <h2>Cache Read Bandwidth</h2>
-<p>Current model assumes read rate of each object is independent of all others.</p>
+<p>Model assumes read rate of each object is independent</p>
+<div style="font-size: 70%;">
 <span class="math display">\[\begin{equation}
     \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
     + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r_{n_j}} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}    
 \end{equation}\]</span>
-<p>We need to make this more accurate when considering slower caches.</p>
+</div>
+<p>Need to be more accurate for larger and slower caches</p>
+<div style="font-size: 70%;">
 <span class="math display">\[\begin{equation}
    \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r^k_{n_j}(t)} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}
 \end{equation}\]</span>
+</div>
 <span class="math display">\[\begin{equation}
-   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}, \; \forall t   
+   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}   
 \end{equation}\]</span>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
 <aside class="notes">
 <ul>
-<li>To be perfectly honest, this is an oversight on my end. This is something I’ve known about VIP for a bit, first pointed out to me by my labmate Yuanhao in fact, during one of our conversations about it</li>
-<li>For the original work, it may not matter as much, because there the target was still a small but fast cache, for which this assumption works better</li>
-<li>But in the beginning of this work I was trying to move a bit fast because I wanted to see how the strategy would perform, and at the time I had lofty goals about a real implementation as well</li>
-<li>But after many experiments, I am now convinced this is something we need to address</li>
-<li>And the way we’ll do that is simply by enforcing a cache read bandwidth constraint</li>
+<li>The way we’ll do that is by enforcing a cache read bandwidth constraint</li>
+<li>Additional control action each time slot, in product form with another control action</li>
+<li>Stability region and its analysis changes significantly</li>
+<li>Complexity of caching problem solution reduces</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -2201,90 +2215,23 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-read-bandwidth-2" class="slide level2 smaller">
-<h2>Cache Read Bandwidth</h2>
-<p>Additional control action each time slot, in product form with another control action</p>
-<span class="math display">\[\begin{equation}
-\text{maximize} \quad \sum\limits_{\kin} \sum\limits_{\jin} V^k_{n}(t) r^k_{n_j}(t) s^k_{n_j}(t) - p^k_{n_j}(t)
-\end{equation}\]</span>
-<p>Read rate no longer a constant, VIPs drained via caching represented with a flow variable, like VIP flow terms over links</p>
-<span class="math display">\[\begin{equation}
-   F^k_{n_j}(t) \triangleq r^k_{n_j}(t) s^k_{n_j}(t), \qquad f^k_{n_j} = \frac{1}{t} \sum^{t}_{\tau=1} r^k_{n_j}(\tau) s^k_{n_j}(\tau)
-\end{equation}\]</span>
-<p><strong>Expectation</strong>: Stability region and its analysis changes significantly; complexity of caching problem solution reduces</p>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Now, how does that change things?</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="different-object-sizes" class="slide level2 smaller">
+<section id="different-object-sizes" class="slide level2">
 <h2>Different Object Sizes</h2>
-<p>Equal object sizes assumption makes analysis straightforward, but is not realistic.</p>
-<p>Let <span class="math inline">\(z^k\)</span> be the size of object <span class="math inline">\(k\)</span> in bits. Redefine <span class="math inline">\(L_{n_j}\)</span> be the cache capacity of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> in bits, instead of objects. The caching problem changes as follows:</p>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} z^k s^k_{n_j}(t) \leq L_{n_j}, \; \jin \\
-        &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \kin \\
-        &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \kin, \; \jin
-\end{align}\]</span>
-<p>Problem no longer a LAP but a GAP instead (NP-hard).</p>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-<aside class="notes">
+<div>
 <ul>
-<li>Now, here’s another shortcoming of the model, which I alluded to earlier in the presentation</li>
-<li>(Go over slide content)</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="different-object-sizes-1" class="slide level2 smaller">
-<h2>Different Object Sizes</h2>
+<li class="fragment">Equal object sizes assumption enables polynomial-time solution, but is not realistic</li>
+<li class="fragment">Without it, we’ll need to solve a GAP (NP-hard)</li>
+<li class="fragment">Need to reevaluate how we treat VIP counts:
 <ul>
-<li>Combined with cache bandwidth constraints, solution may still be low-complexity</li>
-<li>We have to reevaluate how we treat VIP counts:
-<ul>
-<li>Copies of a larger object are produced at a slower rate</li>
-<li>VIPs for smaller objects can be drained at a higher rate</li>
-<li>Without adjustments, service may prioritize smaller objects</li>
-</ul></li>
-<li>Combined with multi-tiered caches, this raises the <span class="body-highlight">integrity</span> question, i.e.&nbsp;should we require that nodes cache all chunks of an object in the same tier?
-<ul>
-<li>If not, complexity of the caching problem increases dramatically</li>
-<li>Chunk-level strategy may serve this scenario better</li>
-<li>Prefetching could be utilized<sup>1</sup></li>
+<li class="fragment">VIPs for smaller objects can be drained faster</li>
+<li class="fragment">Service may prioritize smaller objects</li>
 </ul></li>
 </ul>
+</div>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>Prefetching is actually one of the techniques G. Rossini, D. Rossi, et al.&nbsp;used to make SSDs viable as part of “content stores”</p></li></ol></aside></section>
+</section>
 <section id="virtual-plane---data-plane-gap" class="slide level2 smaller">
 <h2>Virtual Plane - Data Plane Gap</h2>
 <div class="fragment">
@@ -2306,7 +2253,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 </div>
 <aside class="notes">
 <ul>
-<li>Ah, I was hoping we wouldn’t run into him</li>
+<li>So this is the elephant in our room for improvement</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -2320,41 +2267,22 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="virtual-plane---data-plane-gap-1" class="slide level2 smaller">
+<section id="virtual-plane---data-plane-gap-1" class="slide level2">
 <h2>Virtual Plane - Data Plane Gap</h2>
+<p>Disparities between the planes lead to a gap:</p>
+<div>
 <ul>
-<li>Some disparities between the two planes lead to a gap building over time
-<ul>
-<li>Virtual plane assumes nodes can immediately cache any object in the network</li>
-<li>Data plane requires nodes to respond to requests from cache if available
-<ul>
-<li>This makes <span class="body-highlight">upward migrations</span><sup>1</sup> difficult in data plane</li>
-</ul></li>
-<li>Length of time slots, interest aggregation etc. further extend this gap</li>
-</ul></li>
-<li>Amending the gap is difficult, but it must be quantified:
-<ul>
-<li>Measure delay between a caching decision in the virtual plane, and when it is realized in data plane</li>
-<li>Estimate difference between performance and cost metrics under virtual plane assumptions vs.&nbsp;data plane results</li>
-</ul></li>
+<li class="fragment">Virtual plane assumes nodes can immediately cache any object</li>
+<li class="fragment"><span class="body-highlight">Upward migrations</span> not possible in data plane</li>
+<li class="fragment">Data plane doesn’t allow <span class="body-highlight">redirecting</span> of cache hits</li>
+<li class="fragment"><span class="body-highlight">Interest aggregation</span> extends this gap</li>
+<li class="fragment">Amending the gap is difficult, but it can be quantified</li>
 </ul>
-<div class="footer">
-<p>Proposed Work</p>
 </div>
-<aside class="notes">
-
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn5"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
+<div class="footer">
+<p>I also wanted to make “mind the gap” joke but there wasn’t a good place for it</p>
+</div>
+</section>
 <section id="cache-exclusivity" class="slide level2 smaller">
 <h2>Cache Exclusivity</h2>
 <span class="math display">\[\begin{equation}
@@ -2369,14 +2297,16 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn6"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
 <section id="better-experiments" class="slide level2">
 <h2>Better Experiments</h2>
+<div>
 <ul>
-<li>Python is convenient but not highly-scalable for DES frameworks. Julia is a great alternative for both convenience and performance.</li>
-<li>Per-experiment multi-threading is not effective. Simulator core should be multi-threaded to improve <span class="body-highlight">scale-up</span>; per-experiment <span class="body-highlight">scale-out</span> can also be used.</li>
-<li>Current codebase has some comments but little documentation and examples. Easily <span class="body-highlight">improvable</span> simulator and <span class="body-highlight">reproducible</span> results crucial.</li>
+<li class="fragment">Python is convenient but not highly-scalable for the task. Julia is a great alternative.</li>
+<li class="fragment">Simulator core should be multi-threaded to improve <span class="body-highlight">scale-up</span>; per-experiment execution should <span class="body-highlight">scale-out</span>.</li>
+<li class="fragment"><span class="body-highlight">Extendibility</span> and <span class="body-highlight">reproducibility</span> can still be improved.</li>
 </ul>
+</div>
 <div class="footer">
 <p>Proposed Work</p>
 </div>
