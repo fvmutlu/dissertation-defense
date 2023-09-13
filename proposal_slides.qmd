@@ -557,10 +557,10 @@ Optimization Framework
 - So in this way, we're not trying to make a precisely optimal decision each time slot, but rather we're trying to minimize the upper bound on this drift-plus-penalty expression you see on screen, which is based on an extension to Lyapunov optimization devised by Neely
 :::
 
-## Virtual Plane Caching Algorithm
+## Virtual Plane Caching
 Beginning of each slot $t$, at each node $n$, observe $(V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}$ and perform [caching]{.body-highlight} by choosing $s^k_{n_j}(t)$ for each $\kin$ and each $j \in \mathcal{J}_n$ with capacity $L_{n_j}$ to:
 
-::: {style="font-size: 75%;"}
+::: {style="font-size: 80%;"}
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -584,7 +584,7 @@ Optimization Framework
 - However, we also want to make sure that our choices in caching actions do not add large penalties that outweigh the benefits. Of course the importance of that is determined by omega.
 :::
 
-## Virtual Plane Forwarding Algorithm
+## Virtual Plane Forwarding
 Perform [forwarding]{.body-highlight} as in (Yeh, 2014), by choosing $\mu^k_{ab}(t)$ for each $\kin$ and $\abin$:
 
 ::: {style="font-size: 70%;"}
@@ -688,8 +688,10 @@ Optimization Framework
 - The essential observation here is the trade-off between the bounds. As you can see, the omega value controls which bound we wish to prioritize, because setting it small means lower average queue sizes which translates to better performance, but at the cost of potentially much larger penalties. Setting it large is the inverse of that situation.
 :::
 
-## Solutions to Optimization Problems {.smaller}
-We can rewrite the optimization problem for the [caching]{.body-highlight} step.
+## Lemma: Caching Solution
+We can rewrite [caching]{.body-highlight} step optimization problem.
+
+::: {style="font-size: 100%;"}
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -700,16 +702,7 @@ We can rewrite the optimization problem for the [caching]{.body-highlight} step.
         & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \forall \, \kin, \; \jin
 \end{align}
 ```
-```{=tex}
-\begin{equation}
-    p^k_{n_j}(t) \triangleq 
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-       0, & \text{otherwise}
-   \end{array} \right.
-\end{equation}
-```
+:::
 
 ::: {.footer}
 Optimization Framework
@@ -720,8 +713,10 @@ Optimization Framework
 - To do so for the caching step, we will first rewrite it to clean up this unpleasant form we've shown before. And to do that, we will use a two-step transformation of variables.
 :::
 
-## Solutions to Optimization Problems {.smaller}
-We can rewrite the optimization problem for the [caching]{.body-highlight} step.
+## Lemma: Caching Solution
+We can rewrite [caching]{.body-highlight} step optimization problem.
+
+::: {style="font-size: 80%;"}
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -740,6 +735,7 @@ We can rewrite the optimization problem for the [caching]{.body-highlight} step.
     \end{array} \right.
 \end{equation}
 ```
+:::
 
 ::: {.footer}
 Optimization Framework
@@ -750,8 +746,10 @@ Optimization Framework
 - You'll notice that the problem now looks to be in the form of a generalized assignment problem.
 :::
 
-## Solutions to Optimization Problems {.smaller}
-Using a transformation of variables, the problem can be written as a [linear assignment problem]{.body-highlight}. We can interpret this as deciding on caching variables for each one-object cache *slot*, rather than for each tier as a whole[^1].
+## Lemma: Caching Solution
+Use equal object sizes, decide variables for each one-object [cache slot]{.body-highlight}. Rewrite problem as [linear assignment problem]{.body-highlight}. 
+
+::: {style="font-size: 70%;"}
 ```{=tex}
 \begin{align}
     \text{maximize}
@@ -762,9 +760,15 @@ Using a transformation of variables, the problem can be written as a [linear ass
         & \quad s^k_{n_i}(t) \in \{0, 1\}, \; \forall \, \kin, \; \iin
 \end{align}
 ```
-$\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}$. If $i \in \mc{I}_{n_j} = \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}$, then $b^k_{n_j}(t) = b^k_{n_i}(t)$ and $s^k_{n_j}(t) = s^k_{n_i}(t)$.
+:::
 
-[^1]: Only possible due to equal object size assumption
+::: {style="font-size: 70%;"}
+$\mc{I}_n \triangleq \{1, 2, ..., \sum_{\jin} L_{n_j}\}, \; \mc{I}_{n_j} \triangleq \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}$
+
+If $i \in \mc{I}_{n_j}$, then $b^k_{n_j}(t) = b^k_{n_i}(t)$ and $s^k_{n_j}(t) = s^k_{n_i}(t)$.
+:::
+
+
 
 ::: {.footer}
 Optimization Framework
@@ -778,19 +782,8 @@ Optimization Framework
 - Luckily, there are methods that can solve this problem in polynomial time. We specifically rely on a modification of the Jonker-Volgenant algorithm.
 :::
 
-## Solutions to Optimization Problems {.smaller}
-**Forwarding**: The solution to the forwarding optimization problem is as in (Yeh, 2014).
-```{=tex}
-\begin{align}
-    \text{maximize}
-        & \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
-    \text{subject to} 
-        & \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \forall \, \abin \\
-        & \quad \mu^k_{ab}(t) \geq 0, \; \forall \, \kin, \; \abin
-\end{align}
-```
-<hr>
-
+## Forwarding Solution
+*Backpressure* solution to forwarding optimization problem as in (Yeh, 2014).
 ```{=tex}
 \begin{equation}
    \mu^k_{ab}(t) =

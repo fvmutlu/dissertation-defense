@@ -1256,10 +1256,10 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn2"><p>“Energy optimal control for time-varying wireless networks.”, Neely, M. J, IEEE Trans. Inf. Theory, 2006.</p></li></ol></aside></section>
-<section id="virtual-plane-caching-algorithm" class="slide level2">
-<h2>Virtual Plane Caching Algorithm</h2>
+<section id="virtual-plane-caching" class="slide level2">
+<h2>Virtual Plane Caching</h2>
 <p>Beginning of each slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> and perform <span class="body-highlight">caching</span> by choosing <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and each <span class="math inline">\(j \in \mathcal{J}_n\)</span> with capacity <span class="math inline">\(L_{n_j}\)</span> to:</p>
-<div style="font-size: 75%;">
+<div style="font-size: 80%;">
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
@@ -1291,8 +1291,8 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="virtual-plane-forwarding-algorithm" class="slide level2">
-<h2>Virtual Plane Forwarding Algorithm</h2>
+<section id="virtual-plane-forwarding" class="slide level2">
+<h2>Virtual Plane Forwarding</h2>
 <p>Perform <span class="body-highlight">forwarding</span> as in (Yeh, 2014), by choosing <span class="math inline">\(\mu^k_{ab}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin\)</span>:</p>
 <div style="font-size: 70%;">
 <span class="math display">\[\begin{align}
@@ -1406,9 +1406,10 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="solutions-to-optimization-problems" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p>We can rewrite the optimization problem for the <span class="body-highlight">caching</span> step.</p>
+<section id="lemma-caching-solution" class="slide level2">
+<h2>Lemma: Caching Solution</h2>
+<p>We can rewrite <span class="body-highlight">caching</span> step optimization problem.</p>
+<div style="font-size: 100%;">
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
@@ -1417,14 +1418,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
         &amp; \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \forall \, \kin \\
         &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \forall \, \kin, \; \jin
 \end{align}\]</span>
-<span class="math display">\[\begin{equation}
-    p^k_{n_j}(t) \triangleq
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-       0, &amp; \text{otherwise}
-   \end{array} \right.
-\end{equation}\]</span>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1445,9 +1439,10 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="solutions-to-optimization-problems-1" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p>We can rewrite the optimization problem for the <span class="body-highlight">caching</span> step.</p>
+<section id="lemma-caching-solution-1" class="slide level2">
+<h2>Lemma: Caching Solution</h2>
+<p>We can rewrite <span class="body-highlight">caching</span> step optimization problem.</p>
+<div style="font-size: 80%;">
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\jin} b^k_{n_j}(t) s^k_{n_j}(t) \\
@@ -1462,6 +1457,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
         r_{n_j} V^k_n(t) + \omega c^e_{n_j}, &amp; \text{if} \; s^k_{n_j}(t-1) = 1
     \end{array} \right.
 \end{equation}\]</span>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1482,9 +1478,10 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           display:block!important;
       }</style></aside>
 </section>
-<section id="solutions-to-optimization-problems-2" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p>Using a transformation of variables, the problem can be written as a <span class="body-highlight">linear assignment problem</span>. We can interpret this as deciding on caching variables for each one-object cache <em>slot</em>, rather than for each tier as a whole<sup>1</sup>.</p>
+<section id="lemma-caching-solution-2" class="slide level2">
+<h2>Lemma: Caching Solution</h2>
+<p>Use equal object sizes, decide variables for each one-object <span class="body-highlight">cache slot</span>. Rewrite problem as <span class="body-highlight">linear assignment problem</span>.</p>
+<div style="font-size: 70%;">
 <span class="math display">\[\begin{align}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
@@ -1493,7 +1490,11 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
         &amp; \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \forall \, \kin \\
         &amp; \quad s^k_{n_i}(t) \in \{0, 1\}, \; \forall \, \kin, \; \iin
 \end{align}\]</span>
-<p><span class="math inline">\(\mc{I}_n = \{1, 2, ..., \sum_{\jin} L_{n_j}\}\)</span>. If <span class="math inline">\(i \in \mc{I}_{n_j} = \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}\)</span>, then <span class="math inline">\(b^k_{n_j}(t) = b^k_{n_i}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t) = s^k_{n_i}(t)\)</span>.</p>
+</div>
+<div style="font-size: 70%;">
+<p><span class="math inline">\(\mc{I}_n \triangleq \{1, 2, ..., \sum_{\jin} L_{n_j}\}, \; \mc{I}_{n_j} \triangleq \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}\)</span></p>
+<p>If <span class="math inline">\(i \in \mc{I}_{n_j}\)</span>, then <span class="math inline">\(b^k_{n_j}(t) = b^k_{n_i}(t)\)</span> and <span class="math inline">\(s^k_{n_j}(t) = s^k_{n_i}(t)\)</span>.</p>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1516,18 +1517,10 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn3"><p>Only possible due to equal object size assumption</p></li></ol></aside></section>
-<section id="solutions-to-optimization-problems-3" class="slide level2 smaller">
-<h2>Solutions to Optimization Problems</h2>
-<p><strong>Forwarding</strong>: The solution to the forwarding optimization problem is as in (Yeh, 2014).</p>
-<span class="math display">\[\begin{align}
-    \text{maximize}
-        &amp; \quad \sum\limits_{\kin} \sum\limits_{\abin^k} \mu^k_{ab}(t) (V^k_a(t) - V^k_b(t)) \\
-    \text{subject to}
-        &amp; \quad \sum\limits_{\kin} \mu^k_{ab}(t) \leq C_{ba}, \; \forall \, \abin \\
-        &amp; \quad \mu^k_{ab}(t) \geq 0, \; \forall \, \kin, \; \abin
-\end{align}\]</span>
-<hr>
+</section>
+<section id="forwarding-solution" class="slide level2">
+<h2>Forwarding Solution</h2>
+<p><em>Backpressure</em> solution to forwarding optimization problem as in (Yeh, 2014).</p>
 <span class="math display">\[\begin{equation}
    \mu^k_{ab}(t) =
    \left\{ \begin{array}{ll}
@@ -1595,7 +1588,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>When the VIP count for an object becomes large, we make decisions in the virtual plane that will quickly drive the count down.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>When the VIP count for an object becomes large, we make decisions in the virtual plane that will quickly drive the count down.</p></li></ol></aside></section>
 <section id="data-plane-caching" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
 <p>Define the <span class="body-highlight">cache score</span> metric as in (Yeh, 2014):</p>
@@ -2300,7 +2293,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn5"><p>Prefetching is actually one of the techniques G. Rossini, D. Rossi, et al.&nbsp;used to make SSDs viable as part of “content stores”</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>Prefetching is actually one of the techniques G. Rossini, D. Rossi, et al.&nbsp;used to make SSDs viable as part of “content stores”</p></li></ol></aside></section>
 <section id="virtual-plane---data-plane-gap" class="slide level2 smaller">
 <h2>Virtual Plane - Data Plane Gap</h2>
 <div class="fragment">
@@ -2370,7 +2363,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn6"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>When a large amount of unsatisfied demand builds up for an object cached in a slower tier, causing that object to be moved into a faster tier</p></li></ol></aside></section>
 <section id="cache-exclusivity" class="slide level2 smaller">
 <h2>Cache Exclusivity</h2>
 <span class="math display">\[\begin{equation}
@@ -2385,7 +2378,7 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <div class="footer">
 <p>Proposed Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn7"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn6"><p>When a node receives an interest for an object while it already is waiting on the data packet from an earlier interest for the same object, it won’t send out the new interest. The data that returns for the earlier interest will be used to satisfy the new interest.</p></li></ol></aside></section>
 <section id="better-experiments" class="slide level2">
 <h2>Better Experiments</h2>
 <ul>
