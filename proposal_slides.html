@@ -891,8 +891,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="related-work" class="slide level2">
-<h2>Related Work</h2>
+<section id="related-work-icn" class="slide level2">
+<h2>Related Work: ICN</h2>
 <ul>
 <li><em>“Multi-Terabyte and multi-Gbps information centric routers”</em>, G. Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014</li>
 <li><em>“Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation”</em>, R. B. Mansilha, L. Saino, M. Barcellos, M. Gallo, E. Leonardi, D. Perino, D. Rossi, ICN 2015</li>
@@ -903,7 +903,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Now, to conclude the introduction, I want to briefly point out some related work.</li>
+<li>Now, to conclude the introduction, I want to point out some related work.</li>
 <li>This connected series of papers you see on the screen, which come from the same group that authored the one about coupling caching and forwarding that I just discussed, is the closest related work in my opinion.</li>
 <li>These papers lay out similar concerns about cache capacities and the relevant challenges.</li>
 <li>However, their work targets the system layer. They deal with lower level implementation details of how to integrate SSDs into the actual data structures that make up the caches in ICNs.</li>
@@ -922,6 +922,31 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
+<section id="related-work-more-icn" class="slide level2 smaller">
+<h2>Related Work: More ICN</h2>
+<ul>
+<li><em>“A reality check for content centric networking”</em>, D. Perino, M. Varvello, SIGCOMM 2011</li>
+<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, et al., ANCS 2014</li>
+<li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
+<li><em>“HCaching: High-Speed Caching for Information-Centric Networking”</em>, H. Li, et al., GLOBECOM 2017</li>
+<li><em>“A Split Architecture Approach to Terabyte-Scale Caching in a Protocol-Oblivious Forwarding Switch”</em>, L. Ding, et al., ToN 2017</li>
+<li><em>“NB-cache: non-blocking in-network caching for high-speed content routers”</em>, T. Pan, et al., IWQoS 2019</li>
+</ul>
+<div class="footer">
+<p>Related Work</p>
+</div>
+</section>
+<section id="related-work-hss" class="slide level2">
+<h2>Related Work: HSS</h2>
+<ul>
+<li><em>“AutoTiering: automatic data placement manager in multi-tier all-flash datacenter”</em>, Z. Yang, et al., IPCCC 2017</li>
+<li><em>“Hybrid storage systems: a survey of architectures and algorithms”</em>, J. Niu, et al., IEEE Access 6 2018</li>
+<li><em>“Sibyl: Adaptive and extensible data placement in hybrid storage systems using online reinforcement learning”</em>, G. Singh, et al., ISCA 2022</li>
+</ul>
+<div class="footer">
+<p>Related Work</p>
+</div>
+</section>
 <section id="related-work-vip" class="slide level2">
 <h2>Related Work: VIP</h2>
 <p><em>“VIP: a framework for joint dynamic forwarding and caching in named data networks”</em>, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014</p>
@@ -936,7 +961,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Lastly, perhaps the single most important paper for my work is the VIP paper by Prof.&nbsp;Yeh and co-authors, as my work directly extends this paper.</li>
+<li>Lastly, perhaps the single most important related work to cover here is the VIP paper by Prof.&nbsp;Yeh and co-authors, as my work directly extends this paper.</li>
 <li>So let me go over why that is.</li>
 <li>Recall the earlier paper I mentioned about coupling caching and forwarding; coincidentally these two papers appeared in the same conference and the VIP paper proposed a strategy that does exactly that, which suits our goals as well.</li>
 <li>Furthermore, this paper includes the read capacities of cache devices in its system model, which is one of the parameters of primary concern to us.</li>
@@ -2283,11 +2308,8 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <p>I also wanted to make “mind the gap” joke but there wasn’t a good place for it</p>
 </div>
 </section>
-<section id="cache-exclusivity" class="slide level2 smaller">
+<section id="cache-exclusivity" class="slide level2">
 <h2>Cache Exclusivity</h2>
-<span class="math display">\[\begin{equation}
-\sum_{\jin} s^k_{n_j}(t) \leq 1, \quad \kin
-\end{equation}\]</span>
 <p>Useful in view of <span class="body-highlight">interest aggregation</span><sup>1</sup>, but very restrictive:</p>
 <ul>
 <li>Without interest aggregation, duplicates across tiers could extend bandwidth</li>
@@ -2328,6 +2350,22 @@ Sum penalty during <span class="math inline">\(t\)</span>: <span class="math inl
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
+<aside class="notes">
+<ul>
+<li>I should also note that we submitted a paper on this to MobiHoc last year which was rejected</li>
+<li>We’re currently revising the paper for the upcoming ICC</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="power-caching-in-wireless-hetnets" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
@@ -2509,16 +2547,6 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <section id="appendices" class="title-slide slide level1 center" data-visibility="uncounted">
 <h1>Appendices</h1>
 
-</section>
-<section id="appendix-a-other-references" class="slide level2 smaller" data-visibility="uncounted">
-<h2>Appendix A: Other References</h2>
-<ul>
-<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, T. Chung, H. Yuan, D. Oran, M. Stapp, ANCS 2014</li>
-<li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
-</ul>
-<div class="footer">
-<p>Appendices</p>
-</div>
 </section>
 <section id="appendix-b-model-notation" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix B: Model Notation</h2>
