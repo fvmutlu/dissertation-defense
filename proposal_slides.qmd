@@ -12,6 +12,7 @@ format:
     header-includes: <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
 mainfont: Lato
 fig-cap-location: top
+jupyter: python3
 ---
 
 ## Outline
