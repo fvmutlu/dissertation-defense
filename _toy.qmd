@@ -1,0 +1,87 @@
+## Toy Example {.smaller}
+
+![](images/toynet_cache.svg){width=75% height=75% fig-align="center"}
+
+::: columns
+::: {.column width="50%"}
+| Notation | Definition |
+|:-:|:---------------|
+|$C_{ab}$|Capacity of link $(a,b)$|
+|$\mathcal{N}_c$|Set of consumer nodes|
+|$r_{n_j}$|Read rate of tier $j$ at $n$|
+|$L_{n_j}$|Cache size of tier $j$ at $n$|
+:::
+::: {.column width="50%"}
+- Catalog of 1000 objects, ranked in popularity by [Zipf's law]{.body-highlight}
+- Objects cached by rank:
+    - Tier 1: 1-10
+    - Tier 2: 11-50 (100)
+:::
+:::
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- Now, to both illustrate the capacity challenge more precisely, and to underline how slower caches may help us here, I brought in a toy example.
+- Here we're looking at a simple network with a catalog of objects, all hosted by one server.
+- We assume the popularity distribution of these objects are governed by Zipf's law. We have a set of consumers making requests for these objects, which go through a forwarder.
+- The forwarder has three potential tiers of cache, with the first being a fast and small tier, the middling being a lot larger but slower, then the last one being even larger but much slower. 
+- If the forwarder can respond to a request from one its cache tiers, it does so instead of forwarding it to the server. There is a fixed caching policy at the forwarder, according to a priori knowledge of object popularities, as you can see on the screen.
+:::
+
+## Case for Additional, Slower Caches {.smaller}
+
+::: columns
+::: {.column width="50%"}
+![](images/zipf_1k.svg)
+
+-  Most popular 1% of objects make up one fifth of all requests
+-  Most popular 10% of objects make up half of all requests
+:::
+::: {.column width="50%"}
+![](images/small_tiers.svg)
+
+-  Second tier operates slower but improves delay for high request rates
+-  Part of uplink traffic shifted to second tier reducing congestion
+:::
+:::
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- First off, on the left hand side, we see the CDF for Zipf's law. The key observation there is that, in this network, roughly one fifth of all requests will be for the most popular 1% of objects, and half of all requests will be for the most popular 10%.
+- Now, on the right hand side, we see how adding the middling tier on top of the first tier impacts the total delay in the network. Even though the second tier is slower, it improves delay when there's more traffic.
+- This can be linked directly to our observation from Zipf's law, because even though the second tier has a larger amount of objects cached, the frequency of requests that hit the second tier does not exceed its read capacity, since those objects are less popular.
+:::
+
+## Case for Additional, Slower Caches {.smaller}
+
+::: columns
+::: {.column width="50%"}
+![](images/zipf_1k.svg)
+
+-  Most popular 1% of objects make up one fifth of all requests
+-  Most popular 10% of objects make up half of all requests
+:::
+::: {.column width="50%"}
+![](images/all_tiers.svg)
+
+-  Addition of second tier capacity impacts performance negatively
+-  Diverted traffic approaches rate limit of second tier, making it a bottleneck
+:::
+:::
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- However, adding the last tier, even though it expands our total cache capacity, impacts delay negatively
+- Because what I just explained does not hold for the third tier since its much larger and much slower
+- So we end up trading the delay that would occur on the server link with worse read delay on the third tier.
+- In summary, larger and slower caches are viable, but we have to be careful in managing them.
+:::

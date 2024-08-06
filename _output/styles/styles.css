@@ -1,0 +1,51 @@
+.title {
+    font-size: 80px !important;
+}
+
+.body-highlight {
+    color: #A4804A;
+    font-weight: bold;
+}
+
+.body-centered {
+    text-align: center !important;
+}
+
+.reveal .slide-number {
+    font-size: 5.5vh !important;
+    color: white !important;
+    margin-top: 6.25vh;
+}
+
+.reveal .slide-logo {
+    display: block;
+    position: fixed;
+    bottom: 30px !important;
+    right: 12px;
+    max-height: 4rem !important;
+    height: 100%;
+    width: auto;
+    z-index: 2;
+}
+
+.reveal img {
+    margin-bottom: -1vw;
+}
+
+.reveal .slide figure>figcaption {
+    text-align: center !important;
+}
+
+.reveal h1 {
+    color: #C8102E !important;
+}
+
+.reveal h2 {
+    color: white !important;
+    background-color: #C8102E !important;
+    width: 200vw;
+    height: 1.2em;
+    position: relative;
+    left: -20vw;
+    padding-left: 20vw;
+}

@@ -1,0 +1,241 @@
+## Power & Caching in Wireless HetNets
+
+- Delay minimization in multi-hop wireless HetNets via caching and power control (led by Derya Malak)
+
+<img src="images/hetnet.svg" style="display: block; margin-left: auto; margin-right: auto; width: 40%; height: 40%;">
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets
+
+- Delay minimization in multi-hop wireless HetNets via caching and power control
+- Contributed with:
+    - Joint convexity analysis of optimization problem
+    - Projected subgradient method algorithm for finding local minima
+    - Simulator built in Julia, numerical experiments using said simulator
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+::: columns
+::: {.column width=50%}
+**Model**: Arbitrary multi-hop wireless heterogenous network (HetNet) topology:
+
+-   MCs, SCs, and users; MCs and SCs have wireline backhaul connections
+-   All wireless transmissions share channel, i.e. no interference management
+-   All nodes can be equipped with caches
+-   Pre-determined shortest path (in hops) routing
+
+**Goal**: Minimize delay in network by controlling power and caching allocation
+:::
+::: {.column width=50%}
+![HetNet illustration](images/hetnet.svg)
+:::
+:::
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+**Optimization**: Minimize total delay of user requests:
+
+-   Wireless link transmission delay dependent on SINR
+    ```{=tex}
+    \begin{equation}
+    \text{SINR}_{vu}(S)=\frac{ G_{vu}s_{vu}}{N_u+  \sum\limits_{j\in V\backslash v}G_{ju}\sum\limits_{w}s_{jw}+G_{vu}\sum\limits_{w\neq u}s_{vw}}
+    \end{equation}
+    ```
+    ```{=tex}
+    \begin{equation}
+    f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
+    \end{equation}
+    ```
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+**Optimization**: Minimize total delay of user requests:
+
+-   Wireless link transmission delay dependent on SINR
+-   Problem is NP-hard due to integer constraints on caching variables
+    ```{=tex}
+    \begin{equation}
+    D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\limits_{l=1}^k (1-x_{p_l i})
+    \end{equation}
+    ```
+    ```{=tex}
+    \begin{equation}
+    D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
+    \end{equation}
+    ```
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+**Optimization**: Minimize total delay of user requests:
+
+-   Wireless link transmission delay dependent on SINR
+-   Problem is NP-hard due to integer constraints on caching variables
+-   Convex relaxation on these leads to reduced-complexity formulation (RCF)
+    ```{=tex}
+    \begin{equation}
+    D_{(i,p)}(Y,S)={\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S)) g_{p_k i}(Y) }
+    \end{equation}
+    ```
+    ```{=tex}
+    \begin{equation}
+    g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, y_{p_li}\in [0, 1]
+    \end{equation}
+    ```
+    ```{=tex}
+    \begin{equation}
+    D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+    \end{equation}
+    ```
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+**Optimization**: Minimize total delay of user requests:
+
+-   Wireless link transmission delay dependent on SINR
+-   Problem is NP-hard due to integer constraints on caching variables
+-   Convex relaxation on these leads to reduced-complexity formulation (RCF)
+    ```{=tex}
+    \begin{equation}
+    D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+    \end{equation}
+    ```
+-   RCF is not jointly convex in power and caching
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller}
+
+::: columns
+::: {.column width=50%}
+::: {style="font-size: 90%;"}
+```pseudocode
+#| html-line-number: true
+\begin{algorithm}
+\caption{Subgradient Projection}
+\begin{algorithmic}[1]
+\State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon > 0$ and let $t=0$.}
+\While{$D^t - D^{t-1} > \epsilon \;$}
+    \State{Compute subgradients $d^t_S, d^t_Y$.}
+    \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.}
+    \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.}
+    \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.}
+\EndWhile
+\State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.}
+\State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.}
+\end{algorithmic}
+\end{algorithm}
+```
+:::
+:::
+::: {.column width=50%}
+::: {style="font-size: 80%;"}
+```{=tex}
+\begin{equation*}
+\begin{split}
+    & \quad d_S^t = \nabla_S D(Y^t,S^t), \; d^t_{Y} \in \partial_{Y}D(Y^t,S^t) \\
+    & \quad \xi^t_{Y} = \frac{D^t - \hat{D}^t}{\norm{d_{Y}^t}}, \; \xi_S^t = \frac{D^t - \hat{D}^t}{\norm{d_S^t}} \\
+    & \quad \bar{S}^t = \mc{P}_{\mc{D}_S}(S^t - \xi_{S}^t d_{S}^t), \; \bar{Y}^t = \mc{P}_{\mc{D}_Y}(Y^t - \xi^t_{Y} d^t_{Y})
+\end{split}
+\end{equation*}
+```
+:::
+:::
+:::
+
+::: {.footer}
+Test
+:::
+
+## Power & Caching in Wireless HetNets {.smaller}
+::: columns
+::: {.column width=50%}
+Use projected subgradient method to solve for local minima in general case
+```{=tex}
+\begin{equation}
+\begin{aligned}
+    & S^{t+1} = S^t + \xi_S^t(\bar{S}^t - S^t) \\
+    & \bar{S}^t = [S^t - w_S^t d_S^t]^+_{\mathcal{D}_S} \\
+    & \boldsymbol{y}^{t+1} = \boldsymbol{y}^t + \xi^t_{\boldsymbol{y}}(\boldsymbol{\bar{y}}^t - \boldsymbol{y}^t) \\
+    & \boldsymbol{\bar{y}}^t = [\boldsymbol{y}^t - w_Y^t d^t_{\boldsymbol{y}}]^+_{\mathcal{D}_{\boldsymbol{y}}} \\
+    & d_S^t = \nabla_S D(Y^t,S^t), \; d^t_{\boldsymbol{y}} \in \partial_{\boldsymbol{y}}D(Y^t,S^t) \\
+    & \xi^t_{\boldsymbol{y}} = \frac{D^t - \hat{D}^t}{||d_{\boldsymbol{y}}^t||^2}, \; \xi_S^t = \frac{D^t - \hat{D}^t}{||d_S^t||^2}
+\end{aligned}
+\end{equation}
+```
+:::
+::: {.column width=50%}
+**Projected Subgradient Method**
+
+- Initialize: Choose $S^{0}$, $\boldsymbol{y}^{0}$
+
+- **do**
+
+    - Compute subgradient $d^t_S, d^t_{\boldsymbol{y}}$
+    - Determine step sizes $\xi^t_{\boldsymbol{y}}$, $\xi_S^t$
+    - Compute projected variables $\boldsymbol{\bar{y}}^t$, $\bar{S}^t$
+    - Update $S^{t+1}$ and $\boldsymbol{y}^{t+1}$
+    - Let $t=t+1$
+
+- **while** $D^t - D^{t-1} > \epsilon$
+
+- Let $(\boldsymbol{y}^{*}_{sub},S^{*}_{sub}) = (\boldsymbol{y}^{t},S^{t})$
+
+- Rounding
+:::
+:::
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
+Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
+
+![&emsp;&emsp;&emsp;&emsp; Power budget](images/hetnet_result1.svg){width="55%" height="55%"}
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
+Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
+
+![&emsp;&emsp;&emsp;&emsp; SC cache capacity](images/hetnet_result3.svg){width="55%" height="55%"}
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
+Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
+
+![&emsp;&emsp;&emsp;&emsp; Zipf parameter](images/hetnet_result2.svg){width="55%" height="55%"}
+
+::: {.footer}
+Conclusion & Other Work
+:::

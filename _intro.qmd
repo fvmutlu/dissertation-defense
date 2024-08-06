@@ -1,0 +1,134 @@
+## Overview
+
+::: {.incremental}
+- **Context**: Information-centric networking (ICN), in-network caching, content delivery networks (CDNs)
+- **Motivation**: Data volume grows exponentially, cache capacities are stagnant
+- **Challenge**: Operating larger caches in a efficiently is difficult
+    - Are slower storage elements viable as caches?
+    - What are the costs of operating large caches?
+    - How can we get the most out of caches in the network?
+:::
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- To begin, here's a brief overview of my primary research that I will present today.
+- First off, for context, my work is based on the Information-centric Networking paradigm.
+- In particular, I'm targeting a core functionality of ICNs called in-network caching, which lets every router in the network maintain its own cache, making caching decentralized and more scalable.
+- However, my work is also applicable within today's Internet, especially for systems like CDNs, where it could be used as an overlay.
+- The main motivation for my work is simply that the volume of data continuously grows, but the capacities of our caches are somewhat stagnant.
+- Of course there are many obstacles in the way of scaling cache capacities. We'll specifically look at three considerations: (1) are slower storage elements viable as caches? (2) what are the costs of operating large caches? (3) how can we get the most out of caches in the network?
+:::
+
+## Overview
+
+- **Context**: Information-centric networking (ICN), in-network caching, content delivery networks (CDNs)
+- **Motivation**: Data volume grows exponentially, cache capacities are stagnant
+- **Challenge**: Operating larger caches in a efficiently is difficult
+- **Goal**: Caching policy that addresses these considerations
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- By the end, our goal is to come up with a policy that addresses these considerations
+:::
+
+{{< include _ndise.qmd >}}
+
+## The Capacity Challenge
+
+::: {.incremental}
+-  DRAM is the primary cache device since it is fast (32-64 GB/s for DDR5)
+-  However, DRAM offers small capacities at a high and exponentially increasing cost ($3 to $12 / GB)
+-  Next best option is NVMe SSD, offering large capacities at significantly lower costs ($0.1 / GB)
+-  NVMe SSDs are much slower than DRAM (11.7 GB/s for fastest PCIe 5.0)
+:::
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- Now I want to give you a better idea about why scaling cache capacities is such a challenge.
+:::
+
+{{< include _toy.qmd >}}
+
+## The Cost Challenge
+
+-  Caches are not free to use: admissions, replacements, even idle operation has an energy cost
+
+::: columns
+::: {.column width="42%"}
+![DRAM power consumption](images/dram_power.png)
+:::
+::: {.column width="58%"}
+![NVMe power consumption](images/ssd_power.png)
+:::
+:::
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- Now of course the capacity challenge is not the only obstacle in our way. There's another major consideration which is operational costs.
+- Caches are not free to use, each admission and replacement, and even idle operation has a real cost in energy so if we're adding even more cache devices we have to be mindful of this cost.
+:::
+
+## The Cost Challenge
+
+-  Caches are not free to use: admissions, replacements, even idle operation has an energy cost
+-  SSDs also wear out over time as they're written
+
+![NVMe Endurance](images/ssd_endurance.png){width=70% height=70%}
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- And on top of that, SSDs also wear out as they're written, which, although modern SSDs are very durable, is still a significant consideration because dynamic caching operates at a small time scale so storage will be rewritten quite frequently
+:::
+
+## Coupling Caching with Forwarding
+
+-  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
+   -  "*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014
+-  This is even more critical with larger, slower caches
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- Finally, we look at the question of how can we make sure we're actually making the most of caches in the network?
+- Because, now that we're adding larger caches that are difficult to operate, and also adding costs into the equation, we really want to make sure we're getting the benefits.
+- This is where the act of tying caching and forwarding together comes in. 
+:::
+
+## Goal
+
+Develop a joint forwarding and caching policy that:
+
+-   Tracks user demand for objects as basis for decisions
+-   Utilizes diverse cache resources effectively:
+    -   Ensures devices are receiving [sustainable hit rates]{.body-highlight}
+    -   Makes [high-value]{.body-highlight} replacement decisions
+-   Utilizes bandwidth resources effectively:
+    -   Steers requests toward caching points
+    -   Forwards requests avoiding congestion
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- Now, having looked at these considerations, let's make our goal more explicit.
+:::
+
+{{< include _relwork.qmd >}}

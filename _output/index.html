@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="defense_slides_files/libs/clipboard/clipboard.min.js"></script>
-<script src="defense_slides_files/libs/quarto-html/tabby.min.js"></script>
-<script src="defense_slides_files/libs/quarto-html/popper.min.js"></script>
-<script src="defense_slides_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="defense_slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="defense_slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="defense_slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="defense_slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="defense_slides_files/libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
-<link href="defense_slides_files/libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet"><meta charset="utf-8">
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/tabby.min.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="index_files/libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.56">
 
   <meta name="author" content="Research Advisor: Edmund Yeh Committee Members: Elif Uysal, Stratis Ioannidis">
@@ -17,8 +17,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="defense_slides_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="defense_slides_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -32,12 +32,12 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="defense_slides_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="styles/styles.css">
-  <link href="defense_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="defense_slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="defense_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="defense_slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -394,6 +394,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\betasumind}{\sum\limits ^{\sigma_n}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
 \newcommand{\drift}{\Delta(\mathbf{V}(t))}
+\newcommand{\norm}[1]{\lVert{#1}\rVert^2_2}
 \newcommand{\pen}{\mathbb{E}[p(t)|\mathbf{V}(t)]}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -471,16 +472,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="use-case-data-intensive-science" class="slide level2">
-<h2>Use Case: Data-Intensive Science</h2>
+<section id="motivation-data-intensive-science" class="slide level2 smaller">
+<h2>Motivation: Data-Intensive Science</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/data_plot.svg"></p>
 <ul>
-<li>Data-intensive science experiments (high-energy physics, genomics etc.) process huge amounts of data
-<ul>
-<li>In one year of LHC running, over an exabyte (<span class="math inline">\(10^{18}\)</span> bytes) of data is accessed</li>
-<li>In November 2018, 16 petabytes (<span class="math inline">\(1.6 \times 10^{16}\)</span> bytes) of data were written on tape at CERN</li>
-</ul></li>
-<li>Data is continuously distributed across the world for research</li>
+<li>Data-intensive science experiments process huge amounts of data</li>
+<li>Data growth predictions keep moving the bar up</li>
 </ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/lhcopen_data.svg"></p>
+<ul>
+<li>Data is continuously distributed across the world for research</li>
+<li>In one year of LHC running, over an exabyte of data is accessed</li>
+</ul>
+</div></div>
 <div class="footer">
 <p>Introduction</p>
 </div>
@@ -503,14 +510,12 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="use-case-data-intensive-science-1" class="slide level2">
-<h2>Use Case: Data-Intensive Science</h2>
-<ul>
-<li><em>“N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science”</em>, Y. Wu, F. V. Mutlu, et al.
+<section id="motivation-data-intensive-science-1" class="slide level2 smaller">
+<h2>Motivation: Data-Intensive Science</h2>
+<p><em>“N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science”</em>:</p>
 <ul>
 <li>20 gigabytes (<span class="math inline">\(2 \times 10^{10}\)</span> bytes) of DRAM cache space at each node</li>
 <li>“Increasing capacities via NVMe SSDs require novel caching strategies” (NDN-DPDK forwarder paper<sup>1</sup>)</li>
-</ul></li>
 </ul>
 <div class="footer">
 <p>Introduction</p>
@@ -534,6 +539,34 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020</p></li></ol></aside></section>
+<section id="motivation-data-intensive-science-2" class="slide level2">
+<h2>Motivation: Data-Intensive Science</h2>
+<ul>
+<li>20 gigabytes (<span class="math inline">\(2 \times 10^{10}\)</span> bytes) of DRAM cache space at each node</li>
+<li>“Increasing capacities via NVMe SSDs require novel caching strategies” (NDN-DPDK forwarder paper<sup>1</sup>)</li>
+</ul>
+<div class="footer">
+<p>Introduction</p>
+</div>
+<aside class="notes">
+<ul>
+<li>To address this, our lab led an effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.</li>
+<li>The point here is, even in this state-of-the-art prototype, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we expect to be working with.</li>
+<li>I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for specialized policies for operating larger caches was specifically outlined as part of future outlook.</li>
+<li>So there’s a gap here that motivated my work.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020</p></li></ol></aside></section>
 <section id="the-capacity-challenge" class="slide level2">
 <h2>The Capacity Challenge</h2>
 <div>
@@ -563,8 +596,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="capacity-challenge-toy-example" class="slide level2 smaller">
-<h2>Capacity Challenge: Toy Example</h2>
+<section id="toy-example" class="slide level2 smaller">
+<h2>Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/toynet_cache.svg" class="quarto-figure quarto-figure-center" style="width:75.0%;height:75.0%"></p>
@@ -604,8 +637,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Objects cached by rank:
 <ul>
 <li>Tier 1: 1-10</li>
-<li>Tier 2: 11-40</li>
-<li>Tier 3: 41-100</li>
+<li>Tier 2: 11-50 (100)</li>
 </ul></li>
 </ul>
 </div></div>
@@ -642,10 +674,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Most popular 10% of objects make up half of all requests</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><img data-src="images/two_tiers.svg"></p>
+<p><img data-src="images/small_tiers.svg"></p>
 <ul>
 <li>Second tier operates slower but improves delay for high request rates</li>
-<li>This is due to the diminishing returns emerging from Zipf’s law</li>
+<li>Part of uplink traffic shifted to second tier reducing congestion</li>
 </ul>
 </div></div>
 <div class="footer">
@@ -679,10 +711,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Most popular 10% of objects make up half of all requests</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><img data-src="images/three_tiers.svg"></p>
+<p><img data-src="images/all_tiers.svg"></p>
 <ul>
-<li>Addition of the third tier impacts performance negatively</li>
-<li>This is due to trading link delay with cache read delay</li>
+<li>Addition of second tier capacity impacts performance negatively</li>
+<li>Diverted traffic approaches rate limit of second tier, making it a bottleneck</li>
 </ul>
 </div></div>
 <div class="footer">
@@ -1266,7 +1298,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn2"><p><span class="fragment" data-fragment-index="1">“Energy optimal control for time-varying wireless networks.”, M. J. Neely, IEEE Trans. Inf. Theory, 2006.</span></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p><span class="fragment" data-fragment-index="1">“Energy optimal control for time-varying wireless networks.”, M. J. Neely, IEEE Trans. Inf. Theory, 2006.</span></p></li></ol></aside></section>
 <section id="virtual-plane-caching" class="slide level2">
 <h2>Virtual Plane Caching</h2>
 <p>Beginning of each slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> and perform <span class="body-highlight">caching</span> by choosing <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and each <span class="math inline">\(j \in \mathcal{J}_n\)</span> with capacity <span class="math inline">\(L_{n_j}\)</span> to:</p>
@@ -1589,7 +1621,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn3"><p>When the VIP count for an object becomes large, we make decisions in the virtual plane that will quickly drive the count down.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>When the VIP count for an object becomes large, we make decisions in the virtual plane that will quickly drive the count down.</p></li></ol></aside></section>
 <section id="data-plane-caching-1" class="slide level2">
 <h2>Data Plane Caching</h2>
 <p>Define the <span class="body-highlight">cache benefit</span> metric as follows:</p>
@@ -2368,24 +2400,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="other-work" class="slide level2">
-<h2>Other Work</h2>
-<ul>
-<li>N-DISE (led by Yuanhao Wu and Prof.&nbsp;Yeh):
-<ul>
-<li>Helped build and test N-DISE WAN deployment</li>
-<li>Helped with demonstrations during SC19, SC21 and SC22</li>
-<li>Built local testbed for prototyping and preliminary experiments</li>
-</ul></li>
-<li>Energy minimization in HetNets (led by Jinkun Zhang, small contribution)</li>
-</ul>
-</section></section>
-<section>
-<section id="thanks-questions" class="title-slide slide level1 center">
-<h1>Thanks &amp; Questions</h1>
-
-</section>
-<section id="power-caching-in-wireless-hetnets-2" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-2" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2409,7 +2424,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-3" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-3" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
 <ul>
@@ -2425,7 +2440,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
 <ul>
@@ -2442,7 +2457,7 @@ D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
 <ul>
@@ -2463,7 +2478,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p><strong>Optimization</strong>: Minimize total delay of user requests:</p>
 <ul>
@@ -2479,7 +2494,33 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller">
+<h2>Power &amp; Caching in Wireless HetNets</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 90%;">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm" data-pseudocode-number="1">
+<div class="pseudocode">
+\begin{algorithm} \caption{Subgradient Projection}\begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 80%;">
+<span class="math display">\[\begin{equation*}
+\begin{split}
+    &amp; \quad d_S^t = \nabla_S D(Y^t,S^t), \; d^t_{Y} \in \partial_{Y}D(Y^t,S^t) \\
+    &amp; \quad \xi^t_{Y} = \frac{D^t - \hat{D}^t}{\norm{d_{Y}^t}}, \; \xi_S^t = \frac{D^t - \hat{D}^t}{\norm{d_S^t}} \\
+    &amp; \quad \bar{S}^t = \mc{P}_{\mc{D}_S}(S^t - \xi_{S}^t d_{S}^t), \; \bar{Y}^t = \mc{P}_{\mc{D}_Y}(Y^t - \xi^t_{Y} d^t_{Y})
+\end{split}
+\end{equation*}\]</span>
+</div>
+</div></div>
+<div class="footer">
+<p>Test</p>
+</div>
+</section>
+<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2515,7 +2556,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-9" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2528,7 +2569,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-9" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-10" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2541,7 +2582,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-10" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-11" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2749,19 +2790,19 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="defense_slides_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="index_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="defense_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="defense_slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="defense_slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="defense_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="defense_slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="index_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="defense_slides_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="defense_slides_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="defense_slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="defense_slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="index_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="index_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="index_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="index_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

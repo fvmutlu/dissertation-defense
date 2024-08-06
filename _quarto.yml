@@ -1,0 +1,39 @@
+project:
+  type: default
+  output-dir: _output
+  preview:
+    port: 4200
+    browser: false
+format:
+  revealjs:
+    slide-number: true
+    theme: white
+    logo: images/neu_logo.svg
+    css: styles/styles.css
+    highlight-style: atom-one
+    header-includes: <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+    include-in-header:
+      text: |
+        <script>
+        MathJax = {
+          loader: {
+            load: ['[tex]/boldsymbol']
+          },
+          tex: {
+            tags: "all",
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            displayMath: [['$$','$$'], ['\\[','\\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            packages: {
+              '[+]': ['boldsymbol']
+            }
+          }
+        };
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+mainfont: Lato
+fig-cap-location: top
+jupyter: python3
+filters:
+  - pseudocode
