@@ -30,10 +30,17 @@ Introduction
 
 ## Motivation: Data-Intensive Science {.smaller}
 
-*"N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science"*:
+*N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science*:
 
--   20 gigabytes ($2 \times 10^{10}$ bytes) of DRAM cache space at each node
--   "Increasing capacities via NVMe SSDs require novel caching strategies" (NDN-DPDK forwarder paper[^ndndpdk])
+::: {.incremental}
+-   First high-performance NDN-based data delivery system for large-scale data-intensive science experiments.
+-   Integration of state-of-the-art NDN forwarder, intelligent caching and forwarding, high-performance consumer/producer applications.
+-   Extensive testing over wide-area network testbed spanning 5 US campuses using data from the Compact Muon Solenoid (CMS) experiment.
+-   Individual contributions:
+    - Built local testbed for prototyping
+    - Supported WAN deployment and testing
+    - Supported demonstrations during SC21 and SC22
+:::
 
 ::: {.footer}
 Introduction
@@ -46,10 +53,16 @@ Introduction
 - So there's a gap here that motivated my work.
 :::
 
-## Motivation: Data-Intensive Science
+## Motivation: Data-Intensive Science {.smaller}
 
--   20 gigabytes ($2 \times 10^{10}$ bytes) of DRAM cache space at each node
--   "Increasing capacities via NVMe SSDs require novel caching strategies" (NDN-DPDK forwarder paper[^ndndpdk])
+**Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node
+
+::: {.incremental}
+-   DRAM is the standard cache device due its speed; but is expensive and has limited capacity
+-   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM
+-   Logical next step: use both! 
+-   Open problem: "Expanding capacities with persistent memory or NVMe disk storage require novel multi-tier caching algorithms"[^ndndpdk]
+:::
 
 [^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020
 
@@ -58,8 +71,5 @@ Introduction
 :::
 
 ::: {.notes}
-- To address this, our lab led an effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.
-- The point here is, even in this state-of-the-art prototype, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we expect to be working with.
-- I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for specialized policies for operating larger caches was specifically outlined as part of future outlook.
-- So there's a gap here that motivated my work.
+- Placeholder.
 :::

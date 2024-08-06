@@ -39,26 +39,9 @@ Introduction
 
 {{< include _ndise.qmd >}}
 
-## The Capacity Challenge
-
-::: {.incremental}
--  DRAM is the primary cache device since it is fast (32-64 GB/s for DDR5)
--  However, DRAM offers small capacities at a high and exponentially increasing cost ($3 to $12 / GB)
--  Next best option is NVMe SSD, offering large capacities at significantly lower costs ($0.1 / GB)
--  NVMe SSDs are much slower than DRAM (11.7 GB/s for fastest PCIe 5.0)
-:::
-
-::: {.footer}
-Introduction
-:::
-
-::: {.notes}
-- Now I want to give you a better idea about why scaling cache capacities is such a challenge.
-:::
-
 {{< include _toy.qmd >}}
 
-## The Cost Challenge
+## Operational Costs of Caching
 
 -  Caches are not free to use: admissions, replacements, even idle operation has an energy cost
 
@@ -80,7 +63,7 @@ Introduction
 - Caches are not free to use, each admission and replacement, and even idle operation has a real cost in energy so if we're adding even more cache devices we have to be mindful of this cost.
 :::
 
-## The Cost Challenge
+## Operational Costs of Caching
 
 -  Caches are not free to use: admissions, replacements, even idle operation has an energy cost
 -  SSDs also wear out over time as they're written
@@ -97,9 +80,10 @@ Introduction
 
 ## Coupling Caching with Forwarding
 
--  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
-   -  "*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014
--  This is even more critical with larger, slower caches
+-  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
+-  This is even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
+
+[^coupling]:"*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014
 
 ::: {.footer}
 Introduction

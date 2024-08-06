@@ -128,7 +128,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Subgradient Projection Algorithm {.smaller}
 
 ::: columns
 ::: {.column width=50%}
@@ -168,7 +168,7 @@ Conclusion & Other Work
 :::
 
 ::: {.footer}
-Test
+Power & Caching in Wireless HetNets
 :::
 
 ## Power & Caching in Wireless HetNets {.smaller}

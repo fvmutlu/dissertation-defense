@@ -512,69 +512,18 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="motivation-data-intensive-science-1" class="slide level2 smaller">
 <h2>Motivation: Data-Intensive Science</h2>
-<p><em>“N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science”</em>:</p>
-<ul>
-<li>20 gigabytes (<span class="math inline">\(2 \times 10^{10}\)</span> bytes) of DRAM cache space at each node</li>
-<li>“Increasing capacities via NVMe SSDs require novel caching strategies” (NDN-DPDK forwarder paper<sup>1</sup>)</li>
-</ul>
-<div class="footer">
-<p>Introduction</p>
-</div>
-<aside class="notes">
-<ul>
-<li>To address this, our lab led an effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.</li>
-<li>The point here is, even in this state-of-the-art prototype, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we expect to be working with.</li>
-<li>I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for specialized policies for operating larger caches was specifically outlined as part of future outlook.</li>
-<li>So there’s a gap here that motivated my work.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020</p></li></ol></aside></section>
-<section id="motivation-data-intensive-science-2" class="slide level2">
-<h2>Motivation: Data-Intensive Science</h2>
-<ul>
-<li>20 gigabytes (<span class="math inline">\(2 \times 10^{10}\)</span> bytes) of DRAM cache space at each node</li>
-<li>“Increasing capacities via NVMe SSDs require novel caching strategies” (NDN-DPDK forwarder paper<sup>1</sup>)</li>
-</ul>
-<div class="footer">
-<p>Introduction</p>
-</div>
-<aside class="notes">
-<ul>
-<li>To address this, our lab led an effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.</li>
-<li>The point here is, even in this state-of-the-art prototype, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we expect to be working with.</li>
-<li>I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for specialized policies for operating larger caches was specifically outlined as part of future outlook.</li>
-<li>So there’s a gap here that motivated my work.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020</p></li></ol></aside></section>
-<section id="the-capacity-challenge" class="slide level2">
-<h2>The Capacity Challenge</h2>
+<p><em>N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science</em>:</p>
 <div>
 <ul>
-<li class="fragment">DRAM is the primary cache device since it is fast (32-64 GB/s for DDR5)</li>
-<li class="fragment">However, DRAM offers small capacities at a high and exponentially increasing cost ($3 to $12 / GB)</li>
-<li class="fragment">Next best option is NVMe SSD, offering large capacities at significantly lower costs ($0.1 / GB)</li>
-<li class="fragment">NVMe SSDs are much slower than DRAM (11.7 GB/s for fastest PCIe 5.0)</li>
+<li class="fragment">First high-performance NDN-based data delivery system for large-scale data-intensive science experiments.</li>
+<li class="fragment">Integration of state-of-the-art NDN forwarder, intelligent caching and forwarding, high-performance consumer/producer applications.</li>
+<li class="fragment">Extensive testing over wide-area network testbed spanning 5 US campuses using data from the Compact Muon Solenoid (CMS) experiment.</li>
+<li class="fragment">Individual contributions:
+<ul>
+<li class="fragment">Built local testbed for prototyping</li>
+<li class="fragment">Supported WAN deployment and testing</li>
+<li class="fragment">Supported demonstrations during SC21 and SC22</li>
+</ul></li>
 </ul>
 </div>
 <div class="footer">
@@ -582,7 +531,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Now I want to give you a better idea about why scaling cache capacities is such a challenge.</li>
+<li>To address this, our lab led an effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.</li>
+<li>The point here is, even in this state-of-the-art prototype, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we expect to be working with.</li>
+<li>I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for specialized policies for operating larger caches was specifically outlined as part of future outlook.</li>
+<li>So there’s a gap here that motivated my work.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -596,6 +548,36 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
+<section id="motivation-data-intensive-science-2" class="slide level2 smaller">
+<h2>Motivation: Data-Intensive Science</h2>
+<p><strong>Cache capacity challenge:</strong> 20 GB of DRAM cache space allocated at each node</p>
+<div>
+<ul>
+<li class="fragment">DRAM is the standard cache device due its speed; but is expensive and has limited capacity</li>
+<li class="fragment">Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM</li>
+<li class="fragment">Logical next step: use both!</li>
+<li class="fragment">Open problem: “Expanding capacities with persistent memory or NVMe disk storage require novel multi-tier caching algorithms”<sup>1</sup></li>
+</ul>
+</div>
+<div class="footer">
+<p>Introduction</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020</p></li></ol></aside></section>
 <section id="toy-example" class="slide level2 smaller">
 <h2>Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
@@ -814,11 +796,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="coupling-caching-with-forwarding" class="slide level2">
 <h2>Coupling Caching with Forwarding</h2>
 <ul>
-<li>Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled
-<ul>
-<li>“<em>Coupling caching and forwarding: benefits, analysis, and implementation</em>”, G. Rossini, D. Rossi, ICN 2014</li>
-</ul></li>
-<li>This is even more critical with larger, slower caches</li>
+<li>Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled<sup>1</sup>.</li>
+<li>This is even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.</li>
 </ul>
 <div class="footer">
 <p>Introduction</p>
@@ -840,7 +819,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>“<em>Coupling caching and forwarding: benefits, analysis, and implementation</em>”, G. Rossini, D. Rossi, ICN 2014</p></li></ol></aside></section>
 <section id="goal" class="slide level2">
 <h2>Goal</h2>
 <p>Develop a joint forwarding and caching policy that:</p>
@@ -2494,12 +2473,12 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller">
-<h2>Power &amp; Caching in Wireless HetNets</h2>
+<section id="subgradient-projection-algorithm" class="slide level2 smaller">
+<h2>Subgradient Projection Algorithm</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm" data-pseudocode-number="1">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm" data-pseudocode-number="1" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Subgradient Projection}\begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>
@@ -2517,10 +2496,10 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </div>
 </div></div>
 <div class="footer">
-<p>Test</p>
+<p>Power &amp; Caching in Wireless HetNets</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2556,7 +2535,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-9" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2569,7 +2548,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-10" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-9" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2582,7 +2561,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-11" class="slide level2 smaller" data-visibility="uncounted">
+<section id="power-caching-in-wireless-hetnets-10" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
@@ -2603,7 +2582,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <section id="appendix-a-pseudocode" class="slide level2">
 <h2>Appendix A: Pseudocode</h2>
 <div style="font-size: 50%;">
-<div class="pseudocode-container quarto-float" data-pseudocode-number="1" data-caption-prefix="Algorithm">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm" data-pseudocode-number="1">
 <div class="pseudocode">
 \begin{algorithm} \caption{Quicksort} \begin{algorithmic} \Procedure{Quicksort}{$A, p, r$} \If{$p &lt; r$} \State $q = $ \Call{Partition}{$A, p, r$} \State \Call{Quicksort}{$A, p, q - 1$} \State \Call{Quicksort}{$A, q + 1, r$} \EndIf \EndProcedure \Procedure{Partition}{$A, p, r$} \State $x = A[r]$ \State $i = p - 1$ \For{$j = p$ \To $r - 1$} \If{$A[j] &lt; x$} \State $i = i + 1$ \State exchange $A[i]$ with $A[j]$ \EndIf \State exchange $A[i]$ with $A[r]$ \EndFor \EndProcedure \end{algorithmic} \end{algorithm}
 </div>
