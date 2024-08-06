@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="proposal_slides_files/libs/clipboard/clipboard.min.js"></script>
-<script src="proposal_slides_files/libs/quarto-html/tabby.min.js"></script>
-<script src="proposal_slides_files/libs/quarto-html/popper.min.js"></script>
-<script src="proposal_slides_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="proposal_slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="proposal_slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="proposal_slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="proposal_slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+<script src="defense_slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="defense_slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="defense_slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="defense_slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="defense_slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="defense_slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="defense_slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="defense_slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="defense_slides_files/libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="defense_slides_files/libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.5.56">
 
   <meta name="author" content="Research Advisor: Edmund Yeh Committee Members: Elif Uysal, Stratis Ioannidis">
   <title>Cost-aware Joint Caching and Forwarding in Networks with Diverse Cache Resources</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="proposal_slides_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="proposal_slides_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="defense_slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="defense_slides_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -29,78 +31,13 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-      }
-    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-    div.sourceCode
-      { color: #383a42;  }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #383a42; } /* Normal */
-    code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
-    code span.an { color: #50a14f; } /* Annotation */
-    code span.at { color: #a626a4; } /* Attribute */
-    code span.bn { color: #986801; } /* BaseN */
-    code span.bu { color: #a626a4; } /* BuiltIn */
-    code span.cf { color: #a626a4; } /* ControlFlow */
-    code span.ch { color: #50a14f; } /* Char */
-    code span.cn { color: #986801; } /* Constant */
-    code span.co { color: #a0a1a7; font-style: italic; } /* Comment */
-    code span.cv { color: #e45649; font-style: italic; } /* CommentVar */
-    code span.do { color: #e45649; } /* Documentation */
-    code span.dt { color: #a626a4; } /* DataType */
-    code span.dv { color: #986801; } /* DecVal */
-    code span.er { color: #f44747; text-decoration: underline; } /* Error */
-    code span.ex { color: #4078f2; font-weight: bold; } /* Extension */
-    code span.fl { color: #986801; } /* Float */
-    code span.fu { color: #4078f2; } /* Function */
-    code span.im { color: #50a14f; } /* Import */
-    code span.in { color: #c45b00; } /* Information */
-    code span.kw { color: #a626a4; } /* Keyword */
-    code span.op { color: #a626a4; } /* Operator */
-    code span.ot { color: #27ae60; } /* Other */
-    code span.pp { color: #a626a4; } /* Preprocessor */
-    code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
-    code span.sc { color: #0184bc; } /* SpecialChar */
-    code span.ss { color: #da4453; } /* SpecialString */
-    code span.st { color: #50a14f; } /* String */
-    code span.va { color: #e45649; } /* Variable */
-    code span.vs { color: #da4453; } /* VerbatimString */
-    code span.wa { color: #da4453; } /* Warning */
   </style>
-  <link rel="stylesheet" href="proposal_slides_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="defense_slides_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="styles/styles.css">
-  <link href="proposal_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="proposal_slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="proposal_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="proposal_slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link href="defense_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="defense_slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="defense_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="defense_slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -222,7 +159,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -385,6 +323,24 @@
       margin-right: 0; 
     }
   </style>
+  <script>
+  MathJax = {
+    loader: {
+      load: ['[tex]/boldsymbol']
+    },
+    tex: {
+      tags: "all",
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      packages: {
+        '[+]': ['boldsymbol']
+      }
+    }
+  };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body class="quarto-light">
@@ -393,7 +349,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Cost-aware Joint Caching and Forwarding in Networks with Diverse Cache Resources</h1>
-  <p class="subtitle"><s>Farouk Multi</s> Faruk Volkan Mutlu - PhD Proposal Review</p>
+  <p class="subtitle">Faruk Volkan Mutlu - PhD Dissertation Defense Presentation</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -611,12 +567,12 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>Capacity Challenge: Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/toynet_cache.svg" style="width:75.0%;height:75.0%"></p>
+<p><img data-src="images/toynet_cache.svg" class="quarto-figure quarto-figure-center" style="width:75.0%;height:75.0%"></p>
 </figure>
 </div>
 <div class="columns">
 <div class="column" style="width:50%;">
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: center;">Notation</th>
@@ -652,8 +608,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Tier 3: 41-100</li>
 </ul></li>
 </ul>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Introduction</p>
 </div>
@@ -692,8 +647,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Second tier operates slower but improves delay for high request rates</li>
 <li>This is due to the diminishing returns emerging from Zipf’s law</li>
 </ul>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Introduction</p>
 </div>
@@ -730,8 +684,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>Addition of the third tier impacts performance negatively</li>
 <li>This is due to trading link delay with cache read delay</li>
 </ul>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Introduction</p>
 </div>
@@ -774,8 +727,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/ssd_power.png"></p>
 </figure>
 </div>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Introduction</p>
 </div>
@@ -1031,7 +983,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>System Model</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/system_model.svg" style="width:60.0%;height:60.0%"></p>
+<p><img data-src="images/system_model.svg" class="quarto-figure quarto-figure-center" style="width:60.0%;height:60.0%"></p>
 </figure>
 </div>
 <div class="footer">
@@ -1202,8 +1154,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><span class="math inline">\(\mathcal{J}_n\)</span>: Set of cache tiers at <span class="math inline">\(n\)</span></p>
 <p><span class="math inline">\(r_{n_j}\)</span>: Read rate of tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span></p>
 <p><span class="math inline">\(s^k_{n_j}(t)\)</span>: Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></p>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>System Model</p>
 </div>
@@ -1242,8 +1193,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><span class="math inline">\(s^k_{n_j}(t)\)</span>: Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></p>
 </div><div class="column" style="font-size: 75%;">
 <p><span class="math inline">\(c^a_{n_j}\)</span>: Admission cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span> <span class="math inline">\(c^e_{n_j}\)</span>: Eviction cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></p>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>System Model</p>
 </div>
@@ -1377,8 +1327,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><span class="math inline">\(C_{ab}\)</span>: Capacity of link <span class="math inline">\((a,b)\)</span></p>
 </div><div class="column" style="font-size: 70%;">
 <p><span class="math inline">\(\mc{L}^k\)</span>: Set of links allowed to transmit VIPs of <span class="math inline">\(k\)</span>, determined by routing policy</p>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1416,8 +1365,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><span class="math inline">\(\mc{B}_{n,i}\)</span>: i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1</p>
 </div><div class="column" style="font-size: 70%;">
 <p><span class="math inline">\(\beta_{n,i}\)</span>: Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span></p>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1845,8 +1793,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/3reg.svg"></p>
 </figure>
 </div>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Experiments</p>
 </div>
@@ -1938,7 +1885,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="parameter-reference-table" class="slide level2 smaller">
 <h2>Parameter Reference Table</h2>
-<table>
+<table class="caption-top">
 <caption>Common parameters for all scenarios</caption>
 <colgroup>
 <col style="width: 10%">
@@ -2082,8 +2029,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/pen_vs_delay_grid_v2.svg"></p>
 </figure>
 </div>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Experiments</p>
 </div>
@@ -2129,8 +2075,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/pen_vs_delay_regular_v2.svg"></p>
 </figure>
 </div>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Experiments</p>
 </div>
@@ -2161,7 +2106,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/big-room.webp" style="width:65.0%;height:65.0%"></p>
+<p><img data-src="images/big-room.webp" class="quarto-figure quarto-figure-center" style="width:65.0%;height:65.0%"></p>
 </figure>
 </div>
 <p>… and it’s a big room</p>
@@ -2459,8 +2404,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p><img data-src="images/hetnet.svg"></p>
 </figure>
 </div>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
@@ -2566,8 +2510,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <li><p>Let <span class="math inline">\((\boldsymbol{y}^{*}_{sub},S^{*}_{sub}) = (\boldsymbol{y}^{t},S^{t})\)</span></p></li>
 <li><p>Rounding</p></li>
 </ul>
-</div>
-</div>
+</div></div>
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
@@ -2616,9 +2559,22 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <h1>Appendices</h1>
 
 </section>
+<section id="appendix-a-pseudocode" class="slide level2">
+<h2>Appendix A: Pseudocode</h2>
+<div style="font-size: 50%;">
+<div class="pseudocode-container quarto-float" data-pseudocode-number="1" data-caption-prefix="Algorithm">
+<div class="pseudocode">
+\begin{algorithm} \caption{Quicksort} \begin{algorithmic} \Procedure{Quicksort}{$A, p, r$} \If{$p &lt; r$} \State $q = $ \Call{Partition}{$A, p, r$} \State \Call{Quicksort}{$A, p, q - 1$} \State \Call{Quicksort}{$A, q + 1, r$} \EndIf \EndProcedure \Procedure{Partition}{$A, p, r$} \State $x = A[r]$ \State $i = p - 1$ \For{$j = p$ \To $r - 1$} \If{$A[j] &lt; x$} \State $i = i + 1$ \State exchange $A[i]$ with $A[j]$ \EndIf \State exchange $A[i]$ with $A[r]$ \EndFor \EndProcedure \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Appendices</p>
+</div>
+</section>
 <section id="appendix-b-model-notation" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix B: Model Notation</h2>
-<table>
+<table class="caption-top">
 <caption>Table of Notations</caption>
 <colgroup>
 <col style="width: 20%">
@@ -2679,7 +2635,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </section>
 <section id="appendix-b-model-notation-1" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix B: Model Notation</h2>
-<table>
+<table class="caption-top">
 <caption>Table of Notations</caption>
 <colgroup>
 <col style="width: 20%">
@@ -2740,7 +2696,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </section>
 <section id="appendix-c-analysis-notation" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Appendix C: Analysis Notation</h2>
-<table>
+<table class="caption-top">
 <colgroup>
 <col style="width: 30%">
 <col style="width: 69%">
@@ -2781,123 +2737,11 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <div class="footer">
 <p>Appendices</p>
 </div>
-</section>
-<section id="appendix-d-simulator-snippets" class="slide level2 smaller" data-visibility="uncounted">
-<h2>Appendix D: Simulator Snippets</h2>
-<div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Node</a></li><li><a href="#tabset-1-2">Cache</a></li><li><a href="#tabset-1-3">Link</a></li><li><a href="#tabset-1-4">Caching Policy</a></li><li><a href="#tabset-1-5">Forwarding Policy</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1">
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">class</span> Node(<span class="bu">object</span>):</span>
-<span id="cb1-2"><a href="#cb1-2"></a>   <span class="co"># ...</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>   <span class="kw">def</span> packetReceiver(<span class="va">self</span>, remote_id):</span>
-<span id="cb1-4"><a href="#cb1-4"></a>      <span class="cf">while</span> <span class="va">True</span>:</span>
-<span id="cb1-5"><a href="#cb1-5"></a>         pkt <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.in_links[remote_id].get()</span>
-<span id="cb1-6"><a href="#cb1-6"></a>         <span class="cf">if</span> pkt.isData():</span>
-<span id="cb1-7"><a href="#cb1-7"></a>               <span class="cf">yield</span> <span class="va">self</span>.env.timeout(<span class="dv">1</span><span class="op">/</span><span class="va">self</span>.in_links[remote_id].link_cap)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>         <span class="cf">if</span> pkt.isData() <span class="kw">or</span> pkt.isInterest():</span>
-<span id="cb1-9"><a href="#cb1-9"></a>               <span class="va">self</span>.pkt_buffer.put((remote_id, pkt))</span>
-<span id="cb1-10"><a href="#cb1-10"></a>   <span class="kw">def</span> packetProcessor(<span class="va">self</span>):</span>
-<span id="cb1-11"><a href="#cb1-11"></a>      <span class="cf">while</span> <span class="va">True</span>:</span>
-<span id="cb1-12"><a href="#cb1-12"></a>         remote_id, pkt <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.pkt_buffer.get()</span>
-<span id="cb1-13"><a href="#cb1-13"></a>         <span class="cf">if</span> pkt.isInterest():</span>
-<span id="cb1-14"><a href="#cb1-14"></a>               <span class="va">self</span>.receiveInterest(remote_id, pkt.request)</span>
-<span id="cb1-15"><a href="#cb1-15"></a>         <span class="cf">elif</span> pkt.isData():</span>
-<span id="cb1-16"><a href="#cb1-16"></a>               <span class="va">self</span>.receiveData(pkt.request)</span>
-<span id="cb1-17"><a href="#cb1-17"></a>   <span class="co"># ...</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a>   <span class="kw">def</span> forwardInterest(<span class="va">self</span>, request):</span>
-<span id="cb1-19"><a href="#cb1-19"></a>        <span class="va">self</span>.sendInterestPacket(<span class="va">self</span>.fib[request.object_id][<span class="dv">0</span>], request)</span>
-<span id="cb1-20"><a href="#cb1-20"></a>        <span class="cf">return</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a></span>
-<span id="cb1-22"><a href="#cb1-22"></a>    <span class="kw">def</span> decideCaching(<span class="va">self</span>, object_id):</span>
-<span id="cb1-23"><a href="#cb1-23"></a>        <span class="cf">yield</span> <span class="va">self</span>.env.timeout(<span class="dv">0</span>)</span>
-<span id="cb1-24"><a href="#cb1-24"></a>        <span class="cf">return</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a>   <span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="tabset-1-2">
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">class</span> Cache(<span class="bu">object</span>):</span>
-<span id="cb2-2"><a href="#cb2-2"></a>   <span class="kw">def</span> cacheController(<span class="va">self</span>):</span>
-<span id="cb2-3"><a href="#cb2-3"></a>      <span class="cf">while</span> <span class="va">True</span>:</span>
-<span id="cb2-4"><a href="#cb2-4"></a>         task <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.task_queue.get()</span>
-<span id="cb2-5"><a href="#cb2-5"></a>         <span class="cf">if</span> task.<span class="bu">type</span> <span class="op">==</span> <span class="st">'r'</span>:</span>
-<span id="cb2-6"><a href="#cb2-6"></a>               obj <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.env.process(<span class="va">self</span>.readProcess(task.object_id))</span>
-<span id="cb2-7"><a href="#cb2-7"></a>               <span class="va">self</span>.out_buffer.put(obj)</span>
-<span id="cb2-8"><a href="#cb2-8"></a>         <span class="cf">elif</span> task.<span class="bu">type</span> <span class="op">==</span> <span class="st">'w'</span>:</span>
-<span id="cb2-9"><a href="#cb2-9"></a>               <span class="cf">yield</span> <span class="va">self</span>.env.process(<span class="va">self</span>.writeProcess(task.object_id))</span>
-<span id="cb2-10"><a href="#cb2-10"></a>   <span class="co">#...</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>   <span class="kw">def</span> readObject(<span class="va">self</span>, object_id):</span>
-<span id="cb2-12"><a href="#cb2-12"></a>      <span class="va">self</span>.stats[<span class="st">'reads'</span>] <span class="op">+=</span> <span class="dv">1</span>            </span>
-<span id="cb2-13"><a href="#cb2-13"></a>      task <span class="op">=</span> CacheTask(<span class="bu">type</span> <span class="op">=</span> <span class="st">'r'</span>, object_id <span class="op">=</span> object_id)</span>
-<span id="cb2-14"><a href="#cb2-14"></a>      tic <span class="op">=</span> <span class="va">self</span>.env.now</span>
-<span id="cb2-15"><a href="#cb2-15"></a>      <span class="va">self</span>.task_queue.put(task)</span>
-<span id="cb2-16"><a href="#cb2-16"></a>      obj <span class="op">=</span> <span class="cf">yield</span> <span class="va">self</span>.out_buffer.get()</span>
-<span id="cb2-17"><a href="#cb2-17"></a>      <span class="va">self</span>.stats[<span class="st">'read_delay'</span>] <span class="op">+=</span> <span class="va">self</span>.env.now <span class="op">-</span> tic</span>
-<span id="cb2-18"><a href="#cb2-18"></a>      <span class="cf">return</span> obj</span>
-<span id="cb2-19"><a href="#cb2-19"></a>   <span class="kw">def</span> cacheObject(<span class="va">self</span>, object_id):</span>
-<span id="cb2-20"><a href="#cb2-20"></a>      <span class="va">self</span>.stats[<span class="st">'writes'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a>      <span class="va">self</span>.contents.append(object_id)</span>
-<span id="cb2-22"><a href="#cb2-22"></a>      <span class="va">self</span>.cur_size <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a>      task <span class="op">=</span> CacheTask(<span class="bu">type</span> <span class="op">=</span> <span class="st">'w'</span>, object_id <span class="op">=</span> object_id)</span>
-<span id="cb2-24"><a href="#cb2-24"></a>      <span class="va">self</span>.task_queue.put(task)</span>
-<span id="cb2-25"><a href="#cb2-25"></a>      <span class="cf">return</span> <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="tabset-1-3">
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">class</span> Link(<span class="bu">object</span>):</span>
-<span id="cb3-2"><a href="#cb3-2"></a>   <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, env, link_cap, prop_delay):</span>
-<span id="cb3-3"><a href="#cb3-3"></a>      <span class="va">self</span>.env <span class="op">=</span> env</span>
-<span id="cb3-4"><a href="#cb3-4"></a>      <span class="va">self</span>.link_cap <span class="op">=</span> link_cap</span>
-<span id="cb3-5"><a href="#cb3-5"></a>      <span class="va">self</span>.pipe <span class="op">=</span> sp.Store(env)</span>
-<span id="cb3-6"><a href="#cb3-6"></a>   <span class="kw">def</span> put(<span class="va">self</span>, pkt):</span>
-<span id="cb3-7"><a href="#cb3-7"></a>      <span class="va">self</span>.pipe.put(pkt)</span>
-<span id="cb3-8"><a href="#cb3-8"></a>   <span class="kw">def</span> get(<span class="va">self</span>):</span>
-<span id="cb3-9"><a href="#cb3-9"></a>      <span class="cf">return</span> <span class="va">self</span>.pipe.get()</span>
-<span id="cb3-10"><a href="#cb3-10"></a></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="kw">class</span> VipLink(<span class="bu">object</span>):</span>
-<span id="cb3-12"><a href="#cb3-12"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, env):</span>
-<span id="cb3-13"><a href="#cb3-13"></a>        <span class="va">self</span>.env <span class="op">=</span> env</span>
-<span id="cb3-14"><a href="#cb3-14"></a>        <span class="va">self</span>.update_pipe <span class="op">=</span> sp.Store(env)</span>
-<span id="cb3-15"><a href="#cb3-15"></a>        <span class="va">self</span>.vip_pipe <span class="op">=</span> sp.Store(env)    </span>
-<span id="cb3-16"><a href="#cb3-16"></a>    <span class="kw">def</span> pushUpdate(<span class="va">self</span>, pkt):</span>
-<span id="cb3-17"><a href="#cb3-17"></a>        <span class="va">self</span>.update_pipe.put(pkt)    </span>
-<span id="cb3-18"><a href="#cb3-18"></a>    <span class="kw">def</span> getUpdate(<span class="va">self</span>):</span>
-<span id="cb3-19"><a href="#cb3-19"></a>        <span class="cf">return</span> <span class="va">self</span>.update_pipe.get()    </span>
-<span id="cb3-20"><a href="#cb3-20"></a>    <span class="kw">def</span> pushVips(<span class="va">self</span>, pkt):</span>
-<span id="cb3-21"><a href="#cb3-21"></a>        <span class="va">self</span>.vip_pipe.put(pkt)    </span>
-<span id="cb3-22"><a href="#cb3-22"></a>    <span class="kw">def</span> getVips(<span class="va">self</span>):</span>
-<span id="cb3-23"><a href="#cb3-23"></a>        <span class="cf">return</span> <span class="va">self</span>.vip_pipe.get()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="tabset-1-4">
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">class</span> UNIFNode(Node):</span>
-<span id="cb4-2"><a href="#cb4-2"></a>   <span class="kw">def</span> decideCaching(<span class="va">self</span>, object_id):</span>
-<span id="cb4-3"><a href="#cb4-3"></a>      cache <span class="op">=</span> np.random.choice(<span class="va">self</span>.caches)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>      <span class="cf">if</span> cache.isFull():</span>
-<span id="cb4-5"><a href="#cb4-5"></a>         victim_id <span class="op">=</span> np.random.choice(cache.contents)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>         <span class="cf">yield</span> <span class="va">self</span>.env.process(cache.replaceObject(victim_id, object_id))</span>
-<span id="cb4-7"><a href="#cb4-7"></a>      <span class="cf">else</span>:</span>
-<span id="cb4-8"><a href="#cb4-8"></a>         cache.cacheObject(object_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="tabset-1-5">
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">class</span> RoundRobinNode(Node):</span>
-<span id="cb5-2"><a href="#cb5-2"></a>   <span class="kw">def</span> addFIB(<span class="va">self</span>, fib):</span>
-<span id="cb5-3"><a href="#cb5-3"></a>      <span class="bu">super</span>().addFIB(fib)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>      <span class="va">self</span>.link_queues <span class="op">=</span> {}</span>
-<span id="cb5-5"><a href="#cb5-5"></a>      <span class="cf">for</span> k <span class="kw">in</span> fib:</span>
-<span id="cb5-6"><a href="#cb5-6"></a>         <span class="va">self</span>.link_queues[k] <span class="op">=</span> deque(fib[k])</span>
-<span id="cb5-7"><a href="#cb5-7"></a>   </span>
-<span id="cb5-8"><a href="#cb5-8"></a>   <span class="kw">def</span> forwardInterest(<span class="va">self</span>, request):</span>
-<span id="cb5-9"><a href="#cb5-9"></a>      object_id <span class="op">=</span> request.object_id</span>
-<span id="cb5-10"><a href="#cb5-10"></a>      remote_id <span class="op">=</span> <span class="va">self</span>.link_queues[object_id][<span class="dv">0</span>]</span>
-<span id="cb5-11"><a href="#cb5-11"></a>      <span class="va">self</span>.link_queues[object_id].rotate(<span class="dv">1</span>)</span>
-<span id="cb5-12"><a href="#cb5-12"></a>      <span class="va">self</span>.sendInterestPacket(remote_id, request)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-<div class="footer">
-<p>Appendices</p>
-</div>
+<div class="quarto-auto-generated-content">
+<p><img src="images/neu_logo.svg" class="slide-logo"></p>
+<div class="footer footer-default">
 
-<img src="images/neu_logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
-
+</div>
 </div>
 </section></section>
 
@@ -2905,19 +2749,19 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="proposal_slides_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="defense_slides_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="proposal_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="proposal_slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="proposal_slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="proposal_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="proposal_slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="proposal_slides_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="proposal_slides_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="proposal_slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="proposal_slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="defense_slides_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -2927,7 +2771,6 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -3144,18 +2987,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
         }
         return false;
       }
-      const clipboard = new window.ClipboardJS('.code-copy-button', {
-        text: function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-        }
-      });
-      clipboard.on('success', function(e) {
+      const onCopySuccess = function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -3187,11 +3019,50 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
         }, 1000);
         // clear code selection
         e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
-      function tippyHover(el, contentFn) {
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -3201,8 +3072,17 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
@@ -3216,7 +3096,11 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          return note.innerHTML;
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
         });
       }
       const findCites = (el) => {
@@ -3258,6 +3142,38 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
       }
     });
     </script>
+        <script type="text/javascript">
+        (function(d) {
+          d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+            let pseudocodeOptions = {
+              indentSize: el.dataset.indentSize || "1.2em",
+              commentDelimiter: el.dataset.commentDelimiter || "//",
+              lineNumber: el.dataset.lineNumber === "true" ? true : false,
+              lineNumberPunc: el.dataset.lineNumberPunc || ":",
+              noEnd: el.dataset.noEnd === "true" ? true : false,
+              titlePrefix: el.dataset.captionPrefix || "Algorithm"
+            };
+            pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+          });
+        })(document);
+        (function(d) {
+          d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+            let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+            if (captionSpan !== null) {
+              let captionPrefix = el.dataset.captionPrefix + " ";
+              let captionNumber = "";
+              if (el.dataset.pseudocodeNumber) {
+                captionNumber = el.dataset.pseudocodeNumber + " ";
+                if (el.dataset.chapterLevel) {
+                  captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+                }
+              }
+              captionSpan.innerHTML = captionPrefix + captionNumber;
+            }
+          });
+        })(document);
+        </script>
+      
     
 
 </body></html>
