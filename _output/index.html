@@ -2218,35 +2218,6 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="cache-read-bandwidth" class="slide level2">
 <h2>Cache Read Bandwidth</h2>
-<p>Model assumes read rate of each object is independent</p>
-<div style="font-size: 70%;">
-<span class="math display">\[\begin{equation*}
-    V^k_n(t+1) \leq \Big(V\knt - \sum\limits_{\jin} r_{n_j} s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t) \Big)^+ + A^k_n(t)
-    + \sum\limits_{\ain}\mu^k_{an}(t)
-\end{equation*}\]</span>
-</div>
-<div class="footer">
-<p>Virtual Plane Cache Read Rate Control</p>
-</div>
-<aside class="notes">
-<ul>
-<li>We treat the read rate parameter as if it is independent for each object, which indicates that there is a guaranteeable rate that can be provided per object, no matter how many objects are cached in that tier</li>
-<li>This is an okay assumption, but given the strict rate limitations we’re working with, is not great</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="cache-read-bandwidth-1" class="slide level2">
-<h2>Cache Read Bandwidth</h2>
 <p><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</p>
 <div style="font-size: 70%;">
 <span class="math display">\[\begin{equation*}
@@ -2282,6 +2253,39 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           display:block!important;
       }</style></aside>
 </section>
+<section id="virtual-plane-caching-1" class="slide level2">
+<h2>Virtual Plane Caching</h2>
+<div style="font-size: 80%;">
+<p>Ignore penalties (<span class="math inline">\(\omega=0\)</span>); revised optimization problem for caching:</p>
+<span class="math display">\[\begin{align*}
+    \text{maximize}
+        &amp; \quad \sum_{\kin} \sum_{\jin} r\knjt s\knjt V\knt \label{eq:mt_sbw_cost}\\
+    \text{subject to}
+        &amp; \quad \sum_{\kin} s\knjt \leq L_{n_j}, \; \forall \jin \label{eq:mt_sbw_const1}\\
+        &amp; \quad \sum_{\jin} s\knjt \leq 1, \; \forall \kin \label{eq:mt_sbw_const2}\\
+        &amp; \quad s\knjt \in \{0,1\}, \; \forall \kin, \, \jin \label{eq:mt_sbw_const3}\\
+        &amp; \quad \sum_{\kin} r\knjt \leq R_{n_j}, \; \forall \jin \label{eq:mt_sbw_const4}
+\end{align*}\]</span>
+</div>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="lemma" class="slide level2">
 <h2>Lemma</h2>
 <div style="font-size: 80%;">
@@ -2300,7 +2304,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
         0, &amp; \text{otherwise}
     \end{array} \right.
 \end{equation*}\]</span>
-<p>This is akin to <em>backpressure</em> solution for forwarding.</p>
+<p>This is like the <em>backpressure</em> solution for forwarding.</p>
 </div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
@@ -2369,17 +2373,71 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="better-experiments" class="slide level2">
-<h2>Better Experiments</h2>
-<div>
+<section id="properties" class="slide level2">
+<h2>Properties</h2>
+<div style="font-size: 75%;">
 <ul>
-<li class="fragment">Python is convenient but not highly-scalable for the task. Julia is a great alternative.</li>
-<li class="fragment">Simulator core should be multi-threaded to improve <span class="body-highlight">scale-up</span>; per-experiment execution should <span class="body-highlight">scale-out</span>.</li>
-<li class="fragment"><span class="body-highlight">Extendibility</span> and <span class="body-highlight">reproducibility</span> can still be improved.</li>
+<li>Under <span class="body-highlight">heavy congestion</span> where <span class="math inline">\(V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}\)</span>, for all <span class="math inline">\(t \geq 1, \nin, \kin\)</span>, greedy algorithm is equivalent to <em>backpressure</em> solution.</li>
+<li>In general, given the same backlog state <span class="math inline">\(\mathbf{V}(t)\)</span>, following holds</li>
 </ul>
+<span class="math display">\[\begin{equation*}
+\begin{split}
+    &amp; \sum_{\kin,\jin} \hat{F}\knjt V\knt +
+    \sum_{\nbin, \kin} \hat{F}^k_{nb}(t) \big(V^k_n(t) - V^k_b(t) \big) \\
+    \geq &amp; \sum_{\kin,\jin} F\knjt V\knt +
+    \sum_{\nbin, \kin} F^k_{nb}(t) \big(V^k_n(t) - V^k_b(t) \big)
+\end{split}
+\end{equation*}\]</span>
+<p>where <span class="math inline">\(\hat{F}\knjt\)</span> and <span class="math inline">\(\hat{F}^k_{nb}(t)\)</span> denote actual VIP flow under greedy algorithm allocations.</p>
 </div>
 <div class="footer">
-<p>Proposed Work</p>
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="experimental-results" class="slide level2">
+<h2>Experimental Results</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Sum of backlogs</figcaption>
+<p><img data-src="images/sbw_comp_abilene_075_30_vip-pit-sums.png" style="width:85.0%;height:85.0%"></p>
+</figure>
+</div>
+<ul>
+<li>Placeholder.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Backlog gap</figcaption>
+<p><img data-src="images/sbw_comp_abilene_075_30_vip-pit-norms.png" style="width:85.0%;height:85.0%"></p>
+</figure>
+</div>
+<ul>
+<li>Placeholder.</li>
+</ul>
+</div></div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="experimental-results-1" class="slide level2">
+<h2>Experimental Results</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Abilene</figcaption>
+<p><img data-src="images/sbw_comp_abilene_075_30.png" style="width:90.0%;height:90.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Geant</figcaption>
+<p><img data-src="images/sbw_comp_geant_075_30.png" style="width:90.0%;height:90.0%"></p>
+</figure>
+</div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section></section>
 <section>

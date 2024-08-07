@@ -7,27 +7,6 @@ Virtual Plane Cache Read Rate Control
 :::
 
 ## Cache Read Bandwidth
-Model assumes read rate of each object is independent
-
-::: {style="font-size: 70%;"}
-```{=tex}
-\begin{equation*}
-    V^k_n(t+1) \leq \Big(V\knt - \sum\limits_{\jin} r_{n_j} s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t) \Big)^+ + A^k_n(t) 
-    + \sum\limits_{\ain}\mu^k_{an}(t)
-\end{equation*}
-```
-:::
-
-::: {.footer}
-Virtual Plane Cache Read Rate Control
-:::
-
-::: {.notes}
-- We treat the read rate parameter as if it is independent for each object, which indicates that there is a guaranteeable rate that can be provided per object, no matter how many objects are cached in that tier
-- This is an okay assumption, but given the strict rate limitations we're working with, is not great
-:::
-
-## Cache Read Bandwidth
 **Premise:** Initial model assumes cache read rate is constant across objects in virtual plane each slot.
 
 ::: {style="font-size: 70%;"}
@@ -61,6 +40,32 @@ Virtual Plane Cache Read Rate Control
 - Complexity of caching problem solution reduces
 :::
 
+## Virtual Plane Caching
+
+::: {style="font-size: 80%;"}
+Ignore penalties ($\omega=0$); revised optimization problem for caching:
+
+```{=tex}
+\begin{align*}
+    \text{maximize}
+        & \quad \sum_{\kin} \sum_{\jin} r\knjt s\knjt V\knt \label{eq:mt_sbw_cost}\\
+    \text{subject to} 
+        & \quad \sum_{\kin} s\knjt \leq L_{n_j}, \; \forall \jin \label{eq:mt_sbw_const1}\\
+        & \quad \sum_{\jin} s\knjt \leq 1, \; \forall \kin \label{eq:mt_sbw_const2}\\
+        & \quad s\knjt \in \{0,1\}, \; \forall \kin, \, \jin \label{eq:mt_sbw_const3}\\
+        & \quad \sum_{\kin} r\knjt \leq R_{n_j}, \; \forall \jin \label{eq:mt_sbw_const4}
+\end{align*}
+```
+:::
+
+::: {.footer}
+Optimization Framework
+:::
+
+::: {.notes}
+- Placeholder
+:::
+
 ## Lemma
 
 ::: {style="font-size: 80%;"}
@@ -85,7 +90,7 @@ Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq
 \end{equation*}
 ```
 
-This is akin to *backpressure* solution for forwarding.
+This is like the *backpressure* solution for forwarding.
 :::
 
 ::: {.footer}
@@ -198,6 +203,57 @@ Virtual Plane Cache Read Rate Control
 :::
 :::
 :::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Properties
+
+::: {style="font-size: 75%;"}
+- Under [heavy congestion]{.body-highlight} where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, greedy algorithm is equivalent to *backpressure* solution.
+- In general, given the same backlog state $\mathbf{V}(t)$, following holds
+```{=tex}
+\begin{equation*}
+\begin{split}
+    & \sum_{\kin,\jin} \hat{F}\knjt V\knt +
+    \sum_{\nbin, \kin} \hat{F}^k_{nb}(t) \big(V^k_n(t) - V^k_b(t) \big) \\
+    \geq & \sum_{\kin,\jin} F\knjt V\knt +
+    \sum_{\nbin, \kin} F^k_{nb}(t) \big(V^k_n(t) - V^k_b(t) \big)
+\end{split}
+\end{equation*}
+```
+where $\hat{F}\knjt$ and $\hat{F}^k_{nb}(t)$ denote actual VIP flow under greedy algorithm allocations.
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Experimental Results
+
+::: columns
+::: {.column width=50%}
+![Sum of backlogs](images/sbw_comp_abilene_075_30_vip-pit-sums.png){width=85% height=85% fig-align="center"}
+
+- Placeholder.
+:::
+::: {.column width=50%}
+![Backlog gap](images/sbw_comp_abilene_075_30_vip-pit-norms.png){width=85% height=85% fig-align="center"}
+
+- Placeholder.
+:::
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Experimental Results
+
+![Abilene](images/sbw_comp_abilene_075_30.png){width=90% height=90% fig-align="center"}
+
+![Geant](images/sbw_comp_geant_075_30.png){width=90% height=90% fig-align="center"}
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control

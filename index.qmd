@@ -543,18 +543,6 @@ Experiments
 
 {{< include _sbw.qmd >}}
 
-## Better Experiments
-
-::: {.incremental}
--  Python is convenient but not highly-scalable for the task. Julia is a great alternative.
--  Simulator core should be multi-threaded to improve [scale-up]{.body-highlight}; per-experiment execution should [scale-out]{.body-highlight}.
--  [Extendibility]{.body-highlight} and [reproducibility]{.body-highlight} can still be improved.
-:::
-
-::: {.footer}
-Proposed Work
-:::
-
 # Conclusion & Other Work
 
 ## Conclusion
