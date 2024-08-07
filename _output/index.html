@@ -336,6 +336,20 @@
       processEnvironments: true,
       packages: {
         '[+]': ['boldsymbol']
+      },
+      macros: {
+        mc: ["\\mathcal{#1}", 1],
+        mb: ["\\mathbf{#1}", 1],
+        nin: "n \\in \\mathcal{N}",
+        bin: "b \\in \\mathcal{N}",
+        kin: "k \\in \\mathcal{K}",
+        jin: "j \\in \\mathcal{J}_n",
+        kjin: "(k,j) \\in \\mathcal{B}_{n,i}",
+        nbin: "(n,b) \\in \\mathcal{L}",
+        knt: "\^k_n(t)",
+        knjt: "\^k_{n_j}(t)",
+        argmax: "\\mathop{\\mathrm{argmax}}",
+        argmin: "\\mathop{\\mathrm{argmin}}",
       }
     }
   };
@@ -383,6 +397,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\nin}{n \in \mc{N}}
 \newcommand{\kin}{k \in \mc{K}}
 \newcommand{\jin}{j \in \mc{J}_n}
+\newcommand{\knt}{^k_n(t)}
+\newcommand{\knjt}{^k_{n_j}(t)}
 \newcommand{\kjin}{(k,j) \in \mc{B}_{n,i}}
 \newcommand{\iin}{i \in \mc{I}_n}
 \newcommand{\ain}{a \in \mc{N}}
@@ -721,8 +737,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="the-cost-challenge" class="slide level2">
-<h2>The Cost Challenge</h2>
+<section id="operational-costs-of-caching" class="slide level2">
+<h2>Operational Costs of Caching</h2>
 <ul>
 <li>Caches are not free to use: admissions, replacements, even idle operation has an energy cost</li>
 </ul>
@@ -762,8 +778,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="the-cost-challenge-1" class="slide level2">
-<h2>The Cost Challenge</h2>
+<section id="operational-costs-of-caching-1" class="slide level2">
+<h2>Operational Costs of Caching</h2>
 <ul>
 <li>Caches are not free to use: admissions, replacements, even idle operation has an energy cost</li>
 <li>SSDs also wear out over time as they’re written</li>
@@ -1575,11 +1591,13 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="data-plane-caching" class="slide level2">
 <h2>Data Plane Caching</h2>
-<p><span class="body-highlight">Oscillatory</span><sup>1</sup> nature of VIP counts impractical for data plane caching. Adapt <span class="body-highlight">cache score</span> metric from (Yeh, 2014), defined over sliding window of <span class="math inline">\(T\)</span> slots:</p>
-<span class="math display">\[\begin{equation}
-    CS^k_n(t) \triangleq \frac{1}{T} \sum^t_{\tau = t - T + 1} \sum_{(a,n) \in \mc{L}^k} v^k_{an}(\tau)
-\end{equation}\]</span>
-<p><span class="math inline">\(\mc{v}^k_{ab}\)</span>: Number of VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></p>
+<p>Define virtual plane <span class="body-highlight">incoming VIP flow</span>, averaged over sliding window of <span class="math inline">\(T\)</span> slots:</p>
+<span class="math display">\[\begin{equation*}
+    \bar{F}_{n,in}^k(t) \triangleq \frac{1}{T} \sum^t_{t' = t - T + 1} \Big( A\knt + \sum_{(a,n) \in \mc{L}^k} F^k_{an}(t') \Big)
+\end{equation*}\]</span>
+<div style="font-size: 90%;">
+<p><span class="math inline">\(F^k_{an}(t)\)</span>: VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,n)\)</span> during <span class="math inline">\(t\)</span>.</p>
+</div>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
@@ -1600,24 +1618,24 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>When the VIP count for an object becomes large, we make decisions in the virtual plane that will quickly drive the count down.</p></li></ol></aside></section>
+</section>
 <section id="data-plane-caching-1" class="slide level2">
 <h2>Data Plane Caching</h2>
 <p>Define the <span class="body-highlight">cache benefit</span> metric as follows:</p>
 <div style="font-size: 75%;">
-<span class="math display">\[\begin{equation}
-    CB^k_{n_j}(t) = \begin{cases}
-        \begin{array}{l}
-             r_{n_j}(CS^k_n(t) - CS^{k^{min}_{n_j}(t)}_n(t)) - \omega(c^a_{n_j} + c^e_{n_j}), \text{if} \, j \, \text{is full} \\
-             r_{n_j} CS^k_n(t) - \omega c^a_{n_j}, \; \text{otherwise}
-        \end{array}
-    \end{cases}
-\end{equation}\]</span>
+<span class="math display">\[\begin{gather*}
+CB^k_{n_j}(\tau) = \begin{cases}
+\begin{aligned}
+r_{n_j} \bar{F}_{n,in}^k(t) &amp;- \omega c^a_{n_j}, &amp;\text{if } |\mc{K}_{n_j}(\tau)| &lt; L_{n_j} \\
+r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c^a_{n_j} + c^e_{n_j}), &amp;\text{otherwise,}
+\end{aligned}
+\end{cases}
+\end{gather*}\]</span>
 </div>
-<span class="math display">\[\begin{equation}
-   k^{min}_{n_j}(t) = \argmin_{\{k \in \mc{K}_{n_j}(t)\}} CS^k_n(t)
-\end{equation}\]</span>
-<p><span class="math inline">\(\mc{K}_{n_j}(t)\)</span>: Set of objects cached in <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span>, in the data plane</p>
+<span class="math display">\[\begin{equation*}
+   k^{min}_{n_j} = \argmin_{k \in \mc{K}_{n_j}(\tau)} \; \bar{F}_{n,in}^k(t)
+\end{equation*}\]</span>
+<p><span class="math inline">\(\mc{K}_{n_j}(\tau)\)</span>: Set of objects cached in <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during instance <span class="math inline">\(\tau \in [t,t+1)\)</span> in the data plane.</p>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
@@ -1640,15 +1658,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="data-plane-caching-2" class="slide level2">
 <h2>Data Plane Caching</h2>
-<p>When <span class="math inline">\(k \not \in \mc{K}_{n_j}(t)\)</span> arrives at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
-<ul>
-<li>Find cache tier offering highest cache benefit, i.e.&nbsp;<span class="math inline">\(j^* = \argmax_{\{ \jin \}} CB^k_{n_j}(t)\)</span></li>
-<li>If <span class="math inline">\(CB^k_{n_{j^*}}(t) &gt; 0\)</span>, admit object into tier <span class="math inline">\(j^*\)</span>
-<ul>
-<li>If <span class="math inline">\(j^*\)</span> is full, i.e.&nbsp;<span class="math inline">\(|\mc{K}_{n_{j^*}}(t)| = L_{n_{j^*}}\)</span>, <span class="math inline">\(k\)</span> replaces <span class="math inline">\(k^{min}_{n_{j^*}}\)</span></li>
-</ul></li>
-<li>If a replacement happened in <span class="math inline">\(j^* &lt; |\mc{J}_n|\)</span>, set <span class="math inline">\(k = k^{min}_{n_{j^*}}\)</span>, then start the process over</li>
-</ul>
+<p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
+<div style="font-size: 90%;">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode">
+\begin{algorithm} \caption{Data Plane Caching Policy} \begin{algorithmic} \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$. \If{$CB^k_{n_{j^*}}(\tau) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \ElsIf{$CB^k_{n_{j^*}}(\tau) &gt; 0$} \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$. \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$. \EndIf \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
@@ -1668,12 +1685,16 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="data-plane-forwarding" class="slide level2">
-<h2>Data Plane Forwarding</h2>
-<p>Forwarding strategy is as in (Yeh, 2014). When a request for object <span class="math inline">\(k \not \in \mc{K}_{n_j}(t), \; \forall \jin\)</span>, arrives at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span>, the request is forwarded to the following node:</p>
-<span class="math display">\[\begin{equation}
-    b^k_n(t) = \argmax_{\{ b:(n,b) \in \mc{L}^k \}} \frac{1}{T} \sum\limits^t_{t'=t-T+1} v^k_{nb}(t)
-\end{equation}\]</span>
+<section id="data-plane-caching-3" class="slide level2">
+<h2>Data Plane Caching</h2>
+<p>Define virtual plane <span class="body-highlight">outgoing VIP flow</span> average:</p>
+<span class="math display">\[\begin{equation*}
+    \bar{F}_{nb}^k(t) \triangleq \frac{1}{T} \sum\limits^t_{t'=t-T+1} F^k_{nb}(t').
+\end{equation*}\]</span>
+<p>When request for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane forwarding policy</span> forwards it to:</p>
+<span class="math display">\[\begin{equation*}
+    b^k_n(\tau) \triangleq \argmax_{b \in \{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)
+\end{equation*}\]</span>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
@@ -2105,6 +2126,64 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="cache-read-rate-control" class="slide level2">
+<h2>Cache Read Rate Control</h2>
+<p>Placeholder.</p>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="data-plane-caching-4" class="slide level2">
+<h2>Data Plane Caching</h2>
+<p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
+<div style="font-size: 65%;">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode">
+\begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="cache-read-rate-control-1" class="slide level2">
+<h2>Cache Read Rate Control</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 50%;">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode">
+\begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Determine objects $k_1, k_2, ...$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax_{\jin} \left(R_{n_j} - \sum_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 50%;">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode">
+\begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \EndWhile \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
+</div></div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="cache-read-rate-control-2" class="slide level2">
+<h2>Cache Read Rate Control</h2>
+<div style="font-size: 50%;">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode">
+\begin{algorithm} \caption{No-underflow Virtual Plane Caching and Forwarding with Cache Read Rate Control} \begin{algorithmic} \State Observe $V\knt$ and $V^k_b(t)$ for all $\kin$ and $\nbin$. \State Initialize $s\knjt \gets 0$, $r\knjt \gets 0$, $\mu^k_{nb}(t) \gets 0$ for all $\kin$, $\jin$, $\nbin$. \State Perform caching, then forwarding, according to the procedures below. \Procedure{VirtualPlaneCaching}{} \State Determine objects $k_1, k_2, ...$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq |\mc{K}|$} \State $j^* \gets \argmax_{\jin} \left(R_{n_j} - \sum_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \EndProcedure \Procedure{VirtualPlaneForwarding}{} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big), \big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \EndWhile \EndProcedure \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
 </section></section>
 <section>
 <section id="proposed-work" class="title-slide slide level1 center">
@@ -2478,9 +2557,9 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm" data-pseudocode-number="1" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
 <div class="pseudocode">
-\begin{algorithm} \caption{Subgradient Projection}\begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
+\begin{algorithm} \caption{Subgradient Projection} \begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>
 </div>
 </div>
@@ -2582,7 +2661,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <section id="appendix-a-pseudocode" class="slide level2">
 <h2>Appendix A: Pseudocode</h2>
 <div style="font-size: 50%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm" data-pseudocode-number="1">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Quicksort} \begin{algorithmic} \Procedure{Quicksort}{$A, p, r$} \If{$p &lt; r$} \State $q = $ \Call{Partition}{$A, p, r$} \State \Call{Quicksort}{$A, p, q - 1$} \State \Call{Quicksort}{$A, q + 1, r$} \EndIf \EndProcedure \Procedure{Partition}{$A, p, r$} \State $x = A[r]$ \State $i = p - 1$ \For{$j = p$ \To $r - 1$} \If{$A[j] &lt; x$} \State $i = i + 1$ \State exchange $A[i]$ with $A[j]$ \EndIf \State exchange $A[i]$ with $A[r]$ \EndFor \EndProcedure \end{algorithmic} \end{algorithm}
 </div>

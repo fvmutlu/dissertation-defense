@@ -137,7 +137,7 @@ Conclusion & Other Work
 #| html-line-number: true
 \begin{algorithm}
 \caption{Subgradient Projection}
-\begin{algorithmic}[1]
+\begin{algorithmic}
 \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon > 0$ and let $t=0$.}
 \While{$D^t - D^{t-1} > \epsilon \;$}
     \State{Compute subgradients $d^t_S, d^t_Y$.}

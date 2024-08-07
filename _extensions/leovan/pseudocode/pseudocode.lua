@@ -93,7 +93,10 @@ local function render_pseudocode_block_html(global_options)
 
       local alg_id = options["label"]
       options["label"] = nil
-      options["html-caption-prefix"] = global_options.caption_prefix
+
+      if not options["html-caption-prefix"] then
+        options["html-caption-prefix"] = global_options.caption_prefix
+      end
 
       if global_options.number_with_in_chapter and global_options.html_chapter_level then
         options["html-chapter-level"] = global_options.html_chapter_level
@@ -253,9 +256,9 @@ end
 
 function Pandoc(doc)
   local global_options = {
-    caption_prefix = "Algorithm",
-    reference_prefix = "Algorithm",
-    caption_number = true,
+    caption_prefix = "Algorithm:",
+    reference_prefix = "Algorithm:",
+    caption_number = false,
     number_with_in_chapter = false,
     html_chapter_level = nil,
     html_current_number = 1,

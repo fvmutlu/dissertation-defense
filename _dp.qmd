@@ -1,0 +1,138 @@
+# Data Plane Strategy
+
+::: {.notes}
+- So there are several things about applying this virtual plane algorithm within the mechanics of the data plane
+- Most obvious is that virtual plane decisions are made in discrete time slots, but of course the data plane decisions have to be reactive and continuous
+- (Next slide)
+:::
+
+## Data Plane Caching
+
+Define virtual plane [incoming VIP flow]{.body-highlight}, averaged over sliding window of $T$ slots:
+```{=tex}
+\begin{equation*}
+    \bar{F}_{n,in}^k(t) \triangleq \frac{1}{T} \sum^t_{t' = t - T + 1} \Big( A\knt + \sum_{(a,n) \in \mc{L}^k} F^k_{an}(t') \Big)
+\end{equation*}
+```
+
+::: {style="font-size: 90%;"}
+$F^k_{an}(t)$: VIPs for $k$ transmitted over $(a,n)$ during $t$.
+:::
+
+::: {.footer}
+Data Plane Strategy
+:::
+
+::: {.notes}
+- But there is another major consideration
+- Because VIP counts change frequently and drastically, cache states also tend to change quickly. Basing caching on this behavior directly is impractical in the data plane, especially given that we're now working with slower caches and considering costs, so we're trying to be conservative in the replacements we make.
+- So we adapt this cache score metric from the VIP paper, which is basically a measurement of demand for a certain object over a window of time, based on the VIP counts.
+:::
+
+## Data Plane Caching
+
+Define the [cache benefit]{.body-highlight} metric as follows:
+
+::: {style="font-size: 75%;"}
+```{=tex}
+\begin{gather*}
+CB^k_{n_j}(\tau) = \begin{cases}
+\begin{aligned}
+r_{n_j} \bar{F}_{n,in}^k(t) &- \omega c^a_{n_j}, &\text{if } |\mc{K}_{n_j}(\tau)| < L_{n_j} \\
+r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &- \omega(c^a_{n_j} + c^e_{n_j}), &\text{otherwise,}
+\end{aligned}
+\end{cases}
+\end{gather*}
+```
+:::
+
+```{=tex}
+\begin{equation*}
+   k^{min}_{n_j} = \argmin_{k \in \mc{K}_{n_j}(\tau)} \; \bar{F}_{n,in}^k(t)
+\end{equation*}
+```
+
+$\mc{K}_{n_j}(\tau)$: Set of objects cached in $j$ at $n$ during instance $\tau \in [t,t+1)$ in the data plane.
+
+::: {.footer}
+Data Plane Strategy
+:::
+
+::: {.notes}
+- But then, because we also consider costs, we need a metric that incorporates those.
+- So we define this cache benefit metric, which includes both the cache score and weighted utilization costs.
+:::
+
+## Data Plane Caching
+
+When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
+
+::: {style="font-size: 90%;"}
+```pseudocode
+#| html-line-number: true
+\begin{algorithm}
+\caption{Data Plane Caching Policy}
+\begin{algorithmic}
+    \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$.
+    \If{$CB^k_{n_{j^*}}(\tau) > 0$ and $|\mc{K}_{n_{j^*}}(\tau)| < L_{n_{j^*}}$}
+        \State Admit $k$ into $j^*$.
+    \ElsIf{$CB^k_{n_{j^*}}(\tau) > 0$}
+        \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$.
+        \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$.
+    \EndIf
+\end{algorithmic}
+
+\end{algorithm}
+```
+:::
+
+::: {.footer}
+Data Plane Strategy
+:::
+
+::: {.notes}
+- Now, to state the exact data plane policy
+:::
+
+## Data Plane Caching
+
+Define virtual plane [outgoing VIP flow]{.body-highlight} average:
+```{=tex}
+\begin{equation*}
+    \bar{F}_{nb}^k(t) \triangleq \frac{1}{T} \sum\limits^t_{t'=t-T+1} F^k_{nb}(t').
+\end{equation*}
+```
+
+When request for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau$, [data plane forwarding policy]{.body-highlight} forwards it to:
+
+```{=tex}
+\begin{equation*}
+    b^k_n(\tau) \triangleq \argmax_{b \in \{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)
+\end{equation*}
+```
+
+::: {.footer}
+Data Plane Strategy
+:::
+
+::: {.notes}
+- As for the forwarding, again this doesn't need to be altered.
+- We can directly use this policy from the VIP paper, that also relies on a sliding window average, but this time on outgoing VIP flows.
+:::
+
+## Chunk-level Decisions
+
+At chunk-level in data plane, we observe the following principles:
+
+-   If a data object is admitted to (evicted from) a cache tier, all its chunks must be admitted to (evicted from) that tier.
+-   Forwarding decision is made upon receiving request for a first chunk. Requests for subsequent chunks are forwarded to the same node.
+
+::: {.footer}
+Data Plane Strategy
+:::
+
+::: {.notes}
+- As a final note, recall that our model and approach is at the object level, but in the real world, the data plane operates at a chunk (or packet) level
+- So here are the two principles we would observe when applying our approach at the chunk level
+- (Talk about bullet points)
+:::
