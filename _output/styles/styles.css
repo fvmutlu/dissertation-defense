@@ -49,3 +49,13 @@
     left: -20vw;
     padding-left: 20vw;
 }
+
+.reveal .slide aside .aside-footnotes {
+    font-size: 0.8em;
+}
+
+.reveal .my-image-class {
+    float: right;
+    margin: 10px;
+    width: 30%;
+}

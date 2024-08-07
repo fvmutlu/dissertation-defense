@@ -539,6 +539,8 @@ Experiments
 - The situation is similar for the Geant and 3-regular topologies as well, though in the latter, there is a small operating region where LFU overtakes our approach
 :::
 
+# Cache Read Rate Control
+
 {{< include _sbw.qmd >}}
 
 # Proposed Work

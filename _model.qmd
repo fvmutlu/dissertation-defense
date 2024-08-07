@@ -15,11 +15,10 @@ System Model
 Data plane model based on general ICN principles:
 
 ::: {.incremental}
--   Unit of content is *data object*; each object $\kin$ has a unique source $\mc{S}(k)$
+-   Unit of content is *data object*
+-   Each object $\kin$ has a unique source $\mc{S}(k)$
+-   Every data object has the same *unit size*
 -   Any node $n \not = \mc{S}(k)$ can cache $k$
--   Every data object has the [same size]{.body-highlight}    
--   Requests can enter network at any node; sources / caching nodes respond to requests with data
--   Data responses follow request path back to requester
 :::
 
 ::: {.footer}
@@ -35,12 +34,49 @@ System Model
 :::
 
 ## Data Plane Model
+  
+-   Requests can enter network at any node, forwarded toward sources
+
+![](images/dpmodel_1.svg){width="55%" height="55%" fig-align="center"}
+
+::: {.footer}
+System Model
+:::
+
+## Data Plane Model
+
+ -   Requests can enter network at any node, forwarded toward sources
+-   Responses carry data back, following reverse path
+
+![](images/dpmodel_2.svg){width="55%" height="55%" fig-align="center"}
+
+::: {.footer}
+System Model
+:::
+
+## Data Plane Model
+
+-   Requests can enter network at any node, forwarded toward sources
+-   Responses carry data back, following reverse path
+-   Nodes can respond from their cache
+
+![](images/dpmodel_3.svg){width="55%" height="55%" fig-align="center"}
+
+::: {.footer}
+System Model
+:::
+
+## Data Plane Model
+
+::: columns
+::: {.column width=80%}
 [Multi-tiered caching model]{.body-highlight} adds following properties:
 
-::: {.incremental}
 -   Any node can have any number of cache tiers
--   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight})
--   An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node
+:::
+::: {.column width=20%}
+<img src="images/tier1_admit.svg" style="display: block; margin-left: auto; margin-right: 10px; width: 80%; height: 80%; transform: translateY(25%);">
+:::
 :::
 
 ::: {.footer}
@@ -52,6 +88,43 @@ System Model
 - Any node can have cache tiers and can cache any object in one of those tiers unless it already sources that object.
 - A node can cache an object in at most one of its tiers. This means that we don't duplicate objects across cache tiers. This is also something critical to keep in mind.
 - An object evicted from one tier can migrate to another tier at the same node. So an eviction from one tier is not necessarily final for an object.
+:::
+
+## Data Plane Model
+
+::: columns
+::: {.column width=80%}
+[Multi-tiered caching model]{.body-highlight} adds following properties:
+
+-   Any node can have any number of cache tiers
+-   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight})
+:::
+::: {.column width=20%}
+<img src="images/tier2_admit.svg" style="display: block; margin-left: auto; margin-right: 0; width: 85%; height: 85%; transform: translateY(24%);">
+:::
+:::
+
+::: {.footer}
+System Model
+:::
+
+## Data Plane Model
+
+::: columns
+::: {.column width=80%}
+[Multi-tiered caching model]{.body-highlight} adds following properties:
+
+-   Any node can have any number of cache tiers
+-   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight})
+-   An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node
+:::
+::: {.column width=20%}
+<img src="images/migration.svg" style="display: block; margin-left: auto; margin-right: 0; width: 100%; height: 100%; transform: translateY(25%);">
+:::
+:::
+
+::: {.footer}
+System Model
 :::
 
 ## Virtual Plane Model
