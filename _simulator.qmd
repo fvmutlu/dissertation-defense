@@ -15,9 +15,12 @@ Simulator
 ## Simulator {.smaller}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
-- [Request]{.code} holds metadata.
-- [Packet]{.code} encapsulates [Request]{.code}; has binary direction, request or response.
-- [Link]{.code} is a FIFO queue; delays [Packet]{.code} delivery based on bandwidth, in response direction.
+- [Request]{.code} stores metadata.
+    - Object identifier, unique request token, statistics etc. 
+- [Packet]{.code} encapsulates [Request]{.code}.
+    - Binary direction flag; carries request uplink, response downlink.
+- [Link]{.code} is a FIFO queue connecting two nodes.
+    - Delays [Packet]{.code} delivery based on bandwidth in response direction.
 
 ::: {.footer}
 Simulator
@@ -26,20 +29,10 @@ Simulator
 ## Simulator {.smaller}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
-- Placeholder
+- [Cache]{.code} is operated by a SimPy process controlling a *task queue*.
+    - Read and write tasks processed based on transfer rate.
 
-![Placeholder.](images/simcache.svg){width=75% height=75% fig-align="center"}
-
-::: {.footer}
-Simulator
-:::
-
-## Simulator {.smaller}
-
-- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
-- Placeholder
-
-![Placeholder.](images/simnode.svg){width=60% height=60% fig-align="center"}
+![](images/simcache.svg){width=75% height=75% fig-align="center"}
 
 ::: {.footer}
 Simulator
@@ -48,9 +41,22 @@ Simulator
 ## Simulator {.smaller}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
-- Placeholder
+- [Node]{.code} encapsulates [Cache]{.code}s, FIB and PIT
+    - Implements caching and forwarding policy.
 
-![Placeholder.](images/simnet.svg){width=65% height=65% fig-align="center"}
+![](images/simnode.svg){width=60% height=60% fig-align="center"}
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator {.smaller}
+
+- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
+- [Network]{.code} encapsulates [Node]{.code}s.
+    - Initializes configuration and monitors events.
+
+![](images/simnet.svg){width=65% height=65% fig-align="center"}
 
 ::: {.footer}
 Simulator
