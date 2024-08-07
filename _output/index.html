@@ -1737,7 +1737,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching Policy} \begin{algorithmic} \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$. \If{$CB^k_{n_{j^*}}(\tau) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \ElsIf{$CB^k_{n_{j^*}}(\tau) &gt; 0$} \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$. \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$. \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2333,7 +2333,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 65%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2348,12 +2348,12 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 45%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
@@ -2438,6 +2438,133 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section></section>
+<section>
+<section id="simulator" class="title-slide slide level1 center">
+<h1>Simulator</h1>
+
+</section>
+<section id="simulator-1" class="slide level2">
+<h2>Simulator</h2>
+<div style="font-size: 80%;">
+<ul>
+<li><strong>Motivation</strong>: Lack of existing simulators with combination of requirements.
+<ul>
+<li>Support for multi-tiered caches with parameters of interest.</li>
+<li>Queuing mechanisms for caches that contribute to delay.</li>
+<li>High level of abstraction enabling quick development iteration.</li>
+</ul></li>
+<li><strong>Implementation</strong>: Built using Python and the SimPy library for discrete event simulation.</li>
+</ul>
+</div>
+<div class="footer">
+<p>Simulator</p>
+</div>
+</section>
+<section id="simulator-2" class="slide level2 smaller">
+<h2>Simulator</h2>
+<ul>
+<li><strong>Components</strong>: <span class="code">Packet, Request, Link, Cache, Node, Network</span></li>
+<li><span class="code">Request</span> holds metadata.</li>
+<li><span class="code">Packet</span> encapsulates <span class="code">Request</span>; has binary direction, request or response.</li>
+<li><span class="code">Link</span> is a FIFO queue; delays <span class="code">Packet</span> delivery based on bandwidth, in response direction.</li>
+</ul>
+<div class="footer">
+<p>Simulator</p>
+</div>
+</section>
+<section id="simulator-3" class="slide level2 smaller">
+<h2>Simulator</h2>
+<ul>
+<li><strong>Components</strong>: <span class="code">Packet, Request, Link, Cache, Node, Network</span></li>
+<li>Placeholder</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Placeholder.</figcaption>
+<p><img data-src="images/simcache.svg" style="width:75.0%;height:75.0%"></p>
+</figure>
+</div>
+<div class="footer">
+<p>Simulator</p>
+</div>
+</section>
+<section id="simulator-4" class="slide level2 smaller">
+<h2>Simulator</h2>
+<ul>
+<li><strong>Components</strong>: <span class="code">Packet, Request, Link, Cache, Node, Network</span></li>
+<li>Placeholder</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Placeholder.</figcaption>
+<p><img data-src="images/simnode.svg" style="width:60.0%;height:60.0%"></p>
+</figure>
+</div>
+<div class="footer">
+<p>Simulator</p>
+</div>
+</section>
+<section id="simulator-5" class="slide level2 smaller">
+<h2>Simulator</h2>
+<ul>
+<li><strong>Components</strong>: <span class="code">Packet, Request, Link, Cache, Node, Network</span></li>
+<li>Placeholder</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Placeholder.</figcaption>
+<p><img data-src="images/simnet.svg" style="width:65.0%;height:65.0%"></p>
+</figure>
+</div>
+<div class="footer">
+<p>Simulator</p>
+</div>
+</section>
+<section id="simulator-6" class="slide level2 smaller">
+<h2>Simulator</h2>
+<p>Simulation Flow:</p>
+<ul>
+<li>Initialization: Network topology, nodes, caches, and links are set up.</li>
+<li>Request Generation: Nodes generate requests based on predefined patterns.</li>
+<li>Event Handling: The simulator processes request forwarding, data generation, and caching events.</li>
+<li>Termination and Data Collection: The simulation ends when all requests are satisfied, and statistics are gathered.</li>
+</ul>
+<div class="footer">
+<p>Simulator</p>
+</div>
+</section>
+<section id="simulator-7" class="slide level2 smaller">
+<h2>Simulator</h2>
+<p>Ease of Use:</p>
+<ul>
+<li>Experiment configurations in JSON format.</li>
+<li>Support for parameter sweeps and combinations.</li>
+<li>Hash-based storage and querying of results.</li>
+<li>Convenience functions for data analysis and visualization.</li>
+</ul>
+<p>Reproducibility and Extensibility:</p>
+<ul>
+<li>Docker container for easy deployment.</li>
+<li>GitHub Action for running experiments and generating plots.</li>
+<li>Modular design for implementing custom policies.</li>
+</ul>
+<div class="footer">
+<p>Simulator</p>
+</div>
+</section>
+<section id="simulator-8" class="slide level2 smaller">
+<h2>Simulator</h2>
+<p>Abstractions and Approximations:</p>
+<ul>
+<li>Object-level simulation (no packet-level details).</li>
+<li>Unbounded queues and lossless operation (no packet loss modeling).</li>
+<li>Generic ICN architecture (no hierarchical naming).</li>
+<li>Simplified storage and memory mechanisms.</li>
+</ul>
+<div class="footer">
+<p>Simulator</p>
 </div>
 </section></section>
 <section>
@@ -2598,7 +2725,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Subgradient Projection} \begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>

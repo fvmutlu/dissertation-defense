@@ -1,0 +1,102 @@
+## Simulator
+
+::: {style="font-size: 80%;"}
+- **Motivation**: Lack of existing simulators with combination of requirements.
+    - Support for multi-tiered caches with parameters of interest.
+    - Queuing mechanisms for caches that contribute to delay.
+    - High level of abstraction enabling quick development iteration.
+- **Implementation**: Built using Python and the SimPy library for discrete event simulation.
+:::
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator {.smaller}
+
+- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
+- [Request]{.code} holds metadata.
+- [Packet]{.code} encapsulates [Request]{.code}; has binary direction, request or response.
+- [Link]{.code} is a FIFO queue; delays [Packet]{.code} delivery based on bandwidth, in response direction.
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator {.smaller}
+
+- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
+- Placeholder
+
+![Placeholder.](images/simcache.svg){width=75% height=75% fig-align="center"}
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator {.smaller}
+
+- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
+- Placeholder
+
+![Placeholder.](images/simnode.svg){width=60% height=60% fig-align="center"}
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator {.smaller}
+
+- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
+- Placeholder
+
+![Placeholder.](images/simnet.svg){width=65% height=65% fig-align="center"}
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator {.smaller}
+
+Simulation Flow:
+
+- Initialization: Network topology, nodes, caches, and links are set up.
+- Request Generation: Nodes generate requests based on predefined patterns.
+- Event Handling: The simulator processes request forwarding, data generation, and caching events.
+- Termination and Data Collection: The simulation ends when all requests are satisfied, and statistics are gathered.
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator {.smaller}
+
+Ease of Use:
+
+- Experiment configurations in JSON format.
+- Support for parameter sweeps and combinations.
+- Hash-based storage and querying of results.
+- Convenience functions for data analysis and visualization.
+
+Reproducibility and Extensibility:
+
+- Docker container for easy deployment.
+- GitHub Action for running experiments and generating plots.
+- Modular design for implementing custom policies.
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator {.smaller}
+
+Abstractions and Approximations:
+ 
+- Object-level simulation (no packet-level details).
+- Unbounded queues and lossless operation (no packet loss modeling).
+- Generic ICN architecture (no hierarchical naming).
+- Simplified storage and memory mechanisms.
+
+::: {.footer}
+Simulator
+:::

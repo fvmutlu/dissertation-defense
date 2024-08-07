@@ -11,6 +11,10 @@
     text-align: center !important;
 }
 
+.code {
+    font-family: Consolas, monospace;
+}
+
 .reveal .slide-number {
     font-size: 5.5vh !important;
     color: white !important;
