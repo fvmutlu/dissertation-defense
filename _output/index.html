@@ -2216,120 +2216,17 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="data-plane-caching-4" class="slide level2">
-<h2>Data Plane Caching</h2>
-<p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
-<div style="font-size: 65%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
-<div class="pseudocode">
-\begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
-</div>
-</div>
-</div>
-<div class="footer">
-<p>Virtual Plane Cache Read Rate Control</p>
-</div>
-</section>
-<section id="cache-read-rate-control-2" class="slide level2">
-<h2>Cache Read Rate Control</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div style="font-size: 50%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
-<div class="pseudocode">
-\begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Determine objects $k_1, k_2, ...$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax_{\jin} \left(R_{n_j} - \sum_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
-</div>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<div style="font-size: 50%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
-<div class="pseudocode">
-\begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \EndWhile \end{algorithmic} \end{algorithm}
-</div>
-</div>
-</div>
-</div></div>
-<div class="footer">
-<p>Virtual Plane Cache Read Rate Control</p>
-</div>
-</section>
-<section id="cache-read-rate-control-3" class="slide level2">
-<h2>Cache Read Rate Control</h2>
-<div style="font-size: 50%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
-<div class="pseudocode">
-\begin{algorithm} \caption{No-underflow Virtual Plane Caching and Forwarding with Cache Read Rate Control} \begin{algorithmic} \State Observe $V\knt$ and $V^k_b(t)$ for all $\kin$ and $\nbin$. \State Initialize $s\knjt \gets 0$, $r\knjt \gets 0$, $\mu^k_{nb}(t) \gets 0$ for all $\kin$, $\jin$, $\nbin$. \State Perform caching, then forwarding, according to the procedures below. \Procedure{VirtualPlaneCaching}{} \State Determine objects $k_1, k_2, ...$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq |\mc{K}|$} \State $j^* \gets \argmax_{\jin} \left(R_{n_j} - \sum_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \EndProcedure \Procedure{VirtualPlaneForwarding}{} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big), \big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \EndWhile \EndProcedure \end{algorithmic} \end{algorithm}
-</div>
-</div>
-</div>
-<div class="footer">
-<p>Virtual Plane Cache Read Rate Control</p>
-</div>
-</section></section>
-<section>
-<section id="proposed-work" class="title-slide slide level1 center">
-<h1>Proposed Work</h1>
-
-</section>
-<section id="improvements" class="slide level2">
-<h2>Improvements</h2>
-<p>There is still room for improvement:</p>
-<div class="fragment">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/big-room.webp" class="quarto-figure quarto-figure-center" style="width:65.0%;height:65.0%"></p>
-</figure>
-</div>
-<p>… and it’s a big room</p>
-</div>
-<div class="footer">
-<p>Super Funny Joke</p>
-</div>
-<aside class="notes">
-<ul>
-<li>So as much as I’d like to say I’ll be pursuing a shiny new goal for the remainder of my time here, there are still aspects of this work that needs to be covered and improved</li>
-<li>So this section will outline those improvements I’m planning on pursuing</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="improvements-1" class="slide level2">
-<h2>Improvements</h2>
-<p>There is still room for improvement:</p>
-<div>
-<ul>
-<li class="fragment">Modeling of cache read rates</li>
-<li class="fragment">Equal object sizes assumption</li>
-<li class="fragment">Virtual plane - data plane gap</li>
-<li class="fragment">Cache exclusivity constraint</li>
-<li class="fragment">Better scalable simulator</li>
-</ul>
-</div>
-<div class="footer">
-<p>Proposed Work</p>
-</div>
-</section>
 <section id="cache-read-bandwidth" class="slide level2">
 <h2>Cache Read Bandwidth</h2>
 <p>Model assumes read rate of each object is independent</p>
 <div style="font-size: 70%;">
-<span class="math display">\[\begin{equation}
-    V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n} \color{#C8102E}{r_{n_j}} s^k_{n_j}(t) \Bigg)^+
-\end{equation}\]</span>
+<span class="math display">\[\begin{equation*}
+    V^k_n(t+1) \leq \Big(V\knt - \sum\limits_{\jin} r_{n_j} s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t) \Big)^+ + A^k_n(t)
+    + \sum\limits_{\ain}\mu^k_{an}(t)
+\end{equation*}\]</span>
 </div>
 <div class="footer">
-<p>Proposed Work</p>
+<p>Virtual Plane Cache Read Rate Control</p>
 </div>
 <aside class="notes">
 <ul>
@@ -2350,25 +2247,21 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="cache-read-bandwidth-1" class="slide level2">
 <h2>Cache Read Bandwidth</h2>
-<p>Model assumes read rate of each object is independent</p>
+<p><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</p>
 <div style="font-size: 70%;">
-<span class="math display">\[\begin{equation}
-    \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r_{n_j}} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}    
-\end{equation}\]</span>
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{r_{n_j}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
 </div>
-<p>Need to be more accurate for larger and slower caches</p>
+<p><strong>Hypothesis:</strong> We can control read rate allocations in the virtual plane for better performance.</p>
 <div style="font-size: 70%;">
-<span class="math display">\[\begin{equation}
-   \color{#C0C0C0}{V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-   + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \sum\limits_{j \in \mathcal{J}_n}} \color{#C8102E}{r^k_{n_j}(t)} \color{#C0C0C0}{s^k_{n_j}(t) \Bigg)^+}
-\end{equation}\]</span>
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{r\knjt} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
 </div>
-<span class="math display">\[\begin{equation}
-   \sum_{\kin} r^k_{n_j}(t) \leq r_{n_j}   
-\end{equation}\]</span>
+<p><strong>Cache bandwidth constraint:</strong> <span class="math inline">\(\sum_{\kin} r^k_{n_j}(t) \leq R_{n_j}\)</span>.</p>
 <div class="footer">
-<p>Proposed Work</p>
+<p>Virtual Plane Cache Read Rate Control</p>
 </div>
 <aside class="notes">
 <ul>
@@ -2389,83 +2282,91 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           display:block!important;
       }</style></aside>
 </section>
-<section id="different-object-sizes" class="slide level2">
-<h2>Different Object Sizes</h2>
-<div>
-<ul>
-<li class="fragment">Equal object sizes assumption enables polynomial-time solution, but is not realistic</li>
-<li class="fragment">Without it, we’ll need to solve a GAP (NP-hard)</li>
-<li class="fragment">Need to reevaluate how we treat VIP counts:
-<ul>
-<li class="fragment">VIPs for smaller objects can be drained faster</li>
-<li class="fragment">Service may prioritize smaller objects</li>
-</ul></li>
-</ul>
+<section id="lemma" class="slide level2">
+<h2>Lemma</h2>
+<div style="font-size: 80%;">
+<p>Given <span class="math inline">\(k_1, k_2, \cdots, k_{J_n}\)</span> such that <span class="math inline">\(V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)\)</span>, perform <span class="body-highlight">caching allocations</span> by choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\jin\)</span> greedily as follows.</p>
+<span class="math display">\[\begin{equation*}
+    r\knjt =
+    \left \{ \begin{array}{ll}
+        R_{n_j}, &amp; \text{if} \; k = k_j \; \text{and} \; V\knt &gt; 0 \\
+        0, &amp; \text{otherwise}
+    \end{array} \right.
+\end{equation*}\]</span>
+<span class="math display">\[\begin{equation*}
+    s\knjt =
+    \left\{ \begin{array}{ll}
+        1, &amp; \text{if} \; k = k_j \; \text{and} \; V\knt &gt; 0 \\
+        0, &amp; \text{otherwise}
+    \end{array} \right.
+\end{equation*}\]</span>
+<p>This is akin to <em>backpressure</em> solution for forwarding.</p>
 </div>
 <div class="footer">
-<p>Proposed Work</p>
+<p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="virtual-plane---data-plane-gap" class="slide level2 smaller">
-<h2>Virtual Plane - Data Plane Gap</h2>
-<div class="fragment">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<figcaption>… oops, didn’t see you there</figcaption>
-<p><img data-src="images/elephant.webp" style="width:65.0%;height:65.0%"></p>
-</figure>
-</div>
-<audio data-autoplay="" id="elephant" src="audio/elephant.mp3">
-</audio>
-<script>
-  var audio = document.getElementById("elephant");
-  audio.volume = 0.1;
-</script>
-</div>
-<div class="footer">
-<p>Super Funny Callback</p>
-</div>
-<aside class="notes">
-<ul>
-<li>So this is the elephant in our room for improvement</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="virtual-plane---data-plane-gap-1" class="slide level2">
-<h2>Virtual Plane - Data Plane Gap</h2>
-<p>Disparities between the planes lead to a gap:</p>
-<div>
-<ul>
-<li class="fragment">Virtual plane assumes nodes can immediately cache any object</li>
-<li class="fragment"><span class="body-highlight">Upward migrations</span> not possible in data plane</li>
-<li class="fragment">Data plane doesn’t allow <span class="body-highlight">redirecting</span> of cache hits</li>
-<li class="fragment"><span class="body-highlight">Interest aggregation</span> extends this gap</li>
-<li class="fragment">Amending the gap is difficult, but it can be quantified</li>
-</ul>
+<section id="theorem" class="slide level2">
+<h2>Theorem</h2>
+<div style="font-size: 80%;">
+<p>For arrival rate vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then:</p>
+<span class="math display">\[\begin{equation*}
+    \lim\limits_{t \rightarrow \infty} \frac{1}{t} \sum\limits^{t-1}_{\tau=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(\tau)] \leq \frac{B}{\epsilon}
+\end{equation*}\]</span>
+<p>where</p>
+<span class="math display">\[\begin{equation*}
+\epsilon = \min_{\nin,\kin} ((\epsilon^k_n)_{\nin,\kin})
+\end{equation*}\]</span>
+<span class="math display">\[\begin{equation*}
+    B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
+\end{equation*}\]</span>
 </div>
 <div class="footer">
-<p>I also wanted to make “mind the gap” joke but there wasn’t a good place for it</p>
+<p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="cache-exclusivity" class="slide level2">
-<h2>Cache Exclusivity</h2>
-<p>This constraint is reasonable, but very restrictive:</p>
-<ul>
-<li>Duplicates across tiers could extend bandwidth (SPDK, peer-to-peer DMA)</li>
-<li>Minimal analytical implications, true impact can only be evaluated via experimentation</li>
-</ul>
+<section id="data-plane-caching-4" class="slide level2">
+<h2>Data Plane Caching</h2>
+<p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
+<div style="font-size: 65%;">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode">
+\begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
 <div class="footer">
-<p>Proposed Work</p>
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="greedy" class="slide level2">
+<h2>Greedy</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 45%;">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode">
+\begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
+</div>
+</div>
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode">
+\begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 75%;">
+<ul>
+<li>Iterative greedy algorithm.</li>
+<li>First allocates cache capacity and read rate to highest backlog objects.</li>
+<li>Then allocates link bandwidth to largest backlog differential objects.</li>
+<li>Placeholder.</li>
+</ul>
+</div>
+</div></div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
 <section id="better-experiments" class="slide level2">
