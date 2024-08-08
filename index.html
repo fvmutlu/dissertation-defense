@@ -472,6 +472,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 \newcommand{\about}{(a,b) \not\in \mc{L}^k}
 \newcommand{\betasum}{\sum\limits ^{\sigma_n}_{i=1} \beta_{n,i}}
 \newcommand{\betasumnl}{\sum ^{\sigma_n}_{i=1} \beta_{n,i}}
+\newcommand{\multind}{\mathbf{1}_{[\kjin]}}
 \newcommand{\betasumind}{\sum\limits ^{\sigma_n}_{i=1} \beta_{n,i}\mathbf{1}_{[\kjin]}}
 \newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
 \newcommand{\drift}{\Delta(\mathbf{V}(t))}
@@ -658,7 +659,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>“NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware”, Shi, J., Pesavento, D., &amp; Benmohamed, L., ACM ICN 2020</p></li></ol></aside></section>
 <section id="toy-example" class="slide level2 smaller">
 <h2>Toy Example</h2>
 <div class="quarto-figure quarto-figure-center">
@@ -1245,15 +1246,22 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="virtual-plane-model" class="slide level2">
 <h2>Virtual Plane Model</h2>
-<p>Virtual plane model based on (Yeh, 2014):</p>
+<div style="font-size: 80%;">
+<p>Virtual control plane model using the <span class="body-highlight">VIP framework</span><sup>1</sup>:</p>
 <div>
 <ul>
-<li class="fragment"><em>Virtual interest packets (VIPs)</em> generated alongside exogenous requests</li>
-<li class="fragment">Every node keeps a <span class="body-highlight">VIP counter</span> for every object <span class="math inline">\(\kin\)</span></li>
-<li class="fragment">VIPs are removed at object sources and caching nodes</li>
-<li class="fragment">Discrete time slots <span class="math inline">\(t = \{1,2,...\}\)</span></li>
-<li class="fragment">Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects</li>
+<li class="fragment"><em>Virtual interest packets (VIPs)</em> generated alongside exogenous requests.
+<ul>
+<li class="fragment">Every node keeps a <span class="body-highlight">VIP counter</span> for every object <span class="math inline">\(\kin\)</span>.</li>
+<li class="fragment">VIPs are removed at object sources and caching nodes.</li>
+</ul></li>
+<li class="fragment">Discrete time slots indexed <span class="math inline">\(t = \{1,2,...\}\)</span>; following happens beginning of each time slot:
+<ul>
+<li class="fragment">Nodes update neighbors with local counter states using small message.</li>
+<li class="fragment">VIPs are removed via caching and forwarded to neighbors, counters updated.</li>
+</ul></li>
 </ul>
+</div>
 </div>
 <div class="footer">
 <p>System Model</p>
@@ -1276,42 +1284,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="virtual-plane-model-1" class="slide level2">
-<h2>Virtual Plane Model</h2>
-<p>Virtual plane model expanded with multiple cache tiers and <span class="body-highlight">penalties</span>:</p>
-<ul>
-<li>Each cache admission and eviction in virtual plane incurs a penalty</li>
-<li>Network can configure <span class="body-highlight">weight of penalties</span> via parameter <span class="math inline">\(\omega\)</span></li>
-</ul>
-<div class="footer">
-<p>System Model</p>
-</div>
-<aside class="notes">
-<ul>
-<li>The multi-tiered caching model that I propose, which incorporates cache utilization costs, extends the virtual plane model.</li>
-<li>Each cache admission and eviction in virtual plane incurs a penalty, and a configurable weight parameter, <span class="math inline">\(\omega\)</span>, lets the network determine the importance of penalties in its overall objective</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>“VIP: A framework for joint dynamic forwarding and caching in named data networks”, Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., &amp; Leong, D., ACM ICN 2014</p></li></ol></aside></section>
 <section id="vip-queue-dynamics" class="slide level2">
 <h2>VIP Queue Dynamics</h2>
-<p><span class="body-highlight">VIP queue evolution</span> for object <span class="math inline">\(k\)</span> at node <span class="math inline">\(n\)</span>, where <span class="math inline">\((x)^+ = max(x,0)\)</span>:</p>
+<p><span class="body-highlight">VIP queuing dynamics</span> for object <span class="math inline">\(\kin\)</span> at node <span class="math inline">\(\nin\)</span>, where <span class="math inline">\((x)^+ = max(x,0)\)</span>:</p>
 <div style="font-size: 70%;">
-<span class="math display">\[\begin{equation}
-    V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t)
-    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \color{#A4804A}{\sum\limits_{j \in \mathcal{J}_n} r_{n_j} s^k_{n_j}(t)} \Bigg)^+    
-\end{equation}\]</span>
+<span class="math display">\[\begin{equation*}
+    V^k_n(t+1) \leq \Big(V\knt - \textcolor{#C8102E}{\sum\limits_{\jin} r_{n_j} s\knjt} - \sum\limits_{\bin}\mu^k_{nb}(t) \Big)^+ + A\knt
+    + \sum\limits_{\ain}\mu^k_{an}(t)    
+\end{equation*}\]</span>
 </div>
 <hr>
 <div class="columns">
@@ -1343,8 +1324,52 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section></section>
+<section>
+<section id="virtual-plane-optimization" class="title-slide slide level1 center">
+<h1>Virtual Plane Optimization</h1>
+<aside class="notes">
+<p>With the system model described, we will now look at our control algorithm in the virtual plane.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="penalty-accumulation" class="slide level2">
+<h2>Penalty Accumulation</h2>
+<p>Virtual plane model expanded with multiple cache tiers and <span class="body-highlight">penalties</span>:</p>
+<ul>
+<li>Each cache admission and eviction in virtual plane incurs a penalty</li>
+<li>Network can configure <span class="body-highlight">weight of penalties</span> via parameter <span class="math inline">\(\omega\)</span></li>
+</ul>
+<div class="footer">
+<p>System Model</p>
+</div>
+<aside class="notes">
+<ul>
+<li>The multi-tiered caching model that I propose, which incorporates cache utilization costs, extends the virtual plane model.</li>
+<li>Each cache admission and eviction in virtual plane incurs a penalty, and a configurable weight parameter, <span class="math inline">\(\omega\)</span>, lets the network determine the importance of penalties in its overall objective</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="penalty-accumulation-1" class="slide level2">
 <h2>Penalty Accumulation</h2>
 <p>Penalty incurred by caching action <span class="math inline">\(s^k_{n_j}(t)\)</span>:</p>
 <span class="math display">\[\begin{equation}
@@ -1371,23 +1396,6 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li>This definition shows how caching actions translate to penalties incurred</li>
 <li>(Fragment in) We’ll also be concerned with the sum penalty across the network</li>
 </ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section></section>
-<section>
-<section id="virtual-plane-optimization" class="title-slide slide level1 center">
-<h1>Virtual Plane Optimization</h1>
-<aside class="notes">
-<p>With the system model described, we will now look at our control algorithm in the virtual plane.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1435,7 +1443,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn3"><p><span class="fragment" data-fragment-index="1">“Energy optimal control for time-varying wireless networks.”, M. J. Neely, IEEE Trans. Inf. Theory, 2006.</span></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p><span class="fragment" data-fragment-index="1">“Energy optimal control for time-varying wireless networks.”, M. J. Neely, IEEE Trans. Inf. Theory, 2006.</span></p></li></ol></aside></section>
 <section id="virtual-plane-caching" class="slide level2">
 <h2>Virtual Plane Caching</h2>
 <p>Beginning of each slot <span class="math inline">\(t\)</span>, at each node <span class="math inline">\(n\)</span>, observe <span class="math inline">\((V^k_n(t))_{k \in \mathcal{K}, n \in \mathcal{N}}\)</span> and perform <span class="body-highlight">caching</span> by choosing <span class="math inline">\(s^k_{n_j}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and each <span class="math inline">\(j \in \mathcal{J}_n\)</span> with capacity <span class="math inline">\(L_{n_j}\)</span> to:</p>
@@ -1802,7 +1810,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching Policy} \begin{algorithmic} \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$. \If{$CB^k_{n_{j^*}}(\tau) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \ElsIf{$CB^k_{n_{j^*}}(\tau) &gt; 0$} \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$. \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$. \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -1827,8 +1835,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           display:block!important;
       }</style></aside>
 </section>
-<section id="data-plane-caching-3" class="slide level2">
-<h2>Data Plane Caching</h2>
+<section id="data-plane-forwarding" class="slide level2">
+<h2>Data Plane Forwarding</h2>
 <p>Define virtual plane <span class="body-highlight">outgoing VIP flow</span> average:</p>
 <span class="math display">\[\begin{equation*}
     \bar{F}_{nb}^k(t) \triangleq \frac{1}{T} \sum\limits^t_{t'=t-T+1} F^k_{nb}(t').
@@ -2286,13 +2294,13 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</p>
 <div style="font-size: 70%;">
 <span class="math display">\[\begin{equation*}
-    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{r_{n_j}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
 \end{equation*}\]</span>
 </div>
 <p><strong>Hypothesis:</strong> We can control read rate allocations in the virtual plane for better performance.</p>
 <div style="font-size: 70%;">
 <span class="math display">\[\begin{equation*}
-    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{r\knjt} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r\knjt}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
 \end{equation*}\]</span>
 </div>
 <p><strong>Cache bandwidth constraint:</strong> <span class="math inline">\(\sum_{\kin} r^k_{n_j}(t) \leq R_{n_j}\)</span>.</p>
@@ -2317,6 +2325,30 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="theorem-stability-region-1" class="slide level2">
+<h2>Theorem: Stability Region</h2>
+<p><span class="body-highlight">VIP stability region</span> <span class="math inline">\(\Lambda\)</span> under <em>cache bandwidth constraints</em>:</p>
+<div style="font-size: 80%;">
+<span class="math display">\[\begin{equation*}
+\lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}
+\end{equation*}\]</span>
+</div>
+<hr>
+<div style="font-size: 70%; text-align: center">
+
+</div>
+<div class="columns">
+<div class="column" style="font-size: 70%;">
+<p><span class="math inline">\(f^k_{ab}\)</span>: Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span>.</p>
+<p><span class="math inline">\(\mc{B}_{n,i}\)</span>: i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1.</p>
+</div><div class="column" style="font-size: 70%;">
+<p><span class="math inline">\(f^k_{n,i}\)</span>: Average VIPs of <span class="math inline">\(k\)</span> removed via caching under placement <span class="math inline">\(\mc{B}_{n,i}\)</span>.</p>
+<p><span class="math inline">\(\beta_{n,i}\)</span>: Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span>.</p>
+</div></div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
 </section>
 <section id="virtual-plane-caching-1" class="slide level2">
 <h2>Virtual Plane Caching</h2>
@@ -2353,7 +2385,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="lemma" class="slide level2">
 <h2>Lemma</h2>
-<div style="font-size: 80%;">
+<div style="font-size: 85%;">
 <p>Given <span class="math inline">\(k_1, k_2, \cdots, k_{J_n}\)</span> such that <span class="math inline">\(V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)\)</span>, perform <span class="body-highlight">caching allocations</span> by choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\jin\)</span> greedily as follows.</p>
 <span class="math display">\[\begin{equation*}
     r\knjt =
@@ -2394,11 +2426,11 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="data-plane-caching-4" class="slide level2">
+<section id="data-plane-caching-3" class="slide level2">
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 65%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2413,12 +2445,12 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 45%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
@@ -2442,8 +2474,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Properties</h2>
 <div style="font-size: 75%;">
 <ul>
-<li>Under <span class="body-highlight">heavy congestion</span> where <span class="math inline">\(V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}\)</span>, for all <span class="math inline">\(t \geq 1, \nin, \kin\)</span>, greedy algorithm is equivalent to <em>backpressure</em> solution.</li>
-<li>In general, given the same backlog state <span class="math inline">\(\mathbf{V}(t)\)</span>, following holds</li>
+<li>Under <em>heavy congestion</em> where <span class="math inline">\(V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}\)</span>, for all <span class="math inline">\(t \geq 1, \nin, \kin\)</span>, greedy algorithm is equivalent to <em>backpressure</em> solution.</li>
+<li><em>In general</em>, given backlog state <span class="math inline">\(\mathbf{V}(t)\)</span>, following holds.</li>
 </ul>
 <span class="math display">\[\begin{equation*}
 \begin{split}
@@ -2453,7 +2485,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
     \sum_{\nbin, \kin} F^k_{nb}(t) \big(V^k_n(t) - V^k_b(t) \big)
 \end{split}
 \end{equation*}\]</span>
-<p>where <span class="math inline">\(\hat{F}\knjt\)</span> and <span class="math inline">\(\hat{F}^k_{nb}(t)\)</span> denote actual VIP flow under greedy algorithm allocations.</p>
+<p>where <span class="math inline">\(\hat{F}\knjt\)</span> and <span class="math inline">\(\hat{F}^k_{nb}(t)\)</span> denote actual VIP flows under greedy algorithm allocations.</p>
 </div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
@@ -2523,7 +2555,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <li><strong>Implementation</strong>: Built using Python and the SimPy library for discrete event simulation.
 <ul>
 <li>Single-threaded due to DES.</li>
-<li>Supports execution of multiple simulations via multiprocessing.</li>
+<li>Supports simultaneous simulations via multiprocessing.</li>
 </ul></li>
 </ul>
 </div>
@@ -2808,7 +2840,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Subgradient Projection} \begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>
