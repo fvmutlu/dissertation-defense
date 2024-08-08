@@ -1,11 +1,3 @@
-# Data Plane Strategy
-
-::: {.notes}
-- So there are several things about applying this virtual plane algorithm within the mechanics of the data plane
-- Most obvious is that virtual plane decisions are made in discrete time slots, but of course the data plane decisions have to be reactive and continuous
-- (Next slide)
-:::
-
 ## Data Plane Caching
 
 Define virtual plane [incoming VIP flow]{.body-highlight}, averaged over sliding window of $T$ slots:
