@@ -86,7 +86,7 @@ Data Plane Strategy
 - Now, to state the exact data plane policy
 :::
 
-## Data Plane Caching
+## Data Plane Forwarding
 
 Define virtual plane [outgoing VIP flow]{.body-highlight} average:
 ```{=tex}

@@ -64,7 +64,7 @@ Introduction
 -   Open problem: "Expanding capacities with persistent memory or NVMe disk storage require novel multi-tier caching algorithms"[^ndndpdk]
 :::
 
-[^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", J. Shi, D. Pesavento, L. Benmohamed, ACM ICN 2020
+[^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", Shi, J., Pesavento, D., & Benmohamed, L., ACM ICN 2020
 
 ::: {.footer}
 Introduction

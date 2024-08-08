@@ -7,7 +7,7 @@
     - High level of abstraction enabling quick development iteration.
 - **Implementation**: Built using Python and the SimPy library for discrete event simulation.
     - Single-threaded due to DES.
-    - Supports execution of multiple simulations via multiprocessing.
+    - Supports simultaneous simulations via multiprocessing.
 :::
 
 ::: {.footer}

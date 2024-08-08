@@ -1,3 +1,53 @@
+## Penalty Accumulation
+Virtual plane model expanded with multiple cache tiers and [penalties]{.body-highlight}:
+
+-   Each cache admission and eviction in virtual plane incurs a penalty
+-   Network can configure [weight of penalties]{.body-highlight} via parameter $\omega$
+
+::: {.footer}
+System Model
+:::
+
+::: {.notes}
+- The multi-tiered caching model that I propose, which incorporates cache utilization costs, extends the virtual plane model.
+- Each cache admission and eviction in virtual plane incurs a penalty, and a configurable weight parameter, $\omega$, lets the network determine the importance of penalties in its overall objective
+:::
+
+## Penalty Accumulation
+
+Penalty incurred by caching action $s^k_{n_j}(t)$:
+```{=tex}
+\begin{equation}
+    p^k_{n_j}(t) \triangleq 
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+       0, & \text{otherwise}
+   \end{array} \right.
+\end{equation}
+```
+[Sum penalty during $t$: $p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$]{.fragment}
+<hr>
+
+::: columns
+::: {.column width="50%" style="font-size: 75%;"}
+$s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$
+:::
+::: {.column width="50%" style="font-size: 75%;"}
+$c^a_{n_j}$: Admission cost of tier $j$ at node $n$
+$c^e_{n_j}$: Eviction cost of tier $j$ at node $n$
+:::
+:::
+
+::: {.footer}
+System Model
+:::
+
+::: {.notes}
+- This definition shows how caching actions translate to penalties incurred
+- (Fragment in) We'll also be concerned with the sum penalty across the network
+:::
+
 ## Optimization Goal
 *"Operate close to VIP network stability region boundary while keeping sum penalty small."*
 

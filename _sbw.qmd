@@ -12,7 +12,7 @@ Virtual Plane Cache Read Rate Control
 ::: {style="font-size: 70%;"}
 ```{=tex}
 \begin{equation*}
-    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{r_{n_j}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
 \end{equation*}
 ```
 :::
@@ -22,7 +22,7 @@ Virtual Plane Cache Read Rate Control
 ::: {style="font-size: 70%;"}
 ```{=tex}
 \begin{equation*}
-    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{r\knjt} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r\knjt}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
 \end{equation*}
 ```
 :::
@@ -39,6 +39,42 @@ Virtual Plane Cache Read Rate Control
 - Stability region and its analysis changes significantly
 - Complexity of caching problem solution reduces
 :::
+
+
+## Theorem: Stability Region
+
+[VIP stability region]{.body-highlight} $\Lambda$ under *cache bandwidth constraints*:
+
+::: {style="font-size: 80%;"}
+```{=tex}
+\begin{equation*}
+\lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}
+\end{equation*}
+```
+:::
+<hr>
+
+::: {style="font-size: 70%; text-align: center"}
+
+:::
+
+::: columns
+::: {.column width="50%" style="font-size: 70%;"}
+$f^k_{ab}$: Time-average VIP flow for $k$ over $(a,b)$.
+
+$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1.
+:::
+::: {.column width="50%" style="font-size: 70%;"}
+$f^k_{n,i}$: Average VIPs of $k$ removed via caching under placement $\mc{B}_{n,i}$.
+
+$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
+:::
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
 
 ## Virtual Plane Caching
 
@@ -68,7 +104,7 @@ Optimization Framework
 
 ## Lemma
 
-::: {style="font-size: 80%;"}
+::: {style="font-size: 85%;"}
 Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)$, perform [caching allocations]{.body-highlight} by choosing $r\knjt$ and $s\knjt$ for each $\jin$ greedily as follows.
 
 ```{=tex}
@@ -211,8 +247,8 @@ Virtual Plane Cache Read Rate Control
 ## Properties
 
 ::: {style="font-size: 75%;"}
-- Under [heavy congestion]{.body-highlight} where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, greedy algorithm is equivalent to *backpressure* solution.
-- In general, given the same backlog state $\mathbf{V}(t)$, following holds
+- Under *heavy congestion* where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, greedy algorithm is equivalent to *backpressure* solution.
+- *In general*, given backlog state $\mathbf{V}(t)$, following holds.
 ```{=tex}
 \begin{equation*}
 \begin{split}
@@ -223,7 +259,7 @@ Virtual Plane Cache Read Rate Control
 \end{split}
 \end{equation*}
 ```
-where $\hat{F}\knjt$ and $\hat{F}^k_{nb}(t)$ denote actual VIP flow under greedy algorithm allocations.
+where $\hat{F}\knjt$ and $\hat{F}^k_{nb}(t)$ denote actual VIP flows under greedy algorithm allocations.
 :::
 
 ::: {.footer}

@@ -128,15 +128,21 @@ System Model
 :::
 
 ## Virtual Plane Model
-Virtual plane model based on (Yeh, 2014):
+
+::: {style="font-size: 80%;"}
+Virtual control plane model using the [VIP framework]{.body-highlight}[^vipog]:
 
 ::: {.incremental}
--  *Virtual interest packets (VIPs)* generated alongside exogenous requests
--  Every node keeps a [VIP counter]{.body-highlight} for every object $\kin$
--  VIPs are removed at object sources and caching nodes
--  Discrete time slots $t = \{1,2,...\}$
--  Beginning of each time slot, each node decides where and how to forward its VIPs, as well as how to cache objects
+-  *Virtual interest packets (VIPs)* generated alongside exogenous requests.
+    -  Every node keeps a [VIP counter]{.body-highlight} for every object $\kin$.
+    -  VIPs are removed at object sources and caching nodes.
+-  Discrete time slots indexed $t = \{1,2,...\}$; following happens beginning of each time slot:
+    - Nodes update neighbors with local counter states using small message.
+    - VIPs are removed via caching and forwarded to neighbors, counters updated.
 :::
+:::
+
+[^vipog]: "VIP: A framework for joint dynamic forwarding and caching in named data networks", Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., & Leong, D., ACM ICN 2014
 
 ::: {.footer}
 System Model
@@ -149,30 +155,15 @@ System Model
 - We're considering discrete time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot.
 :::
 
-## Virtual Plane Model
-Virtual plane model expanded with multiple cache tiers and [penalties]{.body-highlight}:
-
--   Each cache admission and eviction in virtual plane incurs a penalty
--   Network can configure [weight of penalties]{.body-highlight} via parameter $\omega$
-
-::: {.footer}
-System Model
-:::
-
-::: {.notes}
-- The multi-tiered caching model that I propose, which incorporates cache utilization costs, extends the virtual plane model.
-- Each cache admission and eviction in virtual plane incurs a penalty, and a configurable weight parameter, $\omega$, lets the network determine the importance of penalties in its overall objective
-:::
-
 ## VIP Queue Dynamics
-[VIP queue evolution]{.body-highlight} for object $k$ at node $n$, where $(x)^+ = max(x,0)$:
+[VIP queuing dynamics]{.body-highlight} for object $\kin$ at node $\nin$, where $(x)^+ = max(x,0)$:
 
 ::: {style="font-size: 70%;"}
 ```{=tex}
-\begin{equation}
-    V^k_n(t+1) \leq \Bigg(\Big(V^k_n(t) - \sum\limits_{b \in \mathcal{N}}\mu^k_{nb}(t)\Big)^+ + A^k_n(t) 
-    + \sum\limits_{a \in \mathcal{N}}\mu^k_{an}(t) - \color{#A4804A}{\sum\limits_{j \in \mathcal{J}_n} r_{n_j} s^k_{n_j}(t)} \Bigg)^+    
-\end{equation}
+\begin{equation*}
+    V^k_n(t+1) \leq \Big(V\knt - \textcolor{#C8102E}{\sum\limits_{\jin} r_{n_j} s\knjt} - \sum\limits_{\bin}\mu^k_{nb}(t) \Big)^+ + A\knt 
+    + \sum\limits_{\ain}\mu^k_{an}(t)    
+\end{equation*}
 ```
 :::
 <hr>
@@ -201,39 +192,4 @@ System Model
 ::: {.notes}
 - This inequality shows how VIP counts change from slot to slot in the virtual plane
 - First term is VIPs forwarded away from the node, then we have the exogenous arrivals, then VIPs that arrive from other nodes and finally, VIPs removed due to caching. Notice that this term is dependent on the read rates of cache tiers.
-:::
-
-## Penalty Accumulation
-
-Penalty incurred by caching action $s^k_{n_j}(t)$:
-```{=tex}
-\begin{equation}
-    p^k_{n_j}(t) \triangleq 
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-       0, & \text{otherwise}
-   \end{array} \right.
-\end{equation}
-```
-[Sum penalty during $t$: $p(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$]{.fragment}
-<hr>
-
-::: columns
-::: {.column width="50%" style="font-size: 75%;"}
-$s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$
-:::
-::: {.column width="50%" style="font-size: 75%;"}
-$c^a_{n_j}$: Admission cost of tier $j$ at node $n$
-$c^e_{n_j}$: Eviction cost of tier $j$ at node $n$
-:::
-:::
-
-::: {.footer}
-System Model
-:::
-
-::: {.notes}
-- This definition shows how caching actions translate to penalties incurred
-- (Fragment in) We'll also be concerned with the sum penalty across the network
 :::
