@@ -6,6 +6,8 @@
     - Queuing mechanisms for caches that contribute to delay.
     - High level of abstraction enabling quick development iteration.
 - **Implementation**: Built using Python and the SimPy library for discrete event simulation.
+    - Single-threaded due to DES.
+    - Supports execution of multiple simulations via multiprocessing.
 :::
 
 ::: {.footer}
@@ -42,7 +44,7 @@ Simulator
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
 - [Node]{.code} encapsulates [Cache]{.code}s, FIB and PIT
-    - Implements caching and forwarding policy.
+    - Implements caching and forwarding policies.
 
 ![](images/simnode.svg){width=60% height=60% fig-align="center"}
 
@@ -64,31 +66,27 @@ Simulator
 
 ## Simulator {.smaller}
 
-Simulation Flow:
+Codebase has many features for **ease of use** and **reproducibility**.
 
-- Initialization: Network topology, nodes, caches, and links are set up.
-- Request Generation: Nodes generate requests based on predefined patterns.
-- Event Handling: The simulator processes request forwarding, data generation, and caching events.
-- Termination and Data Collection: The simulation ends when all requests are satisfied, and statistics are gathered.
-
-::: {.footer}
-Simulator
-:::
-
-## Simulator {.smaller}
-
-Ease of Use:
-
-- Experiment configurations in JSON format.
-- Support for parameter sweeps and combinations.
-- Hash-based storage and querying of results.
-- Convenience functions for data analysis and visualization.
-
-Reproducibility and Extensibility:
-
+- Experiment config and data output in JSON format.
+    - Specify parameter sweeps and combinations for multiprocess execution.
+    - Each config set has unique hash; easy to query existing database.
+- Library of functions to analyze data tailored to output schema.
 - Docker container for easy deployment.
-- GitHub Action for running experiments and generating plots.
-- Modular design for implementing custom policies.
+- [GitHub Action](https://github.com/fvmutlu/multi-tier/actions/workflows/custom-experiment.yml){preview-link="true"} for running experiments and generating plots.
+
+
+```{.json filename="request_rate_config.json"}
+{
+    "fwd_pol"                : ["lrt","vip"],
+    "cache_pol"              : ["lfu","lru","fifo","unif","mvip"],
+    ... more parameters ...
+    "request_rate"           : [10,12.5,15,17.5,20,22.5,25,27.5,30],
+    "request_dist_param"     : [0.25,0.5,0.75],
+    "cache_capacities"       : [[5,100],[5,125],[5,150]],
+    ... more parameters ...
+}
+```
 
 ::: {.footer}
 Simulator
