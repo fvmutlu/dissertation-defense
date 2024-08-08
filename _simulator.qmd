@@ -73,7 +73,7 @@ Codebase has many features for **ease of use** and **reproducibility**.
     - Each config set has unique hash; easy to query existing database.
 - Library of functions to analyze data tailored to output schema.
 - Docker container for easy deployment.
-- [GitHub Action](https://github.com/fvmutlu/multi-tier/actions/workflows/custom-experiment.yml){preview-link="true"} for running experiments and generating plots.
+- GitHub Action for running experiments and generating plots.
 
 
 ```{.json filename="request_rate_config.json"}

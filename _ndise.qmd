@@ -30,7 +30,7 @@ Introduction
 
 ## Motivation: Data-Intensive Science {.smaller}
 
-*N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science*:
+*N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science*[^ndise]:
 
 ::: {.incremental}
 -   First high-performance NDN-based data delivery system for large-scale data-intensive science experiments.
@@ -41,6 +41,8 @@ Introduction
     - Supported WAN deployment and testing
     - Supported demonstrations during SC21 and SC22
 :::
+
+[^ndise]: "N-DISE: NDN-based data distribution for large-scale data-intensive science", Wu, Y., Mutlu, F. V., Liu, Y., Yeh, E., Liu, R., ACM ICN 2022
 
 ::: {.footer}
 Introduction
@@ -53,11 +55,32 @@ Introduction
 - So there's a gap here that motivated my work.
 :::
 
-## Motivation: Data-Intensive Science {.smaller}
+## Motivation: Data-Intensive Science
 
+::: {style="font-size: 85%;"}
 **Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node
 
 ::: {.incremental}
+-   DRAM is the standard cache device due its speed; but is expensive and has limited capacity
+-   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM
+-   Logical next step: use both! 
+:::
+:::
+
+
+::: {.footer}
+Introduction
+:::
+
+::: {.notes}
+- Placeholder.
+:::
+
+## Motivation: Data-Intensive Science
+
+::: {style="font-size: 85%;"}
+**Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node
+
 -   DRAM is the standard cache device due its speed; but is expensive and has limited capacity
 -   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM
 -   Logical next step: use both! 

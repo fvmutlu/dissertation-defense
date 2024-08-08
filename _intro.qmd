@@ -41,16 +41,29 @@ Introduction
 
 {{< include _toy.qmd >}}
 
-## Operational Costs of Caching
+## Further Considerations {.smaller}
 
--  Caches are not free to use: admissions, replacements, even idle operation has an energy cost
+-  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
+    -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
+
+::: {.footer}
+Introduction
+:::
+
+## Further Considerations {.smaller}
+
+-  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
+    -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
+-  Caches are not free to use; each operation has an energy cost.
+
+[^coupling]:"*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014
 
 ::: columns
 ::: {.column width="42%"}
-![DRAM power consumption](images/dram_power.png)
+![DRAM power consumption](images/dram_power.png){width=80% height=80%}
 :::
 ::: {.column width="58%"}
-![NVMe power consumption](images/ssd_power.png)
+![NVMe power consumption](images/ssd_power.png){width=80% height=80%}
 :::
 :::
 
@@ -58,30 +71,14 @@ Introduction
 Introduction
 :::
 
-::: {.notes}
-- Now of course the capacity challenge is not the only obstacle in our way. There's another major consideration which is operational costs.
-- Caches are not free to use, each admission and replacement, and even idle operation has a real cost in energy so if we're adding even more cache devices we have to be mindful of this cost.
-:::
-
-## Operational Costs of Caching
-
--  Caches are not free to use: admissions, replacements, even idle operation has an energy cost
--  SSDs also wear out over time as they're written
-
-![NVMe Endurance](images/ssd_endurance.png){width=70% height=70%}
-
-::: {.footer}
-Introduction
-:::
-
-::: {.notes}
-- And on top of that, SSDs also wear out as they're written, which, although modern SSDs are very durable, is still a significant consideration because dynamic caching operates at a small time scale so storage will be rewritten quite frequently
-:::
-
-## Coupling Caching with Forwarding
+## Further Considerations {.smaller}
 
 -  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
--  This is even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
+    -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
+-  Caches are not free to use; each operation has an energy cost.
+    -  SSDs also wear out over time as their contents are overwritten.
+
+![NVMe Endurance](images/ssd_endurance.png){width=70% height=70%}
 
 [^coupling]:"*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014
 
@@ -90,6 +87,8 @@ Introduction
 :::
 
 ::: {.notes}
+- Now of course the capacity challenge is not the only obstacle in our way. There's another major consideration which is operational costs.
+- Caches are not free to use, each admission and replacement, and even idle operation has a real cost in energy so if we're adding even more cache devices we have to be mindful of this cost.
 - Finally, we look at the question of how can we make sure we're actually making the most of caches in the network?
 - Because, now that we're adding larger caches that are difficult to operate, and also adding costs into the equation, we really want to make sure we're getting the benefits.
 - This is where the act of tying caching and forwarding together comes in. 

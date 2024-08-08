@@ -129,14 +129,14 @@ System Model
 
 ## Virtual Plane Model
 
-::: {style="font-size: 80%;"}
+::: {style="font-size: 75%;"}
 Virtual control plane model using the [VIP framework]{.body-highlight}[^vipog]:
 
 ::: {.incremental}
 -  *Virtual interest packets (VIPs)* generated alongside exogenous requests.
     -  Every node keeps a [VIP counter]{.body-highlight} for every object $\kin$.
     -  VIPs are removed at object sources and caching nodes.
--  Discrete time slots indexed $t = \{1,2,...\}$; following happens beginning of each time slot:
+-  Discrete time slots indexed $t = 1, 2, ...$; following happens beginning of each time slot:
     - Nodes update neighbors with local counter states using small message.
     - VIPs are removed via caching and forwarded to neighbors, counters updated.
 :::
@@ -156,7 +156,7 @@ System Model
 :::
 
 ## VIP Queue Dynamics
-[VIP queuing dynamics]{.body-highlight} for object $\kin$ at node $\nin$, where $(x)^+ = max(x,0)$:
+[VIP queuing dynamics]{.body-highlight} with multi-tiered caching for object $\kin$ at node $\nin$, where $(x)^+ = max(x,0)$:
 
 ::: {style="font-size: 70%;"}
 ```{=tex}

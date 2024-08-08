@@ -171,48 +171,6 @@ Conclusion & Other Work
 Power & Caching in Wireless HetNets
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
-::: columns
-::: {.column width=50%}
-Use projected subgradient method to solve for local minima in general case
-```{=tex}
-\begin{equation}
-\begin{aligned}
-    & S^{t+1} = S^t + \xi_S^t(\bar{S}^t - S^t) \\
-    & \bar{S}^t = [S^t - w_S^t d_S^t]^+_{\mathcal{D}_S} \\
-    & \boldsymbol{y}^{t+1} = \boldsymbol{y}^t + \xi^t_{\boldsymbol{y}}(\boldsymbol{\bar{y}}^t - \boldsymbol{y}^t) \\
-    & \boldsymbol{\bar{y}}^t = [\boldsymbol{y}^t - w_Y^t d^t_{\boldsymbol{y}}]^+_{\mathcal{D}_{\boldsymbol{y}}} \\
-    & d_S^t = \nabla_S D(Y^t,S^t), \; d^t_{\boldsymbol{y}} \in \partial_{\boldsymbol{y}}D(Y^t,S^t) \\
-    & \xi^t_{\boldsymbol{y}} = \frac{D^t - \hat{D}^t}{||d_{\boldsymbol{y}}^t||^2}, \; \xi_S^t = \frac{D^t - \hat{D}^t}{||d_S^t||^2}
-\end{aligned}
-\end{equation}
-```
-:::
-::: {.column width=50%}
-**Projected Subgradient Method**
-
-- Initialize: Choose $S^{0}$, $\boldsymbol{y}^{0}$
-
-- **do**
-
-    - Compute subgradient $d^t_S, d^t_{\boldsymbol{y}}$
-    - Determine step sizes $\xi^t_{\boldsymbol{y}}$, $\xi_S^t$
-    - Compute projected variables $\boldsymbol{\bar{y}}^t$, $\bar{S}^t$
-    - Update $S^{t+1}$ and $\boldsymbol{y}^{t+1}$
-    - Let $t=t+1$
-
-- **while** $D^t - D^{t-1} > \epsilon$
-
-- Let $(\boldsymbol{y}^{*}_{sub},S^{*}_{sub}) = (\boldsymbol{y}^{t},S^{t})$
-
-- Rounding
-:::
-:::
-
-::: {.footer}
-Conclusion & Other Work
-:::
-
 ## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization
 

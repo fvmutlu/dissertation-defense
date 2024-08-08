@@ -40,7 +40,7 @@ $$
 \newcommand{\minpen}{\Psi(\boldsymbol{\lambda})}
 \newcommand{\drift}{\Delta(\mathbf{V}(t))}
 \newcommand{\norm}[1]{\lVert{#1}\rVert^2_2}
-\newcommand{\pen}{\mathbb{E}[p(t)|\mathbf{V}(t)]}
+\newcommand{\pen}{\mathbb{E}[P(t)|\mathbf{V}(t)]}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \definecolor{neured}{RGB}{200, 16, 46}
