@@ -1,5 +1,6 @@
-## Cache Read Bandwidth
-**Premise:** Initial model assumes cache read rate is constant across objects in virtual plane each slot.
+## Overview
+
+- **Premise:** Initial model assumes cache read rate is constant across objects in virtual plane each slot.
 
 ::: {style="font-size: 70%;"}
 ```{=tex}
@@ -9,7 +10,7 @@
 ```
 :::
 
-**Hypothesis:** We can control read rate allocations in the virtual plane for better performance.
+- **Hypothesis:** We can control read rate allocations in the virtual plane for better performance.
 
 ::: {style="font-size: 70%;"}
 ```{=tex}
@@ -18,8 +19,6 @@
 \end{equation*}
 ```
 :::
-
-**Cache bandwidth constraint:** $\sum_{\kin} r^k_{n_j}(t) \leq R_{n_j}$.
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
@@ -32,15 +31,14 @@ Virtual Plane Cache Read Rate Control
 - Complexity of caching problem solution reduces
 :::
 
-## Cache Read Rate Control
+## Overview
 
-**Goal:** Guarantee stability of all VIP queues, minimize total backlog.
-
-**Penalties:** What happened to them?
-
-**Algorithm:**
-
-- Placeholder.
+::: {style="font-size: 100%;"}
+- **Reasoning:** Objects in cache receive different hit rates in the data plane.
+- **Penalties:** We omit the weight of caching actions to study read rate allocation in isolation.
+- **Algorithm:** Should guarantee stability of all VIP queues, minimize total backlog.
+    - Consider new control variables and [cache bandwidth constraints]{.body-highlight}, i.e. $\sum_{\kin} r\knjt \leq R_{n_j}$.
+:::
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
@@ -81,21 +79,20 @@ $\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{
 Virtual Plane Cache Read Rate Control
 :::
 
-
 ## Virtual Plane Caching
 
 ::: {style="font-size: 80%;"}
-Assume $\omega=0$; perform [caching]{.body-highlight} by choosing $r\knjt$ and $s\knjt$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
+Given $\omega=0$; perform [caching]{.body-highlight} by choosing $r\knjt$ and $s\knjt$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
 
 ```{=tex}
 \begin{align*}
     \text{maximize}
-        & \quad \sum_{\kin} \sum_{\jin} r\knjt s\knjt V\knt \label{eq:mt_sbw_cost}\\
+        & \quad \sum_{\kin} \sum_{\jin} r\knjt s\knjt V\knt \\
     \text{subject to} 
-        & \quad \sum_{\kin} s\knjt \leq L_{n_j}, \; \forall \jin \label{eq:mt_sbw_const1}\\
-        & \quad \sum_{\jin} s\knjt \leq 1, \; \forall \kin \label{eq:mt_sbw_const2}\\
-        & \quad s\knjt \in \{0,1\}, \; \forall \kin, \, \jin \label{eq:mt_sbw_const3}\\
-        & \quad \sum_{\kin} r\knjt \leq R_{n_j}, \; \forall \jin \label{eq:mt_sbw_const4}
+        & \quad \sum_{\kin} s\knjt \leq L_{n_j}, \; \forall \jin \\
+        & \quad \sum_{\jin} s\knjt \leq 1, \; \forall \kin \\
+        & \quad s\knjt \in \{0,1\}, \; \forall \kin, \, \jin \\
+        & \quad \color{#C8102E}{\sum_{\kin} r\knjt \leq R_{n_j}, \; \forall \jin} 
 \end{align*}
 ```
 :::
@@ -198,10 +195,18 @@ When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at i
 Virtual Plane Cache Read Rate Control
 :::
 
-## Underflows
+## Policy Performance {.smaller}
 
-- Why are they detrimental?
-- Why don't we avoid them in original formulation?
+- This approach yields poor performance in the data plane.
+    - **Significant underutilization** of slow tier.
+- We attribute this outcome to virtual plane **queue underflows**.
+    - Data plane policies are not fed actionable flow information for many objects in a timely manner.
+- Allocation problem under *"no-underflow"* constraints is very difficult to solve [^pmw].
+    - Backpressure solution no longer optimal.
+    - All control variables must be optimized in combination.
+    - Non-convex problem with integer variables.
+
+[^pmw]: "Utility optimal scheduling in processing networks", Huang, L., & Neely, M. J., Performance Evaluation, 2011 @huang2011utility
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
@@ -247,7 +252,7 @@ Virtual Plane Cache Read Rate Control
 :::
 ::: {.column width=50%}
 ::: {style="font-size: 75%;"}
-- Iterative greedy algorithm.
+- Greedy iterative algorithm.
 - First allocates cache capacity and read rate to highest backlog objects.
 - Then allocates link bandwidth to largest backlog differential objects.
 - Placeholder.

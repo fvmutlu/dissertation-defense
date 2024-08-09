@@ -2227,21 +2227,24 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h1>Cache Read Rate Control</h1>
 
 </section>
-<section id="cache-read-bandwidth" class="slide level2">
-<h2>Cache Read Bandwidth</h2>
-<p><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</p>
+<section id="overview-3" class="slide level2">
+<h2>Overview</h2>
+<ul>
+<li><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</li>
+</ul>
 <div style="font-size: 70%;">
 <span class="math display">\[\begin{equation*}
     \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
 \end{equation*}\]</span>
 </div>
-<p><strong>Hypothesis:</strong> We can control read rate allocations in the virtual plane for better performance.</p>
+<ul>
+<li><strong>Hypothesis:</strong> We can control read rate allocations in the virtual plane for better performance.</li>
+</ul>
 <div style="font-size: 70%;">
 <span class="math display">\[\begin{equation*}
     \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r\knjt}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
 \end{equation*}\]</span>
 </div>
-<p><strong>Cache bandwidth constraint:</strong> <span class="math inline">\(\sum_{\kin} r^k_{n_j}(t) \leq R_{n_j}\)</span>.</p>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
@@ -2264,14 +2267,18 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-read-rate-control-1" class="slide level2">
-<h2>Cache Read Rate Control</h2>
-<p><strong>Goal:</strong> Guarantee stability of all VIP queues, minimize total backlog.</p>
-<p><strong>Penalties:</strong> What happened to them?</p>
-<p><strong>Algorithm:</strong></p>
+<section id="overview-4" class="slide level2">
+<h2>Overview</h2>
+<div style="font-size: 100%;">
 <ul>
-<li>Placeholder.</li>
+<li><strong>Reasoning:</strong> Objects in cache receive different hit rates in the data plane.</li>
+<li><strong>Penalties:</strong> We omit the weight of caching actions to study read rate allocation in isolation.</li>
+<li><strong>Algorithm:</strong> Should guarantee stability of all VIP queues, minimize total backlog.
+<ul>
+<li>Consider new control variables and <span class="body-highlight">cache bandwidth constraints</span>, i.e.&nbsp;<span class="math inline">\(\sum_{\kin} r\knjt \leq R_{n_j}\)</span>.</li>
+</ul></li>
 </ul>
+</div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
@@ -2303,15 +2310,15 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <section id="virtual-plane-caching" class="slide level2">
 <h2>Virtual Plane Caching</h2>
 <div style="font-size: 80%;">
-<p>Assume <span class="math inline">\(\omega=0\)</span>; perform <span class="body-highlight">caching</span> by choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</p>
+<p>Given <span class="math inline">\(\omega=0\)</span>; perform <span class="body-highlight">caching</span> by choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(j \in \mathcal{J}_n\)</span> to:</p>
 <span class="math display">\[\begin{align*}
     \text{maximize}
-        &amp; \quad \sum_{\kin} \sum_{\jin} r\knjt s\knjt V\knt \label{eq:mt_sbw_cost}\\
+        &amp; \quad \sum_{\kin} \sum_{\jin} r\knjt s\knjt V\knt \\
     \text{subject to}
-        &amp; \quad \sum_{\kin} s\knjt \leq L_{n_j}, \; \forall \jin \label{eq:mt_sbw_const1}\\
-        &amp; \quad \sum_{\jin} s\knjt \leq 1, \; \forall \kin \label{eq:mt_sbw_const2}\\
-        &amp; \quad s\knjt \in \{0,1\}, \; \forall \kin, \, \jin \label{eq:mt_sbw_const3}\\
-        &amp; \quad \sum_{\kin} r\knjt \leq R_{n_j}, \; \forall \jin \label{eq:mt_sbw_const4}
+        &amp; \quad \sum_{\kin} s\knjt \leq L_{n_j}, \; \forall \jin \\
+        &amp; \quad \sum_{\jin} s\knjt \leq 1, \; \forall \kin \\
+        &amp; \quad s\knjt \in \{0,1\}, \; \forall \kin, \, \jin \\
+        &amp; \quad \color{#C8102E}{\sum_{\kin} r\knjt \leq R_{n_j}, \; \forall \jin}
 \end{align*}\]</span>
 </div>
 <div class="footer">
@@ -2390,16 +2397,28 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="underflows" class="slide level2">
-<h2>Underflows</h2>
+<section id="policy-performance" class="slide level2 smaller">
+<h2>Policy Performance</h2>
 <ul>
-<li>Why are they detrimental?</li>
-<li>Why don’t we avoid them in original formulation?</li>
+<li>This approach yields poor performance in the data plane.
+<ul>
+<li><strong>Significant underutilization</strong> of slow tier.</li>
+</ul></li>
+<li>We attribute this outcome to virtual plane <strong>queue underflows</strong>.
+<ul>
+<li>Data plane policies are not fed actionable flow information for many objects in a timely manner.</li>
+</ul></li>
+<li>Allocation problem under <em>“no-underflow”</em> constraints is very difficult to solve <sup>1</sup>.
+<ul>
+<li>Eliminates greedy (backpressure) solutions.</li>
+<li>All control variables must be optimized in combination.</li>
+<li>Non-convex with integer variables.</li>
+</ul></li>
 </ul>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn10"><p>“Utility optimal scheduling in processing networks”, Huang, L., &amp; Neely, M. J., Performance Evaluation, 2011 <span class="citation" data-cites="huang2011utility"><a href="#/appendix-a" role="doc-biblioref" onclick="">[11]</a></span></p></li></ol></aside></section>
 <section id="greedy-approach" class="slide level2">
 <h2>Greedy Approach</h2>
 <div class="columns">
@@ -2419,7 +2438,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div><div class="column" style="width:50%;">
 <div style="font-size: 75%;">
 <ul>
-<li>Iterative greedy algorithm.</li>
+<li>Greedy iterative algorithm.</li>
 <li>First allocates cache capacity and read rate to highest backlog objects.</li>
 <li>Then allocates link bandwidth to largest backlog differential objects.</li>
 <li>Placeholder.</li>
@@ -2925,6 +2944,9 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </div>
 <div id="ref-mahdian2017mindelay" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[10] </div><div class="csl-right-inline">M. Mahdian and E. Yeh, <span>“Mindelay: <span class="nocase">Low-latency</span> forwarding and caching algorithms for information-centric networks,”</span> <em>arXiv preprint arXiv:1710.05130</em>, 2017.</div>
+</div>
+<div id="ref-huang2011utility" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">L. Huang and M. J. Neely, <span>“Utility optimal scheduling in processing networks,”</span> <em>Performance Evaluation</em>, vol. 68, no. 11, pp. 1002–1021, 2011.</div>
 </div>
 </div>
 </section></section>
