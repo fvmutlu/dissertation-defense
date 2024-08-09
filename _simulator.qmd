@@ -6,8 +6,8 @@
     - Queuing mechanisms for caches that contribute to delay.
     - High level of abstraction enabling quick development iteration.
 - **Implementation**: Built using Python and the SimPy library for discrete event simulation.
-    - Single-threaded due to DES.
-    - Supports simultaneous simulations via multiprocessing.
+    - Modular object-oriented design for *extensibility*.
+    - Supports simultaneous simulations via *multiprocessing*.
 :::
 
 ::: {.footer}
@@ -92,14 +92,16 @@ Codebase has many features for **ease of use** and **reproducibility**.
 Simulator
 :::
 
-## Simulator {.smaller}
+## Simulator
 
-Abstractions and Approximations:
+We abstract some aspects:
  
-- Object-level simulation (no packet-level details).
-- Unbounded queues and lossless operation (no packet loss modeling).
-- Generic ICN architecture (no hierarchical naming).
-- Simplified storage and memory mechanisms.
+- Object-level simulation.
+- Unbounded queues and lossless operation.
+- Generic ICN architecture.
+- Approximated storage and memory mechanisms.
+
+Suitable for quickly prototyping object-level policies.
 
 ::: {.footer}
 Simulator
