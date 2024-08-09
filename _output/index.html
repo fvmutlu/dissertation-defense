@@ -2402,17 +2402,17 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <ul>
 <li>This approach yields poor performance in the data plane.
 <ul>
-<li><strong>Significant underutilization</strong> of slow tier.</li>
+<li><em>Significant underutilization</em> of slow tier.</li>
 </ul></li>
-<li>We attribute this outcome to virtual plane <strong>queue underflows</strong>.
+<li>We attribute this outcome to virtual plane <em>queue underflows</em>.
 <ul>
 <li>Data plane policies are not fed actionable flow information for many objects in a timely manner.</li>
 </ul></li>
-<li>Allocation problem under <em>“no-underflow”</em> constraints is very difficult to solve <sup>1</sup>.
+<li>Allocation problem under <em>“no-underflow”</em> constraints is difficult to solve <sup>1</sup>.
 <ul>
-<li>Eliminates greedy (backpressure) solutions.</li>
+<li>Backpressure solution no longer optimal.</li>
 <li>All control variables must be optimized in combination.</li>
-<li>Non-convex with integer variables.</li>
+<li>Non-convex problem with integer variables.</li>
 </ul></li>
 </ul>
 <div class="footer">
@@ -2436,12 +2436,22 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div style="font-size: 75%;">
+<div style="font-size: 60%;">
+<p>We propose a greedy iterative algorithm:</p>
 <ul>
-<li>Greedy iterative algorithm.</li>
-<li>First allocates cache capacity and read rate to highest backlog objects.</li>
-<li>Then allocates link bandwidth to largest backlog differential objects.</li>
-<li>Placeholder.</li>
+<li>First allocate cache space and read rate to highest backlog objects.
+<ul>
+<li>Time complexity dominated by sorting, worst case order of <span class="math inline">\(O(K \log K)\)</span>.</li>
+</ul></li>
+<li>Then allocate link bandwidth to largest backlog differential objects.
+<ul>
+<li>Complexity of <span class="math inline">\(O(DK \log DK)\)</span> where <span class="math inline">\(D\)</span> is a given node’s degree.</li>
+</ul></li>
+<li>Yields maximal allocations; terminates when either:
+<ul>
+<li>All cache capacity / bandwidth and all link bandwidth is allocated, or</li>
+<li>All backlog is given service.</li>
+</ul></li>
 </ul>
 </div>
 </div></div>
