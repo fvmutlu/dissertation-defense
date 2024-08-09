@@ -114,4 +114,18 @@ Introduction
 - Now, having looked at these considerations, let's make our goal more explicit.
 :::
 
-{{< include _relwork.qmd >}}
+## Related Work
+
+::: {style="font-size: 80%;"}
+- Literature regarding adoption of *flash* in ICN:
+    - Feasibility of SSD *Content Store* at Internet scale @perino2011reality
+    - Hierarchical *Content Store*, SSD prefetch layer masked behing DRAM @rossini2014multi, @mansilha2015hierarchical, @mansilha2017exploiting
+    - Non-blocking caching I/O @so2014toward, @pan2021nb
+    - Flash damage aware caching @shukla2016designing
+- Joint caching and forwarding policies @yeh2014vip, @ioannidis2017jointly, @mahdian2017mindelay
+    - VIP framework @yeh2014vip: congestion-aware, incorporates cache read rates
+:::
+
+::: {.footer}
+Related Work
+:::

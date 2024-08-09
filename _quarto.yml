@@ -4,6 +4,8 @@ project:
   preview:
     port: 4200
     browser: false
+bibliography: references.bib
+csl: ieee.csl
 format:
   revealjs:
     slide-number: true

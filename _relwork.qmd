@@ -33,19 +33,6 @@ Related Work
 - Obviously, there are a lot more works that explore similar problems from different angles. I can't go into everything at the moment, but I still wanted to put these other works from the ICN literature in
 :::
 
-## Related Work: HSS
-
--  *"AutoTiering: automatic data placement manager in multi-tier all-flash datacenter"*, Z. Yang, et al., IPCCC 2017
--  *"Sibyl: Adaptive and extensible data placement in hybrid storage systems using online reinforcement learning"*, G. Singh, et al., ISCA 2022 
-
-::: {.footer}
-Related Work
-:::
-
-::: {.notes}
-- As well as these works from the more tangentially related hybrid storage systems literature
-:::
-
 ## Related Work: VIP
 
 *"VIP: a framework for joint dynamic forwarding and caching in named data networks"*, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014

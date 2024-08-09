@@ -96,7 +96,27 @@
     code span.va { color: #e45649; } /* Variable */
     code span.vs { color: #da4453; } /* VerbatimString */
     code span.wa { color: #da4453; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="styles/styles.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -951,123 +971,26 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="related-work-icn" class="slide level2">
-<h2>Related Work: ICN</h2>
+<section id="related-work" class="slide level2">
+<h2>Related Work</h2>
+<div style="font-size: 80%;">
 <ul>
-<li><em>“Multi-Terabyte and multi-Gbps information centric routers”</em>, G. Rossini, D. Rossi, M. Garetto, E. Leonardi, INFOCOM 2014</li>
-<li><em>“Hierarchical Content Stores in High-Speed ICN Routers: Emulation and Prototype Implementation”</em>, R. B. Mansilha, L. Saino, M. Barcellos, M. Gallo, E. Leonardi, D. Perino, D. Rossi, ICN 2015</li>
-<li><em>“Exploiting parallelism in hierarchical content stores for high-speed ICN routers”</em>, R. B. Mansilha, M. Barcellos, E. Leonardi, D. Rossi, COMNET 2017</li>
+<li>Literature regarding adoption of <em>flash</em> in ICN:
+<ul>
+<li>Feasibility of SSD <em>Content Store</em> at Internet scale <span class="citation" data-cites="perino2011reality"><a href="#/appendix-a" role="doc-biblioref" onclick="">[1]</a></span></li>
+<li>Hierarchical <em>Content Store</em>, SSD prefetch layer masked behing DRAM <span class="citation" data-cites="rossini2014multi"><a href="#/appendix-a" role="doc-biblioref" onclick="">[2]</a></span>, <span class="citation" data-cites="mansilha2015hierarchical"><a href="#/appendix-a" role="doc-biblioref" onclick="">[3]</a></span>, <span class="citation" data-cites="mansilha2017exploiting"><a href="#/appendix-a" role="doc-biblioref" onclick="">[4]</a></span></li>
+<li>Non-blocking caching I/O <span class="citation" data-cites="so2014toward"><a href="#/appendix-a" role="doc-biblioref" onclick="">[5]</a></span>, <span class="citation" data-cites="pan2021nb"><a href="#/appendix-a" role="doc-biblioref" onclick="">[6]</a></span></li>
+<li>Flash damage aware caching <span class="citation" data-cites="shukla2016designing"><a href="#/appendix-a" role="doc-biblioref" onclick="">[7]</a></span></li>
+</ul></li>
+<li>Joint caching and forwarding policies <span class="citation" data-cites="yeh2014vip"><a href="#/appendix-a" role="doc-biblioref" onclick="">[8]</a></span>, <span class="citation" data-cites="ioannidis2017jointly"><a href="#/appendix-a" role="doc-biblioref" onclick="">[9]</a></span>, <span class="citation" data-cites="mahdian2017mindelay"><a href="#/appendix-a" role="doc-biblioref" onclick="">[10]</a></span>
+<ul>
+<li>VIP framework <span class="citation" data-cites="yeh2014vip"><a href="#/appendix-a" role="doc-biblioref" onclick="">[8]</a></span>: congestion-aware, incorporates cache read rates</li>
+</ul></li>
 </ul>
+</div>
 <div class="footer">
 <p>Related Work</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Now, to conclude the introduction, I want to point out some related work.</li>
-<li>This connected series of papers you see on the screen, which come from the same group that authored the one about coupling caching and forwarding that I just discussed, is the closest related work in my opinion.</li>
-<li>These papers lay out similar concerns about cache capacities and the relevant challenges.</li>
-<li>However, their work targets the system layer. They deal with lower level implementation details of how to integrate SSDs into the actual data structures that make up the caches in ICNs.</li>
-<li>In these works, while the authors rely on traditional cache admission and replacement policies, they also point out that specialized policies may result in better performant systems.</li>
-<li>They also do not consider the coupling of forwarding decisions.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="related-work-more-icn" class="slide level2 smaller">
-<h2>Related Work: More ICN</h2>
-<ul>
-<li><em>“A reality check for content centric networking”</em>, D. Perino, M. Varvello, SIGCOMM 2011</li>
-<li><em>“Toward terabyte-scale caching with SSD in a named data networking router”</em>, W. So, et al., ANCS 2014</li>
-<li><em>“On Designing Optimal Memory Damage Aware Caching Policies for Content-Centric Networks”</em>, S. Shukla, A. A. Abouzeid, WiOpt 2016</li>
-<li><em>“HCaching: High-Speed Caching for Information-Centric Networking”</em>, H. Li, et al., GLOBECOM 2017</li>
-<li><em>“A Split Architecture Approach to Terabyte-Scale Caching in a Protocol-Oblivious Forwarding Switch”</em>, L. Ding, et al., ToN 2017</li>
-<li><em>“NB-cache: non-blocking in-network caching for high-speed content routers”</em>, T. Pan, et al., IWQoS 2019</li>
-</ul>
-<div class="footer">
-<p>Related Work</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Obviously, there are a lot more works that explore similar problems from different angles. I can’t go into everything at the moment, but I still wanted to put these other works from the ICN literature in</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="related-work-hss" class="slide level2">
-<h2>Related Work: HSS</h2>
-<ul>
-<li><em>“AutoTiering: automatic data placement manager in multi-tier all-flash datacenter”</em>, Z. Yang, et al., IPCCC 2017</li>
-<li><em>“Sibyl: Adaptive and extensible data placement in hybrid storage systems using online reinforcement learning”</em>, G. Singh, et al., ISCA 2022</li>
-</ul>
-<div class="footer">
-<p>Related Work</p>
-</div>
-<aside class="notes">
-<ul>
-<li>As well as these works from the more tangentially related hybrid storage systems literature</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="related-work-vip" class="slide level2">
-<h2>Related Work: VIP</h2>
-<p><em>“VIP: a framework for joint dynamic forwarding and caching in named data networks”</em>, E. M. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, D. Leong, ACM ICN 2014</p>
-<ul>
-<li>Couples caching and forwarding</li>
-<li>Models read rate of caches</li>
-<li>Virtual and data plane separation makes algorithm simpler to operate</li>
-<li>Lyapunov drift analysis integrates easily with costs</li>
-</ul>
-<div class="footer">
-<p>Related Work</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Lastly, perhaps the single most important related work to cover here is the VIP paper by Prof.&nbsp;Yeh and co-authors, as my work directly extends this paper.</li>
-<li>So let me go over why that is.</li>
-<li>Recall the earlier paper I mentioned about coupling caching and forwarding; coincidentally the VIP paper also appeared in the same conference and proposed a strategy that does exactly that, which suits our goals.</li>
-<li>Furthermore, this paper includes the read capacities of cache devices in its system model, which is one of the parameters of primary concern to us.</li>
-<li>The core feature of this paper is a separation of the data plane mechanisms from the “virtual plane”, where control decisions take place, which we also adopt as it makes building these strategies simpler.</li>
-<li>Finally, there is a technical benefit here because the analysis for VIP is based on Lyapunov drift, which has an extension called drift-plus-penalty, that gives us a direct venue for incorporating cache utilization costs.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section></section>
 <section>
 <section id="system-model" class="title-slide slide level1 center">
@@ -2961,7 +2884,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <h1>Appendices</h1>
 
 </section>
-<section id="appendix-a" class="slide level2">
+<section id="appendix-a" class="slide level2 smaller scrollable">
 <h2>Appendix A</h2>
 <ul>
 <li>Placeholder</li>
@@ -2970,6 +2893,38 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p><img src="images/neu_logo.svg" class="slide-logo"></p>
 <div class="footer footer-default">
 
+</div>
+</div>
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-perino2011reality" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">D. Perino and M. Varvello, <span>“A reality check for content centric networking,”</span> in <em>Proceedings of the ACM SIGCOMM workshop on information-centric networking</em>, 2011, pp. 44–49.</div>
+</div>
+<div id="ref-rossini2014multi" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">G. Rossini, D. Rossi, M. Garetto, and E. Leonardi, <span>“Multi-terabyte and multi-gbps information centric routers,”</span> in <em>IEEE INFOCOM 2014 - IEEE conference on computer communications</em>, 2014, pp. 181–189. doi: <a href="https://doi.org/10.1109/INFOCOM.2014.6847938">10.1109/INFOCOM.2014.6847938</a>.</div>
+</div>
+<div id="ref-mansilha2015hierarchical" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">R. B. Mansilha <em>et al.</em>, <span>“Hierarchical content stores in high-speed ICN routers: Emulation and prototype implementation,”</span> in <em>Proceedings of the 2nd ACM conference on information-centric networking</em>, 2015, pp. 59–68.</div>
+</div>
+<div id="ref-mansilha2017exploiting" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">R. B. Mansilha, M. P. Barcellos, E. Leonardi, and D. Rossi, <span>“Exploiting parallelism in hierarchical content stores for high-speed ICN routers,”</span> <em>Computer Networks</em>, vol. 125, pp. 132–145, 2017.</div>
+</div>
+<div id="ref-so2014toward" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">W. So, T. Chung, H. Yuan, D. Oran, and M. Stapp, <span>“Toward terabyte-scale caching with SSD in a named data networking router,”</span> in <em>Proceedings of the tenth ACM/IEEE symposium on architectures for networking and communications systems</em>, in ANCS ’14. New York, NY, USA: Association for Computing Machinery, 2014, pp. 241–242.</div>
+</div>
+<div id="ref-pan2021nb" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">T. Pan <em>et al.</em>, <span>“Nb-cache: Non-blocking in-network caching for high-performance content routers,”</span> <em>IEEE/ACM Transactions on Networking</em>, vol. 29, no. 5, pp. 1976–1989, 2021.</div>
+</div>
+<div id="ref-shukla2016designing" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">S. Shukla and A. A. Abouzeid, <span>“On designing optimal memory damage aware caching policies for content-centric networks,”</span> in <em>2016 14th international symposium on modeling and optimization in mobile, ad hoc, and wireless networks (WiOpt)</em>, IEEE, 2016, pp. 1–8.</div>
+</div>
+<div id="ref-yeh2014vip" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">E. Yeh, T. Ho, Y. Cui, M. Burd, R. Liu, and D. Leong, <span>“VIP: A framework for joint dynamic forwarding and caching in named data networks,”</span> in <em>Proceedings of the 1st ACM conference on information-centric networking</em>, 2014, pp. 117–126.</div>
+</div>
+<div id="ref-ioannidis2017jointly" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">S. Ioannidis and E. Yeh, <span>“Jointly optimal routing and caching for arbitrary network topologies,”</span> in <em>Proceedings of the 4th ACM conference on information-centric networking</em>, 2017, pp. 77–87.</div>
+</div>
+<div id="ref-mahdian2017mindelay" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">M. Mahdian and E. Yeh, <span>“Mindelay: <span class="nocase">Low-latency</span> forwarding and caching algorithms for information-centric networks,”</span> <em>arXiv preprint arXiv:1710.05130</em>, 2017.</div>
 </div>
 </div>
 </section></section>
