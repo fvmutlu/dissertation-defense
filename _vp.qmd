@@ -1,6 +1,10 @@
-## Optimization Goal
+## Overview
 
-- Placeholder.
+- We seek an algorithm that can:
+    - Guarantee stability of all VIP queues.
+    - Maintain total VIP queue backlog small.
+    - Keep cache-related costs minimal.
+- What does this accomplish for the data plane policy?
 
 ::: {.footer}
 Optimization Framework
@@ -12,9 +16,9 @@ VIP [stability region]{.body-highlight} $\Lambda$ consists of all arrival rates 
 
 ::: {style="font-size: 80%;"}
 ```{=tex}
-\begin{equation}
+\begin{equation*}
     \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j}
-\end{equation}
+\end{equation*}
 ```
 :::
 <hr>
@@ -210,22 +214,22 @@ Use equal object sizes, decide variables for each one-object [cache slot]{.body-
 
 ::: {style="font-size: 70%;"}
 ```{=tex}
-\begin{align}
+\begin{align*}
     \text{maximize}
         & \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
     \text{subject to} 
         & \quad \sum\limits_{\kin} s^k_{n_i}(t) \leq 1, \; \forall \, \iin \\
         & \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \forall \, \kin \\
         & \quad s^k_{n_i}(t) \in \{0, 1\}, \; \forall \, \kin, \; \iin
-\end{align}
+\end{align*}
 ```
 :::
 
 ::: {style="font-size: 60%; text-align: center"}
 ```{=tex}
-\begin{equation}
+\begin{equation*}
 \mc{I}_n \triangleq \{1, 2, ..., \sum_{\jin} L_{n_j}\}, \; \mc{I}_{n_j} \triangleq \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}
-\end{equation}
+\end{equation*}
 \\
 ```
 If $i \in \mc{I}_{n_j}$, then $b^k_{n_i}(t) = b^k_{n_j}(t)$ and $s^k_{n_i}(t) = s^k_{n_j}(t)$.
@@ -245,7 +249,14 @@ Optimization Framework
 
 ## Caching Solution
 
-- Placeholder.
+::: {style="font-size: 80%;"}
+Use equal object sizes, decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
+
+- Variety of polynomial time algorithms exist; mostly variants of the Hungarian method.
+- We use one such variant[^crouse2d] with worst case complexity of $O(L^2_{tot}K)$, where $L_{tot} = \sum_{\jin} L_{n_j}$.
+:::
+
+[^crouse2d]: "On implementing 2D rectangular assignment algorithms", Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems 2016
 
 ::: {.footer}
 Optimization Framework
@@ -317,38 +328,38 @@ Optimization Framework
 - The intuition here again comes from thinking of VIP counts as potential representing unsatisfied demand. So with the forwarding step, we're making sure VIP flows follow large differences in potential, essentially steering interests toward sinks, meaning sources or caches.
 :::
 
-
-
 ## Theorem: Trade-off {.smaller}
 
-For arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\epsilon}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then the network of VIP queues under the proposed algorithm satisfies the following:
+For arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\epsilon}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then the proposed algorithm achieves the following:
 
-::: {style="font-size: 110%;"}
+::: {style="font-size: 90%;"}
 ```{=tex}
-\begin{equation}
-    \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
-\end{equation}
+\begin{equation*}
+    \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T}_{t=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{B}{\epsilon} + \omega \frac{\bar{P}(\boldsymbol{\lambda})}{\epsilon}
+\end{equation*}*
 ```
 ```{=tex}
-\begin{equation}
-    \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
-\end{equation}
+\begin{equation*}
+    \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[P(t)] \leq \frac{B}{\omega} + \bar{P}(\boldsymbol{\lambda})
+\end{equation*}
 ```
 :::
 
-::: {.fragment style="font-size: 80%;"}
+<hr>
+
+::: {style="font-size: 85%; text-align: center"}
 ```{=tex}
-\begin{equation}
-    B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
-\end{equation}
+\begin{equation*}
+    B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} L_{n_j} r_{n_j} \bigg)^2
+\end{equation*}
 ```
 ```{=tex}
-\begin{equation}
-\epsilon \triangleq \textstyle \min_{\nin,\kin} \epsilon^k_n
-\end{equation}
+\begin{equation*}
+\epsilon = \textstyle \min_{\nin,\kin} \epsilon^k_n
+\end{equation*}
 ```
 
-$\Psi(\boldsymbol{\lambda})$: Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.
+$\bar{P}(\boldsymbol{\lambda})$: Minimum expected time-average sum penalty achievable by feasible stabilizing policy.
 :::
 
 ::: {.footer}

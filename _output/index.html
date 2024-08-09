@@ -1356,10 +1356,16 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="optimization-goal" class="slide level2">
-<h2>Optimization Goal</h2>
+<section id="overview-2" class="slide level2">
+<h2>Overview</h2>
 <ul>
-<li>Placeholder.</li>
+<li>We seek an algorithm that can:
+<ul>
+<li>Guarantee stability of all VIP queues.</li>
+<li>Maintain total VIP queue backlog small.</li>
+<li>Keep cache-related costs minimal.</li>
+</ul></li>
+<li>What does this accomplish for the data plane policy?</li>
 </ul>
 <div class="footer">
 <p>Optimization Framework</p>
@@ -1369,9 +1375,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <h2>Theorem: Stability Region</h2>
 <p>VIP <span class="body-highlight">stability region</span> <span class="math inline">\(\Lambda\)</span> consists of all arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that:</p>
 <div style="font-size: 80%;">
-<span class="math display">\[\begin{equation}
+<span class="math display">\[\begin{equation*}
     \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j}
-\end{equation}\]</span>
+\end{equation*}\]</span>
 </div>
 <hr>
 <div style="font-size: 70%; text-align: center">
@@ -1446,7 +1452,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="optimization-goal-1" class="slide level2">
+<section id="optimization-goal" class="slide level2">
 <h2>Optimization Goal</h2>
 <p>Minimize upper bound of <span class="body-highlight">drift-plus-penalty</span><sup>1</sup> expression:</p>
 <span class="math display">\[\begin{equation*}
@@ -1600,19 +1606,19 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Use equal object sizes, decide variables for each one-object <span class="body-highlight">cache slot</span>; obtain equivalent <span class="body-highlight">linear assignment problem</span>.</p>
 </div>
 <div style="font-size: 70%;">
-<span class="math display">\[\begin{align}
+<span class="math display">\[\begin{align*}
     \text{maximize}
         &amp; \quad \sum\limits_{\kin} \sum\limits_{\iin} b^k_{n_i}(t) s^k_{n_i}(t) \\
     \text{subject to}
         &amp; \quad \sum\limits_{\kin} s^k_{n_i}(t) \leq 1, \; \forall \, \iin \\
         &amp; \quad \sum\limits_{\iin} s^k_{n_i}(t) \leq 1, \; \forall \, \kin \\
         &amp; \quad s^k_{n_i}(t) \in \{0, 1\}, \; \forall \, \kin, \; \iin
-\end{align}\]</span>
+\end{align*}\]</span>
 </div>
 <div style="font-size: 60%; text-align: center">
-<span class="math display">\[\begin{equation}
+<span class="math display">\[\begin{equation*}
 \mc{I}_n \triangleq \{1, 2, ..., \sum_{\jin} L_{n_j}\}, \; \mc{I}_{n_j} \triangleq \{1 + \sum^{j - 1}_{\ell = 1} L_{n_\ell}, ..., \sum^{j}_{\ell = 1} L_{n_\ell}\}
-\end{equation}
+\end{equation*}
 \\\]</span>
 <p>If <span class="math inline">\(i \in \mc{I}_{n_j}\)</span>, then <span class="math inline">\(b^k_{n_i}(t) = b^k_{n_j}(t)\)</span> and <span class="math inline">\(s^k_{n_i}(t) = s^k_{n_j}(t)\)</span>.</p>
 </div>
@@ -1641,13 +1647,17 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </section>
 <section id="caching-solution" class="slide level2">
 <h2>Caching Solution</h2>
+<div style="font-size: 80%;">
+<p>Use equal object sizes, decide variables for each one-object <span class="body-highlight">cache slot</span>; obtain equivalent <span class="body-highlight">linear assignment problem</span>.</p>
 <ul>
-<li>Placeholder.</li>
+<li>Variety of polynomial time algorithms exist; mostly variants of the Hungarian method.</li>
+<li>We use one such variant<sup>1</sup> with worst case complexity of <span class="math inline">\(O(L^2_{tot}K)\)</span>, where <span class="math inline">\(L_{tot} = \sum_{\jin} L_{n_j}\)</span>.</li>
 </ul>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn8"><p>“On implementing 2D rectangular assignment algorithms”, Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems 2016</p></li></ol></aside></section>
 <section id="virtual-plane-algorithm-2" class="slide level2">
 <h2>Virtual Plane Algorithm</h2>
 <p>Perform <span class="body-highlight">forwarding</span> by choosing <span class="math inline">\(\mu^k_{ab}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span> to:</p>
@@ -1710,26 +1720,27 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn8"><p>“VIP: A framework for joint dynamic forwarding and caching in named data networks”, Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., &amp; Leong, D., ACM ICN 2014</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn9"><p>“VIP: A framework for joint dynamic forwarding and caching in named data networks”, Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., &amp; Leong, D., ACM ICN 2014</p></li></ol></aside></section>
 <section id="theorem-trade-off" class="slide level2 smaller">
 <h2>Theorem: Trade-off</h2>
-<p>For arrival rate vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the network of VIP queues under the proposed algorithm satisfies the following:</p>
-<div style="font-size: 110%;">
-<span class="math display">\[\begin{equation}
-    \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T-1}_{t=0} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{NB}{\epsilon} + \frac{\omega}{2\epsilon} \minpen
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-    \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[p(t)] \leq \frac{2NB}{\omega} + \minpen
-\end{equation}\]</span>
+<p>For arrival rate vector <span class="math inline">\(\boldsymbol{\lambda}\)</span>, if there exists <span class="math inline">\(\boldsymbol{\epsilon}\)</span> such that <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, then the proposed algorithm achieves the following:</p>
+<div style="font-size: 90%;">
+<span class="math display">\[\begin{equation*}
+    \lim\limits_{T \rightarrow \infty} \frac{1}{T} \sum\limits^{T}_{t=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(t)] \leq \frac{B}{\epsilon} + \omega \frac{\bar{P}(\boldsymbol{\lambda})}{\epsilon}
+\end{equation*}*\]</span>
+<span class="math display">\[\begin{equation*}
+    \lim\limits_{T \rightarrow \infty} \frac{1}{T}\sum\limits^{T-1}_{t=0} \mathbb{E}[P(t)] \leq \frac{B}{\omega} + \bar{P}(\boldsymbol{\lambda})
+\end{equation*}\]</span>
 </div>
-<div class="fragment" style="font-size: 80%;">
-<span class="math display">\[\begin{equation}
-    B \triangleq \frac{1}{2N} \sum_{\nin} \bigg((\mu^{out}_{n,max})^2 + 2(\mu^{out}_{n,max})r_{n,max} + \big(\textstyle \sum_{\kin}A^k_{n,max} + \mu^{in}_{n,max} + r_{n,max})^2 \bigg)
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-\epsilon \triangleq \textstyle \min_{\nin,\kin} \epsilon^k_n
-\end{equation}\]</span>
-<p><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span>: Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy.</p>
+<hr>
+<div style="font-size: 85%; text-align: center">
+<span class="math display">\[\begin{equation*}
+    B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} L_{n_j} r_{n_j} \bigg)^2
+\end{equation*}\]</span>
+<span class="math display">\[\begin{equation*}
+\epsilon = \textstyle \min_{\nin,\kin} \epsilon^k_n
+\end{equation*}\]</span>
+<p><span class="math inline">\(\bar{P}(\boldsymbol{\lambda})\)</span>: Minimum expected time-average sum penalty achievable by feasible stabilizing policy.</p>
 </div>
 <div class="footer">
 <p>Optimization Framework</p>
@@ -1773,14 +1784,16 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="data-plane-caching" class="slide level2">
-<h2>Data Plane Caching</h2>
-<p>Define virtual plane <span class="body-highlight">incoming VIP flow</span>, averaged over sliding window of <span class="math inline">\(T\)</span> slots:</p>
-<span class="math display">\[\begin{equation*}
-    \bar{F}_{n,in}^k(t) \triangleq \frac{1}{T} \sum^t_{t' = t - T + 1} \Big( A\knt + \sum_{(a,n) \in \mc{L}^k} F^k_{an}(t') \Big)
-\end{equation*}\]</span>
+<section id="data-plane-transition" class="slide level2">
+<h2>Data Plane Transition</h2>
 <div style="font-size: 90%;">
-<p><span class="math inline">\(F^k_{an}(t)\)</span>: VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,n)\)</span> during <span class="math inline">\(t\)</span>.</p>
+<p>Considerations for mapping virtual plane algorithm to data plane policies:</p>
+<ul>
+<li>Data plane requires a <em>caching policy</em> and a <em>forwarding policy</em> operating in real time.</li>
+<li>We do not have immediate access to objects for caching purposes in the data plane.</li>
+<li>VIP counters only updated each virtual plane time slot and oscillate.</li>
+</ul>
+<p>We will use virtual plane trends to guide data plane policies.</p>
 </div>
 <div class="footer">
 <p>Data Plane Strategy</p>
@@ -1803,10 +1816,13 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 </section>
-<section id="data-plane-caching-1" class="slide level2">
+<section id="data-plane-caching" class="slide level2 smaller">
 <h2>Data Plane Caching</h2>
-<p>Define the <span class="body-highlight">cache benefit</span> metric as follows:</p>
-<div style="font-size: 75%;">
+<p>Define virtual plane <span class="body-highlight">incoming VIP flow</span>, averaged over sliding window of <span class="math inline">\(T\)</span> slots:</p>
+<span class="math display">\[\begin{equation*}
+    \bar{F}_{n,in}^k(t) \triangleq \frac{1}{T} \sum^t_{t' = t - T + 1} \Big( A\knt + \sum_{(a,n) \in \mc{L}^k} F^k_{an}(t') \Big)
+\end{equation*}\]</span>
+<p>Define <span class="body-highlight">cache benefit</span> metric as follows:</p>
 <span class="math display">\[\begin{gather*}
 CB^k_{n_j}(\tau) = \begin{cases}
 \begin{aligned}
@@ -1815,32 +1831,21 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 \end{aligned}
 \end{cases}
 \end{gather*}\]</span>
-</div>
-<span class="math display">\[\begin{equation*}
-   k^{min}_{n_j} = \argmin_{k \in \mc{K}_{n_j}(\tau)} \; \bar{F}_{n,in}^k(t)
-\end{equation*}\]</span>
+<hr>
+<div style="font-size: 90%;">
 <p><span class="math inline">\(\mc{K}_{n_j}(\tau)\)</span>: Set of objects cached in <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> during instance <span class="math inline">\(\tau \in [t,t+1)\)</span> in the data plane.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="math inline">\(F^k_{an}(t)\)</span>: VIPs for <span class="math inline">\(k\)</span> transmitted over <span class="math inline">\((a,n)\)</span> during <span class="math inline">\(t\)</span>.</p>
+</div><div class="column" style="width:50%;">
+<p><span class="math inline">\(k^{min}_{n_j} = \argmin_{k \in \mc{K}_{n_j}(\tau)} \; \bar{F}_{n,in}^k(t)\)</span></p>
+</div></div>
+</div>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
-<aside class="notes">
-<ul>
-<li>But then, because we also consider costs, we need a metric that incorporates those.</li>
-<li>So we define this cache benefit metric, which includes both the cache score and weighted utilization costs.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="data-plane-caching-2" class="slide level2">
+<section id="data-plane-caching-1" class="slide level2">
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 90%;">
@@ -2460,7 +2465,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="data-plane-caching-3" class="slide level2">
+<section id="data-plane-caching-2" class="slide level2">
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 65%;">
@@ -2939,184 +2944,11 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <h1>Appendices</h1>
 
 </section>
-<section id="appendix-a-pseudocode" class="slide level2">
-<h2>Appendix A: Pseudocode</h2>
-<div style="font-size: 50%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:">
-<div class="pseudocode">
-\begin{algorithm} \caption{Quicksort} \begin{algorithmic} \Procedure{Quicksort}{$A, p, r$} \If{$p &lt; r$} \State $q = $ \Call{Partition}{$A, p, r$} \State \Call{Quicksort}{$A, p, q - 1$} \State \Call{Quicksort}{$A, q + 1, r$} \EndIf \EndProcedure \Procedure{Partition}{$A, p, r$} \State $x = A[r]$ \State $i = p - 1$ \For{$j = p$ \To $r - 1$} \If{$A[j] &lt; x$} \State $i = i + 1$ \State exchange $A[i]$ with $A[j]$ \EndIf \State exchange $A[i]$ with $A[r]$ \EndFor \EndProcedure \end{algorithmic} \end{algorithm}
-</div>
-</div>
-</div>
-<div class="footer">
-<p>Appendices</p>
-</div>
-</section>
-<section id="appendix-b-model-notation" class="slide level2 smaller" data-visibility="uncounted">
-<h2>Appendix B: Model Notation</h2>
-<table class="caption-top">
-<caption>Table of Notations</caption>
-<colgroup>
-<col style="width: 20%">
-<col style="width: 80%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mathcal{G}\)</span></td>
-<td style="text-align: left;">Directed graph representing the network topology</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\((\mathcal{N},\mathcal{L})\)</span></td>
-<td style="text-align: left;">Set of nodes and links in <span class="math inline">\(\mathcal{G}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(C_{ab}\)</span></td>
-<td style="text-align: left;">Transmission capacity (in objects/sec) of link <span class="math inline">\((a,b)\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mathcal{K}\)</span></td>
-<td style="text-align: left;">Set of data objects in the network</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mc{S}(k)\)</span></td>
-<td style="text-align: left;">Content source node for <span class="math inline">\(k \in \mathcal{K}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mathcal{J}_n\)</span></td>
-<td style="text-align: left;">Set of cache tiers at node <span class="math inline">\(n \in \mathcal{N}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(L_{n_j}\)</span></td>
-<td style="text-align: left;">Size (in objects) of cache tier <span class="math inline">\(j \in \mathcal{J}_n\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(r_{n_j}\)</span></td>
-<td style="text-align: left;">Read rate of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(c^a_{n_j}\)</span></td>
-<td style="text-align: left;">Admission cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(c^e_{n_j}\)</span></td>
-<td style="text-align: left;">Eviction cost of tier <span class="math inline">\(j\)</span> at node <span class="math inline">\(n\)</span></td>
-</tr>
-</tbody>
-</table>
-<div class="footer">
-<p>Appendices</p>
-</div>
-</section>
-<section id="appendix-b-model-notation-1" class="slide level2 smaller" data-visibility="uncounted">
-<h2>Appendix B: Model Notation</h2>
-<table class="caption-top">
-<caption>Table of Notations</caption>
-<colgroup>
-<col style="width: 20%">
-<col style="width: 80%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\lambda^k_n\)</span></td>
-<td style="text-align: left;">Exogenous request arrival rate for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(t\)</span></td>
-<td style="text-align: left;">Time slot referring to time interval <span class="math inline">\([t, t+1)\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(A^k_n(t)\)</span></td>
-<td style="text-align: left;">Number of exogenous requests for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(s^k_{n_j}(t)\)</span></td>
-<td style="text-align: left;">Caching state of <span class="math inline">\(k\)</span> in tier <span class="math inline">\(j\)</span> at <span class="math inline">\(n\)</span> at the beginning of <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(p^k_{n_j}(t)\)</span></td>
-<td style="text-align: left;">Penalty incurred by the choice of <span class="math inline">\(s^k_{n_j}(t)\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(p(t)\)</span></td>
-<td style="text-align: left;">Sum penalty incurred during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\omega\)</span></td>
-<td style="text-align: left;">Penalty importance weight</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(V^k_n(t)\)</span></td>
-<td style="text-align: left;">VIP count for <span class="math inline">\(k\)</span> at <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mathbf{V}(t)\)</span></td>
-<td style="text-align: left;">Vector of VIP queue states during <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mu^k_{ab}(t)\)</span></td>
-<td style="text-align: left;">Allocated rate of VIPs for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span> during <span class="math inline">\(t\)</span></td>
-</tr>
-</tbody>
-</table>
-<div class="footer">
-<p>Appendices</p>
-</div>
-</section>
-<section id="appendix-c-analysis-notation" class="slide level2 smaller" data-visibility="uncounted">
-<h2>Appendix C: Analysis Notation</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Notation</th>
-<th style="text-align: left;">Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(A^k_{n,max}\)</span></td>
-<td style="text-align: left;">Finite value such that <span class="math inline">\(A^k_n(t) \leq A^k_{n,max}\)</span> for all <span class="math inline">\(t\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(A_{n,max}\)</span></td>
-<td style="text-align: left;">Maximum total exogenous arrivals at node <span class="math inline">\(n\)</span> during <span class="math inline">\(t\)</span> across all <span class="math inline">\(\kin\)</span>, i.e.&nbsp;<span class="math inline">\(A_{n,max} \triangleq \sum_{\kin}A^k_{n,max}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(\mu^{out}_{n,max}\)</span></td>
-<td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((n,b) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{out}_{n,max} \triangleq \sum_{\bin}C_{nb}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\mu^{in}_{n,max}\)</span></td>
-<td style="text-align: left;">Maximum total allocated transmission rate for VIPs across all <span class="math inline">\((a,n) \in \mc{L}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu^{in}_{n,max} \triangleq \sum_{\bin}C_{an}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(r_{n,max}\)</span></td>
-<td style="text-align: left;">Maximum total rate that can be served by all cache tiers at <span class="math inline">\(n\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(\Psi(\boldsymbol{\lambda})\)</span></td>
-<td style="text-align: left;">Minimum time-average sum penalty achievable by a feasible and stabilizing randomized policy</td>
-</tr>
-</tbody>
-</table>
-<div class="footer">
-<p>Appendices</p>
-</div>
+<section id="appendix-a" class="slide level2">
+<h2>Appendix A</h2>
+<ul>
+<li>Placeholder</li>
+</ul>
 <div class="quarto-auto-generated-content">
 <p><img src="images/neu_logo.svg" class="slide-logo"></p>
 <div class="footer footer-default">
