@@ -295,7 +295,9 @@ Virtual Plane Cache Read Rate Control
 
 ::: columns
 ::: {.column width=50%}
+::: {layout="[[-1], [1], [-1]]"}
 ![Sum of backlogs](images/sbw_comp_abilene_075_30_vip-pit-sums.png){width=85% height=85% fig-align="center"}
+:::
 :::
 ::: {.column width=50%}
 - Placeholder.
