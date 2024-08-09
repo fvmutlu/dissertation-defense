@@ -335,6 +335,20 @@
       processEnvironments: true,
       packages: {
         '[+]': ['boldsymbol']
+      },
+      macros: {
+        mc: ["\\mathcal{#1}", 1],
+        mb: ["\\mathbf{#1}", 1],
+        nin: "n \\in \\mathcal{N}",
+        bin: "b \\in \\mathcal{N}",
+        kin: "k \\in \\mathcal{K}",
+        jin: "j \\in \\mathcal{J}_n",
+        kjin: "(k,j) \\in \\mathcal{B}_{n,i}",
+        nbin: "(n,b) \\in \\mathcal{L}",
+        knt: "\^k_n(t)",
+        knjt: "\^k_{n_j}(t)",
+        argmax: "\\mathop{\\mathrm{argmax}}",
+        argmin: "\\mathop{\\mathrm{argmin}}",
       }
     }
   };

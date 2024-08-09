@@ -57,3 +57,10 @@
 .reveal .slide aside .aside-footnotes {
     font-size: 0.8em;
 }
+
+.centered-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }

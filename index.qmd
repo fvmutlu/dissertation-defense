@@ -119,3 +119,8 @@ Conclusion & Other Work
 ## Appendix A
 
 - Placeholder
+
+## References {.smaller}
+
+::: {#refs}
+:::

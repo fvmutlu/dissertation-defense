@@ -295,12 +295,16 @@ Virtual Plane Cache Read Rate Control
 
 ::: columns
 ::: {.column width=50%}
-::: {layout="[[-1], [1], [-1]]"}
-![Sum of backlogs](images/sbw_comp_abilene_075_30_vip-pit-sums.png){width=85% height=85% fig-align="center"}
+::: {layout="[[-1],[1]]"}
+![Sum of backlogs, Abilene topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$.](images/sbw_comp_abilene_075_30_vip-pit-sums.png){width=85% height=85% fig-align="center"}
 :::
 :::
-::: {.column width=50%}
-- Placeholder.
+::: {.column width=50% style="font-size: 75%"}
+- Data plane policy supported by initial approach: MVIP-RR; by greedy algorithm MVIP-RR+.
+- Data plane backlog represented by PIT queue sizes.
+    - Sampled along with VIPs at each virtual plane time slot.
+    - Denote samples as $Q\knt$.
+- Greedy algorithm maintains much smaller total VIP backlog.
 :::
 :::
 
@@ -312,10 +316,17 @@ Virtual Plane Cache Read Rate Control
 
 ::: columns
 ::: {.column width=50%}
-![Backlog gap](images/sbw_comp_abilene_075_30_vip-pit-norms.png){width=85% height=85% fig-align="center"}
+::: {layout="[[-1],[1]]"}
+![Backlog gap, Abilene topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$.](images/sbw_comp_abilene_075_30_vip-pit-norms.png){width="85%" height="85%"}
 :::
-::: {.column width=50%}
-- Placeholder.
+:::
+::: {.column width=50% style="font-size: 75%"}
+- Data plane policy supported by initial approach: MVIP-RR; by greedy algorithm MVIP-RR+.
+- Data plane backlog represented by PIT queue sizes.
+    - Sampled along with VIPs at each virtual plane time slot.
+    - Denote samples as $Q\knt$.
+- Greedy algorithm maintains smaller virtual-data plane backlog *"gap"*.
+    - Distance measure: $\frac{1}{|\mc{N}|} \sum_{\nin} \lVert \mathbf{V}_n(t) - \mathbf{Q}_n(t) \rVert_2$
 :::
 :::
 
@@ -325,9 +336,16 @@ Virtual Plane Cache Read Rate Control
 
 ## Experimental Results
 
-Placeholder.
+::: {style="font-size: 75%"}
+Data plane metrics show:
 
-![Abilene](images/sbw_comp_abilene_075_30.png){width=90% height=90% fig-align="center"}
+- Poor utilization of larger cache tier and resulting performance for MVIP-RR.
+- Improved delay performance along with great reduction in replacements for MVIP-RR+.
+:::
+
+<hr>
+
+![Data plane metrics normalized to MVIP, Abilene topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$](images/sbw_comp_abilene_075_30.png){width=90% height=90% fig-align="center"}
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
@@ -335,9 +353,16 @@ Virtual Plane Cache Read Rate Control
 
 ## Experimental Results
 
-Placeholder.
+::: {style="font-size: 75%"}
+Data plane metrics show:
 
-![Geant](images/sbw_comp_geant_075_30.png){width=90% height=90% fig-align="center"}
+- Poor utilization of larger cache tier and resulting performance for MVIP-RR.
+- Comparable delay performance along with great reduction in replacements for MVIP-RR+.
+:::
+
+<hr>
+
+![Data plane metrics normalized to MVIP, Geant topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$](images/sbw_comp_geant_075_30.png){width=90% height=90% fig-align="center"}
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control

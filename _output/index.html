@@ -619,7 +619,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li class="fragment">First high-performance NDN-based data delivery system for large-scale data-intensive science experiments.</li>
 <li class="fragment">Integration of state-of-the-art NDN forwarder, intelligent caching and forwarding, high-performance consumer/producer applications.</li>
-<li class="fragment">Extensive testing over wide-area network testbed spanning 5 US campuses using data from the Compact Muon Solenoid (CMS) experiment.</li>
+<li class="fragment">Extensive testing over wide-area network spanning 5 US campuses using CMS experiment data.</li>
 <li class="fragment">Individual contributions:
 <ul>
 <li class="fragment">Built local testbed for prototyping</li>
@@ -977,14 +977,14 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>Literature regarding adoption of <em>flash</em> in ICN:
 <ul>
-<li>Feasibility of SSD <em>Content Store</em> at Internet scale <span class="citation" data-cites="perino2011reality"><a href="#/appendix-a" role="doc-biblioref" onclick="">[1]</a></span></li>
-<li>Hierarchical <em>Content Store</em>, SSD prefetch layer masked behing DRAM <span class="citation" data-cites="rossini2014multi"><a href="#/appendix-a" role="doc-biblioref" onclick="">[2]</a></span>, <span class="citation" data-cites="mansilha2015hierarchical"><a href="#/appendix-a" role="doc-biblioref" onclick="">[3]</a></span>, <span class="citation" data-cites="mansilha2017exploiting"><a href="#/appendix-a" role="doc-biblioref" onclick="">[4]</a></span></li>
-<li>Non-blocking caching I/O <span class="citation" data-cites="so2014toward"><a href="#/appendix-a" role="doc-biblioref" onclick="">[5]</a></span>, <span class="citation" data-cites="pan2021nb"><a href="#/appendix-a" role="doc-biblioref" onclick="">[6]</a></span></li>
-<li>Flash damage aware caching <span class="citation" data-cites="shukla2016designing"><a href="#/appendix-a" role="doc-biblioref" onclick="">[7]</a></span></li>
+<li>Feasibility of SSD <em>Content Store</em> at Internet scale <span class="citation" data-cites="perino2011reality"><a href="#/references" role="doc-biblioref" onclick="">[1]</a></span></li>
+<li>Hierarchical <em>Content Store</em>, SSD prefetch layer masked behing DRAM <span class="citation" data-cites="rossini2014multi"><a href="#/references" role="doc-biblioref" onclick="">[2]</a></span>, <span class="citation" data-cites="mansilha2015hierarchical"><a href="#/references" role="doc-biblioref" onclick="">[3]</a></span>, <span class="citation" data-cites="mansilha2017exploiting"><a href="#/references" role="doc-biblioref" onclick="">[4]</a></span></li>
+<li>Non-blocking caching I/O <span class="citation" data-cites="so2014toward"><a href="#/references" role="doc-biblioref" onclick="">[5]</a></span>, <span class="citation" data-cites="pan2021nb"><a href="#/references" role="doc-biblioref" onclick="">[6]</a></span></li>
+<li>Flash damage aware caching <span class="citation" data-cites="shukla2016designing"><a href="#/references" role="doc-biblioref" onclick="">[7]</a></span></li>
 </ul></li>
-<li>Joint caching and forwarding policies <span class="citation" data-cites="yeh2014vip"><a href="#/appendix-a" role="doc-biblioref" onclick="">[8]</a></span>, <span class="citation" data-cites="ioannidis2017jointly"><a href="#/appendix-a" role="doc-biblioref" onclick="">[9]</a></span>, <span class="citation" data-cites="mahdian2017mindelay"><a href="#/appendix-a" role="doc-biblioref" onclick="">[10]</a></span>
+<li>Joint caching and forwarding policies <span class="citation" data-cites="yeh2014vip"><a href="#/references" role="doc-biblioref" onclick="">[8]</a></span>, <span class="citation" data-cites="ioannidis2017jointly"><a href="#/references" role="doc-biblioref" onclick="">[9]</a></span>, <span class="citation" data-cites="mahdian2017mindelay"><a href="#/references" role="doc-biblioref" onclick="">[10]</a></span>
 <ul>
-<li>VIP framework <span class="citation" data-cites="yeh2014vip"><a href="#/appendix-a" role="doc-biblioref" onclick="">[8]</a></span>: congestion-aware, incorporates cache read rates</li>
+<li>VIP framework <span class="citation" data-cites="yeh2014vip"><a href="#/references" role="doc-biblioref" onclick="">[8]</a></span>: congestion-aware, incorporates cache read rates</li>
 </ul></li>
 </ul>
 </div>
@@ -1755,7 +1755,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching Policy} \begin{algorithmic} \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$. \If{$CB^k_{n_{j^*}}(\tau) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \ElsIf{$CB^k_{n_{j^*}}(\tau) &gt; 0$} \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$. \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$. \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2387,7 +2387,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Application</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 65%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2418,18 +2418,18 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn10"><p>“Utility optimal scheduling in processing networks”, Huang, L., &amp; Neely, M. J., Performance Evaluation, 2011 <span class="citation" data-cites="huang2011utility"><a href="#/appendix-a" role="doc-biblioref" onclick="">[11]</a></span></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn10"><p>“Utility optimal scheduling in processing networks”, Huang, L., &amp; Neely, M. J., Performance Evaluation, 2011 <span class="citation" data-cites="huang2011utility"><a href="#/references" role="doc-biblioref" onclick="">[11]</a></span></p></li></ol></aside></section>
 <section id="greedy-approach" class="slide level2">
 <h2>Greedy Approach</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 45%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
@@ -2487,7 +2487,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div>
 
 </div>
-<div class="quarto-layout-panel" data-layout="[[-1], [1], [-1]]">
+<div class="quarto-layout-panel" data-layout="[[-1],[1]]">
 <div class="quarto-layout-row">
 <div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <p>&nbsp;</p>
@@ -2497,16 +2497,22 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Sum of backlogs</figcaption>
+<figcaption>Sum of backlogs, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span>.</figcaption>
 <p><img data-src="images/sbw_comp_abilene_075_30_vip-pit-sums.png" style="width:85.0%;height:85.0%"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="font-size: 75%">
 <ul>
-<li>Placeholder.</li>
+<li>Data plane policy supported by initial approach: MVIP-RR; by greedy algorithm MVIP-RR+.</li>
+<li>Data plane backlog represented by PIT queue sizes.
+<ul>
+<li>Sampled along with VIPs at each virtual plane time slot.</li>
+<li>Denote samples as <span class="math inline">\(Q\knt\)</span>.</li>
+</ul></li>
+<li>Greedy algorithm maintains much smaller total VIP backlog.</li>
 </ul>
 </div></div>
 <div class="footer">
@@ -2517,15 +2523,38 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Experimental Results</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[-1],[1]]">
+<div class="quarto-layout-row">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Backlog gap</figcaption>
+<figcaption>Backlog gap, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span>.</figcaption>
 <p><img data-src="images/sbw_comp_abilene_075_30_vip-pit-norms.png" style="width:85.0%;height:85.0%"></p>
 </figure>
 </div>
-</div><div class="column" style="width:50%;">
+</div>
+</div>
+</div>
+</div><div class="column" style="font-size: 75%">
 <ul>
-<li>Placeholder.</li>
+<li>Data plane policy supported by initial approach: MVIP-RR; by greedy algorithm MVIP-RR+.</li>
+<li>Data plane backlog represented by PIT queue sizes.
+<ul>
+<li>Sampled along with VIPs at each virtual plane time slot.</li>
+<li>Denote samples as <span class="math inline">\(Q\knt\)</span>.</li>
+</ul></li>
+<li>Greedy algorithm maintains smaller virtual-data plane backlog <em>“gap”</em>.
+<ul>
+<li>Distance measure: <span class="math inline">\(\frac{1}{|\mc{N}|} \sum_{\nin} \lVert \mathbf{V}_n(t) - \mathbf{Q}_n(t) \rVert_2\)</span></li>
+</ul></li>
 </ul>
 </div></div>
 <div class="footer">
@@ -2534,10 +2563,17 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="experimental-results-2" class="slide level2">
 <h2>Experimental Results</h2>
-<p>Placeholder.</p>
+<div style="font-size: 75%">
+<p>Data plane metrics show:</p>
+<ul>
+<li>Poor utilization of larger cache tier and resulting performance for MVIP-RR.</li>
+<li>Improved delay performance along with great reduction in replacements for MVIP-RR+.</li>
+</ul>
+</div>
+<hr>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Abilene</figcaption>
+<figcaption>Data plane metrics normalized to MVIP, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
 <p><img data-src="images/sbw_comp_abilene_075_30.png" style="width:90.0%;height:90.0%"></p>
 </figure>
 </div>
@@ -2547,10 +2583,17 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="experimental-results-3" class="slide level2">
 <h2>Experimental Results</h2>
-<p>Placeholder.</p>
+<div style="font-size: 75%">
+<p>Data plane metrics show:</p>
+<ul>
+<li>Poor utilization of larger cache tier and resulting performance for MVIP-RR.</li>
+<li>Comparable delay performance along with great reduction in replacements for MVIP-RR+.</li>
+</ul>
+</div>
+<hr>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Geant</figcaption>
+<figcaption>Data plane metrics normalized to MVIP, Geant topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
 <p><img data-src="images/sbw_comp_geant_075_30.png" style="width:90.0%;height:90.0%"></p>
 </figure>
 </div>
@@ -2862,7 +2905,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Subgradient Projection} \begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>
@@ -2927,17 +2970,14 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <h1>Appendices</h1>
 
 </section>
-<section id="appendix-a" class="slide level2 smaller scrollable">
+<section id="appendix-a" class="slide level2">
 <h2>Appendix A</h2>
 <ul>
 <li>Placeholder</li>
 </ul>
-<div class="quarto-auto-generated-content">
-<p><img src="images/neu_logo.svg" class="slide-logo"></p>
-<div class="footer footer-default">
-
-</div>
-</div>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-perino2011reality" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[1] </div><div class="csl-right-inline">D. Perino and M. Varvello, <span>“A reality check for content centric networking,”</span> in <em>Proceedings of the ACM SIGCOMM workshop on information-centric networking</em>, 2011, pp. 44–49.</div>
@@ -2971,6 +3011,12 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 </div>
 <div id="ref-huang2011utility" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[11] </div><div class="csl-right-inline">L. Huang and M. J. Neely, <span>“Utility optimal scheduling in processing networks,”</span> <em>Performance Evaluation</em>, vol. 68, no. 11, pp. 1002–1021, 2011.</div>
+</div>
+</div>
+<div class="quarto-auto-generated-content">
+<p><img src="images/neu_logo.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+
 </div>
 </div>
 </section></section>

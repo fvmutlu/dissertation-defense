@@ -35,7 +35,7 @@ Introduction
 ::: {.incremental}
 -   First high-performance NDN-based data delivery system for large-scale data-intensive science experiments.
 -   Integration of state-of-the-art NDN forwarder, intelligent caching and forwarding, high-performance consumer/producer applications.
--   Extensive testing over wide-area network testbed spanning 5 US campuses using data from the Compact Muon Solenoid (CMS) experiment.
+-   Extensive testing over wide-area network spanning 5 US campuses using CMS experiment data.
 -   Individual contributions:
     - Built local testbed for prototyping
     - Supported WAN deployment and testing
