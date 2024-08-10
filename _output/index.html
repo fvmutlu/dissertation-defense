@@ -879,15 +879,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="column" style="width:42%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>DRAM power consumption</figcaption>
 <p><img data-src="images/dram_power.png" style="width:80.0%;height:80.0%"></p>
+<figcaption>DRAM power consumption</figcaption>
 </figure>
 </div>
 </div><div class="column" style="width:58%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>NVMe power consumption</figcaption>
 <p><img data-src="images/ssd_power.png" style="width:80.0%;height:80.0%"></p>
+<figcaption>NVMe power consumption</figcaption>
 </figure>
 </div>
 </div></div>
@@ -909,8 +909,8 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>NVMe Endurance</figcaption>
 <p><img data-src="images/ssd_endurance.png" style="width:70.0%;height:70.0%"></p>
+<figcaption>NVMe Endurance</figcaption>
 </figure>
 </div>
 <div class="footer">
@@ -1755,7 +1755,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching Policy} \begin{algorithmic} \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$. \If{$CB^k_{n_{j^*}}(\tau) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \ElsIf{$CB^k_{n_{j^*}}(\tau) &gt; 0$} \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$. \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$. \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -1897,27 +1897,27 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Abilene (11 nodes)</figcaption>
 <p><img data-src="images/abilene.svg"></p>
+<figcaption>Abilene (11 nodes)</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>GEANT (34 nodes)</figcaption>
 <p><img data-src="images/geant.svg"></p>
+<figcaption>GEANT (34 nodes)</figcaption>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>4x4 Grid (16 nodes)</figcaption>
 <p><img data-src="images/grid.svg"></p>
+<figcaption>4x4 Grid (16 nodes)</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>3-Regular (50 nodes)</figcaption>
 <p><img data-src="images/3reg.svg"></p>
+<figcaption>3-Regular (50 nodes)</figcaption>
 </figure>
 </div>
 </div></div>
@@ -2098,14 +2098,14 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p><strong>Scenario</strong>: No penalties (<span class="math inline">\(\omega=0\)</span>), <span class="math inline">\(L_{n_1} = 5\)</span> and <span class="math inline">\(L_{n_2} = 100\)</span> at each <span class="math inline">\(n\)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>  Total delay, as fraction of total delay without any caching</figcaption>
 <p><img data-src="images/tops_delay_v3.svg" style="width:75.0%;height:75.0%"></p>
+<figcaption>  Total delay, as fraction of total delay without any caching</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Cache hits, percentage of hits in the first tier on the left, total number of hits on the right</figcaption>
 <p><img data-src="images/tops_hits_v3.svg" style="width:75.0%;height:75.0%"></p>
+<figcaption>Cache hits, percentage of hits in the first tier on the left, total number of hits on the right</figcaption>
 </figure>
 </div>
 <div class="footer">
@@ -2145,15 +2145,15 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>   Abilene</figcaption>
 <p><img data-src="images/pen_vs_delay_abilene_v2.svg"></p>
+<figcaption>   Abilene</figcaption>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>     4x4 Grid</figcaption>
 <p><img data-src="images/pen_vs_delay_grid_v2.svg"></p>
+<figcaption>     4x4 Grid</figcaption>
 </figure>
 </div>
 </div></div>
@@ -2191,15 +2191,15 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>    GEANT</figcaption>
 <p><img data-src="images/pen_vs_delay_geant_v2.svg"></p>
+<figcaption>    GEANT</figcaption>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>    3-Regular</figcaption>
 <p><img data-src="images/pen_vs_delay_regular_v2.svg"></p>
+<figcaption>    3-Regular</figcaption>
 </figure>
 </div>
 </div></div>
@@ -2221,6 +2221,209 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="results" class="slide level2">
+<h2>Results</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_req_geant_delay.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/zipf_geant_15_delay.svg"></p>
+<figcaption><span class="math inline">\(\lambda=15\)</span></figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\lambda\)</span>. Geant topology. <span class="math inline">\(L_{n_2}\)</span> chosen based on minimum delay points for two tier cases.</p>
+</div>
+</section>
+<section id="results-1" class="slide level2">
+<h2>Results</h2>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="results-2" class="slide level2 smaller">
+<h2>Results</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/alltops_075_15.svg" style="width:70.0%;height:70.0%"></p>
+<figcaption>Placeholder.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/alltops_075_15_table.svg" style="width:70.0%;height:70.0%"></p>
+<figcaption>Placeholder.</figcaption>
+</figure>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="results-3" class="slide level2">
+<h2>Results</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_abilene_15_075.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_abilene_15_05.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.5\)</span></figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Abilene, <span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="results-4" class="slide level2">
+<h2>Results</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_geant_15_075.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_geant_15_05.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.5\)</span></figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Geant, <span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="interest-aggregation" class="slide level2">
+<h2>Interest Aggregation</h2>
+<p>Placeholder.</p>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="interest-aggregation-1" class="slide level2">
+<h2>Interest Aggregation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_req_ia_vip_geant_delay.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/zipf_ia_geant_delay.svg"></p>
+<figcaption><span class="math inline">\(\lambda=30\)</span></figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>VIP vs.&nbsp;MVIP, with and without interest aggregation. Geant, <span class="math inline">\(L_{n_1}=5\)</span>, <span class="math inline">\(L_{n_2}=200\)</span> for MVIP and <span class="math inline">\(L_{n_1}=13\)</span> for VIP.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="interest-aggregation-2" class="slide level2">
+<h2>Interest Aggregation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_ia_geant_075_50_delay.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_ia_geant_075_50_baselines_delay.svg"></p>
+<figcaption>Second tier hits vs.&nbsp;reads</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities under interest aggregation. Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=50\)</span>.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="interest-aggregation-3" class="slide level2">
+<h2>Interest Aggregation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_ia_geant_075_50_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_ia_geant_075_50_hits_reads_tier2.svg"></p>
+<figcaption>Second tier hits vs.&nbsp;reads</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Number of cache hits and cache reads issued under interest aggregation. Geant topology, <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="interest-aggregation-4" class="slide level2">
+<h2>Interest Aggregation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_ia_geant_30_075.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_ia_geant_30_05.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.5\)</span></figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay vs.&nbsp;penalty curves, MVIP vs.&nbsp;PA-LFU with and without interest aggregation. Geant, <span class="math inline">\(\lambda=30\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
 </section></section>
 <section>
 <section id="cache-read-rate-control" class="title-slide slide level1 center">
@@ -2387,7 +2590,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Application</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 65%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2424,12 +2627,12 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 45%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
@@ -2497,8 +2700,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Sum of backlogs, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span>.</figcaption>
 <p><img data-src="images/sbw_comp_abilene_075_30_vip-pit-sums.png" style="width:85.0%;height:85.0%"></p>
+<figcaption>Sum of backlogs, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span>.</figcaption>
 </figure>
 </div>
 </div>
@@ -2536,8 +2739,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Backlog gap, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span>.</figcaption>
 <p><img data-src="images/sbw_comp_abilene_075_30_vip-pit-norms.png" style="width:85.0%;height:85.0%"></p>
+<figcaption>Backlog gap, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span>.</figcaption>
 </figure>
 </div>
 </div>
@@ -2573,8 +2776,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <hr>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Data plane metrics normalized to MVIP, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
 <p><img data-src="images/sbw_comp_abilene_075_30.png" style="width:90.0%;height:90.0%"></p>
+<figcaption>Data plane metrics normalized to MVIP, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
 </figure>
 </div>
 <div class="footer">
@@ -2593,8 +2796,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <hr>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>Data plane metrics normalized to MVIP, Geant topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
 <p><img data-src="images/sbw_comp_geant_075_30.png" style="width:90.0%;height:90.0%"></p>
+<figcaption>Data plane metrics normalized to MVIP, Geant topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
 </figure>
 </div>
 <div class="footer">
@@ -2823,8 +3026,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>HetNet illustration</figcaption>
 <p><img data-src="images/hetnet.svg"></p>
+<figcaption>HetNet illustration</figcaption>
 </figure>
 </div>
 </div></div>
@@ -2907,7 +3110,7 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Subgradient Projection} \begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>
@@ -2933,8 +3136,8 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>     Power budget</figcaption>
 <p><img data-src="images/hetnet_result1.svg" style="width:55.0%;height:55.0%"></p>
+<figcaption>     Power budget</figcaption>
 </figure>
 </div>
 <div class="footer">
@@ -2946,8 +3149,8 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>     SC cache capacity</figcaption>
 <p><img data-src="images/hetnet_result3.svg" style="width:55.0%;height:55.0%"></p>
+<figcaption>     SC cache capacity</figcaption>
 </figure>
 </div>
 <div class="footer">
@@ -2959,8 +3162,8 @@ D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
 <p>Experimental results under different scenarios compare performance against baseline replacement policies paired with cache-unaware power optimization</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<figcaption>     Zipf parameter</figcaption>
 <p><img data-src="images/hetnet_result2.svg" style="width:55.0%;height:55.0%"></p>
+<figcaption>     Zipf parameter</figcaption>
 </figure>
 </div>
 <div class="footer">

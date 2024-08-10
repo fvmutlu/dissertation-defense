@@ -13,6 +13,7 @@ format:
     logo: images/neu_logo.svg
     css: styles/styles.css
     highlight-style: atom-one
+    fig-cap-location: bottom
     header-includes: <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
     include-in-header:
       text: |

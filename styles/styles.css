@@ -38,6 +38,7 @@
 
 .reveal .slide figure>figcaption {
     text-align: center !important;
+    margin-top: 2vh;
 }
 
 .reveal h1 {

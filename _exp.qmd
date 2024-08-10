@@ -187,3 +187,156 @@ Experiments
 ::: {.notes}
 - The situation is similar for the Geant and 3-regular topologies as well, though in the latter, there is a small operating region where LFU overtakes our approach
 :::
+
+## Results
+
+::: columns
+::: {.column width="50%"}
+![$\gamma=0.75$](images/mt_req_geant_delay.svg)
+:::
+::: {.column width="50%"}
+![$\lambda=15$](images/zipf_geant_15_delay.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing $\lambda$ and $\gamma$. Geant topology. $L_{n_2}$ chosen based on minimum delay points for two tier cases.
+:::
+
+## Results
+
+::: {.footer}
+Experiments
+:::
+
+## Results {.smaller}
+
+![Placeholder.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
+
+![Placeholder.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
+
+::: {.footer}
+Experiments
+:::
+
+## Results
+
+::: columns
+::: {.column width="50%"}
+![$\gamma=0.75$](images/mt_pen_abilene_15_075.svg)
+:::
+::: {.column width="50%"}
+![$\gamma=0.5$](images/mt_pen_abilene_15_05.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay vs. penalty curves for MVIP and PA-LFU policies. Abilene, $\lambda=15$. $\omega$ decreases to the right.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+## Results
+
+::: columns
+::: {.column width="50%"}
+![$\gamma=0.75$](images/mt_pen_geant_15_075.svg)
+:::
+::: {.column width="50%"}
+![$\gamma=0.5$](images/mt_pen_geant_15_05.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay vs. penalty curves for MVIP and PA-LFU policies. Geant, $\lambda=15$. $\omega$ decreases to the right.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+## Interest Aggregation
+
+Placeholder.
+
+::: {.footer}
+Experiments
+:::
+
+## Interest Aggregation
+
+::: columns
+::: {.column width="50%"}
+![$\gamma=0.75$](images/mt_req_ia_vip_geant_delay.svg)
+:::
+::: {.column width="50%"}
+![$\lambda=30$](images/zipf_ia_geant_delay.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+VIP vs. MVIP, with and without interest aggregation. Geant, $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+## Interest Aggregation
+
+::: columns
+::: {.column width="50%"}
+![Cache hits](images/size_comp_ia_geant_075_50_delay.svg)
+:::
+::: {.column width="50%"}
+![Second tier hits vs. reads](images/size_comp_ia_geant_075_50_baselines_delay.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities under interest aggregation. Geant, $\gamma=0.75$, $\lambda=50$.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+## Interest Aggregation
+
+::: columns
+::: {.column width="50%"}
+![Cache hits](images/size_comp_ia_geant_075_50_hits.svg)
+:::
+::: {.column width="50%"}
+![Second tier hits vs. reads](images/size_comp_ia_geant_075_50_hits_reads_tier2.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Number of cache hits and cache reads issued under interest aggregation. Geant topology, $\lambda=50$, $\gamma=0.75$.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+## Interest Aggregation
+
+::: columns
+::: {.column width="50%"}
+![$\gamma=0.75$](images/mt_pen_ia_geant_30_075.svg)
+:::
+::: {.column width="50%"}
+![$\gamma=0.5$](images/mt_pen_ia_geant_30_05.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay vs. penalty curves, MVIP vs. PA-LFU with and without interest aggregation. Geant, $\lambda=30$. $\omega$ decreases to the right.
+:::
+
+::: {.footer}
+Experiments
+:::
