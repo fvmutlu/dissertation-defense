@@ -1,20 +1,32 @@
 ## Simulator
 
-::: {style="font-size: 80%;"}
 - **Motivation**: Lack of existing simulators with combination of requirements.
     - Support for multi-tiered caches with parameters of interest.
     - Queuing mechanisms for caches that contribute to delay.
     - High level of abstraction enabling quick development iteration.
+
+::: {.footer}
+Simulator
+:::
+
+## Simulator
+
+::: {style="font-size: 80%;"}
 - **Implementation**: Built using Python and the SimPy library for discrete event simulation.
     - Modular object-oriented design for *extensibility*.
-    - Supports simultaneous simulations via *multiprocessing*.
+    - Single-threaded due to DES; supports simultaneous simulations via *multiprocessing*.
+    - Suitable for quickly prototyping object-level policies; we abstract several aspects:
+        - Object-level simulation.
+        - Unbounded queues and lossless operation.
+        - Generic ICN architecture.
+        - Approximated storage and memory mechanisms.    
 :::
 
 ::: {.footer}
 Simulator
 :::
 
-## Simulator {.smaller}
+## Structure {.smaller}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
 - [Request]{.code} stores metadata.
@@ -28,7 +40,7 @@ Simulator
 Simulator
 :::
 
-## Simulator {.smaller}
+## Structure {.smaller}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
 - [Cache]{.code} is operated by a SimPy process controlling a *task queue*.
@@ -40,7 +52,7 @@ Simulator
 Simulator
 :::
 
-## Simulator {.smaller}
+## Structure {.smaller}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
 - [Node]{.code} encapsulates [Cache]{.code}s, FIB and PIT
@@ -52,7 +64,7 @@ Simulator
 Simulator
 :::
 
-## Simulator {.smaller}
+## Structure {.smaller}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
 - [Network]{.code} encapsulates [Node]{.code}s.
@@ -64,7 +76,7 @@ Simulator
 Simulator
 :::
 
-## Simulator {.smaller}
+## Features {.smaller}
 
 Codebase has many features for **ease of use** and **reproducibility**.
 
@@ -87,21 +99,6 @@ Codebase has many features for **ease of use** and **reproducibility**.
     ... more parameters ...
 }
 ```
-
-::: {.footer}
-Simulator
-:::
-
-## Simulator
-
-We abstract some aspects:
- 
-- Object-level simulation.
-- Unbounded queues and lossless operation.
-- Generic ICN architecture.
-- Approximated storage and memory mechanisms.
-
-Suitable for quickly prototyping object-level policies.
 
 ::: {.footer}
 Simulator
