@@ -1,55 +1,3 @@
-## Simulation Setup
-
-::: {.incremental}
--  Object-level, DES framework built with Python using SimPy library
--  Modular design to allow future extension
--  Thread-per-experiment multi-threading
--  Detailed statistic logging
--  Parameter and output data in JSON format for easy parsing
-:::
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Firstly, when I say experiments here I strictly mean simulation experiments
-- I built a simulator from scratch for this purpose, which took a bit of time and care
-- (Talk about bullet points)
-- I needed to build this because existing simulators didn't cover what I needed, and modifying them would've taken even more time
-- Of course this is also far from perfect, but I think it turned out to be something very useful and flexible
-:::
-
-## Topologies {.smaller}
-
-::: columns
-::: {.column width="50%"}
-
-![Abilene (11 nodes)](images/abilene.svg)
-
-![GEANT (34 nodes)](images/geant.svg)
-
-:::
-::: {.column width="50%"}
-
-![4x4 Grid (16 nodes)](images/grid.svg)
-
-![3-Regular (50 nodes)](images/3reg.svg)
-
-:::
-:::
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous
-- So the results I'll show here are those that I think most succinctly show that our approach can deliver on our goals
-- To start off, these are the four topologies I conducted experiments over
-- On the left are Abilene and Geant which are real network topologies, and on the right are two stylized graphs
-:::
-
 ## Experiment Setting
 
 ::: {.incremental}
@@ -89,6 +37,30 @@ Experiments
 - Least response time forwarding simply chooses the link with smallest delay for last satisfied request
 :::
 
+## Topologies {.smaller}
+
+::: columns
+::: {.column width="50%"}
+::: {layout="[[-1],[-1],[1]]"}
+![Abilene (11 nodes)](images/abilene.svg)
+:::
+:::
+::: {.column width="50%"}
+![GEANT (34 nodes)](images/geant.svg)
+:::
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous
+- So the results I'll show here are those that I think most succinctly show that our approach can deliver on our goals
+- To start off, these are the four topologies I conducted experiments over
+- On the left are Abilene and Geant which are real network topologies, and on the right are two stylized graphs
+:::
+
 ## Parameter Reference Table {.smaller}
 
 | Parameter | Description | Value |
@@ -112,83 +84,76 @@ Experiments
 - As I said, there are a great number of parameters for these experiments and I'm not going to cover each one in the interest of time, but we have this table for reference if needed
 :::
 
-## Results I {.smaller}
-**Scenario**: No penalties ($\omega=0$), $L_{n_1} = 5$ and $L_{n_2} = 100$ at each $n$.
-
-![&emsp; Total delay, as fraction of total delay without any caching](images/tops_delay_v3.svg){width=75% height=75% fig-align="center"}
-
-![Cache hits, percentage of hits in the first tier on the left, total number of hits on the right](images/tops_hits_v3.svg){width=75% height=75% fig-align="center"}
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- First, I'll show results from a scenario where we actually ignore penalties, which we can easily do for our approach by setting omega to be zero
-- We're comparing our strategy to cost-unaware baselines here and we're just concerned about the capacity challenge
-- The figure up top shows the total delay in the network, normalized to the total delay achieved without any caching
-- This figure illustrates our point about how managing larger caches is difficult, because as you can see, the "naive" policies are struggling quite a bit, at times showing worse performance than would be achieved with no caches at all
-- Our VIP-based approach performs the best across all experiments, though LFU is not that far behind
-- The bottom figure reveals more insights since it shows the distribution of cache hits among the two tiers as well as total cache hits
-- Now note the cache capacities up top, the difference is 20-fold
-- However, with our approach, anywhere between 15% to 20% of cache hits are occurring on the first tier, much larger than other baselines, showing that we're able to balance the amount of cache hits better
-- You'll notice in most cases our approach doesn't even have the highest total number of cache hits, and that's because it is set up to handle the rate of cache hits properly
-:::
-
-## Results II {.smaller}
-**Scenario**: Cost-unaware policies excluded, $\omega > 0$. $L_{n_1}=5$, best value of $L_{n_2}$ picked.
-
-::: {.body-centered}
-Delay vs. penalty ($\omega$ decreases to the right)
-:::
+## Cache Capacity
 
 ::: columns
 ::: {.column width="50%"}
-![&emsp;&emsp; Abilene](images/pen_vs_delay_abilene_v2.svg)
+![VIP/MVIP vs. LFU](images/size_comp_abilene_075_15_delay.svg)
 :::
 ::: {.column width="50%"}
-![&emsp;&emsp;&emsp;&emsp; 4x4 Grid](images/pen_vs_delay_grid_v2.svg)
+![Other baselines](images/size_comp_baselines_abilene_075_15_delay.svg)
 :::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$.
 :::
 
 ::: {.footer}
 Experiments
 :::
 
-::: {.notes}
-- Now we move on to a scenario with penalties, dropping the "naive" policies and keeping only the cost-aware adaptation of LFU as a baseline
-- We'll be looking at how each policy balances the delay vs. penalty trade-off; total delay on the y-axis, total penalty on the x-axis
-- Now I want to point out here that different second tier capacities are used for the two policies. I experimented with a range of values for each and picked the best performing round value.
-- The reason for this connects to how well policies can actually use the larger capacities. As we saw from the last slide, not every policy can handle the same cache capacity as well.
-- The gist is that I want to represent the best of the competing policy and show that we're still ahead.
-- As we can see, in the Abilene and Grid topologies our approach is generally outperforming the adapted LFU
-:::
-
-## Results II {.smaller}
-**Scenario**: Cost-unaware policies excluded, $\omega > 0$. Best value of $L_{n_2}$ picked.
-
-::: {.body-centered}
-Delay vs. penalty ($\omega$ decreases to the right)
-:::
+## Cache Capacity
 
 ::: columns
-::: {.column width="50%"}
-![&emsp;&emsp;&emsp; GEANT](images/pen_vs_delay_geant_v2.svg)
+::: {.column width="47%"}
+![Cache hits](images/size_comp_abilene_075_15_hits.svg)
 :::
-::: {.column width="50%"}
-![&emsp;&emsp;&emsp; 3-Regular](images/pen_vs_delay_regular_v2.svg)
+::: {.column width="53%"}
+![Cache read delays](images/size_comp_abilene_075_15_hit_delays.svg)
 :::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Cache hits and delay due to cache reads. Abilene, $\gamma=0.75$, $\lambda=15$.
 :::
 
 ::: {.footer}
 Experiments
 :::
 
-::: {.notes}
-- The situation is similar for the Geant and 3-regular topologies as well, though in the latter, there is a small operating region where LFU overtakes our approach
+## Cache Capacity
+
+![VIP/MVIP vs. LFU](images/size_comp_geant_all_075_15.svg){width=55% height=55% fig-align="center"}
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities. Geant, $\gamma=0.75$, $\lambda=15$.
 :::
 
-## Results
+::: {.footer}
+Experiments
+:::
+
+## Cache Capacity
+
+::: columns
+::: {.column width="47%"}
+![Cache hits](images/size_comp_geant_075_15_hits.svg)
+:::
+::: {.column width="53%"}
+![Cache read delays](images/size_comp_geant_075_15_hit_delays.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Cache hits and delay due to cache reads. Geant, $\gamma=0.75$, $\lambda=15$.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+## Request Pattern Parameters
 
 ::: columns
 ::: {.column width="50%"}
@@ -203,13 +168,7 @@ Experiments
 Delay with increasing $\lambda$ and $\gamma$. Geant topology. $L_{n_2}$ chosen based on minimum delay points for two tier cases.
 :::
 
-## Results
-
-::: {.footer}
-Experiments
-:::
-
-## Results {.smaller}
+## More Topologies {.smaller}
 
 ![Placeholder.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
 
@@ -219,7 +178,7 @@ Experiments
 Experiments
 :::
 
-## Results
+## Delay-Penalty Trade-off
 
 ::: columns
 ::: {.column width="50%"}
@@ -238,7 +197,7 @@ Delay vs. penalty curves for MVIP and PA-LFU policies. Abilene, $\lambda=15$. $\
 Experiments
 :::
 
-## Results
+## Delay-Penalty Trade-off
 
 ::: columns
 ::: {.column width="50%"}
@@ -288,10 +247,10 @@ Experiments
 
 ::: columns
 ::: {.column width="50%"}
-![Cache hits](images/size_comp_ia_geant_075_50_delay.svg)
+![VIP/MVIP vs. LFU](images/size_comp_ia_geant_075_50_delay.svg)
 :::
 ::: {.column width="50%"}
-![Second tier hits vs. reads](images/size_comp_ia_geant_075_50_baselines_delay.svg)
+![Other baselines](images/size_comp_ia_geant_075_50_baselines_delay.svg)
 :::
 :::
 

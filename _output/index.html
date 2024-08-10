@@ -1073,24 +1073,24 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="data-plane-model-1" class="slide level2">
 <h2>Data Plane Model</h2>
 <div>
-<p><span class="fragment" data-fragment-index="1">• Requests can enter network at any node.</span></p>
+<p>• Requests can enter network at any node.</p>
 <p><span class="fragment" data-fragment-index="2">• Responses carry data back, following reverse path.</span></p>
 <p><span class="fragment" data-fragment-index="3">• Nodes can respond from their cache.</span></p>
 </div>
 <div class="r-stack">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/dpmodel_1.svg" class="fragment quarto-figure quarto-figure-center" data-fragment-index="1" width="540" height="300"></p>
+<p><img data-src="images/dpmodel_1.svg" class="quarto-figure quarto-figure-center" width="648" height="360"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/dpmodel_2.svg" class="fragment quarto-figure quarto-figure-center" data-fragment-index="2" width="540" height="300"></p>
+<p><img data-src="images/dpmodel_2.svg" class="fragment quarto-figure quarto-figure-center" data-fragment-index="2" width="648" height="360"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/dpmodel_3.svg" class="fragment quarto-figure quarto-figure-center" data-fragment-index="3" width="540" height="300"></p>
+<p><img data-src="images/dpmodel_3.svg" class="fragment quarto-figure quarto-figure-center" data-fragment-index="3" width="648" height="360"></p>
 </figure>
 </div>
 </div>
@@ -1282,7 +1282,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>VIP <span class="body-highlight">stability region</span> <span class="math inline">\(\Lambda\)</span> consists of all arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that:</p>
 <div style="font-size: 80%;">
 <span class="math display">\[\begin{equation*}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j} \multind
 \end{equation*}\]</span>
 </div>
 <hr>
@@ -1857,92 +1857,6 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           display:block!important;
       }</style></aside>
 </section>
-<section id="simulation-setup" class="slide level2">
-<h2>Simulation Setup</h2>
-<div>
-<ul>
-<li class="fragment">Object-level, DES framework built with Python using SimPy library</li>
-<li class="fragment">Modular design to allow future extension</li>
-<li class="fragment">Thread-per-experiment multi-threading</li>
-<li class="fragment">Detailed statistic logging</li>
-<li class="fragment">Parameter and output data in JSON format for easy parsing</li>
-</ul>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Firstly, when I say experiments here I strictly mean simulation experiments</li>
-<li>I built a simulator from scratch for this purpose, which took a bit of time and care</li>
-<li>(Talk about bullet points)</li>
-<li>I needed to build this because existing simulators didn’t cover what I needed, and modifying them would’ve taken even more time</li>
-<li>Of course this is also far from perfect, but I think it turned out to be something very useful and flexible</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="topologies" class="slide level2 smaller">
-<h2>Topologies</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/abilene.svg"></p>
-<figcaption>Abilene (11 nodes)</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/geant.svg"></p>
-<figcaption>GEANT (34 nodes)</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/grid.svg"></p>
-<figcaption>4x4 Grid (16 nodes)</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/3reg.svg"></p>
-<figcaption>3-Regular (50 nodes)</figcaption>
-</figure>
-</div>
-</div></div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous</li>
-<li>So the results I’ll show here are those that I think most succinctly show that our approach can deliver on our goals</li>
-<li>To start off, these are the four topologies I conducted experiments over</li>
-<li>On the left are Abilene and Geant which are real network topologies, and on the right are two stylized graphs</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
 <section id="experiment-setting" class="slide level2">
 <h2>Experiment Setting</h2>
 <div>
@@ -1997,6 +1911,65 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <li>We adapted LRU, FIFO and RANDOM replacement but for these there isn’t a good metric to incorporate costs, so those are cost-unaware and for admission they’re paired with the basic Leave Copy Everywhere policy</li>
 <li>We adapted LFU similarly, but also made a cost-aware LFU adaptation which uses a cache benefit metric similar to the one we devised for our aproach</li>
 <li>Least response time forwarding simply chooses the link with smallest delay for last satisfied request</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="topologies" class="slide level2 smaller">
+<h2>Topologies</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[-1],[-1],[1]]">
+<div class="quarto-layout-row">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/abilene.svg"></p>
+<figcaption>Abilene (11 nodes)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/geant.svg"></p>
+<figcaption>GEANT (34 nodes)</figcaption>
+</figure>
+</div>
+</div></div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous</li>
+<li>So the results I’ll show here are those that I think most succinctly show that our approach can deliver on our goals</li>
+<li>To start off, these are the four topologies I conducted experiments over</li>
+<li>On the left are Abilene and Geant which are real network topologies, and on the right are two stylized graphs</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -2093,137 +2066,98 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           display:block!important;
       }</style></aside>
 </section>
-<section id="results-i" class="slide level2 smaller">
-<h2>Results I</h2>
-<p><strong>Scenario</strong>: No penalties (<span class="math inline">\(\omega=0\)</span>), <span class="math inline">\(L_{n_1} = 5\)</span> and <span class="math inline">\(L_{n_2} = 100\)</span> at each <span class="math inline">\(n\)</span>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/tops_delay_v3.svg" style="width:75.0%;height:75.0%"></p>
-<figcaption>  Total delay, as fraction of total delay without any caching</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/tops_hits_v3.svg" style="width:75.0%;height:75.0%"></p>
-<figcaption>Cache hits, percentage of hits in the first tier on the left, total number of hits on the right</figcaption>
-</figure>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>First, I’ll show results from a scenario where we actually ignore penalties, which we can easily do for our approach by setting omega to be zero</li>
-<li>We’re comparing our strategy to cost-unaware baselines here and we’re just concerned about the capacity challenge</li>
-<li>The figure up top shows the total delay in the network, normalized to the total delay achieved without any caching</li>
-<li>This figure illustrates our point about how managing larger caches is difficult, because as you can see, the “naive” policies are struggling quite a bit, at times showing worse performance than would be achieved with no caches at all</li>
-<li>Our VIP-based approach performs the best across all experiments, though LFU is not that far behind</li>
-<li>The bottom figure reveals more insights since it shows the distribution of cache hits among the two tiers as well as total cache hits</li>
-<li>Now note the cache capacities up top, the difference is 20-fold</li>
-<li>However, with our approach, anywhere between 15% to 20% of cache hits are occurring on the first tier, much larger than other baselines, showing that we’re able to balance the amount of cache hits better</li>
-<li>You’ll notice in most cases our approach doesn’t even have the highest total number of cache hits, and that’s because it is set up to handle the rate of cache hits properly</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="results-ii" class="slide level2 smaller">
-<h2>Results II</h2>
-<p><strong>Scenario</strong>: Cost-unaware policies excluded, <span class="math inline">\(\omega &gt; 0\)</span>. <span class="math inline">\(L_{n_1}=5\)</span>, best value of <span class="math inline">\(L_{n_2}\)</span> picked.</p>
-<div class="body-centered">
-<p>Delay vs.&nbsp;penalty (<span class="math inline">\(\omega\)</span> decreases to the right)</p>
-</div>
+<section id="cache-capacity" class="slide level2">
+<h2>Cache Capacity</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/pen_vs_delay_abilene_v2.svg"></p>
-<figcaption>   Abilene</figcaption>
+<p><img data-src="images/size_comp_abilene_075_15_delay.svg"></p>
+<figcaption>VIP/MVIP vs.&nbsp;LFU</figcaption>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/pen_vs_delay_grid_v2.svg"></p>
-<figcaption>     4x4 Grid</figcaption>
+<p><img data-src="images/size_comp_baselines_abilene_075_15_delay.svg"></p>
+<figcaption>Other baselines</figcaption>
 </figure>
 </div>
 </div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+</div>
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Now we move on to a scenario with penalties, dropping the “naive” policies and keeping only the cost-aware adaptation of LFU as a baseline</li>
-<li>We’ll be looking at how each policy balances the delay vs.&nbsp;penalty trade-off; total delay on the y-axis, total penalty on the x-axis</li>
-<li>Now I want to point out here that different second tier capacities are used for the two policies. I experimented with a range of values for each and picked the best performing round value.</li>
-<li>The reason for this connects to how well policies can actually use the larger capacities. As we saw from the last slide, not every policy can handle the same cache capacity as well.</li>
-<li>The gist is that I want to represent the best of the competing policy and show that we’re still ahead.</li>
-<li>As we can see, in the Abilene and Grid topologies our approach is generally outperforming the adapted LFU</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="results-ii-1" class="slide level2 smaller">
-<h2>Results II</h2>
-<p><strong>Scenario</strong>: Cost-unaware policies excluded, <span class="math inline">\(\omega &gt; 0\)</span>. Best value of <span class="math inline">\(L_{n_2}\)</span> picked.</p>
-<div class="body-centered">
-<p>Delay vs.&nbsp;penalty (<span class="math inline">\(\omega\)</span> decreases to the right)</p>
-</div>
+<section id="cache-capacity-1" class="slide level2">
+<h2>Cache Capacity</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:47%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/pen_vs_delay_geant_v2.svg"></p>
-<figcaption>    GEANT</figcaption>
+<p><img data-src="images/size_comp_abilene_075_15_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
 </figure>
 </div>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:53%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/pen_vs_delay_regular_v2.svg"></p>
-<figcaption>    3-Regular</figcaption>
+<p><img data-src="images/size_comp_abilene_075_15_hit_delays.svg"></p>
+<figcaption>Cache read delays</figcaption>
 </figure>
 </div>
 </div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Cache hits and delay due to cache reads. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+</div>
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>The situation is similar for the Geant and 3-regular topologies as well, though in the latter, there is a small operating region where LFU overtakes our approach</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="results" class="slide level2">
-<h2>Results</h2>
+<section id="cache-capacity-2" class="slide level2">
+<h2>Cache Capacity</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_all_075_15.svg" style="width:55.0%;height:55.0%"></p>
+<figcaption>VIP/MVIP vs.&nbsp;LFU</figcaption>
+</figure>
+</div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities. Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="cache-capacity-3" class="slide level2">
+<h2>Cache Capacity</h2>
+<div class="columns">
+<div class="column" style="width:47%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:53%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_hit_delays.svg"></p>
+<figcaption>Cache read delays</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Cache hits and delay due to cache reads. Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="request-pattern-parameters" class="slide level2">
+<h2>Request Pattern Parameters</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
@@ -2241,17 +2175,11 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\lambda\)</span>. Geant topology. <span class="math inline">\(L_{n_2}\)</span> chosen based on minimum delay points for two tier cases.</p>
+<p>Delay with increasing <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span>. Geant topology. <span class="math inline">\(L_{n_2}\)</span> chosen based on minimum delay points for two tier cases.</p>
 </div>
 </section>
-<section id="results-1" class="slide level2">
-<h2>Results</h2>
-<div class="footer">
-<p>Experiments</p>
-</div>
-</section>
-<section id="results-2" class="slide level2 smaller">
-<h2>Results</h2>
+<section id="more-topologies" class="slide level2 smaller">
+<h2>More Topologies</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/alltops_075_15.svg" style="width:70.0%;height:70.0%"></p>
@@ -2268,8 +2196,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p>Experiments</p>
 </div>
 </section>
-<section id="results-3" class="slide level2">
-<h2>Results</h2>
+<section id="delay-penalty-trade-off" class="slide level2">
+<h2>Delay-Penalty Trade-off</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
@@ -2293,8 +2221,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p>Experiments</p>
 </div>
 </section>
-<section id="results-4" class="slide level2">
-<h2>Results</h2>
+<section id="delay-penalty-trade-off-1" class="slide level2">
+<h2>Delay-Penalty Trade-off</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
@@ -2357,14 +2285,14 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/size_comp_ia_geant_075_50_delay.svg"></p>
-<figcaption>Cache hits</figcaption>
+<figcaption>VIP/MVIP vs.&nbsp;LFU</figcaption>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/size_comp_ia_geant_075_50_baselines_delay.svg"></p>
-<figcaption>Second tier hits vs.&nbsp;reads</figcaption>
+<figcaption>Other baselines</figcaption>
 </figure>
 </div>
 </div></div>
@@ -2650,10 +2578,10 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <ul>
 <li>Complexity of <span class="math inline">\(O(DK \log DK)\)</span> where <span class="math inline">\(D\)</span> is a given node’s degree.</li>
 </ul></li>
-<li>Yields maximal allocations; terminates when either:
+<li>Does not allocate more service than existing backlog; terminates when:
 <ul>
 <li>All cache capacity / bandwidth and all link bandwidth is allocated, or</li>
-<li>All backlog is given service.</li>
+<li>All backlog is met by allocated service.</li>
 </ul></li>
 </ul>
 </div>
@@ -2829,7 +2757,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <ul>
 <li><strong>Implementation</strong>: Built using Python and the SimPy library for discrete event simulation.
 <ul>
-<li>Modular object-oriented design for <em>extensibility</em>.</li>
+<li>Lightweight object-oriented design for easy extensibility.</li>
 <li>Single-threaded due to DES; supports simultaneous simulations via <em>multiprocessing</em>.</li>
 <li>Suitable for quickly prototyping object-level policies; we abstract several aspects:
 <ul>
@@ -2923,7 +2851,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="features" class="slide level2 smaller">
 <h2>Features</h2>
-<p>Codebase has many features for <strong>ease of use</strong> and <strong>reproducibility</strong>.</p>
+<p>Codebase has many features for <em>ease of use</em>.</p>
 <ul>
 <li>Experiment config and data output in JSON format.
 <ul>
@@ -2932,7 +2860,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </ul></li>
 <li>Library of functions to analyze data tailored to output schema.</li>
 <li>Docker container for easy deployment.</li>
-<li>GitHub Action for running experiments and generating plots.</li>
+<li>GitHub Action to quickly run experiments.</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">

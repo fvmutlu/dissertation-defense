@@ -13,7 +13,7 @@ Simulator
 
 ::: {style="font-size: 80%;"}
 - **Implementation**: Built using Python and the SimPy library for discrete event simulation.
-    - Modular object-oriented design for *extensibility*.
+    - Lightweight object-oriented design for easy extensibility.
     - Single-threaded due to DES; supports simultaneous simulations via *multiprocessing*.
     - Suitable for quickly prototyping object-level policies; we abstract several aspects:
         - Object-level simulation.
@@ -78,14 +78,14 @@ Simulator
 
 ## Features {.smaller}
 
-Codebase has many features for **ease of use** and **reproducibility**.
+Codebase has many features for *ease of use*.
 
 - Experiment config and data output in JSON format.
     - Specify parameter sweeps and combinations for multiprocess execution.
     - Each config set has unique hash; easy to query existing database.
 - Library of functions to analyze data tailored to output schema.
 - Docker container for easy deployment.
-- GitHub Action for running experiments and generating plots.
+- GitHub Action to quickly run experiments.
 
 
 ```{.json filename="request_rate_config.json"}

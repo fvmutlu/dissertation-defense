@@ -258,9 +258,9 @@ We propose a greedy iterative algorithm:
     - Time complexity dominated by sorting, worst case order of $O(K \log K)$.
 - Then allocate link bandwidth to largest backlog differential objects.
     - Complexity of $O(DK \log DK)$ where $D$ is a given node's degree.
-- Yields maximal allocations; terminates when either:
+- Does not allocate more service than existing backlog; terminates when:
     - All cache capacity / bandwidth and all link bandwidth is allocated, or
-    - All backlog is given service.
+    - All backlog is met by allocated service.
 :::
 :::
 :::

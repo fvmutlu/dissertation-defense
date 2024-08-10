@@ -36,7 +36,7 @@ System Model
 ## Data Plane Model
 
 ::: {.incremental}
-[• Requests can enter network at any node.]{.fragment fragment-index=1}
+• Requests can enter network at any node.
 
 [• Responses carry data back, following reverse path.]{.fragment fragment-index=2}
 
@@ -44,11 +44,11 @@ System Model
 :::
 
 ::: {.r-stack}
-![](images/dpmodel_1.svg){.fragment fragment-index=1 width="540" height="300" fig-align="center"}
+![](images/dpmodel_1.svg){width="648" height="360" fig-align="center"}
 
-![](images/dpmodel_2.svg){.fragment fragment-index=2 width="540" height="300" fig-align="center"}
+![](images/dpmodel_2.svg){.fragment fragment-index=2 width="648" height="360" fig-align="center"}
 
-![](images/dpmodel_3.svg){.fragment fragment-index=3 width="540" height="300" fig-align="center"}
+![](images/dpmodel_3.svg){.fragment fragment-index=3 width="648" height="360" fig-align="center"}
 :::
 
 ::: {.footer}

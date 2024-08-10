@@ -17,7 +17,7 @@ VIP [stability region]{.body-highlight} $\Lambda$ consists of all arrival rates 
 ::: {style="font-size: 80%;"}
 ```{=tex}
 \begin{equation*}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j} \multind
 \end{equation*}
 ```
 :::
