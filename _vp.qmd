@@ -150,6 +150,10 @@ Perform [caching]{.body-highlight} by choosing $s^k_{n_j}(t)$ for each $\kin$ an
 ```
 :::
 
+::: {.footer}
+Optimization Framework
+:::
+
 ## Lemma: Caching Solution
 
 ::: {style="font-size: 85%;"}
@@ -207,7 +211,7 @@ Optimization Framework
 ## Lemma: Caching Solution {visibility="uncounted"}
 
 ::: {style="font-size: 80%;"}
-Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
+Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}, obtain equivalent [linear assignment problem]{.body-highlight}.
 :::
 
 ::: {style="font-size: 70%;"}
@@ -248,13 +252,13 @@ Optimization Framework
 ## Lemma: Caching Solution {visibility="uncounted"}
 
 ::: {style="font-size: 80%;"}
-Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
+Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}, obtain equivalent [linear assignment problem]{.body-highlight}.
 
 - Variety of polynomial time algorithms exist; mostly variants of the Hungarian method.
 - We use one such variant[^crouse2d] with worst case complexity of $O(L^2_{tot}K)$, where $L_{tot} = \sum_{\jin} L_{n_j}$.
 :::
 
-[^crouse2d]: "On implementing 2D rectangular assignment algorithms", Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems 2016
+[^crouse2d]: "On implementing 2D rectangular assignment algorithms", Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems, 2016 @crouse2016implementing.
 
 ::: {.footer}
 Optimization Framework

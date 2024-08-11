@@ -121,7 +121,7 @@ Summary
 
 {{< include _extra_exp.qmd >}}
 
-## References {.smaller}
+## References {.smaller visibility="uncounted"}
 
 ::: {#refs}
 :::

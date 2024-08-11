@@ -1,6 +1,22 @@
 # Appendix: Additional Results {visibility="uncounted"}
 
-## Cache Capacity
+## Complexity {visibility="uncounted"}
+
+::: {layout="[[1,1], [1,1]]"}
+![](images/lsap_comp_time_wrt_cache.svg){width=350 fig-align="center"}
+
+![](images/lsap_comp_time_wrt_objects.svg){width=350 fig-align="center"}
+
+![](images/vip_caching_comp_time_wrt_cache.svg){width=350 fig-align="center"}
+
+![](images/vip_caching_comp_time_wrt_objects.svg){width=350 fig-align="center"}
+:::
+
+::: {.footer}
+Additional Results
+:::
+
+## Cache Capacity {visibility="uncounted"}
 
 ::: columns
 ::: {.column width="50%"}
@@ -18,14 +34,14 @@ $\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
 :::
 
 ::: {.footer}
-Experiments
+Additional Results
 :::
 
 ::: {.notes}
 - Placeholder.
 :::
 
-## Cache Capacity
+## Cache Capacity {visibility="uncounted"}
 
 ::: columns
 ::: {.column width="47%"}
@@ -41,14 +57,14 @@ Cache hits and delay due to cache reads. Abilene, $\gamma=0.75$, $\lambda=15$.
 :::
 
 ::: {.footer}
-Experiments
+Additional Results
 :::
 
 ::: {.notes}
 - Placeholder.
 :::
 
-## Delay-Penalty Trade-off
+## Delay-Penalty Trade-off {visibility="uncounted"}
 
 ::: columns
 ::: {.column width="50%"}
@@ -64,7 +80,7 @@ Delay vs. penalty curves for MVIP and PA-LFU policies. Abilene, $\lambda=15$. $\
 :::
 
 ::: {.footer}
-Experiments
+Additional Results
 :::
 
 ::: {.notes}

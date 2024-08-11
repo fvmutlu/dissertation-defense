@@ -1325,6 +1325,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
         &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \forall \, \kin, \; \jin
 \end{align*}\]</span>
 </div>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
 </section>
 <section id="lemma-caching-solution" class="slide level2">
 <h2>Lemma: Caching Solution</h2>
@@ -1401,7 +1404,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="lemma-caching-solution-2" class="slide level2" data-visibility="uncounted">
 <h2>Lemma: Caching Solution</h2>
 <div style="font-size: 80%;">
-<p>Objects are equally sized; decide variables for each one-object <span class="body-highlight">cache slot</span>; obtain equivalent <span class="body-highlight">linear assignment problem</span>.</p>
+<p>Objects are equally sized; decide variables for each one-object <span class="body-highlight">cache slot</span>, obtain equivalent <span class="body-highlight">linear assignment problem</span>.</p>
 </div>
 <div style="font-size: 70%;">
 <span class="math display">\[\begin{align*}
@@ -1446,7 +1449,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="lemma-caching-solution-3" class="slide level2" data-visibility="uncounted">
 <h2>Lemma: Caching Solution</h2>
 <div style="font-size: 80%;">
-<p>Objects are equally sized; decide variables for each one-object <span class="body-highlight">cache slot</span>; obtain equivalent <span class="body-highlight">linear assignment problem</span>.</p>
+<p>Objects are equally sized; decide variables for each one-object <span class="body-highlight">cache slot</span>, obtain equivalent <span class="body-highlight">linear assignment problem</span>.</p>
 <ul>
 <li>Variety of polynomial time algorithms exist; mostly variants of the Hungarian method.</li>
 <li>We use one such variant<sup>1</sup> with worst case complexity of <span class="math inline">\(O(L^2_{tot}K)\)</span>, where <span class="math inline">\(L_{tot} = \sum_{\jin} L_{n_j}\)</span>.</li>
@@ -1455,7 +1458,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn9"><p>“On implementing 2D rectangular assignment algorithms”, Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems 2016</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn9"><p>“On implementing 2D rectangular assignment algorithms”, Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems, 2016 <span class="citation" data-cites="crouse2016implementing"><a href="#/references" role="doc-biblioref" onclick="">[15]</a></span>.</p></li></ol></aside></section>
 <section id="virtual-plane-algorithm-2" class="slide level2">
 <h2>Virtual Plane Algorithm</h2>
 <p>Perform <span class="body-highlight">forwarding</span> by choosing <span class="math inline">\(\mu^k_{ab}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span> to:</p>
@@ -1647,7 +1650,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Caching</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching Policy} \begin{algorithmic} \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$. \If{$CB^k_{n_{j^*}}(\tau) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \ElsIf{$CB^k_{n_{j^*}}(\tau) &gt; 0$} \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$. \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$. \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2166,7 +2169,8 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Number of cache hits and cache reads issued under IA. Geant; <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
+<p>Number of cache hits and cache reads issued under IA.</p>
+<p>Geant; <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2206,7 +2210,8 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay vs.&nbsp;penalty curves, MVIP vs.&nbsp;PA-LFU with and without interest aggregation. Geant; <span class="math inline">\(\lambda=30\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+<p>Delay vs.&nbsp;penalty curves, MVIP vs.&nbsp;PA-LFU with and without IA.</p>
+<p>Geant; <span class="math inline">\(\lambda=30\)</span>, <span class="math inline">\(\omega\)</span> decreases to the right.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2392,7 +2397,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <h2>Data Plane Application</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau \in [t,t+1)\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 75%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2430,18 +2435,18 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn12"><p>“Utility optimal scheduling in processing networks”, Huang, L., &amp; Neely, M. J., Performance Evaluation, 2011 <span class="citation" data-cites="huang2011utility"><a href="#/references" role="doc-biblioref" onclick="">[15]</a></span></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn12"><p>“Utility optimal scheduling in processing networks”, Huang, L., &amp; Neely, M. J., Performance Evaluation, 2011 <span class="citation" data-cites="huang2011utility"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span></p></li></ol></aside></section>
 <section id="greedy-approach" class="slide level2">
 <h2>Greedy Approach</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 45%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
@@ -2804,7 +2809,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn13"><p>“Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets”, Malak, D., Mutlu, F. V., Zhang, J., &amp; Yeh, E. M., ToN 2023 <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn13"><p>“Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets”, Malak, D., Mutlu, F. V., Zhang, J., &amp; Yeh, E. M., ToN 2023 <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.</p></li></ol></aside></section>
 <section id="power-caching-in-wireless-hetnets-2" class="slide level2" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
@@ -2842,7 +2847,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn14"><p>“Femtocaching: Wireless content delivery through distributed caching helpers.”, Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., &amp; Caire, G, IEEE Trans. Inf. Theory, 2013 <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn14"><p>“Femtocaching: Wireless content delivery through distributed caching helpers.”, Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., &amp; Caire, G, IEEE Trans. Inf. Theory, 2013 <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.</p></li></ol></aside></section>
 <section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
@@ -2863,7 +2868,7 @@ D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\li
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
-<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.
+<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.
 <ul>
 <li><p>Convex relaxation on <em>binary caching variables</em> leads to reduced-complexity formulation (RCF).</p>
 <span class="math display">\[\begin{equation*}
@@ -2885,7 +2890,7 @@ g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, 
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
-<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.
+<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.
 <ul>
 <li>Convex relaxation on <em>binary caching variables</em> leads to reduced-complexity formulation (RCF).</li>
 <li>Given fixed power allocations <span class="math inline">\(S\)</span>, polynomial-time <span class="math inline">\(1-1/e\)</span> approximation can be constructed <span class="citation" data-cites="ioannidis2017jointly"><a href="#/references" role="doc-biblioref" onclick="">[12]</a></span>.</li>
@@ -2899,7 +2904,7 @@ g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, 
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><p><strong>Objective:</strong> Total user request delay.</p></li>
-<li><p><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.</p>
+<li><p><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.</p>
 <ul>
 <li>Convex relaxation on <em>binary caching variables</em> leads to reduced-complexity formulation (RCF).</li>
 <li>Given fixed power allocations <span class="math inline">\(S\)</span>, polynomial-time <span class="math inline">\(1-1/e\)</span> approximation can be constructed <span class="citation" data-cites="ioannidis2017jointly"><a href="#/references" role="doc-biblioref" onclick="">[12]</a></span>.</li>
@@ -2920,14 +2925,14 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
-<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.
+<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.
 <ul>
 <li>Convex relaxation on <em>binary caching variables</em> leads to reduced-complexity formulation (RCF).</li>
 <li>Given fixed power allocations <span class="math inline">\(S\)</span>, polynomial-time <span class="math inline">\(1-1/e\)</span> approximation can be constructed <span class="citation" data-cites="ioannidis2017jointly"><a href="#/references" role="doc-biblioref" onclick="">[12]</a></span>.</li>
 </ul></li>
 <li><strong>Challenge 2:</strong> Problem is not jointly convex due to interference-dependent link costs.
 <ul>
-<li>It can be shown to be <em>biconvex</em> in logarithms of power variables under high SINR conditions, allowing <em>alternating optimization</em> method <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</li>
+<li>It can be shown to be <em>biconvex</em> in logarithms of power variables under high SINR conditions, allowing <em>alternating optimization</em> method <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.</li>
 </ul></li>
 </ul>
 <div class="footer">
@@ -2939,7 +2944,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 80%;">
-<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Subgradient Projection} \begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>
@@ -3017,7 +3022,50 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <h1>Appendix: Additional Results</h1>
 
 </section>
-<section id="cache-capacity-2" class="slide level2">
+<section id="complexity" class="slide level2" data-visibility="uncounted">
+<h2>Complexity</h2>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[1,1], [1,1]]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/lsap_comp_time_wrt_cache.svg" class="quarto-figure quarto-figure-center" width="350"></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/lsap_comp_time_wrt_objects.svg" class="quarto-figure quarto-figure-center" width="350"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/vip_caching_comp_time_wrt_cache.svg" class="quarto-figure quarto-figure-center" width="350"></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/vip_caching_comp_time_wrt_objects.svg" class="quarto-figure quarto-figure-center" width="350"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>Additional Results</p>
+</div>
+</section>
+<section id="cache-capacity-2" class="slide level2" data-visibility="uncounted">
 <h2>Cache Capacity</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -3040,7 +3088,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
 </div>
 <div class="footer">
-<p>Experiments</p>
+<p>Additional Results</p>
 </div>
 <aside class="notes">
 <ul>
@@ -3058,7 +3106,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-capacity-3" class="slide level2">
+<section id="cache-capacity-3" class="slide level2" data-visibility="uncounted">
 <h2>Cache Capacity</h2>
 <div class="columns">
 <div class="column" style="width:47%;">
@@ -3080,7 +3128,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p>Cache hits and delay due to cache reads. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
 </div>
 <div class="footer">
-<p>Experiments</p>
+<p>Additional Results</p>
 </div>
 <aside class="notes">
 <ul>
@@ -3098,7 +3146,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="delay-penalty-trade-off-1" class="slide level2">
+<section id="delay-penalty-trade-off-1" class="slide level2" data-visibility="uncounted">
 <h2>Delay-Penalty Trade-off</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -3120,7 +3168,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Abilene, <span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
 </div>
 <div class="footer">
-<p>Experiments</p>
+<p>Additional Results</p>
 </div>
 <aside class="notes">
 <ul>
@@ -3138,7 +3186,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="references" class="slide level2 smaller scrollable">
+<section id="references" class="slide level2 smaller scrollable" data-visibility="uncounted">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-wu2022ndise" class="csl-entry" role="listitem">
@@ -3183,14 +3231,17 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div id="ref-neely2022stochastic" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[14] </div><div class="csl-right-inline">M. Neely, <em>Stochastic network optimization with application to communication and queueing systems</em>. Springer Nature, 2022.</div>
 </div>
+<div id="ref-crouse2016implementing" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">D. F. Crouse, <span>“On implementing 2D rectangular assignment algorithms,”</span> <em>IEEE Transactions on Aerospace and Electronic Systems</em>, vol. 52, no. 4, pp. 1679–1696, 2016.</div>
+</div>
 <div id="ref-huang2011utility" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[15] </div><div class="csl-right-inline">L. Huang and M. J. Neely, <span>“Utility optimal scheduling in processing networks,”</span> <em>Performance Evaluation</em>, vol. 68, no. 11, pp. 1002–1021, 2011.</div>
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">L. Huang and M. J. Neely, <span>“Utility optimal scheduling in processing networks,”</span> <em>Performance Evaluation</em>, vol. 68, no. 11, pp. 1002–1021, 2011.</div>
 </div>
 <div id="ref-malak2023joint" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[16] </div><div class="csl-right-inline">D. Malak, F. V. Mutlu, J. Zhang, and E. M. Yeh, <span>“Joint power control and caching for transmission delay minimization in wireless HetNets,”</span> <em>IEEE/ACM Transactions on Networking</em>, 2023.</div>
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">D. Malak, F. V. Mutlu, J. Zhang, and E. M. Yeh, <span>“Joint power control and caching for transmission delay minimization in wireless HetNets,”</span> <em>IEEE/ACM Transactions on Networking</em>, 2023.</div>
 </div>
 <div id="ref-shanmugam2013femtocaching" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[17] </div><div class="csl-right-inline">K. Shanmugam, N. Golrezaei, A. G. Dimakis, A. F. Molisch, and G. Caire, <span>“Femtocaching: Wireless content delivery through distributed caching helpers,”</span> <em>IEEE Transactions on Information Theory</em>, vol. 59, no. 12, pp. 8402–8413, 2013.</div>
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">K. Shanmugam, N. Golrezaei, A. G. Dimakis, A. F. Molisch, and G. Caire, <span>“Femtocaching: Wireless content delivery through distributed caching helpers,”</span> <em>IEEE Transactions on Information Theory</em>, vol. 59, no. 12, pp. 8402–8413, 2013.</div>
 </div>
 </div>
 <div class="quarto-auto-generated-content">
