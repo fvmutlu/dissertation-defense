@@ -54,9 +54,6 @@ Conclusion & Other Work
 D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
 \end{equation*}
 ```
-
-where
-
 ```{=tex}
 \begin{equation*}
 D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\limits_{l=1}^k (1-x_{p_l i})
@@ -132,7 +129,7 @@ Conclusion & Other Work
     - Convex relaxation on *binary caching variables* leads to reduced-complexity formulation (RCF).
     - Given fixed power allocations $S$, polynomial-time $1-1/e$ approximation can be constructed @ioannidis2017jointly. 
 - **Challenge 2:** Problem is not jointly convex due to interference-dependent link costs.
-    - It can be shown to be *biconvex* in logarithms of power variables under high SINR conditions, allowing *alternating optimization* method @malak2023joint.
+    - *Biconvex* in logarithms of power variables under high SINR conditions, allowing *alternating optimization* method @malak2023joint.
     
 ::: {.footer}
 Conclusion & Other Work

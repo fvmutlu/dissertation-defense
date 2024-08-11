@@ -1,9 +1,9 @@
 ## Transition to Data Plane
 
 ::: {style="font-size: 90%;"}
-Considerations for mapping virtual plane algorithm to data plane policies:
+Considerations for mapping virtual plane algorithm to data plane:
 
-- Data plane requires a *caching policy* and a *forwarding policy* operating in real time.
+- Data plane requires a ***caching policy*** and a ***forwarding policy*** operating in real time.
 - We do not have immediate access to objects for caching purposes in the data plane.
 - VIP counters only updated each virtual plane time slot and oscillate.
 
@@ -22,7 +22,7 @@ Data Plane Strategy
 
 ## Data Plane Caching {.smaller}
 
-Define virtual plane [incoming VIP flow]{.body-highlight}, averaged over sliding window of $T$ slots:
+Define virtual plane average [incoming VIP flow]{.body-highlight} over sliding window of $T$ slots:
 ```{=tex}
 \begin{equation*}
     \bar{F}_{n,in}^k(t) \triangleq \frac{1}{T} \sum^t_{t' = t - T + 1} \Big( A\knt + \sum_{(a,n) \in \mc{L}^k} F^k_{an}(t') \Big)
@@ -95,7 +95,7 @@ Data Plane Strategy
 
 ## Data Plane Forwarding
 
-Define virtual plane [outgoing VIP flow]{.body-highlight} average:
+Define virtual plane average [outgoing VIP flow]{.body-highlight}:
 ```{=tex}
 \begin{equation*}
     \bar{F}_{nb}^k(t) \triangleq \frac{1}{T} \sum\limits^t_{t'=t-T+1} F^k_{nb}(t').
