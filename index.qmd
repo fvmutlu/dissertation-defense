@@ -4,15 +4,18 @@ subtitle: "Faruk Volkan Mutlu - PhD Dissertation Defense Presentation"
 author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis"
 ---
 
-## Outline
+## Overview & Outline {.smaller}
 
-- Primary Contribution
-    -   **Introduction**: Motivation, Challenges, Related Work
-    -   **Technical**: System Model, Optimization Framework
-    -   **Practical**: Strategy, Experiments, Results
-    -   **Proposed Work**
-- Other Contributions
-- Conclusion and Acknowledgements
+::: {.incremental style="font-size: 110%;"}
+- **Context**: Information-centric networking (ICN), in-network caching.
+- **Motivation**: Data volume grows exponentially, cache capacities do not scale.
+- **Challenge**: Operating larger caches efficiently is difficult.
+- **Goal**: Policy that observes cache characteristics to address this challenge.
+- [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy for networks with diverse cache resources.
+    - **Introduction**: Motivation, Challenges, Related Work.
+    - **Technical**: System Model, Optimization Framework.
+    - **Practical**: Policies, Simulation Experiments, Results.
+:::
 
 ::: {.footer}
 Outline
@@ -85,7 +88,7 @@ With the system model described, we will now look at our control algorithm in th
 
 {{< include _exp.qmd >}}
 
-# Cache Read Rate Control
+# Virtual Plane Cache Read Rate Control
 
 {{< include _sbw.qmd >}}
 
@@ -93,9 +96,7 @@ With the system model described, we will now look at our control algorithm in th
 
 {{< include _simulator.qmd >}}
 
-# Conclusion & Other Work
-
-## Conclusion
+## Summary
 
 ::: {.incremental}
 -   We address a critical and practical problem in scaling high-throughput caching networks
@@ -104,13 +105,15 @@ With the system model described, we will now look at our control algorithm in th
 :::
 
 ::: {.footer}
-Conclusion & Other Work
+Summary
 :::
 
 ::: {.notes}
 - I should also note that we submitted a paper on this to MobiHoc last year which was rejected
 - We're currently revising the paper for the upcoming ICC
 :::
+
+# Power & Caching in Wireless HetNets
 
 {{< include _hetnet.qmd >}}
 

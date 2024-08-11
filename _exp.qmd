@@ -1,40 +1,18 @@
-## Experiment Setting
+## Setup {.smaller}
 
 ::: {.incremental}
--  $\mc{S}(k)$ are selected uniformly at random
--  Routing: *Any* shortest path (in number of hops) between $n$ and $\mc{S}(k)$
--  Two cache tiers at every node
--  Requests generated for 100 simulation seconds, run terminates when all requests are resolved
--  Virtual plane algorithm slot length of 1 second, sliding window of size 100 slots
+-  **Content Sources:** $\mc{S}(k)$ are selected uniformly at random.
+-  **Routing:** *Any* shortest path (in number of hops) between $n$ and $\mc{S}(k)$.
+-  **Cache Tiers:** Fixed two cache tiers at every node, fast and slow.
+-  **Requests:** Requests generated for 100 simulation seconds, run terminates when all requests are resolved.
+    - Poisson arrivals with rate $\lambda$ at each node; popularity distribution is Zipf with parameter $\gamma$.
+- **Baselines:** Leave Copy Everywhere admission, Least Response Time forwarding, adapted replacements:
+    - Least Recently Used (LRU), First-In-First-Out (FIFO), Uniform Random (UNIF), Least Frequently Used (LFU).
+    - Penalty Aware LFU (PA-LFU) for trade-off baseline; uses *cache benefit* metric with frequency.
 :::
 
 ::: {.footer}
 Experiments
-:::
-
-::: {.notes}
-- There are some additional assumptions that pertain to the experiment setting so let's go over those
-:::
-
-## Baselines
-
-::: {.incremental}
--  Adapted replacements: LRU, LFU, FIFO, RANDOM
-   -  LRU, FIFO and RANDOM are cost-unaware, paired with Leave Copy Everywhere admission
-   -  LFU admission based on frequency
-      - Cost-aware LFU adaptation uses similar benefit metric
--  All baseline caching policies paired with Least Response Time forwarding
-:::
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Because there aren't really any policies, novel or established, we could directly compare against, we adapted our own baselines from well-known single-cache policies
-- We adapted LRU, FIFO and RANDOM replacement but for these there isn't a good metric to incorporate costs, so those are cost-unaware and for admission they're paired with the basic Leave Copy Everywhere policy
-- We adapted LFU similarly, but also made a cost-aware LFU adaptation which uses a cache benefit metric similar to the one we devised for our aproach
-- Least response time forwarding simply chooses the link with smallest delay for last satisfied request
 :::
 
 ## Topologies {.smaller}
@@ -63,18 +41,15 @@ Experiments
 
 ## Parameter Reference Table {.smaller}
 
-| Parameter | Description | Value |
-|:-:|:-:|:-:|
-|$K$|Number of objects in catalog $\mc{K}$|1000|
-|$\sum_{\kin} \lambda^k_n$|Total request arrival rate at each $n$ in objects/sec|10|
-|$\alpha$|Zipf's law parameter for object popularity distribution|0.75|
-|$C_{ab}$|Capacity of each link $\abin$, in objects|10|
-|$L_{n_1}$|Capacity of tier 1 at each $n$, in objects|5|
-|$r_{n_1}$|Read rate of tier 1 at each $n$, in objects/sec|20|
-|$c^a_{n_1}$, $c^e_{n_1}$| Admission and eviction costs of tier 1 at each $n$|4, 2|
-|$r_{n_2}$|Read rate of tier 2 at each $n$, in objects/sec|10|
-|$c^a_{n_2}$, $c^e_{n_2}$| Admission and eviction costs of tier 2 at each $n$|2, 1|
-: Common parameters for all scenarios {tbl-colwidths="[10,80,10]"}
+| Parameter | Value |
+|:-:|:-:|
+|Number of objects in catalog $\mc{K}$|2000|
+|Bandwidth of each link $\abin$, in objects|10|
+|Read rate of tier 1 at each $n$, in objects/sec|25|
+| Admission and eviction costs of tier 1 at each $n$|4, 2|
+|Read rate of tier 2 at each $n$, in objects/sec|10|
+| Admission and eviction costs of tier 2 at each $n$|2, 1|
+: Common parameters for all scenarios {tbl-colwidths="[85,15]"}
 
 ::: {.footer}
 Experiments

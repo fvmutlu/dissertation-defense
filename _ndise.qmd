@@ -4,15 +4,15 @@
 ::: {.column width="50%"}
 ![](images/data_plot.svg)
 
--  Data-intensive science experiments process huge amounts of data
--  Data growth predictions keep moving the bar up
+-  Data-intensive science experiments process huge amounts of data.
+-  Data growth predictions keep moving the bar up.
 
 :::
 ::: {.column width="50%"}
 ![](images/lhcopen_data.svg)
 
--  Data is continuously distributed across the world for research
--  In one year of LHC running, over an exabyte of data is accessed
+-  Data is continuously distributed across the world for research.
+-  In one year of LHC running, over an exabyte of data is accessed.
 
 :::
 :::
@@ -37,9 +37,9 @@ Introduction
 -   Integration of state-of-the-art NDN forwarder, intelligent caching and forwarding, high-performance consumer/producer applications.
 -   Extensive testing over wide-area network spanning 5 US campuses using CMS experiment data.
 -   Individual contributions:
-    - Built local testbed for prototyping
-    - Supported WAN deployment and testing
-    - Supported demonstrations during SC21 and SC22
+    - Built local testbed for prototyping.
+    - Supported WAN deployment and testing.
+    - Supported demonstrations during SC21 and SC22.
 :::
 
 [^ndise]: "N-DISE: NDN-based data distribution for large-scale data-intensive science", Wu, Y., Mutlu, F. V., Liu, Y., Yeh, E., Liu, R., ACM ICN 2022
@@ -58,11 +58,11 @@ Introduction
 ## Motivation: Data-Intensive Science
 
 ::: {style="font-size: 85%;"}
-**Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node
+**Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node.
 
 ::: {.incremental}
--   DRAM is the standard cache device due its speed; but is expensive and has limited capacity
--   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM
+-   DRAM is the standard cache device due its speed; but is expensive and has limited capacity.
+-   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM.
 -   Logical next step: use both! 
 :::
 :::
@@ -79,12 +79,12 @@ Introduction
 ## Motivation: Data-Intensive Science
 
 ::: {style="font-size: 85%;"}
-**Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node
+**Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node.
 
--   DRAM is the standard cache device due its speed; but is expensive and has limited capacity
--   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM
+-   DRAM is the standard cache device due its speed; but is expensive and has limited capacity.
+-   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM.
 -   Logical next step: use both! 
--   Open problem: "Expanding capacities with persistent memory or NVMe disk storage require novel multi-tier caching algorithms"[^ndndpdk]
+-   Open problem: "Expanding capacities with persistent memory or NVMe disk storage require novel multi-tier caching algorithms."[^ndndpdk]
 :::
 
 [^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", Shi, J., Pesavento, D., & Benmohamed, L., ACM ICN 2020

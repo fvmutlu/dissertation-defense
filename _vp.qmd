@@ -4,7 +4,7 @@
     - Guarantee stability of all VIP queues.
     - Maintain total VIP queue backlog small.
     - Keep cache-related costs minimal.
-- What does this accomplish for the data plane policy?
+- Placeholder.
 
 ::: {.footer}
 Optimization Framework
@@ -29,10 +29,10 @@ $f^k_{ab}$: Time-average actual VIP flow for $k$ over $(a,b)$
 
 ::: columns
 ::: {.column width="50%" style="font-size: 70%;"}
-$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1
+$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1.
 :::
 ::: {.column width="50%" style="font-size: 70%;"}
-$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$
+$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
 :::
 :::
 
@@ -60,22 +60,20 @@ Data plane costs reflected into virtual plane framework; admissions and eviction
    \end{array} \right.
 \end{equation*}
 ```
-Sum penalty during $t$: $P(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$
+Sum penalty during $t$: $P(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$.
 :::
 
 <hr>
 
 ::: columns
 ::: {.column width="50%" style="font-size: 75%;"}
-$s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$
+$s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$.
 :::
 ::: {.column width="50%" style="font-size: 75%;"}
-$c^a_{n_j}$: Admission cost of tier $j$ at node $n$
-$c^e_{n_j}$: Eviction cost of tier $j$ at node $n$
+$c^a_{n_j}$: Admission cost of tier $j$ at node $n$.
+$c^e_{n_j}$: Eviction cost of tier $j$ at node $n$.
 :::
 :::
-
-
 
 ::: {.footer}
 Optimization Framework
@@ -281,10 +279,10 @@ Perform [forwarding]{.body-highlight} by choosing $\mu^k_{ab}(t)$ for each $\kin
 
 ::: columns
 ::: {.column width="50%" style="font-size: 75%;"}
-$C_{ab}$: Capacity of link $(a,b)$
+$C_{ab}$: Capacity of link $(a,b)$.
 :::
 ::: {.column width="50%" style="font-size: 75%;"}
-$\mc{L}^k$: Set of links allowed to transmit VIPs of $k$, determined by routing policy
+$\mc{L}^k$: Set of links allowed to transmit VIPs of $k$, determined by routing policy.
 :::
 :::
 

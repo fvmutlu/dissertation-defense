@@ -1,42 +1,3 @@
-## Overview
-
-::: {.incremental}
-- **Context**: Information-centric networking (ICN), in-network caching, content delivery networks (CDNs)
-- **Motivation**: Data volume grows exponentially, cache capacities are stagnant
-- **Challenge**: Operating larger caches in a efficiently is difficult
-    - Are slower storage elements viable as caches?
-    - What are the costs of operating large caches?
-    - How can we get the most out of caches in the network?
-:::
-
-::: {.footer}
-Introduction
-:::
-
-::: {.notes}
-- To begin, here's a brief overview of my primary research that I will present today.
-- First off, for context, my work is based on the Information-centric Networking paradigm.
-- In particular, I'm targeting a core functionality of ICNs called in-network caching, which lets every router in the network maintain its own cache, making caching decentralized and more scalable.
-- However, my work is also applicable within today's Internet, especially for systems like CDNs, where it could be used as an overlay.
-- The main motivation for my work is simply that the volume of data continuously grows, but the capacities of our caches are somewhat stagnant.
-- Of course there are many obstacles in the way of scaling cache capacities. We'll specifically look at three considerations: (1) are slower storage elements viable as caches? (2) what are the costs of operating large caches? (3) how can we get the most out of caches in the network?
-:::
-
-## Overview
-
-- **Context**: Information-centric networking (ICN), in-network caching, content delivery networks (CDNs)
-- **Motivation**: Data volume grows exponentially, cache capacities are stagnant
-- **Challenge**: Operating larger caches in a efficiently is difficult
-- **Goal**: Caching policy that addresses these considerations
-
-::: {.footer}
-Introduction
-:::
-
-::: {.notes}
-- By the end, our goal is to come up with a policy that addresses these considerations
-:::
-
 {{< include _ndise.qmd >}}
 
 {{< include _toy.qmd >}}
@@ -94,17 +55,17 @@ Introduction
 - This is where the act of tying caching and forwarding together comes in. 
 :::
 
-## Goal
+## Goal & Contributions
 
 Develop a joint forwarding and caching policy that:
 
--   Tracks user demand for objects as basis for decisions
+-   Tracks user demand for objects as basis for decisions.
 -   Utilizes diverse cache resources effectively:
-    -   Ensures devices are receiving [sustainable hit rates]{.body-highlight}
-    -   Makes [high-value]{.body-highlight} replacement decisions
+    -   Ensures devices are receiving [sustainable hit rates]{.body-highlight}.
+    -   Makes [high-value]{.body-highlight} replacement decisions.
 -   Utilizes bandwidth resources effectively:
-    -   Steers requests toward caching points
-    -   Forwards requests avoiding congestion
+    -   Steers requests toward caching points.
+    -   Forwards requests avoiding congestion.
 
 ::: {.footer}
 Introduction
@@ -116,14 +77,14 @@ Introduction
 
 ## Related Work
 
-::: {style="font-size: 80%;"}
+::: {style="font-size: 90%;"}
 - Literature regarding adoption of *flash* in ICN:
-    - Feasibility of SSD *Content Store* at Internet scale @perino2011reality
-    - Hierarchical *Content Store*, SSD prefetch layer masked behing DRAM @rossini2014multi, @mansilha2015hierarchical, @mansilha2017exploiting
-    - Non-blocking caching I/O @so2014toward, @pan2021nb
-    - Flash damage aware caching @shukla2016designing
-- Joint caching and forwarding policies @yeh2014vip, @ioannidis2017jointly, @mahdian2017mindelay
-    - VIP framework @yeh2014vip: congestion-aware, incorporates cache read rates
+    - Feasibility of SSD *Content Store* at Internet scale @perino2011reality.
+    - *Hierarchical Content Store*, SSD prefetch layer masked behing DRAM @rossini2014multi, @mansilha2015hierarchical, @mansilha2017exploiting.
+    - Non-blocking caching I/O @so2014toward, @pan2021nb.
+    - Flash damage aware caching @shukla2016designing.
+- Joint caching and forwarding policies @yeh2014vip, @ioannidis2017jointly, @mahdian2017mindelay.
+    - VIP framework @yeh2014vip: congestion-aware, incorporates cache read rates.
 :::
 
 ::: {.footer}

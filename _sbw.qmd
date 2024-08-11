@@ -35,7 +35,7 @@ Virtual Plane Cache Read Rate Control
 
 ::: {style="font-size: 100%;"}
 - **Reasoning:** Objects in cache receive different hit rates in the data plane.
-- **Penalties:** We omit the weight of caching actions to study read rate allocation in isolation.
+- **Penalties:** We omit the weight of caching penalties to study read rate allocation in isolation.
 - **Algorithm:** Should guarantee stability of all VIP queues, minimize total backlog.
     - Consider new control variables and [cache bandwidth constraints]{.body-highlight}, i.e. $\sum_{\kin} r\knjt \leq R_{n_j}$.
 :::
@@ -81,9 +81,9 @@ Virtual Plane Cache Read Rate Control
 
 ## Virtual Plane Caching
 
-::: {style="font-size: 80%;"}
-Given $\omega=0$; perform [caching]{.body-highlight} by choosing $r\knjt$ and $s\knjt$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
+Perform [caching]{.body-highlight} by choosing $r\knjt$ and $s\knjt$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
 
+::: {style="font-size: 75%;"}
 ```{=tex}
 \begin{align*}
     \text{maximize}
@@ -165,11 +165,11 @@ where
 Virtual Plane Cache Read Rate Control
 :::
 
-## Data Plane Application
+## Data Plane Application {.smaller}
 
-When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
+When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau \in [t,t+1)$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
 
-::: {style="font-size: 65%;"}
+::: {style="font-size: 75%;"}
 ```pseudocode
 #| html-line-number: true
 \begin{algorithm}
@@ -177,7 +177,7 @@ When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at i
 \begin{algorithmic}
     \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$.
     \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$}
-        \If{$\bar{F}_{n,in}^k(t) > 0$ and $|\mc{K}_{n_{j^*}}| < L_{n_{j^*}}$}
+        \If{$\bar{F}_{n,in}^k(t) > 0$ and $|\mc{K}_{n_{j^*}}(\tau)| < L_{n_{j^*}}$}
             \State Admit $k$ into $j^*$.
         \Else
             \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$.
@@ -189,6 +189,17 @@ When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at i
 \end{algorithmic}
 \end{algorithm}
 ```
+:::
+
+<hr>
+
+::: columns
+::: {.column width=50% style="font-size: 75%;"}
+$F\knjt$: Actual amount of VIPs of $k$ removed via tier $j$ read rate allocation in slot $t$.
+:::
+::: {.column width=50% style="font-size: 75%;"}
+$\bar{F}^k_{n_j}(t) \triangleq \frac{1}{T} \sum^t_{t'=t-T+1} F^k_{n_j}(t')$.
+:::
 :::
 
 ::: {.footer}

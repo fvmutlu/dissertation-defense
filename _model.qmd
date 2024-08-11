@@ -61,7 +61,7 @@ System Model
 ::: {.column width=80%}
 We propose following [multi-tiered caching model]{.body-highlight} properties:
 
--   Any node can have any number of cache tiers
+-   Any node can have any number of cache tiers.
 :::
 ::: {.column width=20%}
 <img src="images/tier1_admit.svg" style="display: block; margin-left: auto; margin-right: 10px; width: 80%; height: 80%; transform: translateY(25%);">
@@ -85,8 +85,8 @@ System Model
 ::: {.column width=80%}
 We propose following [multi-tiered caching model]{.body-highlight} properties:
 
--   Any node can have any number of cache tiers
--   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight})
+-   Any node can have any number of cache tiers.
+-   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight}).
 :::
 ::: {.column width=20%}
 <img src="images/tier2_admit.svg" style="display: block; margin-left: auto; margin-right: 0; width: 85%; height: 85%; transform: translateY(24%);">
@@ -103,9 +103,9 @@ System Model
 ::: {.column width=80%}
 We propose following [multi-tiered caching model]{.body-highlight} properties:
 
--   Any node can have any number of cache tiers
--   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight})
--   An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node
+-   Any node can have any number of cache tiers.
+-   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight}).
+-   An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node.
 :::
 ::: {.column width=20%}
 <img src="images/migration.svg" style="display: block; margin-left: auto; margin-right: 0; width: 100%; height: 100%; transform: translateY(25%);">
@@ -159,18 +159,18 @@ System Model
 
 ::: columns
 ::: {.column width="50%" style="font-size: 75%;"}
-$V^k_n(t)$: VIP count for $k$ at $n$ during $t$
+$V^k_n(t)$: VIP count for $k$ at $n$ during $t$.
 
-$A^k_n(t)$: Number of exogenous requests for $k$ at $n$ during $t$
+$A^k_n(t)$: Number of exogenous requests for $k$ at $n$ during $t$.
 
-$\mu^k_{ab}(t)$: Allocated rate of VIPs for $k$ over $(a,b)$ during $t$
+$\mu^k_{ab}(t)$: Allocated rate of VIPs for $k$ over $(a,b)$ during $t$.
 :::
 ::: {.column width="50%" style="font-size: 75%;"}
-$\mathcal{J}_n$: Set of cache tiers at $n$
+$\mathcal{J}_n$: Set of cache tiers at $n$.
 
-$r_{n_j}$: Read rate of tier $j$ at $n$
+$r_{n_j}$: Read rate of tier $j$ at $n$.
 
-$s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$
+$s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$.
 :::
 :::
 
