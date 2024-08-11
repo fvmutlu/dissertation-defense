@@ -119,9 +119,7 @@ Summary
 
 # Appendices {visibility="uncounted"}
 
-## Appendix A
-
-- Placeholder
+{{< include _extra_exp.qmd >}}
 
 ## References {.smaller}
 

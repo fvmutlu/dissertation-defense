@@ -658,7 +658,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <div class="columns">
 <div class="column" style="width:50%;">
-<table class="caption-top">
+<table>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Notation</th>
@@ -1771,43 +1771,14 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <p>Experiments</p>
 </div>
 </section>
-<section id="topologies" class="slide level2 smaller">
-<h2>Topologies</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div>
-
-</div>
-<div class="quarto-layout-panel" data-layout="[[-1],[-1],[1]]">
-<div class="quarto-layout-row">
-<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<p>&nbsp;</p>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<p>&nbsp;</p>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<section id="setup-1" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Setup</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/abilene.svg"></p>
-<figcaption>Abilene (11 nodes)</figcaption>
+<p><img data-src="images/geant.svg" style="width:50.0%;height:50.0%"></p>
+<figcaption>GÉANT GN4-3N (34 nodes) <sup>1</sup></figcaption>
 </figure>
 </div>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/geant.svg"></p>
-<figcaption>GEANT (34 nodes)</figcaption>
-</figure>
-</div>
-</div></div>
 <div class="footer">
 <p>Experiments</p>
 </div>
@@ -1815,8 +1786,6 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <ul>
 <li>Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous</li>
 <li>So the results I’ll show here are those that I think most succinctly show that our approach can deliver on our goals</li>
-<li>To start off, these are the four topologies I conducted experiments over</li>
-<li>On the left are Abilene and Geant which are real network topologies, and on the right are two stylized graphs</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1829,11 +1798,18 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn11"><p>The GN4 Phase 3 Network project, https://network.geant.org/gn4-3n/</p></li></ol></aside></section>
 <section id="parameter-reference-table" class="slide level2 smaller">
 <h2>Parameter Reference Table</h2>
-<table class="caption-top">
-<caption>Common parameters for all scenarios</caption>
+<p><em>Cache capacity budget</em> <span class="math inline">\(\Delta L = \Delta L_1 + \Delta L_2\)</span> to enable comparisons with single-tier cases; based on the large purchasing cost ratio of DRAM to flash.</p>
+<ul>
+<li>Initial capacities are <span class="math inline">\(L_{n_1} = 5\)</span>, <span class="math inline">\(L_{n_2} = 0\)</span>.</li>
+<li>Added capacity for <span class="math inline">\(\Delta L &gt; 0\)</span> is <span class="math inline">\(L_{n_1} = 5 + \Delta L_1\)</span>, <span class="math inline">\(L_{n_2} = 25 \times \Delta L_2\)</span>.</li>
+</ul>
+<div id="tbl-params" class="quarto-float quarto-figure quarto-figure-center" data-tbl-colwidths="[85,15]">
+<figure class="quarto-float quarto-float-tbl">
+<div aria-describedby="tbl-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table>
 <colgroup>
 <col style="width: 85%">
 <col style="width: 15%">
@@ -1871,6 +1847,12 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </tr>
 </tbody>
 </table>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-tbl" id="tbl-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Common parameters for all scenarios
+</figcaption>
+</figure>
+</div>
 <div class="footer">
 <p>Experiments</p>
 </div>
@@ -1892,124 +1874,35 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="cache-capacity" class="slide level2">
 <h2>Cache Capacity</h2>
-<ul>
-<li>Placeholder.</li>
-</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_all_075_15.svg" class="quarto-figure quarto-figure-center" style="width:55.0%;height:55.0%"></p>
+</figure>
+</div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities. Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
+</div>
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="cache-capacity-1" class="slide level2">
-<h2>Cache Capacity</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_abilene_075_15_delay.svg"></p>
-<figcaption>VIP/MVIP vs.&nbsp;LFU</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_baselines_abilene_075_15_delay.svg"></p>
-<figcaption>Other baselines</figcaption>
-</figure>
-</div>
-</div></div>
-<div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="cache-capacity-2" class="slide level2">
-<h2>Cache Capacity</h2>
-<div class="columns">
-<div class="column" style="width:47%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_abilene_075_15_hits.svg"></p>
-<figcaption>Cache hits</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:53%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_abilene_075_15_hit_delays.svg"></p>
-<figcaption>Cache read delays</figcaption>
-</figure>
-</div>
-</div></div>
-<div style="font-size: 80%; text-align: center">
-<p>Cache hits and delay due to cache reads. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="cache-capacity-3" class="slide level2">
-<h2>Cache Capacity</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_geant_all_075_15.svg" style="width:55.0%;height:55.0%"></p>
-<figcaption>VIP/MVIP vs.&nbsp;LFU</figcaption>
-</figure>
-</div>
-<div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities. Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="cache-capacity-4" class="slide level2">
 <h2>Cache Capacity</h2>
 <div class="columns">
 <div class="column" style="width:47%;">
@@ -2028,7 +1921,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Cache hits and delay due to cache reads. Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<p>Cache hits and delay due to cache reads. Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2055,20 +1949,24 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/mt_req_geant_delay.svg"></p>
+<p><img data-src="images/mt_req_geant_delay.svg" style="width:90.0%;height:90.0%"></p>
 <figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/zipf_geant_15_delay.svg"></p>
+<p><img data-src="images/zipf_geant_15_delay.svg" style="width:90.0%;height:90.0%"></p>
 <figcaption><span class="math inline">\(\lambda=15\)</span></figcaption>
 </figure>
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span>. Geant topology. <span class="math inline">\(L_{n_2}\)</span> chosen based on minimum delay points for two tier cases.</p>
+<p>Delay with increasing <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span>.</p>
+<p>Geant; <span class="math inline">\(L_{n_2}\)</span> chosen based on minimum delay points for multi-tier.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
 </div>
 </section>
 <section id="more-topologies" class="slide level2 smaller">
@@ -2082,7 +1980,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/alltops_075_15_table.svg" style="width:70.0%;height:70.0%"></p>
-<figcaption>Cache capacity allocation in minimum delay point within budget.</figcaption>
+<figcaption>Cache capacity allocation in minimum delay point within budget.<br>All combinations (<span class="math inline">\(\Delta L_1\)</span>,<span class="math inline">\(\Delta L_2\)</span>) within maximum budget of <span class="math inline">\(\Delta L=8\)</span> tested.</figcaption>
 </figure>
 </div>
 <div class="footer">
@@ -2110,46 +2008,6 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/mt_pen_abilene_15_075.svg"></p>
-<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/mt_pen_abilene_15_05.svg"></p>
-<figcaption><span class="math inline">\(\gamma=0.5\)</span></figcaption>
-</figure>
-</div>
-</div></div>
-<div style="font-size: 80%; text-align: center">
-<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Abilene, <span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="delay-penalty-trade-off-1" class="slide level2">
-<h2>Delay-Penalty Trade-off</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
 <p><img data-src="images/mt_pen_geant_15_075.svg"></p>
 <figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
 </figure>
@@ -2163,7 +2021,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Geant, <span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Geant; <span class="math inline">\(\lambda=15\)</span>.</p>
+<p><span class="math inline">\(\omega\)</span> decreases to the right.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2187,8 +2046,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <section id="interest-aggregation" class="slide level2">
 <h2>Interest Aggregation</h2>
 <div>
-<p>• Further requests (interests) are enqueued if there is already one in-flight.</p>
-<p><span class="fragment" data-fragment-index="2">• Returning data satisfies all enqueued requests.</span></p>
+<p>• Further requests (interests) are aggregated if there is already one in-flight.</p>
+<p><span class="fragment" data-fragment-index="2">• Returning data satisfies all aggregated requests.</span></p>
 </div>
 <div class="r-stack">
 <div class="quarto-figure quarto-figure-center">
@@ -2225,7 +2084,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>VIP vs.&nbsp;MVIP, with and without interest aggregation. Geant, <span class="math inline">\(L_{n_1}=5\)</span>, <span class="math inline">\(L_{n_2}=200\)</span> for MVIP and <span class="math inline">\(L_{n_1}=13\)</span> for VIP.</p>
+<p>VIP vs.&nbsp;MVIP, with and without interest aggregation (IA).</p>
+<p>Geant; <span class="math inline">\(L_{n_1}=5\)</span>, <span class="math inline">\(L_{n_2}=200\)</span> for MVIP and <span class="math inline">\(L_{n_1}=13\)</span> for VIP.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2265,7 +2125,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities under interest aggregation. Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=50\)</span>.</p>
+<p>Delay with increasing cache capacities under IA. Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=50\)</span>.</p>
+<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2305,7 +2166,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Number of cache hits and cache reads issued under interest aggregation. Geant topology, <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
+<p>Number of cache hits and cache reads issued under IA. Geant; <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2345,7 +2206,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay vs.&nbsp;penalty curves, MVIP vs.&nbsp;PA-LFU with and without interest aggregation. Geant, <span class="math inline">\(\lambda=30\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+<p>Delay vs.&nbsp;penalty curves, MVIP vs.&nbsp;PA-LFU with and without interest aggregation. Geant; <span class="math inline">\(\lambda=30\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2569,7 +2430,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn11"><p>“Utility optimal scheduling in processing networks”, Huang, L., &amp; Neely, M. J., Performance Evaluation, 2011 <span class="citation" data-cites="huang2011utility"><a href="#/references" role="doc-biblioref" onclick="">[15]</a></span></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn12"><p>“Utility optimal scheduling in processing networks”, Huang, L., &amp; Neely, M. J., Performance Evaluation, 2011 <span class="citation" data-cites="huang2011utility"><a href="#/references" role="doc-biblioref" onclick="">[15]</a></span></p></li></ol></aside></section>
 <section id="greedy-approach" class="slide level2">
 <h2>Greedy Approach</h2>
 <div class="columns">
@@ -2943,8 +2804,8 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn12"><p>“Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets”, Malak, D., Mutlu, F. V., Zhang, J., &amp; Yeh, E. M., ToN 2023 <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</p></li></ol></aside></section>
-<section id="power-caching-in-wireless-hetnets-2" class="slide level2">
+<aside><ol class="aside-footnotes"><li id="fn13"><p>“Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets”, Malak, D., Mutlu, F. V., Zhang, J., &amp; Yeh, E. M., ToN 2023 <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</p></li></ol></aside></section>
+<section id="power-caching-in-wireless-hetnets-2" class="slide level2" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li>Delay minimization in multi-hop wireless HetNets via caching and power control.</li>
@@ -2981,7 +2842,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn13"><p>“Femtocaching: Wireless content delivery through distributed caching helpers.”, Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., &amp; Caire, G, IEEE Trans. Inf. Theory, 2013 <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn14"><p>“Femtocaching: Wireless content delivery through distributed caching helpers.”, Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., &amp; Caire, G, IEEE Trans. Inf. Theory, 2013 <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.</p></li></ol></aside></section>
 <section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
@@ -2998,7 +2859,7 @@ D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\li
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-5" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
@@ -3020,7 +2881,7 @@ g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, 
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-6" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
@@ -3034,7 +2895,7 @@ g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, 
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-7" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><p><strong>Objective:</strong> Total user request delay.</p></li>
@@ -3055,7 +2916,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section>
-<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller">
+<section id="power-caching-in-wireless-hetnets-8" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
@@ -3146,16 +3007,136 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p>Conclusion &amp; Other Work</p>
 </div>
 </section></section>
-<section>
 <section id="appendices" class="title-slide slide level1 center" data-visibility="uncounted">
 <h1>Appendices</h1>
 
 </section>
-<section id="appendix-a" class="slide level2">
-<h2>Appendix A</h2>
+
+<section>
+<section id="appendix-additional-results" class="title-slide slide level1 center" data-visibility="uncounted">
+<h1>Appendix: Additional Results</h1>
+
+</section>
+<section id="cache-capacity-2" class="slide level2">
+<h2>Cache Capacity</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_abilene_075_15_delay.svg"></p>
+<figcaption>VIP/MVIP vs.&nbsp;LFU</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_baselines_abilene_075_15_delay.svg"></p>
+<figcaption>Other baselines</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
 <ul>
-<li>Placeholder</li>
+<li>Placeholder.</li>
 </ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="cache-capacity-3" class="slide level2">
+<h2>Cache Capacity</h2>
+<div class="columns">
+<div class="column" style="width:47%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_abilene_075_15_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:53%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_abilene_075_15_hit_delays.svg"></p>
+<figcaption>Cache read delays</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Cache hits and delay due to cache reads. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="delay-penalty-trade-off-1" class="slide level2">
+<h2>Delay-Penalty Trade-off</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_abilene_15_075.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_abilene_15_05.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.5\)</span></figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Abilene, <span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>

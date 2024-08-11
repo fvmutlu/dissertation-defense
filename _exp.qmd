@@ -15,18 +15,11 @@
 Experiments
 :::
 
-## Topologies {.smaller}
+## Setup {.smaller visibility="uncounted"}
 
-::: columns
-::: {.column width="50%"}
-::: {layout="[[-1],[-1],[1]]"}
-![Abilene (11 nodes)](images/abilene.svg)
-:::
-:::
-::: {.column width="50%"}
-![GEANT (34 nodes)](images/geant.svg)
-:::
-:::
+![GÉANT GN4-3N (34 nodes) [^geant]](images/geant.svg){width="50%" height="50%"}
+
+[^geant]: The GN4 Phase 3 Network project, https://network.geant.org/gn4-3n/
 
 ::: {.footer}
 Experiments
@@ -35,21 +28,24 @@ Experiments
 ::: {.notes}
 - Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous
 - So the results I'll show here are those that I think most succinctly show that our approach can deliver on our goals
-- To start off, these are the four topologies I conducted experiments over
-- On the left are Abilene and Geant which are real network topologies, and on the right are two stylized graphs
 :::
 
 ## Parameter Reference Table {.smaller}
+
+*Cache capacity budget* $\Delta L = \Delta L_1 + \Delta L_2$ to enable comparisons with single-tier cases; based on the large purchasing cost ratio of DRAM to flash.
+
+- Initial capacities are $L_{n_1} = 5$, $L_{n_2} = 0$.
+- Added capacity for $\Delta L > 0$ is $L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
 
 | Parameter | Value |
 |:-:|:-:|
 |Number of objects in catalog $\mc{K}$|2000|
 |Bandwidth of each link $\abin$, in objects|10|
 |Read rate of tier 1 at each $n$, in objects/sec|25|
-| Admission and eviction costs of tier 1 at each $n$|4, 2|
+|Admission and eviction costs of tier 1 at each $n$|4, 2|
 |Read rate of tier 2 at each $n$, in objects/sec|10|
-| Admission and eviction costs of tier 2 at each $n$|2, 1|
-: Common parameters for all scenarios {tbl-colwidths="[85,15]"}
+|Admission and eviction costs of tier 2 at each $n$|2, 1|
+: Common parameters for all scenarios {#tbl-params tbl-colwidths="[85,15]"}
 
 ::: {.footer}
 Experiments
@@ -61,64 +57,12 @@ Experiments
 
 ## Cache Capacity
 
-- Placeholder.
-
-::: {.footer}
-Experiments
-:::
-
-## Cache Capacity
-
-::: columns
-::: {.column width="50%"}
-![VIP/MVIP vs. LFU](images/size_comp_abilene_075_15_delay.svg)
-:::
-::: {.column width="50%"}
-![Other baselines](images/size_comp_baselines_abilene_075_15_delay.svg)
-:::
-:::
+![](images/size_comp_geant_all_075_15.svg){width=55% height=55% fig-align="center"}
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$.
-:::
+Delay with increasing cache capacities. Geant; $\gamma=0.75$, $\lambda=15$.
 
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Placeholder.
-:::
-
-## Cache Capacity
-
-::: columns
-::: {.column width="47%"}
-![Cache hits](images/size_comp_abilene_075_15_hits.svg)
-:::
-::: {.column width="53%"}
-![Cache read delays](images/size_comp_abilene_075_15_hit_delays.svg)
-:::
-:::
-
-::: {style="font-size: 80%; text-align: center"}
-Cache hits and delay due to cache reads. Abilene, $\gamma=0.75$, $\lambda=15$.
-:::
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Placeholder.
-:::
-
-## Cache Capacity
-
-![VIP/MVIP vs. LFU](images/size_comp_geant_all_075_15.svg){width=55% height=55% fig-align="center"}
-
-::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities. Geant, $\gamma=0.75$, $\lambda=15$.
+$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
 :::
 
 ::: {.footer}
@@ -141,7 +85,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Cache hits and delay due to cache reads. Geant, $\gamma=0.75$, $\lambda=15$.
+Cache hits and delay due to cache reads. Geant; $\gamma=0.75$, $\lambda=15$.
+
+$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
 :::
 
 ::: {.footer}
@@ -156,45 +102,28 @@ Experiments
 
 ::: columns
 ::: {.column width="50%"}
-![$\gamma=0.75$](images/mt_req_geant_delay.svg)
+![$\gamma=0.75$](images/mt_req_geant_delay.svg){width=90% height=90% fig-align="center"}
 :::
 ::: {.column width="50%"}
-![$\lambda=15$](images/zipf_geant_15_delay.svg)
+![$\lambda=15$](images/zipf_geant_15_delay.svg){width=90% height=90% fig-align="center"}
 :::
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing $\lambda$ and $\gamma$. Geant topology. $L_{n_2}$ chosen based on minimum delay points for two tier cases.
+Delay with increasing $\lambda$ and $\gamma$.
+
+Geant; $L_{n_2}$ chosen based on minimum delay points for multi-tier.
+:::
+
+::: {.footer}
+Experiments
 :::
 
 ## More Topologies {.smaller}
 
 ![Delay reduction factor normalized to delay with no caching.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
 
-![Cache capacity allocation in minimum delay point within budget.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Placeholder.
-:::
-
-## Delay-Penalty Trade-off
-
-::: columns
-::: {.column width="50%"}
-![$\gamma=0.75$](images/mt_pen_abilene_15_075.svg)
-:::
-::: {.column width="50%"}
-![$\gamma=0.5$](images/mt_pen_abilene_15_05.svg)
-:::
-:::
-
-::: {style="font-size: 80%; text-align: center"}
-Delay vs. penalty curves for MVIP and PA-LFU policies. Abilene, $\lambda=15$. $\omega$ decreases to the right.
-:::
+![Cache capacity allocation in minimum delay point within budget.<br>All combinations ($\Delta L_1$,$\Delta L_2$) within maximum budget of $\Delta L=8$ tested.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
 
 ::: {.footer}
 Experiments
@@ -216,7 +145,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay vs. penalty curves for MVIP and PA-LFU policies. Geant, $\lambda=15$. $\omega$ decreases to the right.
+Delay vs. penalty curves for MVIP and PA-LFU policies. Geant; $\lambda=15$.
+
+$\omega$ decreases to the right.
 :::
 
 ::: {.footer}
@@ -230,9 +161,9 @@ Experiments
 ## Interest Aggregation
 
 ::: {.incremental}
-• Further requests (interests) are enqueued if there is already one in-flight.
+• Further requests (interests) are aggregated if there is already one in-flight.
 
-[• Returning data satisfies all enqueued requests.]{.fragment fragment-index=2}
+[• Returning data satisfies all aggregated requests.]{.fragment fragment-index=2}
 :::
 
 ::: {.r-stack}
@@ -257,7 +188,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-VIP vs. MVIP, with and without interest aggregation. Geant, $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
+VIP vs. MVIP, with and without interest aggregation (IA).
+
+Geant; $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 :::
 
 ::: {.footer}
@@ -280,7 +213,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities under interest aggregation. Geant, $\gamma=0.75$, $\lambda=50$.
+Delay with increasing cache capacities under IA. Geant; $\gamma=0.75$, $\lambda=50$.
+
+$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
 :::
 
 ::: {.footer}
@@ -303,7 +238,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Number of cache hits and cache reads issued under interest aggregation. Geant topology, $\lambda=50$, $\gamma=0.75$.
+Number of cache hits and cache reads issued under IA.
+
+Geant; $\lambda=50$, $\gamma=0.75$.
 :::
 
 ::: {.footer}
@@ -326,7 +263,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay vs. penalty curves, MVIP vs. PA-LFU with and without interest aggregation. Geant, $\lambda=30$. $\omega$ decreases to the right.
+Delay vs. penalty curves, MVIP vs. PA-LFU with and without IA.
+
+Geant; $\lambda=30$, $\omega$ decreases to the right.
 :::
 
 ::: {.footer}

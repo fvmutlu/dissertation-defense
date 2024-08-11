@@ -1,0 +1,72 @@
+# Appendix: Additional Results {visibility="uncounted"}
+
+## Cache Capacity
+
+::: columns
+::: {.column width="50%"}
+![VIP/MVIP vs. LFU](images/size_comp_abilene_075_15_delay.svg)
+:::
+::: {.column width="50%"}
+![Other baselines](images/size_comp_baselines_abilene_075_15_delay.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$.
+
+$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier. 
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Placeholder.
+:::
+
+## Cache Capacity
+
+::: columns
+::: {.column width="47%"}
+![Cache hits](images/size_comp_abilene_075_15_hits.svg)
+:::
+::: {.column width="53%"}
+![Cache read delays](images/size_comp_abilene_075_15_hit_delays.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Cache hits and delay due to cache reads. Abilene, $\gamma=0.75$, $\lambda=15$.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Placeholder.
+:::
+
+## Delay-Penalty Trade-off
+
+::: columns
+::: {.column width="50%"}
+![$\gamma=0.75$](images/mt_pen_abilene_15_075.svg)
+:::
+::: {.column width="50%"}
+![$\gamma=0.5$](images/mt_pen_abilene_15_05.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay vs. penalty curves for MVIP and PA-LFU policies. Abilene, $\lambda=15$. $\omega$ decreases to the right.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Placeholder.
+:::
