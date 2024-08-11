@@ -99,7 +99,7 @@ Virtual control plane model using the [VIP framework]{.body-highlight}[^vipog]:
 :::
 :::
 
-[^vipog]: "VIP: A framework for joint dynamic forwarding and caching in named data networks", Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., & Leong, D., ACM ICN 2014 @yeh2014vip
+[^vipog]: "VIP: A framework for joint dynamic forwarding and caching in named data networks", Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., & Leong, D., ACM ICN 2014 @yeh2014vip.
 
 ::: {.footer}
 System Model
@@ -113,7 +113,7 @@ System Model
 :::
 
 ## VIP Queue Dynamics
-[VIP queuing dynamics]{.body-highlight} with multi-tiered caching for object $\kin$ at node $\nin$, where $(x)^+ = max(x,0)$:
+[VIP queuing dynamics]{.body-highlight} with multi-tiered caching for object $\kin$ at node $\nin$:
 
 ::: {style="font-size: 70%;"}
 ```{=tex}
@@ -139,6 +139,8 @@ $\mathcal{J}_n$: Set of cache tiers at $n$.
 $r_{n_j}$: Read rate of tier $j$ at $n$.
 
 $s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$.
+
+$(x)^+ = max(x,0)$
 :::
 :::
 

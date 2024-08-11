@@ -42,7 +42,7 @@ Introduction
     - Supported demonstrations during SC21 and SC22.
 :::
 
-[^ndise]: "N-DISE: NDN-based data distribution for large-scale data-intensive science", Wu, Y., Mutlu, F. V., Liu, Y., Yeh, E., Liu, R., ACM ICN 2022 @wu2022ndise
+[^ndise]: "N-DISE: NDN-based data distribution for large-scale data-intensive science", Wu, Y., Mutlu, F. V., Liu, Y., Yeh, E., Liu, R., ACM ICN 2022 @wu2022ndise.
 
 ::: {.footer}
 Introduction
@@ -86,7 +86,7 @@ Introduction
 -   Open problem: "Expanding capacities with persistent memory or NVMe disk storage require novel multi-tier caching algorithms."[^ndndpdk]
 :::
 
-[^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", Shi, J., Pesavento, D., & Benmohamed, L., ACM ICN 2020 @shi2020ndn
+[^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", Shi, J., Pesavento, D., & Benmohamed, L., ACM ICN 2020 @shi2020ndn.
 
 ::: {.footer}
 Introduction

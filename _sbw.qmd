@@ -98,7 +98,7 @@ Perform [caching]{.body-highlight} by choosing $r\knjt$ and $s\knjt$ for each $\
 :::
 
 ::: {.footer}
-Optimization Framework
+Virtual Plane Cache Read Rate Control
 :::
 
 ::: {.notes}
@@ -128,8 +128,10 @@ Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq
     \end{array} \right.
 \end{equation*}
 ```
+:::
 
-This is like the *backpressure* solution for forwarding.
+::: {style="font-size: 90%;"}
+This is similar to *backpressure* forwarding solution from earlier.
 :::
 
 ::: {.footer}
@@ -139,7 +141,7 @@ Virtual Plane Cache Read Rate Control
 ## Theorem: Throughput Optimality
 
 ::: {style="font-size: 80%;"}
-For arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\epsilon}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then:
+For arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$, algorithm achieves:
 
 ```{=tex}
 \begin{equation*}
@@ -191,13 +193,11 @@ When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at i
 ```
 :::
 
-<hr>
-
 ::: columns
-::: {.column width=50% style="font-size: 75%;"}
+::: {.column width=50% style="font-size: 85%;"}
 $F\knjt$: Actual amount of VIPs of $k$ removed via tier $j$ read rate allocation in slot $t$.
 :::
-::: {.column width=50% style="font-size: 75%;"}
+::: {.column width=50% style="font-size: 85%;"}
 $\bar{F}^k_{n_j}(t) \triangleq \frac{1}{T} \sum^t_{t'=t-T+1} F^k_{n_j}(t')$.
 :::
 :::
@@ -208,16 +208,19 @@ Virtual Plane Cache Read Rate Control
 
 ## Policy Performance {.smaller}
 
+::: {.incremental}
 - This approach yields poor performance in the data plane.
-    - *Significant underutilization* of slow tier.
-- We attribute this outcome to virtual plane *queue underflows*.
-    - Data plane policies are not fed actionable flow information for many objects in a timely manner.
-- Allocation problem under *"no-underflow"* constraints is difficult to solve [^pmw].
-    - Backpressure solution no longer optimal.
-    - All control variables must be optimized in combination.
-    - Non-convex problem with integer variables.
+    - [Significant underutilization]{.body-highlight-red} of slow tier.
+- We attribute this outcome to virtual plane ***queue underflows***.
+    - Placeholder.
+    - Data plane policies not fed actionable flow information for many objects in a timely manner.
+- Allocation problem under ***no-underflow*** constraints is difficult to solve [^pmw].
+    - Backpressure solution no longer feasible.
+    - Caching and forwarding allocations tied together due to constraint.
+    - Integer program; relaxation is non-convex
+:::
 
-[^pmw]: "Utility optimal scheduling in processing networks", Huang, L., & Neely, M. J., Performance Evaluation, 2011 @huang2011utility
+[^pmw]: "Utility optimal scheduling in processing networks", Huang, L., & Neely, M. J., Performance Evaluation, 2011 @huang2011utility.
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
@@ -269,7 +272,7 @@ We propose a greedy iterative algorithm:
     - Time complexity dominated by sorting, worst case order of $O(K \log K)$.
 - Then allocate link bandwidth to largest backlog differential objects.
     - Complexity of $O(DK \log DK)$ where $D$ is a given node's degree.
-- Does not allocate more service than existing backlog; terminates when:
+- ***Feasible***, i.e. does not allocate more service than existing backlog; terminates when:
     - All cache capacity / bandwidth and all link bandwidth is allocated, or
     - All backlog is met by allocated service.
 :::

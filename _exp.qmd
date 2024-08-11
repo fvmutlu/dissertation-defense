@@ -80,7 +80,7 @@ Experiments
 ![Cache hits](images/size_comp_geant_075_15_hits.svg)
 :::
 ::: {.column width="53%"}
-![Cache read delays](images/size_comp_geant_075_15_hit_delays.svg)
+![Second tier read delays](images/size_comp_geant_075_15_hit_delays.svg)
 :::
 :::
 
@@ -171,6 +171,20 @@ Experiments
 
 ![](images/ia_2.svg){.fragment fragment-index=2 width="648" height="360" fig-align="center"}
 :::
+
+::: {.footer}
+Experiments
+:::
+
+## Interest Aggregation {visibility="uncounted"}
+
+• Further requests (interests) are aggregated if there is already one in-flight.
+
+• Returning data satisfies all aggregated requests.
+
+• Traditional view (*line-rate*) of caching suggests caching offsets aggregation benefit and effect is proportional with capacity[^agg].
+
+[^agg]: "Characterizing interest aggregation in content-centric networks.", IFIP Networking, 2016 @dabirmoghaddam2016characterizing.
 
 ::: {.footer}
 Experiments

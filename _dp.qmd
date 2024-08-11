@@ -102,15 +102,13 @@ Define virtual plane [outgoing VIP flow]{.body-highlight} average:
 \end{equation*}
 ```
 
-When request for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau$, [data plane forwarding policy]{.body-highlight} forwards it to[^dpfwd]:
+When request for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau$, [data plane forwarding policy]{.body-highlight} forwards it to @yeh2014vip:
 
 ```{=tex}
 \begin{equation*}
     b^k_n(\tau) \triangleq \argmax_{b:(n,b) \in \mc{L}^k} \bar{F}_{nb}^k(t)
 \end{equation*}
 ```
-
-[^dpfwd]: This follows from Yeh et al. (2014) @yeh2014vip.
 
 ::: {.footer}
 Data Plane Strategy

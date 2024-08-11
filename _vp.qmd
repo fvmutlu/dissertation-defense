@@ -3,7 +3,7 @@
 - We seek an algorithm that can:
     - Guarantee stability of all VIP queues.
     - Maintain total VIP queue backlog small.
-    - Keep cache-related costs minimal.
+    - Keep cache utilization costs minimal.
 - Placeholder.
 
 ::: {.footer}
@@ -102,11 +102,11 @@ where $\omega \geq 0$ is the [penalty importance weight]{.body-highlight} and
 ```
 ```{=tex}
 \begin{equation*}
-    \mc{L}(\mathbf{V}(t)) \frac{1}{2} \triangleq \sum\limits_{\nin, \kin} (V^k_n(t))^2
+    \mc{L}(\mathbf{V}(t)) \triangleq \frac{1}{2} \sum\limits_{\nin, \kin} (V^k_n(t))^2
 \end{equation*}
 ```
 
-[^dpp]: "Stochastic network optimization with application to communication and queueing systems.", M. J. Neely, Springer Nature, 2022. @neely2022stochastic
+[^dpp]: "Stochastic network optimization with application to communication and queueing systems.", M. J. Neely, Springer Nature, 2022 @neely2022stochastic.
 
 ::: {.footer}
 Optimization Framework
@@ -286,7 +286,7 @@ Perform [forwarding]{.body-highlight} by choosing $\mu^k_{ab}(t)$ for each $\kin
 $C_{ab}$: Capacity of link $(a,b)$.
 :::
 ::: {.column width="50%" style="font-size: 75%;"}
-$\mc{L}^k$: Set of links allowed to transmit VIPs of $k$, determined by routing policy.
+$\mc{L}^k$: Set of links allowed to transmit VIPs of $k$ as per routing policy.
 :::
 :::
 
@@ -302,22 +302,19 @@ Optimal solution to [forwarding]{.body-highlight} problem is obtained by choosin
 \begin{equation*}
    \mu^k_{ab}(t) =
    \left\{ \begin{array}{ll}
-      C_{ba}, & \text{if} \; k = k^*_{ab}(t) \; \text{and} \; W^k_{ab}(t) > 0 \\
+      C_{ba}, & \text{if} \; k = k^*_{ab}(t) \; \text{and} \; V^k_a(t) > V^k_b(t) \\
       0, & \text{otherwise}
    \end{array} \right.
 \end{equation*}
 ```
 ```{=tex}
 \begin{equation*}
-\begin{split}
-   W^k_{ab}(t) & \triangleq V^k_a(t) - V^k_b(t), \\
-   k^*_{ab}(t) & \triangleq \argmax\limits_{\{k: \abin^k\}} W^k_{ab}(t)
-\end{split}
+   k^*_{ab}(t) \triangleq \argmax\limits_{k: \abin^k} \left(V^k_a(t) - V^k_b(t)\right)
 \end{equation*}
 ```
 :::
 
-This is the well-known *backpressure* solution, also used in Yeh et al. (2014) @yeh2014vip.
+This is the well-known *backpressure* solution, also used in @yeh2014vip.
 
 ::: {.footer}
 Optimization Framework
@@ -330,7 +327,7 @@ Optimization Framework
 
 ## Theorem: Trade-off {.smaller}
 
-For arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\epsilon}$ such that $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, then the proposed algorithm achieves the following:
+Algorithm achieves following [trade-off]{.body-highlight} for arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$:
 
 ::: {style="font-size: 90%;"}
 ```{=tex}
@@ -359,7 +356,7 @@ For arrival rate vector $\boldsymbol{\lambda}$, if there exists $\boldsymbol{\ep
 \end{equation*}
 ```
 
-$\bar{P}(\boldsymbol{\lambda})$: Minimum expected time-average sum penalty achievable by feasible stabilizing policy.
+$\bar{P}(\boldsymbol{\lambda})$: Minimum expected time-average sum penalty achievable by feasible stationary policy.
 :::
 
 ::: {.footer}
