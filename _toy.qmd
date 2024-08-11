@@ -11,7 +11,7 @@
 |$r_{n_j}$|Read rate of tier $j$ at $n$|
 |$L_{n_j}$|Cache size of tier $j$ at $n$|
 :::
-::: {.column width="50%"}
+::: {.column width="50%" style="margin-top: 20px;"}
 - Catalog of 1000 objects, ranked in popularity by [Zipf's law]{.body-highlight}
 - Objects cached by rank:
     - Tier 1: 1-10
@@ -34,17 +34,17 @@ Introduction
 ## Toy Example {.smaller}
 
 ::: columns
-::: {.column width="50%"}
-![](images/zipf_1k.svg)
+::: {.column width="50%" style="font-size: 95%;"}
+![](images/zipf_1k.svg){style="display: block; margin-top: 0;"}
 
--  Most popular 1% of objects make up one fifth of all requests
--  Most popular 10% of objects make up half of all requests
+-  Most popular 1% of objects make up one fifth of all requests.
+-  Most popular 10% of objects make up half of all requests.
 :::
-::: {.column width="50%"}
-![](images/small_tiers.svg)
+::: {.column width="50%" style="font-size: 95%;"}
+![](images/small_tiers.svg){style="display: block; margin-top: 0;"}
 
--  Second tier operates slower but improves delay for high request rates
--  Part of uplink traffic shifted to second tier reducing congestion
+-  Second tier operates slower but improves delay for high request rates.
+-  Part of uplink traffic shifted to second tier reducing congestion.
 :::
 :::
 
@@ -61,19 +61,21 @@ Introduction
 ## Toy Example {.smaller visibility="uncounted"}
 
 ::: columns
-::: {.column width="50%"}
-![](images/zipf_1k.svg)
+::: {.column width="50%" style="font-size: 95%;"}
+![](images/zipf_1k.svg){style="display: block; margin-top: 0;"}
 
--  Most popular 1% of objects make up one fifth of all requests
--  Most popular 10% of objects make up half of all requests
+-  Most popular 1% of objects make up one fifth of all requests.
+-  Most popular 10% of objects make up half of all requests.
 :::
-::: {.column width="50%"}
-![](images/all_tiers.svg)
+::: {.column width="50%" style="font-size: 95%;"}
+![](images/all_tiers.svg){style="display: block; margin-top: 0;"}
 
--  Addition of second tier capacity impacts performance negatively
--  Diverted traffic approaches rate limit of second tier, making it a bottleneck
+-  Addition of second tier capacity impacts performance negatively.
+-  Diverted traffic approaches rate limit of second tier, making it a bottleneck [^mansilha].
 :::
 :::
+
+[^mansilha]: "Hierarchical content stores in high-speed ICN routers: Emulation and prototype implementation", Mansilha, Rodrigo B., et al., ACM ICN 2015, @mansilha2015hierarchical.
 
 ::: {.footer}
 Introduction

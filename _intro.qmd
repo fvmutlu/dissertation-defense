@@ -7,6 +7,8 @@
 -  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
     -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
 
+[^coupling]:"*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014 @rossini2014coupling.
+
 ::: {.footer}
 Introduction
 :::
@@ -16,8 +18,6 @@ Introduction
 -  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
     -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
 -  Caches are not free to use; each operation has an energy cost.
-
-[^coupling]:"*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014
 
 ::: columns
 ::: {.column width="42%"}
@@ -40,8 +40,6 @@ Introduction
     -  SSDs also wear out over time as their contents are overwritten.
 
 ![NVMe Endurance](images/ssd_endurance.png){width=70% height=70%}
-
-[^coupling]:"*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014
 
 ::: {.footer}
 Introduction

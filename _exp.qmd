@@ -61,6 +61,14 @@ Experiments
 
 ## Cache Capacity
 
+- Placeholder.
+
+::: {.footer}
+Experiments
+:::
+
+## Cache Capacity
+
 ::: columns
 ::: {.column width="50%"}
 ![VIP/MVIP vs. LFU](images/size_comp_abilene_075_15_delay.svg)
@@ -76,6 +84,10 @@ Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$.
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- Placeholder.
 :::
 
 ## Cache Capacity
@@ -97,6 +109,10 @@ Cache hits and delay due to cache reads. Abilene, $\gamma=0.75$, $\lambda=15$.
 Experiments
 :::
 
+::: {.notes}
+- Placeholder.
+:::
+
 ## Cache Capacity
 
 ![VIP/MVIP vs. LFU](images/size_comp_geant_all_075_15.svg){width=55% height=55% fig-align="center"}
@@ -107,6 +123,10 @@ Delay with increasing cache capacities. Geant, $\gamma=0.75$, $\lambda=15$.
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- Placeholder.
 :::
 
 ## Cache Capacity
@@ -128,6 +148,10 @@ Cache hits and delay due to cache reads. Geant, $\gamma=0.75$, $\lambda=15$.
 Experiments
 :::
 
+::: {.notes}
+- Placeholder.
+:::
+
 ## Request Pattern Parameters
 
 ::: columns
@@ -145,12 +169,16 @@ Delay with increasing $\lambda$ and $\gamma$. Geant topology. $L_{n_2}$ chosen b
 
 ## More Topologies {.smaller}
 
-![Placeholder.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
+![Delay reduction factor normalized to delay with no caching.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
 
-![Placeholder.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
+![Cache capacity allocation in minimum delay point within budget.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- Placeholder.
 :::
 
 ## Delay-Penalty Trade-off
@@ -172,6 +200,10 @@ Delay vs. penalty curves for MVIP and PA-LFU policies. Abilene, $\lambda=15$. $\
 Experiments
 :::
 
+::: {.notes}
+- Placeholder.
+:::
+
 ## Delay-Penalty Trade-off
 
 ::: columns
@@ -191,9 +223,23 @@ Delay vs. penalty curves for MVIP and PA-LFU policies. Geant, $\lambda=15$. $\om
 Experiments
 :::
 
+::: {.notes}
+- Placeholder.
+:::
+
 ## Interest Aggregation
 
-Placeholder.
+::: {.incremental}
+• Further requests (interests) are enqueued if there is already one in-flight.
+
+[• Returning data satisfies all enqueued requests.]{.fragment fragment-index=2}
+:::
+
+::: {.r-stack}
+![](images/ia_1.svg){width="648" height="360" fig-align="center"}
+
+![](images/ia_2.svg){.fragment fragment-index=2 width="648" height="360" fig-align="center"}
+:::
 
 ::: {.footer}
 Experiments
@@ -218,6 +264,10 @@ VIP vs. MVIP, with and without interest aggregation. Geant, $L_{n_1}=5$, $L_{n_2
 Experiments
 :::
 
+::: {.notes}
+- The scale here is a bit deceptive, but in terms of ratios, overall improvement from multi-tiered caching is roughly 40% with no aggregation and 20% with aggregation.
+:::
+
 ## Interest Aggregation
 
 ::: columns
@@ -235,6 +285,10 @@ Delay with increasing cache capacities under interest aggregation. Geant, $\gamm
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- Placeholder.
 :::
 
 ## Interest Aggregation
@@ -256,6 +310,10 @@ Number of cache hits and cache reads issued under interest aggregation. Geant to
 Experiments
 :::
 
+::: {.notes}
+- Placeholder.
+:::
+
 ## Interest Aggregation
 
 ::: columns
@@ -273,4 +331,8 @@ Delay vs. penalty curves, MVIP vs. PA-LFU with and without interest aggregation.
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- Placeholder.
 :::
