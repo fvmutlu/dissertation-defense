@@ -1,20 +1,21 @@
 ## Power & Caching in Wireless HetNets
 
-- Delay minimization in multi-hop wireless HetNets via caching and power control (led by Derya Malak)
+- Delay minimization in multi-hop wireless HetNets via caching and power control[^hetnetref].
 
-<img src="images/hetnet.svg" style="display: block; margin-left: auto; margin-right: auto; width: 40%; height: 40%;">
+<img src="images/hetnet.svg" style="display: block; margin-left: auto; margin-right: auto; width: 45%; height: 45%;">
+
+[^hetnetref]: "Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets", Malak, D., Mutlu, F. V., Zhang, J., & Yeh, E. M., ToN 2023 @malak2023joint.
 
 ::: {.footer}
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets
+## Power & Caching in Wireless HetNets {visibility="uncounted"}
 
-- Delay minimization in multi-hop wireless HetNets via caching and power control
-- Contributed with:
-    - Joint convexity analysis of optimization problem
-    - Projected subgradient method algorithm for finding local minima
-    - Simulator built in Julia, numerical experiments using said simulator
+- Delay minimization in multi-hop wireless HetNets via caching and power control.
+- Individual contributions:
+    - Subgradient projection algorithm for finding local minima.
+    - Numerical experiments using model built in Julia.
 
 ::: {.footer}
 Conclusion & Other Work
@@ -24,19 +25,21 @@ Conclusion & Other Work
 
 ::: columns
 ::: {.column width=50%}
-**Model**: Arbitrary multi-hop wireless heterogenous network (HetNet) topology:
+**Model**: Multi-hop wireless network with *helpers*[^shanmugam]:
 
--   MCs, SCs, and users; MCs and SCs have wireline backhaul connections
--   All wireless transmissions share channel, i.e. no interference management
--   All nodes can be equipped with caches
--   Pre-determined shortest path (in hops) routing
+-   MCs, SCs, and users; MCs and SCs have wireline backhaul connections.
+-   All wireless transmissions interfere with each other.
+-   All nodes can be equipped with caches.
+-   Fixed shortest path routing.
 
-**Goal**: Minimize delay in network by controlling power and caching allocation
+**Goal**: Minimize delay in network by controlling power and caching allocations.
 :::
 ::: {.column width=50%}
-![HetNet illustration](images/hetnet.svg)
+![HetNet illustration](images/hetnet.svg){style="display: block; transform: translateY(25%);"}
 :::
 :::
+
+[^shanmugam]: "Femtocaching: Wireless content delivery through distributed caching helpers.", Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., & Caire, G, IEEE Trans. Inf. Theory, 2013 @shanmugam2013femtocaching.
 
 ::: {.footer}
 Conclusion & Other Work
@@ -44,86 +47,93 @@ Conclusion & Other Work
 
 ## Power & Caching in Wireless HetNets {.smaller}
 
-**Optimization**: Minimize total delay of user requests:
+- **Objective:** Total user request delay.
 
--   Wireless link transmission delay dependent on SINR
+```{=tex}
+\begin{equation*}
+D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
+\end{equation*}
+```
+
+where
+
+```{=tex}
+\begin{equation*}
+D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\limits_{l=1}^k (1-x_{p_l i})
+\end{equation*}
+```
+
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
+
+- **Objective:** Total user request delay.
+- **Challenge 1:** Problem is NP-hard due to the *caching component* @shanmugam2013femtocaching.
+    - Convex relaxation on *binary caching variables* leads to reduced-complexity formulation (RCF).
+        ```{=tex}
+        \begin{equation*}
+        D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
+        \end{equation*}
+        ```
+        ```{=tex}
+        \begin{equation*}
+        D_{(i,p)}(Y,S)={\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S)) g_{p_k i}(Y) }
+        \end{equation*}
+        ```
+        ```{=tex}
+        \begin{equation*}
+        g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, y_{p_li}\in [0, 1]
+        \end{equation*}
+        ```
+        
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
+
+- **Objective:** Total user request delay.
+- **Challenge 1:** Problem is NP-hard due to the *caching component* @shanmugam2013femtocaching.
+    - Convex relaxation on *binary caching variables* leads to reduced-complexity formulation (RCF).
+    - Given fixed power allocations $S$, polynomial-time $1-1/e$ approximation can be constructed @ioannidis2017jointly. 
+        
+::: {.footer}
+Conclusion & Other Work
+:::
+
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
+
+- **Objective:** Total user request delay.
+- **Challenge 1:** Problem is NP-hard due to the *caching component* @shanmugam2013femtocaching.
+    - Convex relaxation on *binary caching variables* leads to reduced-complexity formulation (RCF).
+    - Given fixed power allocations $S$, polynomial-time $1-1/e$ approximation can be constructed @ioannidis2017jointly. 
+- **Challenge 2:** Problem is not jointly convex due to interference-dependent link costs.
     ```{=tex}
-    \begin{equation}
-    \text{SINR}_{vu}(S)=\frac{ G_{vu}s_{vu}}{N_u+  \sum\limits_{j\in V\backslash v}G_{ju}\sum\limits_{w}s_{jw}+G_{vu}\sum\limits_{w\neq u}s_{vw}}
-    \end{equation}
-    ```
-    ```{=tex}
-    \begin{equation}
+    \begin{equation*}
     f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
-    \end{equation}
+    \end{equation*}
     ```
-
+    ```{=tex}
+    \begin{equation*}
+    \text{SINR}_{vu}(S)=\frac{ G_{vu}s_{vu}}{N_u+  \sum\limits_{j\in V\backslash v}G_{ju}\sum\limits_{w}s_{jw}+G_{vu}\sum\limits_{w\neq u}s_{vw}}
+    \end{equation*}
+    ```
+    
 ::: {.footer}
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 
-**Optimization**: Minimize total delay of user requests:
-
--   Wireless link transmission delay dependent on SINR
--   Problem is NP-hard due to integer constraints on caching variables
-    ```{=tex}
-    \begin{equation}
-    D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\limits_{l=1}^k (1-x_{p_l i})
-    \end{equation}
-    ```
-    ```{=tex}
-    \begin{equation}
-    D^o(X,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)}{D_{(i,p)}^o(X,S)}}
-    \end{equation}
-    ```
-
-::: {.footer}
-Conclusion & Other Work
-:::
-
-## Power & Caching in Wireless HetNets {.smaller}
-
-**Optimization**: Minimize total delay of user requests:
-
--   Wireless link transmission delay dependent on SINR
--   Problem is NP-hard due to integer constraints on caching variables
--   Convex relaxation on these leads to reduced-complexity formulation (RCF)
-    ```{=tex}
-    \begin{equation}
-    D_{(i,p)}(Y,S)={\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S)) g_{p_k i}(Y) }
-    \end{equation}
-    ```
-    ```{=tex}
-    \begin{equation}
-    g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, y_{p_li}\in [0, 1]
-    \end{equation}
-    ```
-    ```{=tex}
-    \begin{equation}
-    D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
-    \end{equation}
-    ```
-
-::: {.footer}
-Conclusion & Other Work
-:::
-
-## Power & Caching in Wireless HetNets {.smaller}
-
-**Optimization**: Minimize total delay of user requests:
-
--   Wireless link transmission delay dependent on SINR
--   Problem is NP-hard due to integer constraints on caching variables
--   Convex relaxation on these leads to reduced-complexity formulation (RCF)
-    ```{=tex}
-    \begin{equation}
-    D(Y,S)=\sum\limits_{(i,p)\in\mathcal{R}}{\lambda_{(i,p)} D_{(i,p)}(Y,S)}
-    \end{equation}
-    ```
--   RCF is not jointly convex in power and caching
-
+- **Objective:** Total user request delay.
+- **Challenge 1:** Problem is NP-hard due to the *caching component* @shanmugam2013femtocaching.
+    - Convex relaxation on *binary caching variables* leads to reduced-complexity formulation (RCF).
+    - Given fixed power allocations $S$, polynomial-time $1-1/e$ approximation can be constructed @ioannidis2017jointly. 
+- **Challenge 2:** Problem is not jointly convex due to interference-dependent link costs.
+    - It can be shown to be *biconvex* in logarithms of power variables under high SINR conditions, allowing *alternating optimization* method @malak2023joint.
+    
 ::: {.footer}
 Conclusion & Other Work
 :::
@@ -132,7 +142,7 @@ Conclusion & Other Work
 
 ::: columns
 ::: {.column width=50%}
-::: {style="font-size: 90%;"}
+::: {style="font-size: 80%;"}
 ```pseudocode
 #| html-line-number: true
 \begin{algorithm}
@@ -151,8 +161,6 @@ Conclusion & Other Work
 \end{algorithm}
 ```
 :::
-:::
-::: {.column width=50%}
 ::: {style="font-size: 80%;"}
 ```{=tex}
 \begin{equation*}
@@ -163,6 +171,15 @@ Conclusion & Other Work
 \end{split}
 \end{equation*}
 ```
+::: {style="font-size: 80%;"}
+$\hat{D}^t = \min_{j = 0,\cdots,t} D(Y^t,S^t) - \delta_t$; estimate of local minimum.
+$\mc{P}_{\mc{D}}(A)$; projection of $A$ into set $\mc{D}$.
+:::
+:::
+:::
+::: {.column width=50%}
+::: {style="font-size: 100%;"}
+- Placeholder.
 :::
 :::
 :::
