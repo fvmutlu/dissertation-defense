@@ -106,7 +106,7 @@ where $\omega \geq 0$ is the [penalty importance weight]{.body-highlight} and
 \end{equation*}
 ```
 
-[^dpp]: "Energy optimal control for time-varying wireless networks.", M. J. Neely, IEEE Trans. Inf. Theory, 2006.
+[^dpp]: "Stochastic network optimization with application to communication and queueing systems.", M. J. Neely, Springer Nature, 2022. @neely2022stochastic
 
 ::: {.footer}
 Optimization Framework
@@ -191,7 +191,7 @@ Optimization Framework
 ## Lemma: Caching Solution
 
 ::: {style="font-size: 80%;"}
-Use equal object sizes, decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
+Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
 :::
 
 ![](images/transform.svg){width="75%" height="75%" fig-align="center"}
@@ -204,10 +204,10 @@ Optimization Framework
 - Placeholder.
 :::
 
-## Lemma: Caching Solution
+## Lemma: Caching Solution {visibility="uncounted"}
 
 ::: {style="font-size: 80%;"}
-Use equal object sizes, decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
+Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
 :::
 
 ::: {style="font-size: 70%;"}
@@ -245,10 +245,10 @@ Optimization Framework
 - Luckily, there are methods that can solve this problem in polynomial time. We specifically rely on a modification of the Jonker-Volgenant algorithm.
 :::
 
-## Caching Solution
+## Lemma: Caching Solution {visibility="uncounted"}
 
 ::: {style="font-size: 80%;"}
-Use equal object sizes, decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
+Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
 
 - Variety of polynomial time algorithms exist; mostly variants of the Hungarian method.
 - We use one such variant[^crouse2d] with worst case complexity of $O(L^2_{tot}K)$, where $L_{tot} = \sum_{\jin} L_{n_j}$.
@@ -291,9 +291,9 @@ Optimization Framework
 :::
 
 ## Virtual Plane Forwarding
-Optimal solution to forwarding problem is obtained by choosing $\mu^k_{ab}(t)$ as follows.
+Optimal solution to [forwarding]{.body-highlight} problem is obtained by choosing $\mu^k_{ab}(t)$ as follows.
 
-::: {style="font-size: 70%;"}
+::: {style="font-size: 75%;"}
 ```{=tex}
 \begin{equation*}
    \mu^k_{ab}(t) =
@@ -313,9 +313,7 @@ Optimal solution to forwarding problem is obtained by choosing $\mu^k_{ab}(t)$ a
 ```
 :::
 
-This is the well-known *backpressure* solution, used in[^vipog].
-
-[^vipog]: "VIP: A framework for joint dynamic forwarding and caching in named data networks", Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., & Leong, D., ACM ICN 2014
+This is the well-known *backpressure* solution, also used in Yeh et al. (2014) @yeh2014vip.
 
 ::: {.footer}
 Optimization Framework

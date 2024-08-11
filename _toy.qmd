@@ -31,7 +31,7 @@ Introduction
 - If the forwarder can respond to a request from one its cache tiers, it does so instead of forwarding it to the server. There is a fixed caching policy at the forwarder, according to a priori knowledge of object popularities, as you can see on the screen.
 :::
 
-## Case for Additional, Slower Caches {.smaller}
+## Toy Example {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
@@ -58,7 +58,7 @@ Introduction
 - This can be linked directly to our observation from Zipf's law, because even though the second tier has a larger amount of objects cached, the frequency of requests that hit the second tier does not exceed its read capacity, since those objects are less popular.
 :::
 
-## Case for Additional, Slower Caches {.smaller}
+## Toy Example {.smaller visibility="uncounted"}
 
 ::: columns
 ::: {.column width="50%"}

@@ -61,54 +61,22 @@ System Model
 ::: {.column width=80%}
 We propose following [multi-tiered caching model]{.body-highlight} properties:
 
--   Any node can have any number of cache tiers.
+• Any node can have any number of cache tiers.
+
+• A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight}).
+
+[• An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node.]{.fragment fragment-index=1}
+
+[• Each admission or eviction has an associated [utilization cost]{.body-highlight}.]{.fragment fragment-index=2}
 :::
 ::: {.column width=20%}
-<img src="images/tier1_admit.svg" style="display: block; margin-left: auto; margin-right: 10px; width: 80%; height: 80%; transform: translateY(25%);">
-:::
-:::
+::: {.r-stack}
+![](images/tier1_admit.svg){.fragment .fade-out fragment-index=1 width="648" height="360" style="display: block; margin-left: auto; margin-right: 10px; transform: translateY(25%);"}
 
-::: {.footer}
-System Model
+![](images/tier2_admit.svg){.fragment .fade-in-then-out fragment-index=1 width="648" height="360" style="display: block; margin-left: auto; margin-right: 10px; transform: translateY(25%);"}
+
+![](images/migration.svg){.fragment .fade-in fragment-index=2 width="648" height="360" style="display: block; margin-left: auto; margin-right: 10px; transform: translateY(25%);"}
 :::
-
-::: {.notes}
-- The multi-tiered caching model I propose adds the following properties to those basic mechanisms.
-- Any node can have cache tiers and can cache any object in one of those tiers unless it already sources that object.
-- A node can cache an object in at most one of its tiers. This means that we don't duplicate objects across cache tiers. This is also something critical to keep in mind.
-- An object evicted from one tier can migrate to another tier at the same node. So an eviction from one tier is not necessarily final for an object.
-:::
-
-## Data Plane Model
-
-::: columns
-::: {.column width=80%}
-We propose following [multi-tiered caching model]{.body-highlight} properties:
-
--   Any node can have any number of cache tiers.
--   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight}).
-:::
-::: {.column width=20%}
-<img src="images/tier2_admit.svg" style="display: block; margin-left: auto; margin-right: 0; width: 85%; height: 85%; transform: translateY(24%);">
-:::
-:::
-
-::: {.footer}
-System Model
-:::
-
-## Data Plane Model
-
-::: columns
-::: {.column width=80%}
-We propose following [multi-tiered caching model]{.body-highlight} properties:
-
--   Any node can have any number of cache tiers.
--   A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight}).
--   An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node.
-:::
-::: {.column width=20%}
-<img src="images/migration.svg" style="display: block; margin-left: auto; margin-right: 0; width: 100%; height: 100%; transform: translateY(25%);">
 :::
 :::
 
@@ -131,7 +99,7 @@ Virtual control plane model using the [VIP framework]{.body-highlight}[^vipog]:
 :::
 :::
 
-[^vipog]: "VIP: A framework for joint dynamic forwarding and caching in named data networks", Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., & Leong, D., ACM ICN 2014
+[^vipog]: "VIP: A framework for joint dynamic forwarding and caching in named data networks", Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., & Leong, D., ACM ICN 2014 @yeh2014vip
 
 ::: {.footer}
 System Model

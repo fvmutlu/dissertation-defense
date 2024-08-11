@@ -11,7 +11,7 @@
 Introduction
 :::
 
-## Further Considerations {.smaller}
+## Further Considerations {.smaller visibility="uncounted"}
 
 -  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
     -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
@@ -32,7 +32,7 @@ Introduction
 Introduction
 :::
 
-## Further Considerations {.smaller}
+## Further Considerations {.smaller visibility="uncounted"}
 
 -  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
     -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.

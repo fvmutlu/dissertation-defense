@@ -40,7 +40,7 @@ Simulator
 Simulator
 :::
 
-## Structure {.smaller}
+## Structure {.smaller visibility="uncounted"}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
 - [Cache]{.code} is operated by a SimPy process controlling a *task queue*.
@@ -52,7 +52,7 @@ Simulator
 Simulator
 :::
 
-## Structure {.smaller}
+## Structure {.smaller visibility="uncounted"}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
 - [Node]{.code} encapsulates [Cache]{.code}s, FIB and PIT
@@ -64,7 +64,7 @@ Simulator
 Simulator
 :::
 
-## Structure {.smaller}
+## Structure {.smaller visibility="uncounted"}
 
 - **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
 - [Network]{.code} encapsulates [Node]{.code}s.

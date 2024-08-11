@@ -50,11 +50,11 @@ $$
 $$
 :::
 
-# Introduction
+# Introduction {visibility="uncounted"}
 
 {{< include _intro.qmd >}}
 
-# System Model
+# System Model {visibility="uncounted"}
 
 ::: {.notes}
 That concludes the introduction and leads me into the system model that we're dealing with.
@@ -62,7 +62,7 @@ That concludes the introduction and leads me into the system model that we're de
 
 {{< include _model.qmd >}}
 
-# Virtual Plane Optimization
+# Virtual Plane Optimization {visibility="uncounted"}
 
 ::: {.notes}
 With the system model described, we will now look at our control algorithm in the virtual plane.
@@ -70,7 +70,7 @@ With the system model described, we will now look at our control algorithm in th
 
 {{< include _vp.qmd >}}
 
-# Data Plane Strategy
+# Data Plane Strategy {visibility="uncounted"}
 
 ::: {.notes}
 - So there are several things about applying this virtual plane algorithm within the mechanics of the data plane
@@ -80,7 +80,7 @@ With the system model described, we will now look at our control algorithm in th
 
 {{< include _dp.qmd >}}
 
-# Experiments
+# Experiments {visibility="uncounted"}
 
 ::: {.notes}
 - Alright, so how does our strategy fare in experimental evaluations
@@ -88,11 +88,11 @@ With the system model described, we will now look at our control algorithm in th
 
 {{< include _exp.qmd >}}
 
-# Virtual Plane Cache Read Rate Control
+# Virtual Plane Cache Read Rate Control {visibility="uncounted"}
 
 {{< include _sbw.qmd >}}
 
-# Simulator
+# Simulator {visibility="uncounted"}
 
 {{< include _simulator.qmd >}}
 
@@ -113,7 +113,7 @@ Summary
 - We're currently revising the paper for the upcoming ICC
 :::
 
-# Power & Caching in Wireless HetNets
+# Power & Caching in Wireless HetNets {visibility="uncounted"}
 
 {{< include _hetnet.qmd >}}
 
