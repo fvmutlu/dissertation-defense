@@ -212,12 +212,12 @@ Virtual Plane Cache Read Rate Control
 - This approach yields poor performance in the data plane.
     - [Significant underutilization]{.body-highlight-red} of slow tier.
 - We attribute this outcome to virtual plane ***queue underflows***.
-    - Placeholder.
-    - Data plane policies not fed actionable flow information for many objects in a timely manner.
+    - Occur when service allocated service exceeds backlog, e.g. $r\knjt > V\knt$.
+    - Virtual plane allocations may go unused; inhibits actionable flow information for less popular objects.
 - Allocation problem under ***no-underflow*** constraints is difficult to solve [^pmw].
     - Backpressure solution no longer feasible.
     - Caching and forwarding allocations tied together due to constraint.
-    - Integer program; relaxation is non-convex
+    - Integer program; relaxation is non-convex.
 :::
 
 [^pmw]: "Utility optimal scheduling in processing networks", Huang, L., & Neely, M. J., Performance Evaluation, 2011 @huang2011utility.
@@ -266,13 +266,13 @@ Virtual Plane Cache Read Rate Control
 :::
 ::: {.column width=50%}
 ::: {style="font-size: 60%;"}
-We propose a greedy iterative algorithm:
+We can use an iterative greedy algorithm:
 
 - First allocate cache space and read rate to highest backlog objects.
     - Time complexity dominated by sorting, worst case order of $O(K \log K)$.
 - Then allocate link bandwidth to largest backlog differential objects.
     - Complexity of $O(DK \log DK)$ where $D$ is a given node's degree.
-- ***Feasible***, i.e. does not allocate more service than existing backlog; terminates when:
+- ***Feasible***, i.e. does not allocate more service than existing backlog. Terminates when:
     - All cache capacity / bandwidth and all link bandwidth is allocated, or
     - All backlog is met by allocated service.
 :::

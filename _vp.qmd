@@ -142,6 +142,12 @@ Optimization Framework
 ```
 :::
 
+<hr>
+
+::: {style="font-size: 80%;"}
+$L_{n_j}$: Capacity of tier $\jin$ in objects.
+:::
+
 ::: {.footer}
 Optimization Framework
 :::
@@ -246,7 +252,7 @@ Optimization Framework
 ::: {style="font-size: 80%;"}
 Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}, obtain equivalent [linear assignment problem]{.body-highlight}.
 
-- Variety of polynomial time algorithms exist; mostly variants of the Hungarian method.
+- Global optimum can be found in polynomial time via the Hungarian method or its efficient variants.
 - We use one such variant[^crouse2d] with worst case complexity of $O(L^2_{tot}K)$, where $L_{tot} = \sum_{\jin} L_{n_j}$.
 :::
 
@@ -257,7 +263,10 @@ Optimization Framework
 :::
 
 ## Virtual Plane Algorithm
+
+::: {style="font-size: 90%;"}
 [Forwarding:]{.body-highlight} Choose $\mu^k_{ab}(t)$ for each $\kin$ and $\abin^k$ to:
+:::
 
 ::: {style="font-size: 80%;"}
 ```{=tex}

@@ -64,9 +64,9 @@ Data Plane Strategy
 
 ## Data Plane Caching
 
-When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
-
 ::: {style="font-size: 90%;"}
+When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau \in [t,t+1)$, [data plane caching policy]{.body-highlight} at $n$ behaves as follows:
+
 ```pseudocode
 #| html-line-number: true
 \begin{algorithm}
@@ -95,6 +95,7 @@ Data Plane Strategy
 
 ## Data Plane Forwarding
 
+::: {style="font-size: 90%;"}
 Define virtual plane average [outgoing VIP flow]{.body-highlight}:
 ```{=tex}
 \begin{equation*}
@@ -102,13 +103,14 @@ Define virtual plane average [outgoing VIP flow]{.body-highlight}:
 \end{equation*}
 ```
 
-When request for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau$, [data plane forwarding policy]{.body-highlight} forwards it to @yeh2014vip:
+When request for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at instance $\tau \in [t,t+1)$, [data plane forwarding policy]{.body-highlight} forwards it to @yeh2014vip:
 
 ```{=tex}
 \begin{equation*}
     b^k_n(\tau) \triangleq \argmax_{b:(n,b) \in \mc{L}^k} \bar{F}_{nb}^k(t)
 \end{equation*}
 ```
+:::
 
 ::: {.footer}
 Data Plane Strategy

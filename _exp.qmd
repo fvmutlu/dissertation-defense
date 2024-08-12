@@ -85,9 +85,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Cache hits and delay due to cache reads. Geant; $\gamma=0.75$, $\lambda=15$.
+Cache hits and delay due to cache reads for multi-tiered cases.
 
-$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
+Geant; $\gamma=0.75$, $\lambda=15$.
 :::
 
 ::: {.footer}
@@ -252,7 +252,7 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Number of cache hits and cache reads issued under IA.
+Number of cache hits and second tier reads issued under IA for multi-tiered cases.
 
 Geant; $\lambda=50$, $\gamma=0.75$.
 :::

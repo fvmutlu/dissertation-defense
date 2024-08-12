@@ -1301,6 +1301,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
         &amp; \quad s^k_{n_j}(t) \in \{0, 1\}, \; \forall \, \kin, \; \jin
 \end{align*}\]</span>
 </div>
+<hr>
+<div style="font-size: 80%;">
+<p><span class="math inline">\(L_{n_j}\)</span>: Capacity of tier <span class="math inline">\(\jin\)</span> in objects.</p>
+</div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
@@ -1427,7 +1431,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div style="font-size: 80%;">
 <p>Objects are equally sized; decide variables for each one-object <span class="body-highlight">cache slot</span>, obtain equivalent <span class="body-highlight">linear assignment problem</span>.</p>
 <ul>
-<li>Variety of polynomial time algorithms exist; mostly variants of the Hungarian method.</li>
+<li>Global optimum can be found in polynomial time via the Hungarian method or its efficient variants.</li>
 <li>We use one such variant<sup>1</sup> with worst case complexity of <span class="math inline">\(O(L^2_{tot}K)\)</span>, where <span class="math inline">\(L_{tot} = \sum_{\jin} L_{n_j}\)</span>.</li>
 </ul>
 </div>
@@ -1437,7 +1441,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <aside><ol class="aside-footnotes"><li id="fn10"><p>“On implementing 2D rectangular assignment algorithms”, Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems, 2016 <span class="citation" data-cites="crouse2016implementing"><a href="#/references" role="doc-biblioref" onclick="">[15]</a></span>.</p></li></ol></aside></section>
 <section id="virtual-plane-algorithm-1" class="slide level2">
 <h2>Virtual Plane Algorithm</h2>
+<div style="font-size: 90%;">
 <p><span class="body-highlight">Forwarding:</span> Choose <span class="math inline">\(\mu^k_{ab}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span> to:</p>
+</div>
 <div style="font-size: 80%;">
 <span class="math display">\[\begin{align*}
     \text{maximize}
@@ -1623,9 +1629,9 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="data-plane-caching-1" class="slide level2">
 <h2>Data Plane Caching</h2>
-<p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 90%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
+<p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau \in [t,t+1)\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching Policy} \begin{algorithmic} \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$. \If{$CB^k_{n_{j^*}}(\tau) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \ElsIf{$CB^k_{n_{j^*}}(\tau) &gt; 0$} \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$. \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$. \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -1652,14 +1658,16 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 </section>
 <section id="data-plane-forwarding" class="slide level2">
 <h2>Data Plane Forwarding</h2>
+<div style="font-size: 90%;">
 <p>Define virtual plane average <span class="body-highlight">outgoing VIP flow</span>:</p>
 <span class="math display">\[\begin{equation*}
     \bar{F}_{nb}^k(t) \triangleq \frac{1}{T} \sum\limits^t_{t'=t-T+1} F^k_{nb}(t').
 \end{equation*}\]</span>
-<p>When request for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau\)</span>, <span class="body-highlight">data plane forwarding policy</span> forwards it to <span class="citation" data-cites="yeh2014vip"><a href="#/references" role="doc-biblioref" onclick="">[11]</a></span>:</p>
+<p>When request for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau \in [t,t+1)\)</span>, <span class="body-highlight">data plane forwarding policy</span> forwards it to <span class="citation" data-cites="yeh2014vip"><a href="#/references" role="doc-biblioref" onclick="">[11]</a></span>:</p>
 <span class="math display">\[\begin{equation*}
     b^k_n(\tau) \triangleq \argmax_{b:(n,b) \in \mc{L}^k} \bar{F}_{nb}^k(t)
 \end{equation*}\]</span>
+</div>
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
@@ -1899,8 +1907,8 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Cache hits and delay due to cache reads. Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
-<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
+<p>Cache hits and delay due to cache reads for multi-tiered cases.</p>
+<p>Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2153,7 +2161,7 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Number of cache hits and cache reads issued under IA.</p>
+<p>Number of cache hits and second tier reads issued under IA for multi-tiered cases.</p>
 <p>Geant; <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
 </div>
 <div class="footer">
@@ -2383,7 +2391,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <h2>Data Plane Application</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau \in [t,t+1)\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 75%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2409,14 +2417,14 @@ Table&nbsp;1: Common parameters for all scenarios
 </ul></li>
 <li class="fragment">We attribute this outcome to virtual plane <strong><em>queue underflows</em></strong>.
 <ul>
-<li class="fragment">Placeholder.</li>
-<li class="fragment">Data plane policies not fed actionable flow information for many objects in a timely manner.</li>
+<li class="fragment">Occur when service allocated service exceeds backlog, e.g.&nbsp;<span class="math inline">\(r\knjt &gt; V\knt\)</span>.</li>
+<li class="fragment">Virtual plane allocations may go unused; inhibits actionable flow information for less popular objects.</li>
 </ul></li>
 <li class="fragment">Allocation problem under <strong><em>no-underflow</em></strong> constraints is difficult to solve <sup>1</sup>.
 <ul>
 <li class="fragment">Backpressure solution no longer feasible.</li>
 <li class="fragment">Caching and forwarding allocations tied together due to constraint.</li>
-<li class="fragment">Integer program; relaxation is non-convex</li>
+<li class="fragment">Integer program; relaxation is non-convex.</li>
 </ul></li>
 </ul>
 </div>
@@ -2429,12 +2437,12 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 45%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
@@ -2442,7 +2450,7 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div><div class="column" style="width:50%;">
 <div style="font-size: 60%;">
-<p>We propose a greedy iterative algorithm:</p>
+<p>We can use an iterative greedy algorithm:</p>
 <ul>
 <li>First allocate cache space and read rate to highest backlog objects.
 <ul>
@@ -2452,7 +2460,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <ul>
 <li>Complexity of <span class="math inline">\(O(DK \log DK)\)</span> where <span class="math inline">\(D\)</span> is a given node’s degree.</li>
 </ul></li>
-<li><strong><em>Feasible</em></strong>, i.e.&nbsp;does not allocate more service than existing backlog; terminates when:
+<li><strong><em>Feasible</em></strong>, i.e.&nbsp;does not allocate more service than existing backlog. Terminates when:
 <ul>
 <li>All cache capacity / bandwidth and all link bandwidth is allocated, or</li>
 <li>All backlog is met by allocated service.</li>
@@ -2919,7 +2927,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 </ul></li>
 <li><strong>Challenge 2:</strong> Problem is not jointly convex due to interference-dependent link costs.
 <ul>
-<li>It can be shown to be <em>biconvex</em> in logarithms of power variables under high SINR conditions, allowing <em>alternating optimization</em> method <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.</li>
+<li><em>Biconvex</em> in logarithms of power variables under high SINR conditions, allowing <em>alternating optimization</em> method <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.</li>
 </ul></li>
 </ul>
 <div class="footer">
@@ -2931,7 +2939,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 80%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Subgradient Projection} \begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>
