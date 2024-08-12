@@ -178,7 +178,7 @@ When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at i
 \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control}
 \begin{algorithmic}
     \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$.
-    \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{\{ b:(n,b) \in \mc{L}^k \}} \bar{F}_{nb}^k(t)$}
+    \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{ b:(n,b) \in \mc{L}^k } \bar{F}_{nb}^k(t)$}
         \If{$\bar{F}_{n,in}^k(t) > 0$ and $|\mc{K}_{n_{j^*}}(\tau)| < L_{n_{j^*}}$}
             \State Admit $k$ into $j^*$.
         \Else
@@ -213,9 +213,9 @@ Virtual Plane Cache Read Rate Control
     - [Significant underutilization]{.body-highlight-red} of slow tier.
 - We attribute this outcome to virtual plane ***queue underflows***.
     - Occur when service allocated service exceeds backlog, e.g. $r\knjt > V\knt$.
-    - Virtual plane allocations may go unused; inhibits actionable flow information for less popular objects.
+    - Virtual plane allocations go unused; inhibits actionable flow information for less popular objects.
 - Allocation problem under ***no-underflow*** constraints is difficult to solve [^pmw].
-    - Backpressure solution no longer feasible.
+    - Backpressure solution no longer *feasible*.
     - Caching and forwarding allocations tied together due to constraint.
     - Integer program; relaxation is non-convex.
 :::
@@ -226,7 +226,7 @@ Virtual Plane Cache Read Rate Control
 Virtual Plane Cache Read Rate Control
 :::
 
-## Greedy Approach
+## Iterative Approach
 
 ::: columns
 ::: {.column width=50%}
@@ -283,11 +283,10 @@ We can use an iterative greedy algorithm:
 Virtual Plane Cache Read Rate Control
 :::
 
-## Greedy Approach: Properties
+## Iterative Approach: Properties {.smaller}
 
-::: {style="font-size: 75%;"}
-- Under *heavy congestion* where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, greedy algorithm is equivalent to *backpressure* solution.
-- *In general*, given backlog state $\mathbf{V}(t)$, following holds.
+- Under ***heavy congestion*** where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, reduces to standard *backpressure*.
+- Given backlog state $\mathbf{V}(t)$, following holds in general.
 ```{=tex}
 \begin{equation*}
 \begin{split}
@@ -298,7 +297,14 @@ Virtual Plane Cache Read Rate Control
 \end{split}
 \end{equation*}
 ```
-where $\hat{F}\knjt$ and $\hat{F}^k_{nb}(t)$ denote actual VIP flows under greedy algorithm allocations.
+- Computational complexity remains the same; sorting dominates.
+
+<hr>
+
+::: {style="font-size: 80%;"}
+$F\knjt$, $F^k_{nb}(t)$: Actual VIP flows under standard *backpressure*.
+
+$\hat{F}\knjt$, $\hat{F}^k_{nb}(t)$: Those under iterative algorithm.
 :::
 
 ::: {.footer}
@@ -314,10 +320,10 @@ Virtual Plane Cache Read Rate Control
 :::
 :::
 ::: {.column width=50% style="font-size: 75%"}
-- Data plane policy supported by initial approach: MVIP-RR; by greedy algorithm MVIP-RR+.
+- Data plane policy supported by initial approach: **MVIP-RR**; by iterative algorithm **MVIP-RR+**.
 - Data plane backlog represented by PIT queue sizes.
     - Sampled along with VIPs at each virtual plane time slot.
-    - Denote samples as $Q\knt$.
+    - Denote PIT samples as $Q\knt$.
 - Greedy algorithm maintains much smaller total VIP backlog.
 :::
 :::
@@ -326,7 +332,7 @@ Virtual Plane Cache Read Rate Control
 Virtual Plane Cache Read Rate Control
 :::
 
-## Experimental Results
+## Experimental Results {visibility="uncounted"}
 
 ::: columns
 ::: {.column width=50%}
@@ -354,29 +360,29 @@ Virtual Plane Cache Read Rate Control
 Data plane metrics show:
 
 - Poor utilization of larger cache tier and resulting performance for MVIP-RR.
-- Improved delay performance along with great reduction in replacements for MVIP-RR+.
-:::
-
-<hr>
-
-![Data plane metrics normalized to MVIP, Abilene topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$](images/sbw_comp_abilene_075_30.png){width=90% height=90% fig-align="center"}
-
-::: {.footer}
-Virtual Plane Cache Read Rate Control
-:::
-
-## Experimental Results
-
-::: {style="font-size: 75%"}
-Data plane metrics show:
-
-- Poor utilization of larger cache tier and resulting performance for MVIP-RR.
 - Comparable delay performance along with great reduction in replacements for MVIP-RR+.
 :::
 
 <hr>
 
 ![Data plane metrics normalized to MVIP, Geant topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$](images/sbw_comp_geant_075_30.png){width=90% height=90% fig-align="center"}
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Experimental Results {visibility="uncounted"}
+
+::: {style="font-size: 75%"}
+Data plane metrics show:
+
+- Poor utilization of larger cache tier and resulting performance for MVIP-RR.
+- Improved delay performance along with great reduction in replacements for MVIP-RR+.
+:::
+
+<hr>
+
+![Data plane metrics normalized to MVIP, Abilene topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$](images/sbw_comp_abilene_075_30.png){width=90% height=90% fig-align="center"}
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control

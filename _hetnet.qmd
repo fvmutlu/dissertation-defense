@@ -1,4 +1,4 @@
-## Power & Caching in Wireless HetNets
+## Power & Caching in Wireless HetNets {visibility="uncounted"}
 
 - Delay minimization in multi-hop wireless HetNets via caching and power control[^hetnetref].
 
@@ -21,7 +21,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 
 ::: columns
 ::: {.column width=50%}
@@ -45,7 +45,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Power & Caching in Wireless HetNets {.smaller}
+## Power & Caching in Wireless HetNets {.smaller visibility="uncounted"}
 
 - **Objective:** Total user request delay.
 
@@ -135,7 +135,7 @@ Conclusion & Other Work
 Conclusion & Other Work
 :::
 
-## Subgradient Projection Algorithm {.smaller}
+## Subgradient Projection Algorithm {.smaller visibility="uncounted"}
 
 ::: columns
 ::: {.column width=50%}

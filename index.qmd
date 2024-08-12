@@ -4,21 +4,36 @@ subtitle: "Faruk Volkan Mutlu - PhD Dissertation Defense Presentation"
 author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis"
 ---
 
-## Overview & Outline {.smaller}
+## Overview {.smaller}
 
-::: {.incremental style="font-size: 110%;"}
-- **Context**: Information-centric networking (ICN), in-network caching.
-- **Motivation**: Data volume grows exponentially, cache capacities do not scale.
-- **Challenge**: Operating larger caches efficiently is difficult.
-- **Goal**: Policy that observes cache characteristics to address this challenge.
-- [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy for networks with diverse cache resources.
-    - **Introduction**: Motivation, Challenges, Related Work.
-    - **Technical**: System Model, Optimization Framework.
-    - **Practical**: Policies, Simulation Experiments, Results.
+- [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
+    - "Cost-aware Joint Caching and Forwarding in Networks with Heterogeneous Cache Resources", **Mutlu, F. V.**, & Yeh, E., ICC 2024 @mutlu2023cost.
+    
+::: {style="font-size: 90%;"}
+- **Other Contributions:**
+    - "N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science", Wu, Y., **Mutlu, F. V.**, Liu, Y., Yeh, E., Liu, R., et al., ICN 2022 @wu2022ndise.
+    - Joint power control and caching in wireless networks.
+        - "Transmission Delay Minimization via Joint Power Control and Caching in Wireless HetNets", Malak, D., **Mutlu, F. V.**, Zhang, J., & Yeh, E., WiOpt 2021 @malak2021transmission.
+        - "Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets", Malak, D., **Mutlu, F. V.**, Zhang, J., & Yeh, E., TNET 2023 @malak2023joint.
+        - "Energy Minimization via Joint Caching and Power Control in Wireless Heterogeneous Networks", Zhang, J., **Mutlu, F. V.**, Goldsmith, A., & Yeh, E., WCNC 2024 @zhang2024energy.
 :::
 
 ::: {.footer}
-Outline
+Overview
+:::
+
+## Overview {visibility="uncounted"}
+
+::: {style="font-size: 90%;"}
+- [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
+    - **Context**: Information-centric networking (ICN), in-network caching.
+    - **Motivation**: Data volume grows exponentially, cache capacities need to scale.
+    - **Challenge**: Operating larger caches efficiently is difficult.
+    - **Goal**: Policies that observe cache characteristics to address this challenge.
+:::
+
+::: {.footer}
+Overview
 :::
 
 ::: {.hidden}
