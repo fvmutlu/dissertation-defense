@@ -5,7 +5,7 @@
 -  **Cache Tiers:** Fixed two cache tiers at every node, fast and slow.
 -  **Requests:** Requests generated for 100 simulation seconds, run terminates when all requests are resolved.
     - Poisson arrivals with rate $\lambda$ at each node; popularity distribution is Zipf with parameter $\gamma$.
-- **Baselines:** Leave Copy Everywhere admission, Least Response Time forwarding, adapted replacements:
+- **Baselines:** LCE admission, LRT forwarding, adapted replacements:
     - Least Recently Used (LRU), First-In-First-Out (FIFO), Uniform Random (UNIF), Least Frequently Used (LFU).
     - Penalty Aware LFU (PA-LFU) for trade-off baseline; uses *cache benefit* metric with frequency.
 
@@ -39,10 +39,10 @@ Experiments
 |:-:|:-:|
 |Number of objects in catalog $\mc{K}$|2000|
 |Bandwidth of each link $\abin$, in objects|10|
-|Read rate of tier 1 at each $n$, in objects/sec|25|
-|Admission and eviction costs of tier 1 at each $n$|4, 2|
-|Read rate of tier 2 at each $n$, in objects/sec|10|
-|Admission and eviction costs of tier 2 at each $n$|2, 1|
+|Read / write rate of tier 1 at each $n$, in objects/sec|25, 25|
+|Admission / eviction costs of tier 1 at each $n$|4, 2|
+|Read / write rate of tier 2 at each $n$, in objects/sec|10, 5|
+|Admission / eviction costs of tier 2 at each $n$|2, 1|
 : Common parameters for all scenarios {#tbl-params tbl-colwidths="[85,15]"}
 
 ::: {.footer}
@@ -76,6 +76,31 @@ Experiments
 ::: columns
 ::: {.column width="47%"}
 ![Cache hits](images/size_comp_geant_075_15_hits.svg)
+:::
+::: {.column width="53%"}
+![Second tier read delays](images/size_comp_geant_075_15_hit_delays.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Cache hits and delay due to cache reads for multi-tiered cases.
+
+Geant; $\gamma=0.75$, $\lambda=15$.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Placeholder.
+:::
+
+## Cache Capacity {visibility="uncounted"}
+
+::: columns
+::: {.column width="47%"}
+![Cache hits](images/size_comp_geant_075_15_replacements.svg)
 :::
 ::: {.column width="53%"}
 ![Second tier read delays](images/size_comp_geant_075_15_hit_delays.svg)
@@ -209,8 +234,25 @@ Geant; $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 Experiments
 :::
 
-::: {.notes}
-- The scale here is a bit deceptive, but in terms of ratios, overall improvement from multi-tiered caching is roughly 40% with no aggregation and 20% with aggregation.
+## Interest Aggregation {visibility="uncounted"}
+
+::: columns
+::: {.column width="50%"}
+![$\gamma=0.75$](images/mt_req_ia_only_vip_geant_delay.svg)
+:::
+::: {.column width="50%"}
+![$\lambda=30$](images/zipf_ia_only_vip_geant_30_delay.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+VIP vs. MVIP, with and without interest aggregation (IA).
+
+Geant; $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
+:::
+
+::: {.footer}
+Experiments
 :::
 
 ## Interest Aggregation
@@ -286,4 +328,12 @@ Experiments
 
 ::: {.notes}
 - Placeholder.
+:::
+
+## Lessons Learned
+
+- Placeholder.
+
+::: {.footer}
+Experiments
 :::

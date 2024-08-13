@@ -78,7 +78,7 @@ Simulator
 
 ## Features {.smaller}
 
-Codebase has many features for *ease of use*.
+[Codebase](https://github.com/fvmutlu/multi-tier){preview-link="false"} has many features for *ease of use*.
 
 - Experiment config and data output in JSON format.
     - Specify parameter sweeps and combinations for multiprocess execution.

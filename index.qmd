@@ -149,6 +149,16 @@ Summary
 
 {{< include _extra_exp.qmd >}}
 
+## Additional Related Work {visibility="uncounted"}
+
+- Allocation problem under ***no-underflow*** constraints is difficult to solve.
+    - Perturbed max-weight scheduling @huang2011utility.
+- Placeholder.
+
+::: {.footer}
+Related Work
+:::
+
 ## References {.smaller visibility="uncounted"}
 
 ::: {#refs}

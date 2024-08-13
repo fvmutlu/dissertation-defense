@@ -87,7 +87,7 @@ Perform [caching]{.body-highlight} by choosing $r\knjt$ and $s\knjt$ for each $\
 ```{=tex}
 \begin{align*}
     \text{maximize}
-        & \quad \sum_{\kin} \sum_{\jin} r\knjt s\knjt V\knt \\
+        & \quad \sum_{\kin} \sum_{\jin} {\color{#C8102E}{r\knjt}} s\knjt V\knt \\
     \text{subject to} 
         & \quad \sum_{\kin} s\knjt \leq L_{n_j}, \; \forall \jin \\
         & \quad \sum_{\jin} s\knjt \leq 1, \; \forall \kin \\
@@ -108,7 +108,7 @@ Virtual Plane Cache Read Rate Control
 ## Lemma: Caching Solution
 
 ::: {style="font-size: 80%;"}
-Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)$, optimal solution to revised [caching problem]{.body-highlight} is obtained by choosing $r\knjt$ and $s\knjt$ for each $\jin$ as follows.
+Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)$, optimal solution to [revised caching problem]{.body-highlight} is obtained by *greedily* choosing $r\knjt$ and $s\knjt$ for each $\jin$ as follows.
 
 ```{=tex}
 \begin{equation*}
@@ -131,7 +131,7 @@ Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq
 :::
 
 ::: {style="font-size: 90%;"}
-This is similar to *backpressure* forwarding solution from earlier.
+This is the *max-weight* solution.
 :::
 
 ::: {.footer}
@@ -195,7 +195,7 @@ When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at i
 
 ::: columns
 ::: {.column width=50% style="font-size: 85%;"}
-$F\knjt$: Actual amount of VIPs of $k$ removed via tier $j$ read rate allocation in slot $t$.
+$F\knjt$: Actual amount of VIPs of $k$ removed in slot $t$ via caching, given tier $j$ read rate allocation $r\knjt$.
 :::
 ::: {.column width=50% style="font-size: 85%;"}
 $\bar{F}^k_{n_j}(t) \triangleq \frac{1}{T} \sum^t_{t'=t-T+1} F^k_{n_j}(t')$.
@@ -206,21 +206,15 @@ $\bar{F}^k_{n_j}(t) \triangleq \frac{1}{T} \sum^t_{t'=t-T+1} F^k_{n_j}(t')$.
 Virtual Plane Cache Read Rate Control
 :::
 
-## Policy Performance {.smaller}
+## Policy Performance
 
 ::: {.incremental}
 - This approach yields poor performance in the data plane.
     - [Significant underutilization]{.body-highlight-red} of slow tier.
-- We attribute this outcome to virtual plane ***queue underflows***.
-    - Occur when service allocated service exceeds backlog, e.g. $r\knjt > V\knt$.
-    - Virtual plane allocations go unused; inhibits actionable flow information for less popular objects.
-- Allocation problem under ***no-underflow*** constraints is difficult to solve [^pmw].
-    - Backpressure solution no longer *feasible*.
-    - Caching and forwarding allocations tied together due to constraint.
-    - Non-convex problem; computationally intensive to get approximations.
+- We attribute this outcome to ***queue underflows*** in the virtual plane.
+    - Occur when allocated service exceeds backlog, e.g. $r\knjt > V\knt$.
+    - Slow to gather actionable flow information for less popular objects.
 :::
-
-[^pmw]: "Utility optimal scheduling in processing networks", Huang, L., & Neely, M. J., Performance Evaluation, 2011 @huang2011utility.
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
@@ -265,14 +259,13 @@ Virtual Plane Cache Read Rate Control
 :::
 :::
 ::: {.column width=50%}
-::: {style="font-size: 60%;"}
-We can use an iterative greedy algorithm:
+::: {style="font-size: 65%;"}
+We use an iterative greedy algorithm:
 
 - First allocate cache space and read rate to highest backlog objects.
-    - Time complexity dominated by sorting, worst case order of $O(K \log K)$.
 - Then allocate link bandwidth to largest backlog differential objects.
-    - Complexity of $O(DK \log DK)$ where $D$ is a given node's degree.
-- ***Feasible***, i.e. does not allocate more service than existing backlog. Terminates when:
+- Do not allocate more service than existing backlog.
+- Terminate when either:
     - All cache capacity / bandwidth and all link bandwidth is allocated, or
     - All backlog is met by allocated service.
 :::
@@ -285,8 +278,8 @@ Virtual Plane Cache Read Rate Control
 
 ## Iterative Approach: Properties {.smaller}
 
-- Under ***heavy congestion*** where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, reduces to standard *backpressure*.
-- Given backlog state $\mathbf{V}(t)$, following holds in general.
+- Under ***heavy congestion*** where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, reduces to earlier approach.
+- Given backlog state $\mathbf{V}(t)$, following holds.
 ```{=tex}
 \begin{equation*}
 \begin{split}
@@ -297,12 +290,13 @@ Virtual Plane Cache Read Rate Control
 \end{split}
 \end{equation*}
 ```
-- Computational complexity remains the same; sorting dominates.
+- Computational complexity remains the same, dominated by sorting.
+    - $O(K \log K)$ for caching, $O(DK \log DK)$ for forwarding.
 
 <hr>
 
 ::: {style="font-size: 80%;"}
-$F\knjt$, $F^k_{nb}(t)$: Actual VIP flows under standard *backpressure*.
+$F\knjt$, $F^k_{nb}(t)$: Actual VIP flows under *max-weight* caching, *backpressure* forwarding.
 
 $\hat{F}\knjt$, $\hat{F}^k_{nb}(t)$: Those under iterative algorithm.
 :::
@@ -324,7 +318,7 @@ Virtual Plane Cache Read Rate Control
 - Data plane backlog represented by PIT queue sizes.
     - Sampled along with VIPs at each virtual plane time slot.
     - Denote PIT samples as $Q\knt$.
-- Greedy algorithm maintains much smaller total VIP backlog.
+- Iterative algorithm maintains much smaller total VIP backlog.
 :::
 :::
 
@@ -341,11 +335,11 @@ Virtual Plane Cache Read Rate Control
 :::
 :::
 ::: {.column width=50% style="font-size: 75%"}
-- Data plane policy supported by initial approach: MVIP-RR; by greedy algorithm MVIP-RR+.
+- Data plane policy supported by initial approach: **MVIP-RR**; by iterative algorithm **MVIP-RR+**.
 - Data plane backlog represented by PIT queue sizes.
     - Sampled along with VIPs at each virtual plane time slot.
     - Denote samples as $Q\knt$.
-- Greedy algorithm maintains smaller virtual-data plane backlog *"gap"*.
+- Iterative algorithm maintains smaller virtual-data plane backlog *"gap"*.
     - Distance measure: $\frac{1}{|\mc{N}|} \sum_{\nin} \lVert \mathbf{V}_n(t) - \mathbf{Q}_n(t) \rVert_2$
 :::
 :::
@@ -359,8 +353,8 @@ Virtual Plane Cache Read Rate Control
 ::: {style="font-size: 75%"}
 Data plane metrics show:
 
-- Poor utilization of larger cache tier and resulting performance for MVIP-RR.
-- Comparable delay performance along with great reduction in replacements for MVIP-RR+.
+- Poor utilization of larger cache tier and resulting performance for **MVIP-RR**.
+- Comparable delay performance along with great reduction in replacements for **MVIP-RR+**.
 :::
 
 <hr>
@@ -376,8 +370,8 @@ Virtual Plane Cache Read Rate Control
 ::: {style="font-size: 75%"}
 Data plane metrics show:
 
-- Poor utilization of larger cache tier and resulting performance for MVIP-RR.
-- Improved delay performance along with great reduction in replacements for MVIP-RR+.
+- Poor utilization of larger cache tier and resulting performance for **MVIP-RR**.
+- Improved delay performance along with great reduction in replacements for **MVIP-RR+**.
 :::
 
 <hr>

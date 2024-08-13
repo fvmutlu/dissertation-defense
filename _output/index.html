@@ -1721,7 +1721,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <ul>
 <li>Poisson arrivals with rate <span class="math inline">\(\lambda\)</span> at each node; popularity distribution is Zipf with parameter <span class="math inline">\(\gamma\)</span>.</li>
 </ul></li>
-<li><strong>Baselines:</strong> Leave Copy Everywhere admission, Least Response Time forwarding, adapted replacements:
+<li><strong>Baselines:</strong> LCE admission, LRT forwarding, adapted replacements:
 <ul>
 <li>Least Recently Used (LRU), First-In-First-Out (FIFO), Uniform Random (UNIF), Least Frequently Used (LFU).</li>
 <li>Penalty Aware LFU (PA-LFU) for trade-off baseline; uses <em>cache benefit</em> metric with frequency.</li>
@@ -1790,19 +1790,19 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <td style="text-align: center;">10</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Read rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
-<td style="text-align: center;">25</td>
+<td style="text-align: center;">Read / write rate of tier 1 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
+<td style="text-align: center;">25, 25</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Admission and eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;">Admission / eviction costs of tier 1 at each <span class="math inline">\(n\)</span></td>
 <td style="text-align: center;">4, 2</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Read rate of tier 2 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
-<td style="text-align: center;">10</td>
+<td style="text-align: center;">Read / write rate of tier 2 at each <span class="math inline">\(n\)</span>, in objects/sec</td>
+<td style="text-align: center;">10, 5</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Admission and eviction costs of tier 2 at each <span class="math inline">\(n\)</span></td>
+<td style="text-align: center;">Admission / eviction costs of tier 2 at each <span class="math inline">\(n\)</span></td>
 <td style="text-align: center;">2, 1</td>
 </tr>
 </tbody>
@@ -1869,6 +1869,47 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/size_comp_geant_075_15_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:53%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_hit_delays.svg"></p>
+<figcaption>Second tier read delays</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Cache hits and delay due to cache reads for multi-tiered cases.</p>
+<p>Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="cache-capacity-2" class="slide level2" data-visibility="uncounted">
+<h2>Cache Capacity</h2>
+<div class="columns">
+<div class="column" style="width:47%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_replacements.svg"></p>
 <figcaption>Cache hits</figcaption>
 </figure>
 </div>
@@ -2059,23 +2100,34 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>The scale here is a bit deceptive, but in terms of ratios, overall improvement from multi-tiered caching is roughly 40% with no aggregation and 20% with aggregation.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="interest-aggregation-3" class="slide level2">
+<section id="interest-aggregation-3" class="slide level2" data-visibility="uncounted">
+<h2>Interest Aggregation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_req_ia_only_vip_geant_delay.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/zipf_ia_only_vip_geant_30_delay.svg"></p>
+<figcaption><span class="math inline">\(\lambda=30\)</span></figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>VIP vs.&nbsp;MVIP, with and without interest aggregation (IA).</p>
+<p>Geant; <span class="math inline">\(L_{n_1}=5\)</span>, <span class="math inline">\(L_{n_2}=200\)</span> for MVIP and <span class="math inline">\(L_{n_1}=13\)</span> for VIP.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
+<section id="interest-aggregation-4" class="slide level2">
 <h2>Interest Aggregation</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2116,7 +2168,7 @@ Table&nbsp;1: Common parameters for all scenarios
           display:block!important;
       }</style></aside>
 </section>
-<section id="interest-aggregation-4" class="slide level2">
+<section id="interest-aggregation-5" class="slide level2">
 <h2>Interest Aggregation</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2157,7 +2209,7 @@ Table&nbsp;1: Common parameters for all scenarios
           display:block!important;
       }</style></aside>
 </section>
-<section id="interest-aggregation-5" class="slide level2">
+<section id="interest-aggregation-6" class="slide level2">
 <h2>Interest Aggregation</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2197,6 +2249,15 @@ Table&nbsp;1: Common parameters for all scenarios
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="lessons-learned" class="slide level2">
+<h2>Lessons Learned</h2>
+<ul>
+<li>Placeholder.</li>
+</ul>
+<div class="footer">
+<p>Experiments</p>
+</div>
 </section></section>
 <section>
 <section id="virtual-plane-cache-read-rate-control" class="title-slide slide level1 center" data-visibility="uncounted">
@@ -2289,7 +2350,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <div style="font-size: 75%;">
 <span class="math display">\[\begin{align*}
     \text{maximize}
-        &amp; \quad \sum_{\kin} \sum_{\jin} r\knjt s\knjt V\knt \\
+        &amp; \quad \sum_{\kin} \sum_{\jin} {\color{#C8102E}{r\knjt}} s\knjt V\knt \\
     \text{subject to}
         &amp; \quad \sum_{\kin} s\knjt \leq L_{n_j}, \; \forall \jin \\
         &amp; \quad \sum_{\jin} s\knjt \leq 1, \; \forall \kin \\
@@ -2319,7 +2380,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <section id="lemma-caching-solution-4" class="slide level2">
 <h2>Lemma: Caching Solution</h2>
 <div style="font-size: 80%;">
-<p>Given <span class="math inline">\(k_1, k_2, \cdots, k_{J_n}\)</span> such that <span class="math inline">\(V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)\)</span>, optimal solution to revised <span class="body-highlight">caching problem</span> is obtained by choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\jin\)</span> as follows.</p>
+<p>Given <span class="math inline">\(k_1, k_2, \cdots, k_{J_n}\)</span> such that <span class="math inline">\(V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)\)</span>, optimal solution to <span class="body-highlight">revised caching problem</span> is obtained by <em>greedily</em> choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\jin\)</span> as follows.</p>
 <span class="math display">\[\begin{equation*}
     r\knjt =
     \left \{ \begin{array}{ll}
@@ -2336,7 +2397,7 @@ Table&nbsp;1: Common parameters for all scenarios
 \end{equation*}\]</span>
 </div>
 <div style="font-size: 90%;">
-<p>This is similar to <em>backpressure</em> forwarding solution from earlier.</p>
+<p>This is the <em>max-weight</em> solution.</p>
 </div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
@@ -2373,7 +2434,7 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 <div class="columns">
 <div class="column" style="font-size: 85%;">
-<p><span class="math inline">\(F\knjt\)</span>: Actual amount of VIPs of <span class="math inline">\(k\)</span> removed via tier <span class="math inline">\(j\)</span> read rate allocation in slot <span class="math inline">\(t\)</span>.</p>
+<p><span class="math inline">\(F\knjt\)</span>: Actual amount of VIPs of <span class="math inline">\(k\)</span> removed in slot <span class="math inline">\(t\)</span> via caching, given tier <span class="math inline">\(j\)</span> read rate allocation <span class="math inline">\(r\knjt\)</span>.</p>
 </div><div class="column" style="font-size: 85%;">
 <p><span class="math inline">\(\bar{F}^k_{n_j}(t) \triangleq \frac{1}{T} \sum^t_{t'=t-T+1} F^k_{n_j}(t')\)</span>.</p>
 </div></div>
@@ -2381,7 +2442,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="policy-performance" class="slide level2 smaller">
+<section id="policy-performance" class="slide level2">
 <h2>Policy Performance</h2>
 <div>
 <ul>
@@ -2389,23 +2450,17 @@ Table&nbsp;1: Common parameters for all scenarios
 <ul>
 <li class="fragment"><span class="body-highlight-red">Significant underutilization</span> of slow tier.</li>
 </ul></li>
-<li class="fragment">We attribute this outcome to virtual plane <strong><em>queue underflows</em></strong>.
+<li class="fragment">We attribute this outcome to <strong><em>queue underflows</em></strong> in the virtual plane.
 <ul>
-<li class="fragment">Occur when service allocated service exceeds backlog, e.g.&nbsp;<span class="math inline">\(r\knjt &gt; V\knt\)</span>.</li>
-<li class="fragment">Virtual plane allocations go unused; inhibits actionable flow information for less popular objects.</li>
-</ul></li>
-<li class="fragment">Allocation problem under <strong><em>no-underflow</em></strong> constraints is difficult to solve <sup>1</sup>.
-<ul>
-<li class="fragment">Backpressure solution no longer <em>feasible</em>.</li>
-<li class="fragment">Caching and forwarding allocations tied together due to constraint.</li>
-<li class="fragment">Non-convex problem; computationally intensive to get approximations.</li>
+<li class="fragment">Occur when allocated service exceeds backlog, e.g.&nbsp;<span class="math inline">\(r\knjt &gt; V\knt\)</span>.</li>
+<li class="fragment">Slow to gather actionable flow information for less popular objects.</li>
 </ul></li>
 </ul>
 </div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn12"><p>“Utility optimal scheduling in processing networks”, Huang, L., &amp; Neely, M. J., Performance Evaluation, 2011 <span class="citation" data-cites="huang2011utility"><a href="#/references" role="doc-biblioref" onclick="">[21]</a></span>.</p></li></ol></aside></section>
+</section>
 <section id="iterative-approach" class="slide level2">
 <h2>Iterative Approach</h2>
 <div class="columns">
@@ -2423,18 +2478,13 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div style="font-size: 60%;">
-<p>We can use an iterative greedy algorithm:</p>
+<div style="font-size: 65%;">
+<p>We use an iterative greedy algorithm:</p>
 <ul>
-<li>First allocate cache space and read rate to highest backlog objects.
-<ul>
-<li>Time complexity dominated by sorting, worst case order of <span class="math inline">\(O(K \log K)\)</span>.</li>
-</ul></li>
-<li>Then allocate link bandwidth to largest backlog differential objects.
-<ul>
-<li>Complexity of <span class="math inline">\(O(DK \log DK)\)</span> where <span class="math inline">\(D\)</span> is a given node’s degree.</li>
-</ul></li>
-<li><strong><em>Feasible</em></strong>, i.e.&nbsp;does not allocate more service than existing backlog. Terminates when:
+<li>First allocate cache space and read rate to highest backlog objects.</li>
+<li>Then allocate link bandwidth to largest backlog differential objects.</li>
+<li>Do not allocate more service than existing backlog.</li>
+<li>Terminate when either:
 <ul>
 <li>All cache capacity / bandwidth and all link bandwidth is allocated, or</li>
 <li>All backlog is met by allocated service.</li>
@@ -2449,8 +2499,8 @@ Table&nbsp;1: Common parameters for all scenarios
 <section id="iterative-approach-properties" class="slide level2 smaller">
 <h2>Iterative Approach: Properties</h2>
 <ul>
-<li>Under <strong><em>heavy congestion</em></strong> where <span class="math inline">\(V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}\)</span>, for all <span class="math inline">\(t \geq 1, \nin, \kin\)</span>, reduces to standard <em>backpressure</em>.</li>
-<li>Given backlog state <span class="math inline">\(\mathbf{V}(t)\)</span>, following holds in general.</li>
+<li>Under <strong><em>heavy congestion</em></strong> where <span class="math inline">\(V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}\)</span>, for all <span class="math inline">\(t \geq 1, \nin, \kin\)</span>, reduces to earlier approach.</li>
+<li>Given backlog state <span class="math inline">\(\mathbf{V}(t)\)</span>, following holds.</li>
 </ul>
 <span class="math display">\[\begin{equation*}
 \begin{split}
@@ -2461,11 +2511,14 @@ Table&nbsp;1: Common parameters for all scenarios
 \end{split}
 \end{equation*}\]</span>
 <ul>
-<li>Computational complexity remains the same; sorting dominates.</li>
+<li>Computational complexity remains the same, dominated by sorting.
+<ul>
+<li><span class="math inline">\(O(K \log K)\)</span> for caching, <span class="math inline">\(O(DK \log DK)\)</span> for forwarding.</li>
+</ul></li>
 </ul>
 <hr>
 <div style="font-size: 80%;">
-<p><span class="math inline">\(F\knjt\)</span>, <span class="math inline">\(F^k_{nb}(t)\)</span>: Actual VIP flows under standard <em>backpressure</em>.</p>
+<p><span class="math inline">\(F\knjt\)</span>, <span class="math inline">\(F^k_{nb}(t)\)</span>: Actual VIP flows under <em>max-weight</em> caching, <em>backpressure</em> forwarding.</p>
 <p><span class="math inline">\(\hat{F}\knjt\)</span>, <span class="math inline">\(\hat{F}^k_{nb}(t)\)</span>: Those under iterative algorithm.</p>
 </div>
 <div class="footer">
@@ -2504,7 +2557,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <li>Sampled along with VIPs at each virtual plane time slot.</li>
 <li>Denote PIT samples as <span class="math inline">\(Q\knt\)</span>.</li>
 </ul></li>
-<li>Greedy algorithm maintains much smaller total VIP backlog.</li>
+<li>Iterative algorithm maintains much smaller total VIP backlog.</li>
 </ul>
 </div></div>
 <div class="footer">
@@ -2537,13 +2590,13 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div><div class="column" style="font-size: 75%">
 <ul>
-<li>Data plane policy supported by initial approach: MVIP-RR; by greedy algorithm MVIP-RR+.</li>
+<li>Data plane policy supported by initial approach: <strong>MVIP-RR</strong>; by iterative algorithm <strong>MVIP-RR+</strong>.</li>
 <li>Data plane backlog represented by PIT queue sizes.
 <ul>
 <li>Sampled along with VIPs at each virtual plane time slot.</li>
 <li>Denote samples as <span class="math inline">\(Q\knt\)</span>.</li>
 </ul></li>
-<li>Greedy algorithm maintains smaller virtual-data plane backlog <em>“gap”</em>.
+<li>Iterative algorithm maintains smaller virtual-data plane backlog <em>“gap”</em>.
 <ul>
 <li>Distance measure: <span class="math inline">\(\frac{1}{|\mc{N}|} \sum_{\nin} \lVert \mathbf{V}_n(t) - \mathbf{Q}_n(t) \rVert_2\)</span></li>
 </ul></li>
@@ -2558,8 +2611,8 @@ Table&nbsp;1: Common parameters for all scenarios
 <div style="font-size: 75%">
 <p>Data plane metrics show:</p>
 <ul>
-<li>Poor utilization of larger cache tier and resulting performance for MVIP-RR.</li>
-<li>Comparable delay performance along with great reduction in replacements for MVIP-RR+.</li>
+<li>Poor utilization of larger cache tier and resulting performance for <strong>MVIP-RR</strong>.</li>
+<li>Comparable delay performance along with great reduction in replacements for <strong>MVIP-RR+</strong>.</li>
 </ul>
 </div>
 <hr>
@@ -2578,8 +2631,8 @@ Table&nbsp;1: Common parameters for all scenarios
 <div style="font-size: 75%">
 <p>Data plane metrics show:</p>
 <ul>
-<li>Poor utilization of larger cache tier and resulting performance for MVIP-RR.</li>
-<li>Improved delay performance along with great reduction in replacements for MVIP-RR+.</li>
+<li>Poor utilization of larger cache tier and resulting performance for <strong>MVIP-RR</strong>.</li>
+<li>Improved delay performance along with great reduction in replacements for <strong>MVIP-RR+</strong>.</li>
 </ul>
 </div>
 <hr>
@@ -2712,7 +2765,7 @@ Table&nbsp;1: Common parameters for all scenarios
 </section>
 <section id="features" class="slide level2 smaller">
 <h2>Features</h2>
-<p>Codebase has many features for <em>ease of use</em>.</p>
+<p><a href="https://github.com/fvmutlu/multi-tier" data-preview-link="false">Codebase</a> has many features for <em>ease of use</em>.</p>
 <ul>
 <li>Experiment config and data output in JSON format.
 <ul>
@@ -2784,7 +2837,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn13"><p>“Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets”, Malak, D., Mutlu, F. V., Zhang, J., &amp; Yeh, E. M., ToN 2023 <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[4]</a></span>.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn12"><p>“Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets”, Malak, D., Mutlu, F. V., Zhang, J., &amp; Yeh, E. M., ToN 2023 <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[4]</a></span>.</p></li></ol></aside></section>
 <section id="power-caching-in-wireless-hetnets-2" class="slide level2" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
@@ -2822,7 +2875,7 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn14"><p>“Femtocaching: Wireless content delivery through distributed caching helpers.”, Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., &amp; Caire, G, IEEE Trans. Inf. Theory, 2013 <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[22]</a></span>.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn13"><p>“Femtocaching: Wireless content delivery through distributed caching helpers.”, Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., &amp; Caire, G, IEEE Trans. Inf. Theory, 2013 <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[21]</a></span>.</p></li></ol></aside></section>
 <section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
@@ -2842,7 +2895,7 @@ D_{(i,p)}^o(X,S)=\sum\limits_{k=1}^{|p|-1}f(\text{SINR}_{p_{k+1}p_k}(S))\prod\li
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
-<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[22]</a></span>.
+<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[21]</a></span>.
 <ul>
 <li><p>Convex relaxation on <em>binary caching variables</em> leads to reduced-complexity formulation (RCF).</p>
 <span class="math display">\[\begin{equation*}
@@ -2864,7 +2917,7 @@ g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, 
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
-<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[22]</a></span>.
+<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[21]</a></span>.
 <ul>
 <li>Convex relaxation on <em>binary caching variables</em> leads to reduced-complexity formulation (RCF).</li>
 <li>Given fixed power allocations <span class="math inline">\(S\)</span>, polynomial-time <span class="math inline">\(1-1/e\)</span> approximation can be constructed <span class="citation" data-cites="ioannidis2017jointly"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</li>
@@ -2878,7 +2931,7 @@ g_{p_k i}(Y)=1-\min\Big\{1,\sum\limits_{l=1}^k y_{p_l i}\Big\},\,\quad\forall\, 
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><p><strong>Objective:</strong> Total user request delay.</p></li>
-<li><p><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[22]</a></span>.</p>
+<li><p><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[21]</a></span>.</p>
 <ul>
 <li>Convex relaxation on <em>binary caching variables</em> leads to reduced-complexity formulation (RCF).</li>
 <li>Given fixed power allocations <span class="math inline">\(S\)</span>, polynomial-time <span class="math inline">\(1-1/e\)</span> approximation can be constructed <span class="citation" data-cites="ioannidis2017jointly"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</li>
@@ -2899,7 +2952,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
 <li><strong>Objective:</strong> Total user request delay.</li>
-<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[22]</a></span>.
+<li><strong>Challenge 1:</strong> Problem is NP-hard due to the <em>caching component</em> <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[21]</a></span>.
 <ul>
 <li>Convex relaxation on <em>binary caching variables</em> leads to reduced-complexity formulation (RCF).</li>
 <li>Given fixed power allocations <span class="math inline">\(S\)</span>, polynomial-time <span class="math inline">\(1-1/e\)</span> approximation can be constructed <span class="citation" data-cites="ioannidis2017jointly"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</li>
@@ -3039,7 +3092,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p>Additional Results</p>
 </div>
 </section>
-<section id="cache-capacity-2" class="slide level2" data-visibility="uncounted">
+<section id="cache-capacity-3" class="slide level2" data-visibility="uncounted">
 <h2>Cache Capacity</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -3080,7 +3133,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-capacity-3" class="slide level2" data-visibility="uncounted">
+<section id="cache-capacity-4" class="slide level2" data-visibility="uncounted">
 <h2>Cache Capacity</h2>
 <div class="columns">
 <div class="column" style="width:47%;">
@@ -3160,6 +3213,19 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
+<section id="additional-related-work" class="slide level2" data-visibility="uncounted">
+<h2>Additional Related Work</h2>
+<ul>
+<li>Allocation problem under <strong><em>no-underflow</em></strong> constraints is difficult to solve.
+<ul>
+<li>Perturbed max-weight scheduling <span class="citation" data-cites="huang2011utility"><a href="#/references" role="doc-biblioref" onclick="">[22]</a></span>.</li>
+</ul></li>
+<li>Placeholder.</li>
+</ul>
+<div class="footer">
+<p>Related Work</p>
+</div>
+</section>
 <section id="references" class="slide level2 smaller scrollable" data-visibility="uncounted">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
@@ -3223,11 +3289,11 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div id="ref-dabirmoghaddam2016characterizing" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[20] </div><div class="csl-right-inline">A. Dabirmoghaddam, M. Dehghan, and J. Garcia-Luna-Aceves, <span>“Characterizing interest aggregation in content-centric networks,”</span> in <em>2016 IFIP networking conference (IFIP networking) and workshops</em>, IEEE, 2016, pp. 449–457.</div>
 </div>
-<div id="ref-huang2011utility" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[21] </div><div class="csl-right-inline">L. Huang and M. J. Neely, <span>“Utility optimal scheduling in processing networks,”</span> <em>Performance Evaluation</em>, vol. 68, no. 11, pp. 1002–1021, 2011.</div>
-</div>
 <div id="ref-shanmugam2013femtocaching" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[22] </div><div class="csl-right-inline">K. Shanmugam, N. Golrezaei, A. G. Dimakis, A. F. Molisch, and G. Caire, <span>“Femtocaching: Wireless content delivery through distributed caching helpers,”</span> <em>IEEE Transactions on Information Theory</em>, vol. 59, no. 12, pp. 8402–8413, 2013.</div>
+<div class="csl-left-margin">[21] </div><div class="csl-right-inline">K. Shanmugam, N. Golrezaei, A. G. Dimakis, A. F. Molisch, and G. Caire, <span>“Femtocaching: Wireless content delivery through distributed caching helpers,”</span> <em>IEEE Transactions on Information Theory</em>, vol. 59, no. 12, pp. 8402–8413, 2013.</div>
+</div>
+<div id="ref-huang2011utility" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[22] </div><div class="csl-right-inline">L. Huang and M. J. Neely, <span>“Utility optimal scheduling in processing networks,”</span> <em>Performance Evaluation</em>, vol. 68, no. 11, pp. 1002–1021, 2011.</div>
 </div>
 </div>
 <div class="quarto-auto-generated-content">
