@@ -28,21 +28,16 @@ Introduction
 - This data also has to constantly be distributed across the world for research, which is a significant networking challenge.
 :::
 
-## Motivation: Data-Intensive Science {.smaller}
+## N-DISE
 
-*N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science* [^ndise]:
-
-::: {.incremental}
--   First high-performance NDN-based data delivery system for large-scale data-intensive science experiments.
--   Integration of state-of-the-art NDN forwarder, intelligent caching and forwarding, high-performance consumer/producer applications.
+::: {style="font-size: 85%;"}
+-   High-performance NDN-based data delivery system for large-scale data-intensive science.
+-   Integration of state-of-the-art NDN forwarder, intelligent caching and forwarding, and consumer/producer applications.
 -   Extensive testing over wide-area network spanning 5 US campuses using CMS experiment data.
 -   Individual contributions:
     - Built local testbed for prototyping.
-    - Supported WAN deployment and testing.
-    - Supported demonstrations during SC21 and SC22.
+    - Supported WAN deployment and testing, demonstrations during SC21 and SC22.
 :::
-
-[^ndise]: "N-DISE: NDN-based data distribution for large-scale data-intensive science", Wu, Y., Mutlu, F. V., Liu, Y., Yeh, E., Liu, R., ACM ICN 2022 @wu2022ndise.
 
 ::: {.footer}
 Introduction
@@ -61,7 +56,7 @@ Introduction
 **Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node.
 
 ::: {.incremental}
--   DRAM is the standard cache device due its speed; but is expensive and has limited capacity.
+-   DRAM is the standard cache device due its speed; but is expensive, has limited capacity and contended for.
 -   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM.
 -   Logical next step: use both! 
 :::
@@ -80,7 +75,7 @@ Introduction
 ::: {style="font-size: 85%;"}
 **Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node.
 
--   DRAM is the standard cache device due its speed; but is expensive and has limited capacity.
+-   DRAM is the standard cache device due its speed; but is expensive, has limited capacity and contended for.
 -   Next best option is NVMe SSD; is cheap and has large capacity, but much slower than DRAM.
 -   Logical next step: use both! 
 -   Open problem: "Expanding capacities with persistent memory or NVMe disk storage require novel multi-tier caching algorithms."[^ndndpdk]

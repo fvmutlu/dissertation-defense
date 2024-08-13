@@ -1,6 +1,5 @@
 ## Setup {.smaller}
 
-::: {.incremental}
 -  **Content Sources:** $\mc{S}(k)$ are selected uniformly at random.
 -  **Routing:** *Any* shortest path (in number of hops) between $n$ and $\mc{S}(k)$.
 -  **Cache Tiers:** Fixed two cache tiers at every node, fast and slow.
@@ -9,7 +8,6 @@
 - **Baselines:** Leave Copy Everywhere admission, Least Response Time forwarding, adapted replacements:
     - Least Recently Used (LRU), First-In-First-Out (FIFO), Uniform Random (UNIF), Least Frequently Used (LFU).
     - Penalty Aware LFU (PA-LFU) for trade-off baseline; uses *cache benefit* metric with frequency.
-:::
 
 ::: {.footer}
 Experiments
@@ -32,7 +30,7 @@ Experiments
 
 ## Parameter Reference Table {.smaller}
 
-*Cache capacity budget* $\Delta L = \Delta L_1 + \Delta L_2$ to enable comparisons with single-tier cases; based on the large purchasing cost ratio of DRAM to flash.
+[Cache capacity budget]{.body-highlight} $\Delta L = \Delta L_1 + \Delta L_2$ to allow comparisons with single tier setup; based on the large purchasing cost ratio of DRAM to flash.
 
 - Initial capacities are $L_{n_1} = 5$, $L_{n_2} = 0$.
 - Added capacity for $\Delta L > 0$ is $L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
@@ -182,7 +180,7 @@ Experiments
 
 • Returning data satisfies all aggregated requests.
 
-• Traditional view (*line-rate*) of caching suggests caching offsets aggregation benefit and effect is proportional with capacity[^agg].
+• *Line-rate* caching offsets aggregation benefit; effect is proportional with capacity[^agg].
 
 [^agg]: "Characterizing interest aggregation in content-centric networks.", IFIP Networking, 2016 @dabirmoghaddam2016characterizing.
 
@@ -252,7 +250,7 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Number of cache hits and second tier reads issued under IA for multi-tiered cases.
+Cache hits and second tier reads issued under IA for multi-tiered cases.
 
 Geant; $\lambda=50$, $\gamma=0.75$.
 :::

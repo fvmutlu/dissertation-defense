@@ -217,7 +217,7 @@ Virtual Plane Cache Read Rate Control
 - Allocation problem under ***no-underflow*** constraints is difficult to solve [^pmw].
     - Backpressure solution no longer *feasible*.
     - Caching and forwarding allocations tied together due to constraint.
-    - Integer program; relaxation is non-convex.
+    - Non-convex problem; computationally intensive to get approximations.
 :::
 
 [^pmw]: "Utility optimal scheduling in processing networks", Huang, L., & Neely, M. J., Performance Evaluation, 2011 @huang2011utility.

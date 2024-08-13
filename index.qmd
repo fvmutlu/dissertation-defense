@@ -8,8 +8,8 @@ author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis 
 
 - [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
     - "Cost-aware Joint Caching and Forwarding in Networks with Heterogeneous Cache Resources", **Mutlu, F. V.**, & Yeh, E., ICC 2024 @mutlu2023cost.
-    
-::: {style="font-size: 90%;"}
+
+::: {.fragment style="font-size: 90%;"}
 - **Other Contributions:**
     - "N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science", Wu, Y., **Mutlu, F. V.**, Liu, Y., Yeh, E., Liu, R., et al., ICN 2022 @wu2022ndise.
     - Joint power control and caching in wireless networks.
@@ -30,6 +30,19 @@ Overview
     - **Motivation**: Data volume grows exponentially, cache capacities need to scale.
     - **Challenge**: Operating larger caches efficiently is difficult.
     - **Goal**: Policies that observe cache characteristics to address this challenge.
+:::
+
+::: {.footer}
+Overview
+:::
+
+## Outline {visibility="uncounted"}
+
+::: {style="font-size: 90%;"}
+- [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
+    - **Review:** Motivation, challenge, model & approach.
+    - Detailed & expanded experimental results.
+    - Cache read rate control in virtual plane.
 :::
 
 ::: {.footer}

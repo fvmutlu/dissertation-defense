@@ -1,24 +1,31 @@
-## System Model
+## Data Plane Model {.smaller}
 
-![](images/system_model.svg){fig-align="center" width="60%" height="60%"}
+::: columns
+::: {.column width=40%}
 
-::: {.footer}
-System Model
+- Unit of content is ***data object***.
+    - Each object $\kin$ is of ***unit size***.
+    - Each $k$ has unique source $\mc{S}(k)$.
+    - Any node $n \not = \mc{S}(k)$ can cache $k$.
+
+[• Requests can enter network at any node.]{.fragment fragment-index=1}
+
+[• Responses carry data back, following reverse path.]{.fragment fragment-index=2}
+
+[• Nodes can respond from their cache.]{.fragment fragment-index=3}
+
+:::
+::: {.column width=60%}
+
+::: {.r-stack}
+![](images/dpmodel_1.svg){.fragment fragment-index=1 width="1200" fig-align="center" style="transform: translateY(40%)"}
+
+![](images/dpmodel_2.svg){.fragment fragment-index=2 width="1200" fig-align="center" style="transform: translateY(40%)"}
+
+![](images/dpmodel_3.svg){.fragment fragment-index=3 width="1200" fig-align="center" style="transform: translateY(40%)"}
 :::
 
-::: {.notes}
-- Here's a simple illustration of the system model the separation and interaction between the virtual and data planes we're adopting from the VIP paper.
-- The data plane is where actual network functionality is performed. The virtual plane uses the request arrival information from the data plane; its where control decisions are made.
 :::
-
-## Data Plane Model
-Object-level data plane model based on general ICN principles:
-
-::: {.incremental}
--   Unit of content is *data object*.
--   Each object $\kin$ has a unique source $\mc{S}(k)$.
--   Every data object has the same *unit size*.
--   Any node $n \not = \mc{S}(k)$ can cache $k$.
 :::
 
 ::: {.footer}
@@ -33,52 +40,35 @@ System Model
 - Those data responses will follow the path of the request back to the requester (inverse of the path, of course)
 :::
 
-## Data Plane Model
-
-::: {.incremental}
-• Requests can enter network at any node.
-
-[• Responses carry data back, following reverse path.]{.fragment fragment-index=2}
-
-[• Nodes can respond from their cache.]{.fragment fragment-index=3}
-:::
-
-::: {.r-stack}
-![](images/dpmodel_1.svg){width="648" height="360" fig-align="center"}
-
-![](images/dpmodel_2.svg){.fragment fragment-index=2 width="648" height="360" fig-align="center"}
-
-![](images/dpmodel_3.svg){.fragment fragment-index=3 width="648" height="360" fig-align="center"}
-:::
-
-::: {.footer}
-System Model
-:::
-
-## Data Plane Model
+## Data Plane Model {.smaller}
 
 ::: columns
 ::: {.column width=80%}
-We propose following [multi-tiered caching model]{.body-highlight} properties:
 
-• Any node can have any number of cache tiers.
+::: {style="font-size: 120%;"}
+We propose a [multi-tiered caching model]{.body-highlight}:
 
-• A node can cache an object in at most one of its tiers ([cache exclusivity]{.body-highlight}).
+• Nodes can have arbitrary number of *cache tiers*.
 
-[• An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node.]{.fragment fragment-index=1}
+[• A node can cache an object in at most one of its tiers, i.e. caches are *exclusive*.]{.fragment fragment-index=1}
 
-[• Each admission or eviction has an associated [utilization cost]{.body-highlight}.]{.fragment fragment-index=2}
+[• Cache operations are *non-blocking*; hits yield data based on transfer rate and can be queued.]{.fragment fragment-index=2}
+
+[• Each admission or eviction has an associated [utilization cost]{.body-highlight}.]{.fragment fragment-index=3}
+
+[• An object evicted from one tier can [migrate]{.body-highlight} to another tier at the same node.]{.fragment fragment-index=4}
+:::
+
 :::
 ::: {.column width=20%}
 ::: {.r-stack}
-![](images/tier1_admit.svg){.fragment .fade-out fragment-index=1 width="648" height="360" style="display: block; margin-left: auto; margin-right: 10px; transform: translateY(25%);"}
+![](images/tier2_admit.svg){.fragment .fade-in-then-out fragment-index=3 width="648" height="360" style="display: block; margin-left: auto; margin-right: 10px; transform: translateY(25%);"}
 
-![](images/tier2_admit.svg){.fragment .fade-in-then-out fragment-index=1 width="648" height="360" style="display: block; margin-left: auto; margin-right: 10px; transform: translateY(25%);"}
+![](images/migration.svg){.fragment .fade-in fragment-index=4 width="648" height="360" style="display: block; margin-left: auto; margin-right: 10px; transform: translateY(25%);"}
+:::
+:::
+:::
 
-![](images/migration.svg){.fragment .fade-in fragment-index=2 width="648" height="360" style="display: block; margin-left: auto; margin-right: 10px; transform: translateY(25%);"}
-:::
-:::
-:::
 
 ::: {.footer}
 System Model
@@ -89,14 +79,13 @@ System Model
 ::: {style="font-size: 75%;"}
 Virtual control plane model using the [VIP framework]{.body-highlight}[^vipog]:
 
-::: {.incremental}
--  *Virtual interest packets (VIPs)* generated alongside exogenous requests.
-    -  Every node keeps a [VIP counter]{.body-highlight} for every object $\kin$.
-    -  VIPs are removed at object sources and caching nodes.
--  Discrete time slots indexed $t = 1, 2, ...$; following happens beginning of each time slot:
+- *Virtual interest packets (VIPs)* generated alongside exogenous requests.
+    - Every node keeps a [VIP counter]{.body-highlight} for every object $\kin$.
+    - VIPs are removed at object sources and caching nodes.
+- Discrete time slots indexed $t = 1, 2, ...$. At the beginning of each slot:
     - Nodes update neighbors with local counter states using small message.
-    - VIPs are removed via caching and forwarded to neighbors, counters updated.
-:::
+    - Virtual plane algorithm decides cache placement and transmission allocations.
+    - VIPs removed / forwarded, counters updated.
 :::
 
 [^vipog]: "VIP: A framework for joint dynamic forwarding and caching in named data networks", Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., & Leong, D., ACM ICN 2014 @yeh2014vip.

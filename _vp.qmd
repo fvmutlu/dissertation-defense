@@ -1,3 +1,56 @@
+## Optimization Overview {.smaller}
+
+::: {style="font-size:110%"}
+**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, keep cache utilization costs minimal.
+
+**Approach:** Extending VIP @yeh2014vip, minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression:
+```{=tex}
+\begin{equation*}
+    \drift + \omega \pen
+\end{equation*}
+```
+where $\omega \geq 0$ is the [penalty importance weight]{.body-highlight} and
+```{=tex}
+\begin{equation*}
+    \drift \triangleq \mathbb{E}[\mathcal{L}(\mathbf{V}(t+1))-\mc{L}(\mathbf{V}(t))|\mathbf{V}(t)]
+\end{equation*}
+```
+```{=tex}
+\begin{equation*}
+    \mc{L}(\mathbf{V}(t)) \triangleq \frac{1}{2} \sum\limits_{\nin, \kin} (V^k_n(t))^2
+\end{equation*}
+```
+:::
+
+[^dpp]: "Stochastic network optimization with application to communication and queueing systems.", M. J. Neely, Springer Nature, 2022 @neely2022stochastic.
+
+::: {.footer}
+Optimization Framework
+:::
+
+## Optimization Overview {.smaller visibility="uncounted"}
+
+::: {style="font-size:110%"}
+**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, keep cache utilization costs minimal.
+
+**Approach:** Extending VIP @yeh2014vip, minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression.
+
+**Algorithm:** Distributed and adaptive; solve caching and forwarding subproblems at each node, beginning of each time slot, based on current backlogs.
+
+:::
+
+::: {.footer}
+Optimization Framework
+:::
+
+::: {.notes}
+- And here's how we tackle this optimization. We devise an algorithm that's made of two steps (caching and forwarding), which chooses the respective variables every time slot, to optimize a certain objective based on the VIP counts. We're looking at the caching step right now.
+- Obviously there is a lot of math to get to this expression for the objective function, but I'll give you the intuition briefly.
+- Because we want to remove as many VIPs from the network as fast as possible, we want to cache the higher VIP count objects in the faster tiers, which is why the read rate multiplies the VIP count here.
+- However, we also want to make sure that our choices in caching actions do not add large penalties that outweigh the benefits. Of course the importance of that is determined by omega.
+- And of course we have the cache tier capacity constraints and the cache exclusivity constraints
+:::
+
 ## Theorem: Stability Region
 
 VIP [stability region]{.body-highlight} $\Lambda$ consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
@@ -74,57 +127,7 @@ Optimization Framework
 - (Fragment in) We'll also be concerned with the sum penalty across the network
 :::
 
-## Optimization Overview {.smaller}
 
-::: {style="font-size:110%"}
-**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, keep cache utilization costs minimal.
-
-**Approach:** Extending @yeh2014vip, minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression:
-```{=tex}
-\begin{equation*}
-    \drift + \omega \pen
-\end{equation*}
-```
-where $\omega \geq 0$ is the [penalty importance weight]{.body-highlight} and
-```{=tex}
-\begin{equation*}
-    \drift \triangleq \mathbb{E}[\mathcal{L}(\mathbf{V}(t+1))-\mc{L}(\mathbf{V}(t))|\mathbf{V}(t)]
-\end{equation*}
-```
-```{=tex}
-\begin{equation*}
-    \mc{L}(\mathbf{V}(t)) \triangleq \frac{1}{2} \sum\limits_{\nin, \kin} (V^k_n(t))^2
-\end{equation*}
-```
-:::
-
-[^dpp]: "Stochastic network optimization with application to communication and queueing systems.", M. J. Neely, Springer Nature, 2022 @neely2022stochastic.
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Optimization Overview {.smaller visibility="uncounted"}
-
-::: {style="font-size:110%"}
-**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, keep cache utilization costs minimal.
-
-**Approach:** Extending @yeh2014vip, minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression.
-
-- Yields distributed algorithm with caching and forwarding subproblems solved at the beginning of each time slot.
-:::
-
-::: {.footer}
-Optimization Framework
-:::
-
-::: {.notes}
-- And here's how we tackle this optimization. We devise an algorithm that's made of two steps (caching and forwarding), which chooses the respective variables every time slot, to optimize a certain objective based on the VIP counts. We're looking at the caching step right now.
-- Obviously there is a lot of math to get to this expression for the objective function, but I'll give you the intuition briefly.
-- Because we want to remove as many VIPs from the network as fast as possible, we want to cache the higher VIP count objects in the faster tiers, which is why the read rate multiplies the VIP count here.
-- However, we also want to make sure that our choices in caching actions do not add large penalties that outweigh the benefits. Of course the importance of that is determined by omega.
-- And of course we have the cache tier capacity constraints and the cache exclusivity constraints
-:::
 
 ## Virtual Plane Algorithm
 [Caching:]{.body-highlight} Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
@@ -193,7 +196,7 @@ Optimization Framework
 ## Lemma: Caching Solution
 
 ::: {style="font-size: 80%;"}
-Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}; obtain equivalent [linear assignment problem]{.body-highlight}.
+Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}, obtain equivalent [linear assignment problem]{.body-highlight}.
 :::
 
 ![](images/transform.svg){width="75%" height="75%" fig-align="center"}
@@ -315,7 +318,7 @@ Optimal solution to [forwarding]{.body-highlight} problem is obtained by choosin
 ```
 :::
 
-This is the well-known ***backpressure*** solution, also used in @yeh2014vip.
+This is the well-known ***backpressure*** solution.
 
 ::: {.footer}
 Optimization Framework
