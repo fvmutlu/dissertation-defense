@@ -6,7 +6,7 @@
 -  **Requests:** Requests generated for 100 simulation seconds, run terminates when all requests are resolved.
     - Poisson arrivals with rate $\lambda$ at each node; popularity distribution is Zipf with parameter $\gamma$.
 - **Baselines:** LCE admission, LRT forwarding, adapted replacements:
-    - Least Recently Used (LRU), First-In-First-Out (FIFO), Uniform Random (UNIF), Least Frequently Used (LFU).
+    - LRU, FIFO, UNIF, LFU + single-tier VIP.
     - Penalty Aware LFU (PA-LFU) for trade-off baseline; uses *cache benefit* metric with frequency.
 
 ::: {.footer}
@@ -43,26 +43,6 @@ Experiments
 - So the results I'll show here are those that I think most succinctly show that our approach can deliver on our goals
 :::
 
-## Parameter Reference Table {.smaller}
-
-| Parameter | Value |
-|:-:|:-:|
-|Number of objects in catalog $\mc{K}$|2000|
-|Bandwidth of each link $\abin$, in objects|10|
-|Read / write rate of tier 1 at each $n$, in objects/sec|25, 25|
-|Admission / eviction costs of tier 1 at each $n$|4, 2|
-|Read / write rate of tier 2 at each $n$, in objects/sec|10, 5|
-|Admission / eviction costs of tier 2 at each $n$|2, 1|
-: Common parameters for all scenarios {#tbl-params tbl-colwidths="[85,15]"}
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- As I said, there are a great number of parameters for these experiments and I'm not going to cover each one in the interest of time, but we have this table for reference if needed
-:::
-
 ## Cache Capacity
 
 ![](images/size_comp_geant_all_075_15.svg){width="100%" fig-align="center"}
@@ -82,7 +62,7 @@ Experiments
 :::
 
 ::: {.notes}
-- At the beginning we mentioned that due to the slow speeds of the added tier more capacity may not necessarily be beneficial.
+- At the beginning we mentioned that due to the slow speeds of the added tier, more capacity may not necessarily be beneficial.
 - So one of the most important questions for our experimentation is, how large of a cache can we benefit from? This setting explores that.
 - For the time being we ignore the penalty importance weight, we'll get to that later.
 - We compare all baselines, with both single and two-tiered versions. To allow the comparison between these, we used a notion of capacity budget.
@@ -315,7 +295,7 @@ Experiments
 
 ## Lessons Learned
 
-- When using slower added tiers, more cache hits is not always better.
+- When using slower tiers, more cache hits is not always better.
 - MVIP is an effective policy outperforming baselines; LFU with LRT is very close.
 - Penalizing cache operations not only minimizes costs, but can *improve* performance.
 - Interest aggregation is powerful; less cache is needed, but multi-tier can still have benefits.

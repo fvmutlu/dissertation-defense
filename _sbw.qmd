@@ -44,41 +44,6 @@ Virtual Plane Cache Read Rate Control
 Virtual Plane Cache Read Rate Control
 :::
 
-
-## Theorem: Stability Region
-
-[VIP stability region]{.body-highlight} $\Lambda$ under *cache bandwidth constraints* consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
-
-::: {style="font-size: 80%;"}
-```{=tex}
-\begin{equation*}
-\lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}
-\end{equation*}
-```
-:::
-<hr>
-
-::: {style="font-size: 70%; text-align: center"}
-
-:::
-
-::: columns
-::: {.column width="50%" style="font-size: 70%;"}
-$f^k_{ab}$: Time-average VIP flow for $k$ over $(a,b)$.
-
-$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1.
-:::
-::: {.column width="50%" style="font-size: 70%;"}
-$f^k_{n,i}$: Average VIPs of $k$ removed via caching under placement $\mc{B}_{n,i}$.
-
-$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
-:::
-:::
-
-::: {.footer}
-Virtual Plane Cache Read Rate Control
-:::
-
 ## Virtual Plane Caching
 
 Perform [caching]{.body-highlight} by choosing $r\knjt$ and $s\knjt$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
@@ -161,6 +126,40 @@ where
     B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
 \end{equation*}
 ```
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Theorem: Stability Region
+
+[VIP stability region]{.body-highlight} $\Lambda$ under *cache bandwidth constraints* consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
+
+::: {style="font-size: 80%;"}
+```{=tex}
+\begin{equation*}
+\lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}
+\end{equation*}
+```
+:::
+<hr>
+
+::: {style="font-size: 70%; text-align: center"}
+
+:::
+
+::: columns
+::: {.column width="50%" style="font-size: 70%;"}
+$f^k_{ab}$: Time-average VIP flow for $k$ over $(a,b)$.
+
+$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1.
+:::
+::: {.column width="50%" style="font-size: 70%;"}
+$f^k_{n,i}$: Average VIPs of $k$ removed via caching under placement $\mc{B}_{n,i}$.
+
+$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
+:::
 :::
 
 ::: {.footer}
@@ -280,6 +279,8 @@ Virtual Plane Cache Read Rate Control
 
 - Under ***heavy congestion*** where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, reduces to earlier approach.
 - Given backlog state $\mathbf{V}(t)$, following holds.
+
+::: {style="font-size: 80%;"}
 ```{=tex}
 \begin{equation*}
 \begin{split}
@@ -290,6 +291,8 @@ Virtual Plane Cache Read Rate Control
 \end{split}
 \end{equation*}
 ```
+:::
+
 - Computational complexity remains the same, dominated by sorting.
     - $O(K \log K)$ for caching, $O(DK \log DK)$ for forwarding.
 
