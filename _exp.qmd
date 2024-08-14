@@ -85,7 +85,8 @@ Experiments
 - At the beginning we mentioned that due to the slow speeds of the added tier more capacity may not necessarily be beneficial.
 - So one of the most important questions for our experimentation is, how large of a cache can we benefit from? This setting explores that.
 - For the time being we ignore the penalty importance weight, we'll get to that later.
-- We compare all baselines, with both single and two-tiered versions.
+- We compare all baselines, with both single and two-tiered versions. To allow the comparison between these, we used a notion of capacity budget.
+- Basically, we start with a small single cache tier, then separately increment capacities of each tier. Of course the same budget gets us a lot more capacity in the secondary tier.
 - We see that trends differ across policies, and for multi-tiered versions of some baselines, there's a minimum delay point after which the added capacity becomes detrimental.
 - While such a point would also exist for MVIP, in this setting it is not met within the budget.
 - The minimum delay point comes at a higher allocation budget for MVIP compared with LRU and LFU, but the total delay is roughly 15% better than LFU's minimal point.
@@ -112,7 +113,9 @@ Experiments
 :::
 
 ::: {.notes}
-- Placeholder.
+- This next set of figures shed a bit more light on the delay trends from the previous slide.
+- Essentially, the differences come down to how the cache traffic is balanced, and how much cache operations contribute to delay.
+- This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively. 
 :::
 
 ## Request Pattern Parameters
@@ -137,7 +140,8 @@ Experiments
 :::
 
 ::: {.notes}
-- Placeholder.
+- Moving on, we also observed trends regarding the impact of traffic volume and request pattern.
+- In summary, we see that the MVIP strategy outperforms baselines across the board.
 :::
 
 ## More Topologies {.smaller}
@@ -151,7 +155,11 @@ Experiments
 :::
 
 ::: {.notes}
-- Placeholder.
+- Of course we also conducted many experiments across other topologies.
+- This slide shows a summary of one experiment where we've tested each possible combination of capacity allocations across the two tiers given the maximum budget.
+- The values represent the reduction in delay normalized to delay with no caching.
+- One takeaway from the figure is that MVIP still outperforms most baselines across the board, with LFU again being a very close competitor.
+- Another important takeaway is seen from the table, where we observe MVIP tends to hit its best delay point with a larger allocation in the second tier compared to baselines.
 :::
 
 
