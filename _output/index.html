@@ -739,7 +739,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>We propose a <span class="body-highlight">multi-tiered caching model</span>:</p>
 <p>• Nodes can have arbitrary number of <em>cache tiers</em>.</p>
 <p><span class="fragment" data-fragment-index="1">• A node can cache an object in at most one of its tiers, i.e.&nbsp;caches are <strong><em>exclusive</em></strong>.</span></p>
-<p><span class="fragment" data-fragment-index="2">• Cache operations are <strong><em>non-blocking</em></strong>; hits yield data based on transfer rate and can be queued.</span></p>
+<p><span class="fragment" data-fragment-index="2">• Cache operations are <strong><em>non-blocking</em></strong> and can be queued.</span></p>
 <p><span class="fragment" data-fragment-index="3">• Each admission or eviction has an associated <strong><em>utilization cost</em></strong>.</span></p>
 <p><span class="fragment" data-fragment-index="4">• An object evicted from one tier can <strong><em>migrate</em></strong> to another tier at the same node.</span></p>
 </div>
@@ -914,44 +914,23 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn3"><p>“Stochastic network optimization with application to communication and queueing systems.”, M. J. Neely, Springer Nature, 2022 <span class="citation" data-cites="neely2022stochastic"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</p></li></ol></aside></section>
-<section id="theorem-stability-region" class="slide level2">
-<h2>Theorem: Stability Region</h2>
-<p>VIP <span class="body-highlight">stability region</span> <span class="math inline">\(\Lambda\)</span> consists of all arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that:</p>
-<div style="font-size: 80%;">
-<span class="math display">\[\begin{equation*}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j} \multind
-\end{equation*}\]</span>
+<section id="optimization-overview-1" class="slide level2 smaller">
+<h2>Optimization Overview</h2>
+<div style="font-size:110%">
+<p><strong>Goals:</strong> Guarantee stability of all VIP queues, maintain total VIP queue backlog small, <em>keep cache utilization costs minimal</em>.</p>
+<p><strong>Approach:</strong> Minimize upper bound of <span class="body-highlight">drift-plus-penalty</span><sup>1</sup> expression.</p>
+<p>Distributed algorithm Performed at the beginning of each slot:</p>
+<ul>
+<li>Observes local and neighbor VIP queue states.</li>
+<li>Chooses cache placement variables.</li>
+<li>Chooses forwarding rate allocations.</li>
+<li>Updates queue states.</li>
+</ul>
 </div>
-<hr>
-<div style="font-size: 70%; text-align: center">
-<p><span class="math inline">\(f^k_{ab}\)</span>: Time-average actual VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></p>
-</div>
-<div class="columns">
-<div class="column" style="font-size: 70%;">
-<p><span class="math inline">\(\mc{B}_{n,i}\)</span>: i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1.</p>
-</div><div class="column" style="font-size: 70%;">
-<p><span class="math inline">\(\beta_{n,i}\)</span>: Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span>.</p>
-</div></div>
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
-<aside class="notes">
-<ul>
-<li>The analysis of our approach comes in two steps. We’re following the structure of Lyapunov drift-based analysis here, so we first define the stability region of the virtual plane network.</li>
-<li>The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rates that can be satisfied to the long term average VIP flow over links, as well as VIPs removed via cache tiers.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>“Stochastic network optimization with application to communication and queueing systems.”, M. J. Neely, Springer Nature, 2022 <span class="citation" data-cites="neely2022stochastic"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</p></li></ol></aside></section>
 <section id="virtual-plane-caching" class="slide level2">
 <h2>Virtual Plane Caching</h2>
 <div style="font-size: 100%;">
@@ -1103,7 +1082,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <div class="footer">
 <p>Optimization Framework</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>“On implementing 2D rectangular assignment algorithms”, Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems, 2016 <span class="citation" data-cites="crouse2016implementing"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>“On implementing 2D rectangular assignment algorithms”, Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems, 2016 <span class="citation" data-cites="crouse2016implementing"><a href="#/references" role="doc-biblioref" onclick="">[17]</a></span>.</p></li></ol></aside></section>
 <section id="virtual-plane-forwarding" class="slide level2 smaller">
 <h2>Virtual Plane Forwarding</h2>
 <p><span class="body-highlight">Forwarding.</span> Choose <span class="math inline">\(\mu^k_{ab}(t)\)</span> for each <span class="math inline">\(\kin\)</span> and <span class="math inline">\(\abin^k\)</span> to:</p>
@@ -1143,10 +1122,32 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>Optimization Framework</p>
 </div>
 </section>
+<section id="stability-region" class="slide level2">
+<h2>Stability Region</h2>
+<p>VIP <span class="body-highlight">stability region</span> <span class="math inline">\(\Lambda\)</span> consists of all arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that:</p>
+<div style="font-size: 80%;">
+<span class="math display">\[\begin{equation*}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j} \multind
+\end{equation*}\]</span>
+</div>
+<hr>
+<div style="font-size: 70%; text-align: center">
+<p><span class="math inline">\(f^k_{ab}\)</span>: Time-average actual VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span></p>
+</div>
+<div class="columns">
+<div class="column" style="font-size: 70%;">
+<p><span class="math inline">\(\mc{B}_{n,i}\)</span>: i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1.</p>
+</div><div class="column" style="font-size: 70%;">
+<p><span class="math inline">\(\beta_{n,i}\)</span>: Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span>.</p>
+</div></div>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
 <section id="bound-trade-off" class="slide level2 smaller">
 <h2>Bound Trade-off</h2>
-<div style="font-size: 120%;">
-<p><span class="body-highlight">Backlog-penalty trade-off</span> for arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} \in \textup{int}(\Lambda)\)</span>:</p>
+<div style="font-size: 100%;">
+<p><span class="body-highlight">Backlog-penalty trade-off</span> for arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, with <span class="math inline">\(\boldsymbol{\epsilon} &gt; \boldsymbol{0}\)</span>:</p>
 </div>
 <div style="font-size: 90%;">
 <span class="math display">\[\begin{equation*}
@@ -1164,7 +1165,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <span class="math display">\[\begin{equation*}
 \epsilon = \textstyle \min_{\nin,\kin} \epsilon^k_n
 \end{equation*}\]</span>
-<p><span class="math inline">\(\bar{P}(\boldsymbol{\lambda})\)</span>: Minimum expected time-average sum penalty achievable by feasible stationary policy.</p>
+<p><span class="math inline">\(\bar{P}(\boldsymbol{\lambda})\)</span>: Minimum expected time-average sum penalty achievable by a feasible stabilizing policy.</p>
 </div>
 <div class="footer">
 <p>Optimization Framework</p>
@@ -1211,13 +1212,12 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="transition-to-data-plane" class="slide level2">
 <h2>Transition to Data Plane</h2>
 <div style="font-size: 90%;">
-<p>Considerations for mapping virtual plane algorithm to data plane:</p>
+<p>Need data plane <span class="body-highlight">caching policy</span> and <span class="body-highlight">forwarding policy</span> operating in real time:</p>
 <ul>
-<li>Data plane requires a <span class="body-highlight">caching policy</span> and a <span class="body-highlight">forwarding policy</span> operating in real time.</li>
 <li>VIP counts updated each virtual plane time slot and oscillate.</li>
 <li>We do not have immediate access to objects for caching purposes in the data plane.</li>
+<li>Will use virtual plane <strong><em>flow averages</em></strong> to guide data plane policies.</li>
 </ul>
-<p>We use virtual plane <em>flow trends</em> to guide data plane policies.</p>
 </div>
 <div class="footer">
 <p>Data Plane Strategy</p>
@@ -1273,7 +1273,7 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <h2>Data Plane Caching</h2>
 <div style="font-size: 90%;">
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau \in [t,t+1)\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching Policy} \begin{algorithmic} \State Find $j^* = \argmax_{\jin} CB^k_{n_j}(\tau)$. \If{$CB^k_{n_{j^*}}(\tau) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \ElsIf{$CB^k_{n_{j^*}}(\tau) &gt; 0$} \State Replace $k^{min}_{n_{j^*}}$ with $k$ and update $\mc{K}_{n_{j^*}}(\tau)$. \State Restart procedure with $k \gets k^{min}_{n_{j^*}}$. \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -1447,7 +1447,7 @@ Table&nbsp;1: Common parameters for all scenarios
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn5"><p>The GN4 Phase 3 Network project, https://network.geant.org/gn4-3n/</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn6"><p>The GN4 Phase 3 Network project, https://network.geant.org/gn4-3n/</p></li></ol></aside></section>
 <section id="parameter-reference-table" class="slide level2 smaller">
 <h2>Parameter Reference Table</h2>
 <div id="tbl-params" class="quarto-float quarto-figure quarto-figure-center" data-tbl-colwidths="[85,15]">
@@ -1788,49 +1788,32 @@ Table&nbsp;2: Common parameters for all scenarios
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- ## Interest Aggregation
+
+::: columns
+::: {.column width="50%"}
+![Cache hits](images/size_comp_ia_geant_075_50_hits.svg)
+:::
+::: {.column width="50%"}
+![Second tier hits vs. reads](images/size_comp_ia_geant_075_50_hits_reads_tier2.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Cache hits and second tier reads issued under IA for multi-tiered cases.
+
+Geant; $\lambda=50$, $\gamma=0.75$.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Placeholder.
+::: -->
 </section>
 <section id="interest-aggregation-3" class="slide level2">
-<h2>Interest Aggregation</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_ia_geant_075_50_hits.svg"></p>
-<figcaption>Cache hits</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_ia_geant_075_50_hits_reads_tier2.svg"></p>
-<figcaption>Second tier hits vs.&nbsp;reads</figcaption>
-</figure>
-</div>
-</div></div>
-<div style="font-size: 80%; text-align: center">
-<p>Cache hits and second tier reads issued under IA for multi-tiered cases.</p>
-<p>Geant; <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="interest-aggregation-4" class="slide level2">
 <h2>Interest Aggregation</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -1941,7 +1924,7 @@ Table&nbsp;2: Common parameters for all scenarios
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="theorem-stability-region-1" class="slide level2">
+<section id="theorem-stability-region" class="slide level2">
 <h2>Theorem: Stability Region</h2>
 <p><span class="body-highlight">VIP stability region</span> <span class="math inline">\(\Lambda\)</span> under <em>cache bandwidth constraints</em> consists of all arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that:</p>
 <div style="font-size: 80%;">
@@ -2047,7 +2030,7 @@ Table&nbsp;2: Common parameters for all scenarios
 <h2>Data Plane Application</h2>
 <p>When data for <span class="math inline">\(k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)\)</span> arrives at <span class="math inline">\(n\)</span> at instance <span class="math inline">\(\tau \in [t,t+1)\)</span>, <span class="body-highlight">data plane caching policy</span> at <span class="math inline">\(n\)</span> behaves as follows:</p>
 <div style="font-size: 75%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Data Plane Caching w/ Virtual Plane Cache Read Rate Control} \begin{algorithmic} \State Find cache tier $j^* = \argmax_{\jin} \bar{F}^k_{n_j}(t)$. \If{$\bar{F}^k_{n_{j^*}}(t) \geq \max_{ b:(n,b) \in \mc{L}^k } \bar{F}_{nb}^k(t)$} \If{$\bar{F}_{n,in}^k(t) &gt; 0$ and $|\mc{K}_{n_{j^*}}(\tau)| &lt; L_{n_{j^*}}$} \State Admit $k$ into $j^*$. \Else \State Find $k_{min} = \argmin_{k \in \mc{K}_{n_{j^*}}(\tau)} \bar{F}_{n,in}^k(t)$. \If{$\bar{F}_{n,in}^k(t) &gt; \bar{F}_{n,in}^{k_{min}}(t)$} \State Replace $k_{min}$ with $k$, and restart procedure for $k_{min}$. \EndIf \EndIf \EndIf \end{algorithmic} \end{algorithm}
 </div>
@@ -2087,12 +2070,12 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 45%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Procedure:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
 </div>
@@ -2458,7 +2441,7 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn6"><p>“Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets”, Malak, D., Mutlu, F. V., Zhang, J., &amp; Yeh, E. M., ToN 2023 <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[4]</a></span>.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn7"><p>“Joint Power Control and Caching for Transmission Delay Minimization in Wireless HetNets”, Malak, D., Mutlu, F. V., Zhang, J., &amp; Yeh, E. M., ToN 2023 <span class="citation" data-cites="malak2023joint"><a href="#/references" role="doc-biblioref" onclick="">[4]</a></span>.</p></li></ol></aside></section>
 <section id="power-caching-in-wireless-hetnets-2" class="slide level2" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
@@ -2496,7 +2479,7 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Conclusion &amp; Other Work</p>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn7"><p>“Femtocaching: Wireless content delivery through distributed caching helpers.”, Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., &amp; Caire, G, IEEE Trans. Inf. Theory, 2013 <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn8"><p>“Femtocaching: Wireless content delivery through distributed caching helpers.”, Shanmugam, K., Golrezaei, N., Dimakis, A. G., Molisch, A. F., &amp; Caire, G, IEEE Trans. Inf. Theory, 2013 <span class="citation" data-cites="shanmugam2013femtocaching"><a href="#/references" role="doc-biblioref" onclick="">[18]</a></span>.</p></li></ol></aside></section>
 <section id="power-caching-in-wireless-hetnets-4" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Power &amp; Caching in Wireless HetNets</h2>
 <ul>
@@ -2592,7 +2575,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 80%;">
-<div class="pseudocode-container quarto-float" data-caption-prefix="Algorithm:" data-line-number="true">
+<div class="pseudocode-container quarto-float" data-line-number="true" data-caption-prefix="Algorithm:">
 <div class="pseudocode">
 \begin{algorithm} \caption{Subgradient Projection} \begin{algorithmic} \State{Choose $S^{0}$, $Y^{0}$, small scalar $\epsilon &gt; 0$ and let $t=0$.} \While{$D^t - D^{t-1} &gt; \epsilon \;$} \State{Compute subgradients $d^t_S, d^t_Y$.} \State{Determine step sizes $\xi^t_Y$, $\xi^t_S $.} \State{Compute projected variables $\bar{S}^t$, ${\bar{Y}}^t$.} \State{$t \gets t+1, S^{t+1} \gets \bar{S}^t, Y^{t+1} \gets \bar{Y}^t$.} \EndWhile \State{$(Y^{*}_{sub},S^{*}_{sub}) \gets (Y^{t},S^{t})$.} \State{Perform pipage rounding on $(Y^{*}_{sub},S^{*}_{sub})$.} \end{algorithmic} \end{algorithm}
 </div>
@@ -2814,6 +2797,47 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 </div></div>
 <div style="font-size: 80%; text-align: center">
 <p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Abilene, <span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+</div>
+<div class="footer">
+<p>Additional Results</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="interest-aggregation-hits-vs.-reads" class="slide level2">
+<h2>Interest Aggregation: Hits vs.&nbsp;Reads</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_ia_geant_075_50_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_ia_geant_075_50_hits_reads_tier2.svg"></p>
+<figcaption>Second tier hits vs.&nbsp;reads</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Cache hits and second tier reads issued under IA for multi-tiered cases.</p>
+<p>Geant; <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
 </div>
 <div class="footer">
 <p>Additional Results</p>

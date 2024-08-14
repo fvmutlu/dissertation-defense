@@ -53,7 +53,7 @@ We propose a [multi-tiered caching model]{.body-highlight}:
 
 [• A node can cache an object in at most one of its tiers, i.e. caches are ***exclusive***.]{.fragment fragment-index=1}
 
-[• Cache operations are ***non-blocking***; hits yield data based on transfer rate and can be queued.]{.fragment fragment-index=2}
+[• Cache operations are ***non-blocking*** and can be queued.]{.fragment fragment-index=2}
 
 [• Each admission or eviction has an associated ***utilization cost***.]{.fragment fragment-index=3}
 

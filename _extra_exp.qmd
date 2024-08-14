@@ -86,3 +86,28 @@ Additional Results
 ::: {.notes}
 - Placeholder.
 :::
+
+## Interest Aggregation: Hits vs. Reads
+
+::: columns
+::: {.column width="50%"}
+![Cache hits](images/size_comp_ia_geant_075_50_hits.svg)
+:::
+::: {.column width="50%"}
+![Second tier hits vs. reads](images/size_comp_ia_geant_075_50_hits_reads_tier2.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Cache hits and second tier reads issued under IA for multi-tiered cases.
+
+Geant; $\lambda=50$, $\gamma=0.75$.
+:::
+
+::: {.footer}
+Additional Results
+:::
+
+::: {.notes}
+- Placeholder.
+:::

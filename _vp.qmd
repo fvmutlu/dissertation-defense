@@ -36,39 +36,23 @@ Optimization Framework
 - And of course we have the cache tier capacity constraints and the cache exclusivity constraints
 :::
 
-## Theorem: Stability Region
+## Optimization Overview {.smaller}
 
-VIP [stability region]{.body-highlight} $\Lambda$ consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
+::: {style="font-size:110%"}
+**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, *keep cache utilization costs minimal*.
 
-::: {style="font-size: 80%;"}
-```{=tex}
-\begin{equation*}
-    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j} \multind
-\end{equation*}
-```
-:::
-<hr>
+**Approach:** Minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression.
 
-::: {style="font-size: 70%; text-align: center"}
-$f^k_{ab}$: Time-average actual VIP flow for $k$ over $(a,b)$
-:::
+Distributed algorithm Performed at the beginning of each slot:
 
-::: columns
-::: {.column width="50%" style="font-size: 70%;"}
-$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1.
-:::
-::: {.column width="50%" style="font-size: 70%;"}
-$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
-:::
+- Observes local and neighbor VIP queue states.
+- Chooses cache placement variables.
+- Chooses forwarding rate allocations.
+- Updates queue states.
 :::
 
 ::: {.footer}
 Optimization Framework
-:::
-
-::: {.notes}
-- The analysis of our approach comes in two steps. We're following the structure of Lyapunov drift-based analysis here, so we first define the stability region of the virtual plane network.
-- The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rates that can be satisfied to the long term average VIP flow over links, as well as VIPs removed via cache tiers.
 :::
 
 ## Virtual Plane Caching
@@ -241,10 +225,40 @@ $\mc{L}^k$: Set of links allowed to transmit VIPs of $k$ as per routing policy.
 Optimization Framework
 :::
 
+## Stability Region
+
+VIP [stability region]{.body-highlight} $\Lambda$ consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
+
+::: {style="font-size: 80%;"}
+```{=tex}
+\begin{equation*}
+    \lambda^k_n \leq \sum\limits_{\bin} f^k_{nb} - \sum\limits_{\ain} f^k_{an} +  \betasum \sum\limits_{\jin} r_{n_j} \multind
+\end{equation*}
+```
+:::
+<hr>
+
+::: {style="font-size: 70%; text-align: center"}
+$f^k_{ab}$: Time-average actual VIP flow for $k$ over $(a,b)$
+:::
+
+::: columns
+::: {.column width="50%" style="font-size: 70%;"}
+$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1.
+:::
+::: {.column width="50%" style="font-size: 70%;"}
+$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
+:::
+:::
+
+::: {.footer}
+Optimization Framework
+:::
+
 ## Bound Trade-off {.smaller}
 
-::: {style="font-size: 120%;"}
-[Backlog-penalty trade-off]{.body-highlight} for arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$:
+::: {style="font-size: 100%;"}
+[Backlog-penalty trade-off]{.body-highlight} for arrival rate vector $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, with $\boldsymbol{\epsilon} > \boldsymbol{0}$:
 :::
 
 ::: {style="font-size: 90%;"}
@@ -274,7 +288,7 @@ Optimization Framework
 \end{equation*}
 ```
 
-$\bar{P}(\boldsymbol{\lambda})$: Minimum expected time-average sum penalty achievable by feasible stationary policy.
+$\bar{P}(\boldsymbol{\lambda})$: Minimum expected time-average sum penalty achievable by a feasible stabilizing policy.
 :::
 
 ::: {.footer}

@@ -1,13 +1,11 @@
 ## Transition to Data Plane
 
 ::: {style="font-size: 90%;"}
-Considerations for mapping virtual plane algorithm to data plane:
+Need data plane [caching policy]{.body-highlight} and [forwarding policy]{.body-highlight} operating in real time:
 
-- Data plane requires a [caching policy]{.body-highlight} and a [forwarding policy]{.body-highlight} operating in real time.
 - VIP counts updated each virtual plane time slot and oscillate.
 - We do not have immediate access to objects for caching purposes in the data plane.
-
-We use virtual plane *flow trends* to guide data plane policies.
+- Will use virtual plane ***flow averages*** to guide data plane policies.
 :::
 
 ::: {.footer}
