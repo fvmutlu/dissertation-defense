@@ -10,6 +10,29 @@
 ```
 :::
 
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+::: {.notes}
+- The way we'll do that is by enforcing a cache read bandwidth constraint
+- Additional control action each time slot, in product form with another control action
+- Stability region and its analysis changes significantly
+- Complexity of caching problem solution reduces
+:::
+
+## Overview {visibility="uncounted"}
+
+- **Premise:** Initial model assumes cache read rate is constant across objects in virtual plane each slot.
+
+::: {style="font-size: 70%;"}
+```{=tex}
+\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}
+```
+:::
+
 - **Hypothesis:** We can control read rate allocations in the virtual plane for better performance.
 
 ::: {style="font-size: 70%;"}
@@ -24,19 +47,38 @@
 Virtual Plane Cache Read Rate Control
 :::
 
-::: {.notes}
-- The way we'll do that is by enforcing a cache read bandwidth constraint
-- Additional control action each time slot, in product form with another control action
-- Stability region and its analysis changes significantly
-- Complexity of caching problem solution reduces
+## Overview {visibility="uncounted"}
+
+- **Premise:** Initial model assumes cache read rate is constant across objects in virtual plane each slot.
+
+::: {style="font-size: 70%;"}
+```{=tex}
+\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}
+```
+:::
+
+- **Reasoning:** Objects in cache receive different hit rates in the data plane.
+
+::: {style="font-size: 70%;"}
+```{=tex}
+\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r\knjt}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}
+```
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
 :::
 
 ## Overview
 
-::: {style="font-size: 100%;"}
-- **Reasoning:** Objects in cache receive different hit rates in the data plane.
+::: {.incremental style="font-size: 100%;"}
 - **Penalties:** We omit the weight of caching penalties to study read rate allocation in isolation.
 - **Algorithm:** Should guarantee stability of all VIP queues, minimize total backlog.
+    - Minimize upper bound of drift $\drift$.
     - Consider new control variables and [cache bandwidth constraints]{.body-highlight}, i.e. $\sum_{\kin} r\knjt \leq R_{n_j}$.
 :::
 
@@ -73,7 +115,7 @@ Virtual Plane Cache Read Rate Control
 ## Caching Solution
 
 ::: {style="font-size: 80%;"}
-Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)$, optimal solution to [revised caching problem]{.body-highlight} is obtained by *greedily* choosing $r\knjt$ and $s\knjt$ for each $\jin$ as follows.
+Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)$, optimal solution is obtained by ***greedily*** choosing $r\knjt$ and $s\knjt$ for each $\jin$ as follows.
 
 ```{=tex}
 \begin{equation*}
@@ -96,14 +138,54 @@ Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq
 :::
 
 ::: {style="font-size: 90%;"}
-This is the *max-weight* solution.
+This is the ***max-weight*** solution.
 :::
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
 :::
 
-## Theorem: Stability Region
+## Stability & Throughput Optimality {.smaller}
+
+VIP stability region $\Lambda$ under ***cache bandwidth constraints***:
+
+```{=tex}
+\begin{equation*}
+\Lambda = \{ \boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin} : \lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}, \; \forall \kin, \nin \}
+\end{equation*}
+```
+
+For arrival rate vector $\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda$, with $\boldsymbol{\epsilon} > \boldsymbol{0}$, algorithm achieves:
+
+```{=tex}
+\begin{equation*}
+    \lim\limits_{t \rightarrow \infty} \frac{1}{t} \sum\limits^{t}_{\tau=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(\tau)] \leq \frac{B}{\epsilon}
+\end{equation*}
+```
+
+<hr>
+
+$f^k_{n,i}$: Expected removal rate of VIPs of $k$ via caching given placement $\mc{B}_{n,i}$.
+
+::: {layout="[[20,80]]" style="font-size: 80%;"}
+```{=tex}
+\begin{equation*}
+\epsilon = \min_{\nin,\kin} ((\epsilon^k_n)_{\nin,\kin})
+\end{equation*}
+```
+
+```{=tex}
+\begin{equation*}
+    B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
+\end{equation*}
+```
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+<!-- ## Stability Region
 
 [VIP stability region]{.body-highlight} $\Lambda$ under *cache bandwidth constraints* consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
 
@@ -137,7 +219,7 @@ $\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{
 Virtual Plane Cache Read Rate Control
 :::
 
-## Theorem: Throughput Optimality
+## Throughput Optimality
 
 ::: {style="font-size: 80%;"}
 For arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$, algorithm achieves:
@@ -164,7 +246,7 @@ where
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
-:::
+::: -->
 
 ## Data Plane Application {.smaller}
 
@@ -259,14 +341,17 @@ Virtual Plane Cache Read Rate Control
 :::
 ::: {.column width=50%}
 ::: {style="font-size: 65%;"}
-We use an iterative greedy algorithm:
+We propose an iterative greedy algorithm:
 
+::: {.incremental}
 - First allocate cache space and read rate to highest backlog objects.
 - Then allocate link bandwidth to largest backlog differential objects.
 - Do not allocate more service than existing backlog.
 - Terminate when either:
     - All cache capacity / bandwidth and all link bandwidth is allocated, or
     - All backlog is met by allocated service.
+:::
+
 :::
 :::
 :::
@@ -277,7 +362,7 @@ Virtual Plane Cache Read Rate Control
 
 ## Iterative Approach: Properties {.smaller}
 
-- Under ***heavy congestion*** where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, reduces to earlier approach.
+- Under ***heavy congestion*** where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, reduces to max-weight approach.
 - Given backlog state $\mathbf{V}(t)$, following holds.
 
 ::: {style="font-size: 80%;"}

@@ -176,7 +176,6 @@ $\mc{P}_{\mc{D}}(A)$; projection of $A$ into set $\mc{D}$.
 :::
 ::: {.column width=50%}
 ::: {style="font-size: 100%;"}
-- Placeholder.
 :::
 :::
 :::

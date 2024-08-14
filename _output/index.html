@@ -1962,14 +1962,6 @@ Experiments
     \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
 \end{equation*}\]</span>
 </div>
-<ul>
-<li><strong>Hypothesis:</strong> We can control read rate allocations in the virtual plane for better performance.</li>
-</ul>
-<div style="font-size: 70%;">
-<span class="math display">\[\begin{equation*}
-    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r\knjt}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
-\end{equation*}\]</span>
-</div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
@@ -1992,15 +1984,59 @@ Experiments
           display:block!important;
       }</style></aside>
 </section>
-<section id="overview-2" class="slide level2">
+<section id="overview-2" class="slide level2" data-visibility="uncounted">
+<h2>Overview</h2>
+<ul>
+<li><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</li>
+</ul>
+<div style="font-size: 70%;">
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
+</div>
+<ul>
+<li><strong>Hypothesis:</strong> We can control read rate allocations in the virtual plane for better performance.</li>
+</ul>
+<div style="font-size: 70%;">
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r\knjt}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
+</div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="overview-3" class="slide level2" data-visibility="uncounted">
+<h2>Overview</h2>
+<ul>
+<li><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</li>
+</ul>
+<div style="font-size: 70%;">
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
+</div>
+<ul>
+<li><strong>Reasoning:</strong> Objects in cache receive different hit rates in the data plane.</li>
+</ul>
+<div style="font-size: 70%;">
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r\knjt}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
+</div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="overview-4" class="slide level2">
 <h2>Overview</h2>
 <div style="font-size: 100%;">
 <ul>
-<li><strong>Reasoning:</strong> Objects in cache receive different hit rates in the data plane.</li>
-<li><strong>Penalties:</strong> We omit the weight of caching penalties to study read rate allocation in isolation.</li>
-<li><strong>Algorithm:</strong> Should guarantee stability of all VIP queues, minimize total backlog.
+<li class="fragment"><strong>Penalties:</strong> We omit the weight of caching penalties to study read rate allocation in isolation.</li>
+<li class="fragment"><strong>Algorithm:</strong> Should guarantee stability of all VIP queues, minimize total backlog.
 <ul>
-<li>Consider new control variables and <span class="body-highlight">cache bandwidth constraints</span>, i.e.&nbsp;<span class="math inline">\(\sum_{\kin} r\knjt \leq R_{n_j}\)</span>.</li>
+<li class="fragment">Minimize upper bound of drift <span class="math inline">\(\drift\)</span>.</li>
+<li class="fragment">Consider new control variables and <span class="body-highlight">cache bandwidth constraints</span>, i.e.&nbsp;<span class="math inline">\(\sum_{\kin} r\knjt \leq R_{n_j}\)</span>.</li>
 </ul></li>
 </ul>
 </div>
@@ -2044,7 +2080,7 @@ Experiments
 <section id="caching-solution" class="slide level2">
 <h2>Caching Solution</h2>
 <div style="font-size: 80%;">
-<p>Given <span class="math inline">\(k_1, k_2, \cdots, k_{J_n}\)</span> such that <span class="math inline">\(V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)\)</span>, optimal solution to <span class="body-highlight">revised caching problem</span> is obtained by <em>greedily</em> choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\jin\)</span> as follows.</p>
+<p>Given <span class="math inline">\(k_1, k_2, \cdots, k_{J_n}\)</span> such that <span class="math inline">\(V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)\)</span>, optimal solution is obtained by <strong><em>greedily</em></strong> choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\jin\)</span> as follows.</p>
 <span class="math display">\[\begin{equation*}
     r\knjt =
     \left \{ \begin{array}{ll}
@@ -2061,54 +2097,125 @@ Experiments
 \end{equation*}\]</span>
 </div>
 <div style="font-size: 90%;">
-<p>This is the <em>max-weight</em> solution.</p>
+<p>This is the <strong><em>max-weight</em></strong> solution.</p>
 </div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="theorem-throughput-optimality" class="slide level2">
-<h2>Theorem: Throughput Optimality</h2>
-<div style="font-size: 80%;">
-<p>For arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} \in \textup{int}(\Lambda)\)</span>, algorithm achieves:</p>
+<section id="stability-throughput-optimality" class="slide level2 smaller">
+<h2>Stability &amp; Throughput Optimality</h2>
+<p>VIP stability region <span class="math inline">\(\Lambda\)</span> under <strong><em>cache bandwidth constraints</em></strong>:</p>
+<span class="math display">\[\begin{equation*}
+\Lambda = \{ \boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin} : \lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}, \; \forall \kin, \nin \}
+\end{equation*}\]</span>
+<p>For arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, with <span class="math inline">\(\boldsymbol{\epsilon} &gt; \boldsymbol{0}\)</span>, algorithm achieves:</p>
 <span class="math display">\[\begin{equation*}
     \lim\limits_{t \rightarrow \infty} \frac{1}{t} \sum\limits^{t}_{\tau=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(\tau)] \leq \frac{B}{\epsilon}
 \end{equation*}\]</span>
-<p>where</p>
+<hr>
+<p><span class="math inline">\(f^k_{n,i}\)</span>: Expected removal rate of VIPs of <span class="math inline">\(k\)</span> via caching given placement <span class="math inline">\(\mc{B}_{n,i}\)</span>.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" style="font-size: 80%;" data-layout="[[20,80]]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: flex-start;">
 <span class="math display">\[\begin{equation*}
 \epsilon = \min_{\nin,\kin} ((\epsilon^k_n)_{\nin,\kin})
 \end{equation*}\]</span>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 80.0%;justify-content: flex-start;">
 <span class="math display">\[\begin{equation*}
     B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
 \end{equation*}\]</span>
 </div>
+</div>
+</div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
-</section>
-<section id="theorem-stability-region" class="slide level2">
-<h2>Theorem: Stability Region</h2>
-<p><span class="body-highlight">VIP stability region</span> <span class="math inline">\(\Lambda\)</span> under <em>cache bandwidth constraints</em> consists of all arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that:</p>
-<div style="font-size: 80%;">
-<span class="math display">\[\begin{equation*}
-\lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}
-\end{equation*}\]</span>
-</div>
-<hr>
-<div style="font-size: 70%; text-align: center">
+<!-- ## Stability Region
 
-</div>
-<div class="columns">
-<div class="column" style="font-size: 70%;">
-<p><span class="math inline">\(f^k_{ab}\)</span>: Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span>.</p>
-<p><span class="math inline">\(\mc{B}_{n,i}\)</span>: i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1.</p>
-</div><div class="column" style="font-size: 70%;">
-<p><span class="math inline">\(f^k_{n,i}\)</span>: Average VIPs of <span class="math inline">\(k\)</span> removed via caching under placement <span class="math inline">\(\mc{B}_{n,i}\)</span>.</p>
-<p><span class="math inline">\(\beta_{n,i}\)</span>: Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span>.</p>
-</div></div>
-<div class="footer">
-<p>Virtual Plane Cache Read Rate Control</p>
-</div>
+[VIP stability region]{.body-highlight} $\Lambda$ under *cache bandwidth constraints* consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
+
+::: {style="font-size: 80%;"}
+
+
+
+```{=tex}
+\begin{equation*}
+\lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}
+\end{equation*}
+```
+
+
+
+:::
+<hr>
+
+::: {style="font-size: 70%; text-align: center"}
+
+:::
+
+::: columns
+::: {.column width="50%" style="font-size: 70%;"}
+$f^k_{ab}$: Time-average VIP flow for $k$ over $(a,b)$.
+
+$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1.
+:::
+::: {.column width="50%" style="font-size: 70%;"}
+$f^k_{n,i}$: Average VIPs of $k$ removed via caching under placement $\mc{B}_{n,i}$.
+
+$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
+:::
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Throughput Optimality
+
+::: {style="font-size: 80%;"}
+For arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$, algorithm achieves:
+
+
+
+
+```{=tex}
+\begin{equation*}
+    \lim\limits_{t \rightarrow \infty} \frac{1}{t} \sum\limits^{t}_{\tau=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(\tau)] \leq \frac{B}{\epsilon}
+\end{equation*}
+```
+
+
+
+
+where
+
+
+
+
+```{=tex}
+\begin{equation*}
+\epsilon = \min_{\nin,\kin} ((\epsilon^k_n)_{\nin,\kin})
+\end{equation*}
+```
+
+```{=tex}
+\begin{equation*}
+    B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
+\end{equation*}
+```
+
+
+
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+::: -->
 </section>
 <section id="data-plane-application" class="slide level2 smaller">
 <h2>Data Plane Application</h2>
@@ -2167,17 +2274,19 @@ Experiments
 </div>
 </div><div class="column" style="width:50%;">
 <div style="font-size: 65%;">
-<p>We use an iterative greedy algorithm:</p>
+<p>We propose an iterative greedy algorithm:</p>
+<div>
 <ul>
-<li>First allocate cache space and read rate to highest backlog objects.</li>
-<li>Then allocate link bandwidth to largest backlog differential objects.</li>
-<li>Do not allocate more service than existing backlog.</li>
-<li>Terminate when either:
+<li class="fragment">First allocate cache space and read rate to highest backlog objects.</li>
+<li class="fragment">Then allocate link bandwidth to largest backlog differential objects.</li>
+<li class="fragment">Do not allocate more service than existing backlog.</li>
+<li class="fragment">Terminate when either:
 <ul>
-<li>All cache capacity / bandwidth and all link bandwidth is allocated, or</li>
-<li>All backlog is met by allocated service.</li>
+<li class="fragment">All cache capacity / bandwidth and all link bandwidth is allocated, or</li>
+<li class="fragment">All backlog is met by allocated service.</li>
 </ul></li>
 </ul>
+</div>
 </div>
 </div></div>
 <div class="footer">
@@ -2187,7 +2296,7 @@ Experiments
 <section id="iterative-approach-properties" class="slide level2 smaller">
 <h2>Iterative Approach: Properties</h2>
 <ul>
-<li>Under <strong><em>heavy congestion</em></strong> where <span class="math inline">\(V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}\)</span>, for all <span class="math inline">\(t \geq 1, \nin, \kin\)</span>, reduces to earlier approach.</li>
+<li>Under <strong><em>heavy congestion</em></strong> where <span class="math inline">\(V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}\)</span>, for all <span class="math inline">\(t \geq 1, \nin, \kin\)</span>, reduces to max-weight approach.</li>
 <li>Given backlog state <span class="math inline">\(\mathbf{V}(t)\)</span>, following holds.</li>
 </ul>
 <div style="font-size: 80%;">
