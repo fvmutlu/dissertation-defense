@@ -80,7 +80,7 @@ Now, let's review the system model we're targeting with this work.
 # Virtual Plane Optimization {visibility="uncounted"}
 
 ::: {.notes}
-With the system model described, we will now look at our control algorithm in the virtual plane.
+- So having reviewed the model, we'll now review the process of building a joint caching and forwarding policy, which begins in the virtual plane.
 :::
 
 {{< include _vp.qmd >}}

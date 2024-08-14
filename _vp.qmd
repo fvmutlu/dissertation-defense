@@ -2,6 +2,20 @@
 
 ::: {style="font-size:110%"}
 **Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, *keep cache utilization costs minimal*.
+:::
+
+::: {.footer}
+Optimization Framework
+:::
+
+::: {.notes}
+- In the virtual plane, we're interested in stabilizing the VIP queues, maintain their backlogs small and keep caching related penalties to a minimum.
+:::
+
+## Optimization Overview {.smaller visibility="uncounted"}
+
+::: {style="font-size:110%"}
+**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, *keep cache utilization costs minimal*.
 
 **Approach:** Minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression:
 ```{=tex}
@@ -29,21 +43,19 @@ Optimization Framework
 :::
 
 ::: {.notes}
-- And here's how we tackle this optimization. We devise an algorithm that's made of two steps (caching and forwarding), which chooses the respective variables every time slot, to optimize a certain objective based on the VIP counts. We're looking at the caching step right now.
-- Obviously there is a lot of math to get to this expression for the objective function, but I'll give you the intuition briefly.
-- Because we want to remove as many VIPs from the network as fast as possible, we want to cache the higher VIP count objects in the faster tiers, which is why the read rate multiplies the VIP count here.
-- However, we also want to make sure that our choices in caching actions do not add large penalties that outweigh the benefits. Of course the importance of that is determined by omega.
-- And of course we have the cache tier capacity constraints and the cache exclusivity constraints
+- The way we tackle this is to minimize the bound on what's called the drift-plus-penalty expression.
+- Here the drift represents the expected growth of queue backlogs, and it is combined with a penalty term that's weighed by what we call the penalty importance weight.
+- So this is an altered objective compared to the original VIP work where only the drift is targeted.
 :::
 
-## Optimization Overview {.smaller}
+## Optimization Overview {.smaller visibility="uncounted"}
 
 ::: {style="font-size:110%"}
 **Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, *keep cache utilization costs minimal*.
 
 **Approach:** Minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression.
 
-Distributed algorithm Performed at the beginning of each slot:
+Distributed algorithm performed at the beginning of each slot:
 
 - Observes local and neighbor VIP queue states.
 - Chooses cache placement variables.
@@ -53,6 +65,13 @@ Distributed algorithm Performed at the beginning of each slot:
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+- We conduct this minimization via a distributed algorithm which is operated separately at each node.
+- As we stated before, the algorithm first requires exchanging VIP queue states with neighboring nodes.
+- Then it will solve for the cache placement and forwarding rate allocations via two subproblems.
+- Using these allocations it will remove and forward VIPs, then update queue states.
 :::
 
 ## Virtual Plane Caching
@@ -87,10 +106,8 @@ Optimization Framework
 :::
 
 ::: {.notes}
-- Now of course, the validity of our approach hinges on whether we can solve the optimization problem from the caching step.
-- To do so, we will first rewrite it to clean up this unpleasant form we've shown before. And to do that, we will use a two-step transformation of variables.
-- The first step here is defining an auxiliary "benefit" term and using that to simplify the objective function.
-- You'll notice that the problem now looks to be in the form of a generalized assignment problem.
+- So, in view of the multi-tier model we're proposing, the caching step for the algorithm comes in the form of this multiple knapsack problem.
+- In general, such a problem is known to be NP-hard, but we actually have a special case of the problem.
 :::
 
 ## Virtual Plane Caching
@@ -106,7 +123,8 @@ Optimization Framework
 :::
 
 ::: {.notes}
-- Placeholder.
+- Because each data object in our model is of the same unit size, we can think of each cache tier as made up of several "cache slots" that can each take one object.
+- Using this, we can construct an equivalent problem that's in the form of a linear assignment.
 :::
 
 ## Virtual Plane Caching {visibility="uncounted"}
@@ -143,11 +161,8 @@ Optimization Framework
 :::
 
 ::: {.notes}
-- Now recall the assumption we made in our model that every data object has the same size.
-- Using that assumption, we can think of each cache tier as made up of several "cache slots" that can each take one object. The number of these per tier depend on the total capacity of that tier. These slots have the same read rate and cost parameters as the tier they belong in.
-- Now, also recall the cache exclusivity constraint of the original problem. We can easily see that exclusivity across tiers directly translates to exclusivity across these cache slots.
-- Using these facts we can rewrite the problem again, this time in the form of a linear assignment problem.
-- Luckily, there are methods that can solve this problem in polynomial time. We specifically rely on a modification of the Jonker-Volgenant algorithm.
+- Here, each cache slot inherits the benefit values from its corresponding tier and the constraints of linear assignment naturally translate to cache capacity and exclusivity constraints.
+- Therefore, we're able to construct a solution to our original problem by solving this simpler problem instead.
 :::
 
 ## Virtual Plane Caching {.smaller visibility="uncounted"}
@@ -168,6 +183,12 @@ Objects are equally sized; decide variables for each one-object [cache slot]{.bo
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+- There are many efficient algorithms that can solve the linear assignment.
+- We're using one such method widely available in software implementations, with a complexity that scales quadratically with cache capacity and linearly with catalog size.
+- This is a favorable characteristic that we've observed in experimentation as well and it leads to reasonable computation times.
 :::
 
 ## Virtual Plane Forwarding {.smaller}
@@ -225,6 +246,10 @@ $\mc{L}^k$: Set of links allowed to transmit VIPs of $k$ as per routing policy.
 Optimization Framework
 :::
 
+::: {.notes}
+- The forwarding step is resolved by using the well-known backpressure solution as was done in the original VIP work.
+:::
+
 ## Stability Region
 
 VIP [stability region]{.body-highlight} $\Lambda$ consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
@@ -253,6 +278,10 @@ $\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{
 
 ::: {.footer}
 Optimization Framework
+:::
+
+::: {.notes}
+- So using this algorithm, we can ensure the stability of the VIP queues as long as the request arrivals are contained in what's called the stability region, bounds of which are depicted here.
 :::
 
 ## Bound Trade-off {.smaller}
@@ -296,7 +325,7 @@ Optimization Framework
 :::
 
 ::: {.notes}
-- The second step of our analysis is what actually shows the guarantees that our algorithm can provide. Here, we use the definition of the stability region, which is why we needed the previous step.
-- These two expressions define the upper bounds for time average VIP queue sizes and accumulated penalty in the virtual plane network.
-- The essential observation here is the trade-off between the bounds. As you can see, the omega value controls which bound we wish to prioritize, because setting it small means lower average queue sizes which translates to better performance, but at the cost of potentially much larger penalties. Setting it large is the inverse of that situation.
+- Furthermore, given arrivals within that stability region, we're able to achieve an optimal trade-off between the time average upper bounds for VIP backlogs and accumulated penalty in the virtual plane network.
+- The trade-off factor is based on the importance weight mentioned before.
+- If that weight is small means lower average queue sizes which translates to better performance, but at the cost of potentially much larger penalties. Setting it large is the inverse of that situation.
 :::

@@ -862,7 +862,9 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <section id="virtual-plane-optimization" class="title-slide slide level1 center" data-visibility="uncounted">
 <h1>Virtual Plane Optimization</h1>
 <aside class="notes">
-<p>With the system model described, we will now look at our control algorithm in the virtual plane.</p>
+<ul>
+<li>So having reviewed the model, we’ll now review the process of building a joint caching and forwarding policy, which begins in the virtual plane.</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -876,6 +878,15 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
       }</style></aside>
 </section>
 <section id="optimization-overview" class="slide level2 smaller">
+<h2>Optimization Overview</h2>
+<div style="font-size:110%">
+<p><strong>Goals:</strong> Guarantee stability of all VIP queues, maintain total VIP queue backlog small, <em>keep cache utilization costs minimal</em>.</p>
+</div>
+<div class="footer">
+<p>Optimization Framework</p>
+</div>
+</section>
+<section id="optimization-overview-1" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Optimization Overview</h2>
 <div style="font-size:110%">
 <p><strong>Goals:</strong> Guarantee stability of all VIP queues, maintain total VIP queue backlog small, <em>keep cache utilization costs minimal</em>.</p>
@@ -896,6 +907,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
+<li>In the virtual plane, we’re interested in stabilizing the VIP queues, maintain their backlogs small and keep caching related penalties to a minimum.</li>
 <li>And here’s how we tackle this optimization. We devise an algorithm that’s made of two steps (caching and forwarding), which chooses the respective variables every time slot, to optimize a certain objective based on the VIP counts. We’re looking at the caching step right now.</li>
 <li>Obviously there is a lot of math to get to this expression for the objective function, but I’ll give you the intuition briefly.</li>
 <li>Because we want to remove as many VIPs from the network as fast as possible, we want to cache the higher VIP count objects in the faster tiers, which is why the read rate multiplies the VIP count here.</li>
@@ -914,7 +926,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn3"><p>“Stochastic network optimization with application to communication and queueing systems.”, M. J. Neely, Springer Nature, 2022 <span class="citation" data-cites="neely2022stochastic"><a href="#/references" role="doc-biblioref" onclick="">[16]</a></span>.</p></li></ol></aside></section>
-<section id="optimization-overview-1" class="slide level2 smaller">
+<section id="optimization-overview-2" class="slide level2 smaller">
 <h2>Optimization Overview</h2>
 <div style="font-size:110%">
 <p><strong>Goals:</strong> Guarantee stability of all VIP queues, maintain total VIP queue backlog small, <em>keep cache utilization costs minimal</em>.</p>
@@ -1534,7 +1546,8 @@ Table&nbsp;2: Common parameters for all scenarios
 <li>At the beginning we mentioned that due to the slow speeds of the added tier more capacity may not necessarily be beneficial.</li>
 <li>So one of the most important questions for our experimentation is, how large of a cache can we benefit from? This setting explores that.</li>
 <li>For the time being we ignore the penalty importance weight, we’ll get to that later.</li>
-<li>We compare all baselines, with both single and two-tiered versions.</li>
+<li>We compare all baselines, with both single and two-tiered versions. To allow the comparison between these, we used a notion of capacity budget.</li>
+<li>Basically, we start with a small single cache tier, then separately increment capacities of each tier. Of course the same budget gets us a lot more capacity in the secondary tier.</li>
 <li>We see that trends differ across policies, and for multi-tiered versions of some baselines, there’s a minimum delay point after which the added capacity becomes detrimental.</li>
 <li>While such a point would also exist for MVIP, in this setting it is not met within the budget.</li>
 <li>The minimum delay point comes at a higher allocation budget for MVIP compared with LRU and LFU, but the total delay is roughly 15% better than LFU’s minimal point.</li>
@@ -1578,7 +1591,9 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 <aside class="notes">
 <ul>
-<li>Placeholder.</li>
+<li>This next set of figures shed a bit more light on the delay trends from the previous slide.</li>
+<li>Essentially, the differences come down to how the cache traffic is balanced, and how much cache operations contribute to delay.</li>
+<li>This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1619,7 +1634,8 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 <aside class="notes">
 <ul>
-<li>Placeholder.</li>
+<li>Moving on, we also observed trends regarding the impact of traffic volume and request pattern.</li>
+<li>In summary, we see that the MVIP strategy outperforms baselines across the board.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1652,7 +1668,11 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 <aside class="notes">
 <ul>
-<li>Placeholder.</li>
+<li>Of course we also conducted many experiments across other topologies.</li>
+<li>This slide shows a summary of one experiment where we’ve tested each possible combination of capacity allocations across the two tiers given the maximum budget.</li>
+<li>The values represent the reduction in delay normalized to delay with no caching.</li>
+<li>One takeaway from the figure is that MVIP still outperforms most baselines across the board, with LFU again being a very close competitor.</li>
+<li>Another important takeaway is seen from the table, where we observe MVIP tends to hit its best delay point with a larger allocation in the second tier compared to baselines.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1732,6 +1752,21 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="interest-aggregation-1" class="slide level2" data-visibility="uncounted">
 <h2>Interest Aggregation</h2>
@@ -1758,6 +1793,21 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="interest-aggregation-2" class="slide level2">
 <h2>Interest Aggregation</h2>

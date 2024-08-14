@@ -209,6 +209,10 @@ $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 Experiments
 :::
 
+::: {.notes}
+- Placeholder.
+:::
+
 ## Interest Aggregation {visibility="uncounted"}
 
 ::: columns
@@ -228,6 +232,10 @@ $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- Placeholder.
 :::
 
 ## Interest Aggregation
