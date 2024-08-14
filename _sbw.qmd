@@ -103,35 +103,6 @@ This is the *max-weight* solution.
 Virtual Plane Cache Read Rate Control
 :::
 
-## Theorem: Throughput Optimality
-
-::: {style="font-size: 80%;"}
-For arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$, algorithm achieves:
-
-```{=tex}
-\begin{equation*}
-    \lim\limits_{t \rightarrow \infty} \frac{1}{t} \sum\limits^{t}_{\tau=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(\tau)] \leq \frac{B}{\epsilon}
-\end{equation*}
-```
-
-where
-
-```{=tex}
-\begin{equation*}
-\epsilon = \min_{\nin,\kin} ((\epsilon^k_n)_{\nin,\kin})
-\end{equation*}
-```
-```{=tex}
-\begin{equation*}
-    B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
-\end{equation*}
-```
-:::
-
-::: {.footer}
-Virtual Plane Cache Read Rate Control
-:::
-
 ## Theorem: Stability Region
 
 [VIP stability region]{.body-highlight} $\Lambda$ under *cache bandwidth constraints* consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
@@ -160,6 +131,35 @@ $f^k_{n,i}$: Average VIPs of $k$ removed via caching under placement $\mc{B}_{n,
 
 $\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
 :::
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Theorem: Throughput Optimality
+
+::: {style="font-size: 80%;"}
+For arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$, algorithm achieves:
+
+```{=tex}
+\begin{equation*}
+    \lim\limits_{t \rightarrow \infty} \frac{1}{t} \sum\limits^{t}_{\tau=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(\tau)] \leq \frac{B}{\epsilon}
+\end{equation*}
+```
+
+where
+
+```{=tex}
+\begin{equation*}
+\epsilon = \min_{\nin,\kin} ((\epsilon^k_n)_{\nin,\kin})
+\end{equation*}
+```
+```{=tex}
+\begin{equation*}
+    B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
+\end{equation*}
+```
 :::
 
 ::: {.footer}
