@@ -65,20 +65,14 @@ Experiments
 
 ## Cache Capacity
 
-::: columns
-::: {.column width="50%"}
 ![](images/size_comp_geant_all_075_15.svg){width="100%" fig-align="center"}
-:::
-::: {.column width="50%" style="font-size: 65%;"}
-[Cache capacity budget]{.body-highlight} $\Delta L = \Delta L_1 + \Delta L_2$ based on \$/GB of DRAM and SSD for one vs. two tier comparison:
-
-- Initial capacities are $L_{n_1} = 5$, $L_{n_2} = 0$.
-- Added capacity for $\Delta L > 0$ is $L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
-:::
-:::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities. Geant; $\gamma=0.75$, $\lambda=15$.
+Delay with increasing cache capacities ($\omega=0$). $\gamma=0.75$, $\lambda=15$. 
+:::
+
+::: {style="font-size: 60%; text-align: center"}
+[Cache capacity budget]{.body-highlight} $\Delta L = \Delta L_1 + \Delta L_2$. $L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
 
 $\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
 :::
@@ -88,7 +82,14 @@ Experiments
 :::
 
 ::: {.notes}
-- Placeholder.
+- At the beginning we mentioned that due to the slow speeds of the added tier more capacity may not necessarily be beneficial.
+- So one of the most important questions for our experimentation is, how large of a cache can we benefit from? This setting explores that.
+- For the time being we ignore the penalty importance weight, we'll get to that later.
+- We compare all baselines, with both single and two-tiered versions.
+- We see that trends differ across policies, and for multi-tiered versions of some baselines, there's a minimum delay point after which the added capacity becomes detrimental.
+- While such a point would also exist for MVIP, in this setting it is not met within the budget.
+- The minimum delay point comes at a higher allocation budget for MVIP compared with LRU and LFU, but the total delay is roughly 15% better than LFU's minimal point.
+- Another significant result is that, with the same budget, our multi-tiered VIP approach has about 40% reduced delay compared to the single-tier counterpart. 
 :::
 
 ## Cache Capacity
@@ -103,24 +104,8 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Cache hits and delay due to cache reads for multi-tiered cases.
-
-Geant; $\gamma=0.75$, $\lambda=15$.
+Cache hits and delay due to cache reads for multi-tiered versions.
 :::
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Placeholder.
-:::
-
-## More Topologies {.smaller}
-
-![Delay reduction factor normalized to delay with no caching.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
-
-![Cache capacity allocation in minimum delay point within budget.<br>All combinations ($\Delta L_1$,$\Delta L_2$) within maximum budget of $\Delta L=8$ tested.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
 
 ::: {.footer}
 Experiments
@@ -142,14 +127,33 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing $\lambda$ and $\gamma$.
+Delay with increasing $\lambda$ and $\gamma$ ($\omega=0$).
 
-Geant; $L_{n_2}$ chosen based on minimum delay points for multi-tier.
+$\Delta L_1 = 8$; $\Delta L_2$ chosen based on minimum delay points for multi-tier.
 :::
 
 ::: {.footer}
 Experiments
 :::
+
+::: {.notes}
+- Placeholder.
+:::
+
+## More Topologies {.smaller}
+
+![Delay reduction factor normalized to delay with no caching ($\omega=0$). $\gamma=0.75$, $\lambda=15$.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
+
+![Cache capacity allocation at minimum delay point within budget.<br>All combinations ($\Delta L_1$,$\Delta L_2$) within maximum budget of $\Delta L=8$ tested.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Placeholder.
+:::
+
 
 ## Delay-Penalty Trade-off
 
@@ -163,9 +167,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay vs. penalty curves for MVIP and PA-LFU policies. Geant; $\lambda=15$.
+Delay vs. penalty curves for MVIP and PA-LFU policies. $\lambda=15$.
 
-$\omega$ decreases to the right.
+$\omega > 0$, decreases to the right.
 :::
 
 ::: {.footer}
@@ -190,7 +194,7 @@ Experiments
 ::: {style="font-size: 80%; text-align: center"}
 VIP vs. MVIP, with and without interest aggregation (IA).
 
-Geant; $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
+$L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 :::
 
 ::: {.footer}
@@ -211,7 +215,7 @@ Experiments
 ::: {style="font-size: 80%; text-align: center"}
 VIP vs. MVIP, with and without interest aggregation (IA).
 
-Geant; $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
+$L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 :::
 
 ::: {.footer}
@@ -230,7 +234,7 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities under IA. Geant; $\gamma=0.75$, $\lambda=50$.
+Delay with increasing cache capacities under IA. $\gamma=0.75$, $\lambda=50$.
 
 $\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
 :::
@@ -282,7 +286,7 @@ Experiments
 ::: {style="font-size: 80%; text-align: center"}
 Delay vs. penalty curves, MVIP vs. PA-LFU with and without IA.
 
-Geant; $\lambda=30$, $\omega$ decreases to the right.
+$\Delta L_2$ based on min. delay point, $\lambda=30$. $\omega$ decreases to the right.
 :::
 
 ::: {.footer}
@@ -295,8 +299,15 @@ Experiments
 
 ## Lessons Learned
 
-- Placeholder.
+- When using slower added tiers, more cache hits is not always better.
+- MVIP is an effective policy outperforming baselines; LFU with LRT is very close.
+- Penalizing cache operations not only minimizes costs, but can *improve* performance.
+- Interest aggregation is powerful; less cache is needed, but multi-tier can still have benefits.
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- In the settings we cover, LFU with LRT performs closely with our approach, though MVIP takes a slight edge in general, with the margins being larger for less skewed popularity distributions.
 :::

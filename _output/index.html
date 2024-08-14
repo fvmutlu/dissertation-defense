@@ -1518,22 +1518,12 @@ Table&nbsp;2: Common parameters for all scenarios
 </section>
 <section id="cache-capacity" class="slide level2">
 <h2>Cache Capacity</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_geant_all_075_15.svg" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
-</figure>
+
+<img data-src="images/size_comp_geant_all_075_15.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"><div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities (<span class="math inline">\(\omega=0\)</span>). <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
 </div>
-</div><div class="column" style="font-size: 65%;">
-<p><span class="body-highlight">Cache capacity budget</span> <span class="math inline">\(\Delta L = \Delta L_1 + \Delta L_2\)</span> based on $/GB of DRAM and SSD for one vs.&nbsp;two tier comparison:</p>
-<ul>
-<li>Initial capacities are <span class="math inline">\(L_{n_1} = 5\)</span>, <span class="math inline">\(L_{n_2} = 0\)</span>.</li>
-<li>Added capacity for <span class="math inline">\(\Delta L &gt; 0\)</span> is <span class="math inline">\(L_{n_1} = 5 + \Delta L_1\)</span>, <span class="math inline">\(L_{n_2} = 25 \times \Delta L_2\)</span>.</li>
-</ul>
-</div></div>
-<div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities. Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<div style="font-size: 60%; text-align: center">
+<p><span class="body-highlight">Cache capacity budget</span> <span class="math inline">\(\Delta L = \Delta L_1 + \Delta L_2\)</span>. <span class="math inline">\(L_{n_1} = 5 + \Delta L_1\)</span>, <span class="math inline">\(L_{n_2} = 25 \times \Delta L_2\)</span>.</p>
 <p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
 </div>
 <div class="footer">
@@ -1542,6 +1532,9 @@ Table&nbsp;2: Common parameters for all scenarios
 <aside class="notes">
 <ul>
 <li>Placeholder.</li>
+<li>Placeholder.</li>
+<li>That minimum delay point comes at a higher allocation budget for MVIP compared with LRU and LFU, but the total delay is roughly 15% better than LFU’s minimal point.</li>
+<li>Another significant result is that, with the same budget, our multi-tiered VIP approach has about 40% reduced delay compared to the single-tier counterpart.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1574,41 +1567,7 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Cache hits and delay due to cache reads for multi-tiered cases.</p>
-<p>Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="more-topologies" class="slide level2 smaller">
-<h2>More Topologies</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/alltops_075_15.svg" style="width:70.0%;height:70.0%"></p>
-<figcaption>Delay reduction factor normalized to delay with no caching.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/alltops_075_15_table.svg" style="width:70.0%;height:70.0%"></p>
-<figcaption>Cache capacity allocation in minimum delay point within budget.<br>All combinations (<span class="math inline">\(\Delta L_1\)</span>,<span class="math inline">\(\Delta L_2\)</span>) within maximum budget of <span class="math inline">\(\Delta L=8\)</span> tested.</figcaption>
-</figure>
+<p>Cache hits and delay due to cache reads for multi-tiered versions.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -1648,12 +1607,60 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span>.</p>
-<p>Geant; <span class="math inline">\(L_{n_2}\)</span> chosen based on minimum delay points for multi-tier.</p>
+<p>Delay with increasing <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span> (<span class="math inline">\(\omega=0\)</span>).</p>
+<p><span class="math inline">\(\Delta L_1 = 8\)</span>; <span class="math inline">\(\Delta L_2\)</span> chosen based on minimum delay points for multi-tier.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="more-topologies" class="slide level2 smaller">
+<h2>More Topologies</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/alltops_075_15.svg" style="width:70.0%;height:70.0%"></p>
+<figcaption>Delay reduction factor normalized to delay with no caching (<span class="math inline">\(\omega=0\)</span>). <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/alltops_075_15_table.svg" style="width:70.0%;height:70.0%"></p>
+<figcaption>Cache capacity allocation at minimum delay point within budget.<br>All combinations (<span class="math inline">\(\Delta L_1\)</span>,<span class="math inline">\(\Delta L_2\)</span>) within maximum budget of <span class="math inline">\(\Delta L=8\)</span> tested.</figcaption>
+</figure>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="delay-penalty-trade-off" class="slide level2">
 <h2>Delay-Penalty Trade-off</h2>
@@ -1674,8 +1681,8 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Geant; <span class="math inline">\(\lambda=15\)</span>.</p>
-<p><span class="math inline">\(\omega\)</span> decreases to the right.</p>
+<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. <span class="math inline">\(\lambda=15\)</span>.</p>
+<p><span class="math inline">\(\omega &gt; 0\)</span>, decreases to the right.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -1716,7 +1723,7 @@ Table&nbsp;2: Common parameters for all scenarios
 </div></div>
 <div style="font-size: 80%; text-align: center">
 <p>VIP vs.&nbsp;MVIP, with and without interest aggregation (IA).</p>
-<p>Geant; <span class="math inline">\(L_{n_1}=5\)</span>, <span class="math inline">\(L_{n_2}=200\)</span> for MVIP and <span class="math inline">\(L_{n_1}=13\)</span> for VIP.</p>
+<p><span class="math inline">\(L_{n_1}=5\)</span>, <span class="math inline">\(L_{n_2}=200\)</span> for MVIP and <span class="math inline">\(L_{n_1}=13\)</span> for VIP.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -1742,7 +1749,7 @@ Table&nbsp;2: Common parameters for all scenarios
 </div></div>
 <div style="font-size: 80%; text-align: center">
 <p>VIP vs.&nbsp;MVIP, with and without interest aggregation (IA).</p>
-<p>Geant; <span class="math inline">\(L_{n_1}=5\)</span>, <span class="math inline">\(L_{n_2}=200\)</span> for MVIP and <span class="math inline">\(L_{n_1}=13\)</span> for VIP.</p>
+<p><span class="math inline">\(L_{n_1}=5\)</span>, <span class="math inline">\(L_{n_2}=200\)</span> for MVIP and <span class="math inline">\(L_{n_1}=13\)</span> for VIP.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -1767,7 +1774,7 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities under IA. Geant; <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=50\)</span>.</p>
+<p>Delay with increasing cache capacities under IA. <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=50\)</span>.</p>
 <p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
 </div>
 <div class="footer">
@@ -1833,7 +1840,7 @@ Experiments
 </div></div>
 <div style="font-size: 80%; text-align: center">
 <p>Delay vs.&nbsp;penalty curves, MVIP vs.&nbsp;PA-LFU with and without IA.</p>
-<p>Geant; <span class="math inline">\(\lambda=30\)</span>, <span class="math inline">\(\omega\)</span> decreases to the right.</p>
+<p><span class="math inline">\(\Delta L_2\)</span> based on min. delay point, <span class="math inline">\(\lambda=30\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -1857,11 +1864,29 @@ Experiments
 <section id="lessons-learned" class="slide level2">
 <h2>Lessons Learned</h2>
 <ul>
-<li>Placeholder.</li>
+<li>When using slower added tiers, more cache hits is not always better.</li>
+<li>MVIP is an effective policy outperforming baselines; LFU with LRT is very close.</li>
+<li>Penalizing cache operations not only minimizes costs, but can <em>improve</em> performance.</li>
+<li>Interest aggregation is powerful; less cache is needed, but multi-tier can still have benefits.</li>
 </ul>
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>In the settings we cover, LFU with LRT performs closely with our approach, though MVIP takes a slight edge in general, with the margins being larger for less skewed popularity distributions.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="virtual-plane-cache-read-rate-control" class="title-slide slide level1 center" data-visibility="uncounted">
