@@ -1,83 +1,48 @@
-{{< include _ndise.qmd >}}
-
-{{< include _toy.qmd >}}
-
-## Further Considerations {.smaller}
-
--  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
-    -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
-
-[^coupling]:"*Coupling caching and forwarding: benefits, analysis, and implementation*", G. Rossini, D. Rossi, ICN 2014 @rossini2014coupling.
-
-::: {.footer}
-Introduction
-:::
-
-## Further Considerations {.smaller visibility="uncounted"}
-
--  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
-    -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
--  Caches are not free to use; each operation has an energy cost.
+## Motivation: Data-Intensive Science {.smaller}
 
 ::: columns
-::: {.column width="42%"}
-![DRAM power consumption](images/dram_power.png){width=80% height=80%}
+::: {.column width="50%"}
+![](images/lhcopen_data.svg)
 :::
-::: {.column width="58%"}
-![NVMe power consumption](images/ssd_power.png){width=80% height=80%}
+::: {.column width="50%"}
+
+- **Problem:** Distribution of massive data for data-intensive science experiments.
+- **Solution:** N-DISE: high-performance NDN-based data delivery system.
+- **Cache capacity issue:** 20 GB of DRAM space allocated at each node.
+    - DRAM is fast but small and expensive; NVMe is cheap and large but slow.
+    - Logical next step: use both!
+    - **Challenge:** "Novel multi-tier caching algorithms are required."[^ndndpdk]
 :::
 :::
+
+[^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", Shi, J., Pesavento, D., & Benmohamed, L., ACM ICN 2020 @shi2020ndn.
 
 ::: {.footer}
 Introduction
 :::
 
-## Further Considerations {.smaller visibility="uncounted"}
+## Challenges & Goals
 
--  Benefits of caching more pronounced when caching and forwarding decisions are tightly coupled[^coupling].
-    -  Even more critical with larger, slower caches: traffic should be diverted intelligently so congestion is balanced.
--  Caches are not free to use; each operation has an energy cost.
-    -  SSDs also wear out over time as their contents are overwritten.
+::: {style="font-size: 90%;"}
+We consider the following challenges:
 
-![NVMe Endurance](images/ssd_endurance.png){width=70% height=70%}
+- Slow caches can become a [bottleneck]{.body-highlight-red} if directed large traffic.
+- Caches are not free to use; each operation has an [energy]{.body-highlight-red} cost, and flash [wears out]{.body-highlight-red}.
+
+We aim for policies that utilize diverse cache tiers effectively:
+
+-   Ensure caches are receiving [sustainable hit rates]{.body-highlight} and traffic is balanced between links and cache tiers.
+-   Make [high-value]{.body-highlight} replacement decisions to minimize costs.
+:::
 
 ::: {.footer}
 Introduction
-:::
-
-::: {.notes}
-- Now of course the capacity challenge is not the only obstacle in our way. There's another major consideration which is operational costs.
-- Caches are not free to use, each admission and replacement, and even idle operation has a real cost in energy so if we're adding even more cache devices we have to be mindful of this cost.
-- Finally, we look at the question of how can we make sure we're actually making the most of caches in the network?
-- Because, now that we're adding larger caches that are difficult to operate, and also adding costs into the equation, we really want to make sure we're getting the benefits.
-- This is where the act of tying caching and forwarding together comes in. 
-:::
-
-## Goal & Contributions
-
-Develop a joint forwarding and caching policy that:
-
--   Tracks user demand for objects as basis for decisions.
--   Utilizes diverse cache resources effectively:
-    -   Ensures devices are receiving [sustainable hit rates]{.body-highlight}.
-    -   Makes [high-value]{.body-highlight} replacement decisions.
--   Utilizes bandwidth resources effectively:
-    -   Steers requests toward caching points.
-    -   Forwards requests avoiding congestion.
-
-::: {.footer}
-Introduction
-:::
-
-::: {.notes}
-- Now, having looked at these considerations, let's make our goal more explicit.
 :::
 
 ## Related Work
 
 ::: {style="font-size: 90%;"}
 - Literature regarding adoption of *flash* in ICN:
-    - Feasibility of SSD *Content Store* at Internet scale @perino2011reality.
     - *Hierarchical Content Store*, SSD prefetch layer masked behing DRAM @rossini2014multi, @mansilha2015hierarchical, @mansilha2017exploiting.
     - Non-blocking caching I/O @so2014toward, @pan2021nb.
     - Flash damage aware caching @shukla2016designing.

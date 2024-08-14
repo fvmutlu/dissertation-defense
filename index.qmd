@@ -6,11 +6,11 @@ author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis 
 
 ## Overview {.smaller}
 
-- [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
+- [Primary Work:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
     - "Cost-aware Joint Caching and Forwarding in Networks with Heterogeneous Cache Resources", **Mutlu, F. V.**, & Yeh, E., ICC 2024 @mutlu2023cost.
 
 ::: {.fragment style="font-size: 90%;"}
-- **Other Contributions:**
+- **Other Works:**
     - "N-DISE: NDN-based Data Distribution for Large-Scale Data-Intensive Science", Wu, Y., **Mutlu, F. V.**, Liu, Y., Yeh, E., Liu, R., et al., ICN 2022 @wu2022ndise.
     - Joint power control and caching in wireless networks.
         - "Transmission Delay Minimization via Joint Power Control and Caching in Wireless HetNets", Malak, D., **Mutlu, F. V.**, Zhang, J., & Yeh, E., WiOpt 2021 @malak2021transmission.
@@ -22,27 +22,14 @@ author: "Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis 
 Overview
 :::
 
-## Overview {visibility="uncounted"}
+## Outline
 
 ::: {style="font-size: 90%;"}
-- [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
-    - **Context**: Information-centric networking (ICN), in-network caching.
-    - **Motivation**: Data volume grows exponentially, cache capacities need to scale.
-    - **Challenge**: Operating larger caches efficiently is difficult.
-    - **Goal**: Policies that observe cache characteristics to address this challenge.
-:::
-
-::: {.footer}
-Overview
-:::
-
-## Outline {visibility="uncounted"}
-
-::: {style="font-size: 90%;"}
-- [Primary Contribution:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
+- [Primary Work:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
     - **Review:** Motivation, challenge, model & approach.
     - Detailed & expanded experimental results.
     - Cache read rate control in virtual plane.
+    - Object-level ICN simulator.
 :::
 
 ::: {.footer}

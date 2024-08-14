@@ -1,7 +1,7 @@
 ## Setup {.smaller}
 
 -  **Content Sources:** $\mc{S}(k)$ are selected uniformly at random.
--  **Routing:** *Any* shortest path (in number of hops) between $n$ and $\mc{S}(k)$.
+-  **Routing:** *Any shortest path* (in number of hops) between $n$ and $\mc{S}(k)$.
 -  **Cache Tiers:** Fixed two cache tiers at every node, fast and slow.
 -  **Requests:** Requests generated for 100 simulation seconds, run terminates when all requests are resolved.
     - Poisson arrivals with rate $\lambda$ at each node; popularity distribution is Zipf with parameter $\gamma$.
@@ -15,7 +15,22 @@ Experiments
 
 ## Setup {.smaller visibility="uncounted"}
 
-![GÉANT GN4-3N (34 nodes) [^geant]](images/geant.svg){width="50%" height="50%"}
+::: columns
+::: {.column width="50%"}
+![GÉANT GN4-3N (34 nodes) [^geant]](images/geant.svg){width="100%"}
+:::
+::: {.column width="50%" style="font-size:75%;"}
+| Parameter | Value |
+|:-:|:-:|
+|Number of objects in catalog $\mc{K}$|2000|
+|Bandwidth of each link (objects/sec) |10|
+|Read / write rate of tier 1 (objects/sec) |25, 25|
+|Admission / eviction costs of tier 1|4, 2|
+|Read / write rate of tier 2 (in objects/sec) |10, 5|
+|Admission / eviction costs of tier 2|2, 1|
+: Common parameters for all scenarios {#tbl-params tbl-colwidths="[80,20]"}
+:::
+:::
 
 [^geant]: The GN4 Phase 3 Network project, https://network.geant.org/gn4-3n/
 
@@ -29,11 +44,6 @@ Experiments
 :::
 
 ## Parameter Reference Table {.smaller}
-
-[Cache capacity budget]{.body-highlight} $\Delta L = \Delta L_1 + \Delta L_2$ to allow comparisons with single tier setup; based on the large purchasing cost ratio of DRAM to flash.
-
-- Initial capacities are $L_{n_1} = 5$, $L_{n_2} = 0$.
-- Added capacity for $\Delta L > 0$ is $L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
 
 | Parameter | Value |
 |:-:|:-:|
@@ -55,7 +65,17 @@ Experiments
 
 ## Cache Capacity
 
-![](images/size_comp_geant_all_075_15.svg){width=55% height=55% fig-align="center"}
+::: columns
+::: {.column width="50%"}
+![](images/size_comp_geant_all_075_15.svg){width="100%" fig-align="center"}
+:::
+::: {.column width="50%" style="font-size: 65%;"}
+[Cache capacity budget]{.body-highlight} $\Delta L = \Delta L_1 + \Delta L_2$ based on \$/GB of DRAM and SSD for one vs. two tier comparison:
+
+- Initial capacities are $L_{n_1} = 5$, $L_{n_2} = 0$.
+- Added capacity for $\Delta L > 0$ is $L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
+:::
+:::
 
 ::: {style="font-size: 80%; text-align: center"}
 Delay with increasing cache capacities. Geant; $\gamma=0.75$, $\lambda=15$.
@@ -96,22 +116,11 @@ Experiments
 - Placeholder.
 :::
 
-## Cache Capacity {visibility="uncounted"}
+## More Topologies {.smaller}
 
-::: columns
-::: {.column width="47%"}
-![Cache hits](images/size_comp_geant_075_15_replacements.svg)
-:::
-::: {.column width="53%"}
-![Second tier read delays](images/size_comp_geant_075_15_hit_delays.svg)
-:::
-:::
+![Delay reduction factor normalized to delay with no caching.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
 
-::: {style="font-size: 80%; text-align: center"}
-Cache hits and delay due to cache reads for multi-tiered cases.
-
-Geant; $\gamma=0.75$, $\lambda=15$.
-:::
+![Cache capacity allocation in minimum delay point within budget.<br>All combinations ($\Delta L_1$,$\Delta L_2$) within maximum budget of $\Delta L=8$ tested.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
 
 ::: {.footer}
 Experiments
@@ -142,20 +151,6 @@ Geant; $L_{n_2}$ chosen based on minimum delay points for multi-tier.
 Experiments
 :::
 
-## More Topologies {.smaller}
-
-![Delay reduction factor normalized to delay with no caching.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
-
-![Cache capacity allocation in minimum delay point within budget.<br>All combinations ($\Delta L_1$,$\Delta L_2$) within maximum budget of $\Delta L=8$ tested.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Placeholder.
-:::
-
 ## Delay-Penalty Trade-off
 
 ::: columns
@@ -179,38 +174,6 @@ Experiments
 
 ::: {.notes}
 - Placeholder.
-:::
-
-## Interest Aggregation
-
-::: {.incremental}
-• Further requests (interests) are aggregated if there is already one in-flight.
-
-[• Returning data satisfies all aggregated requests.]{.fragment fragment-index=2}
-:::
-
-::: {.r-stack}
-![](images/ia_1.svg){width="648" height="360" fig-align="center"}
-
-![](images/ia_2.svg){.fragment fragment-index=2 width="648" height="360" fig-align="center"}
-:::
-
-::: {.footer}
-Experiments
-:::
-
-## Interest Aggregation {visibility="uncounted"}
-
-• Further requests (interests) are aggregated if there is already one in-flight.
-
-• Returning data satisfies all aggregated requests.
-
-• *Line-rate* caching offsets aggregation benefit; effect is proportional with capacity[^agg].
-
-[^agg]: "Characterizing interest aggregation in content-centric networks.", IFIP Networking, 2016 @dabirmoghaddam2016characterizing.
-
-::: {.footer}
-Experiments
 :::
 
 ## Interest Aggregation

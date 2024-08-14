@@ -2,58 +2,44 @@
 
 ::: columns
 ::: {.column width="50%"}
-![](images/data_plot.svg)
+![](images/lhcopen_data.svg){style="display: block; margin-top:-20px;"}
 
--  Data-intensive science experiments process huge amounts of data.
--  Data growth predictions keep moving the bar up.
+- **Problem:** Distribution of massive data for data-intensive science experiments.
+- **Solution:** High-performance NDN-based data delivery system.
 
 :::
 ::: {.column width="50%"}
-![](images/lhcopen_data.svg)
 
--  Data is continuously distributed across the world for research.
--  In one year of LHC running, over an exabyte of data is accessed.
+**Cache capacity challenge:** 20 GB of DRAM space allocated at each node.
+
+- DRAM is fast but small and expensive; NVMe is cheap and large but slow.
+- Logical next step: use both!
+- **Challenge:** "Novel multi-tier caching algorithms are required."[^ndndpdk]
 
 :::
 :::
+
+[^ndndpdk]: "NDN-DPDK: NDN forwarding at 100 Gbps on commodity hardware", Shi, J., Pesavento, D., & Benmohamed, L., ACM ICN 2020 @shi2020ndn.
 
 ::: {.footer}
 Introduction
-:::
-
-::: {.notes}
-- To expand on my motivation, I'll first talk about the use case that initially inspired my work.
-- As you know, large science programs in fields like high-energy physics, genomics etc. deal with experiments that produce huge amounts of data.
-- For instance, for the LHC, in one year, over an exabyte of data is accessed.
-- This data also has to constantly be distributed across the world for research, which is a significant networking challenge.
 :::
 
 ## N-DISE
 
 ::: {style="font-size: 85%;"}
 -   High-performance NDN-based data delivery system for large-scale data-intensive science.
--   Integration of state-of-the-art NDN forwarder, intelligent caching and forwarding, and consumer/producer applications.
 -   Extensive testing over wide-area network spanning 5 US campuses using CMS experiment data.
--   Individual contributions:
-    - Built local testbed for prototyping.
-    - Supported WAN deployment and testing, demonstrations during SC21 and SC22.
 :::
 
 ::: {.footer}
 Introduction
 :::
 
-::: {.notes}
-- To address this, our lab led an effort to build a state-of-the-art, Named Data Networking based data distribution system, which you can read about in the paper we published in ICN 2022.
-- The point here is, even in this state-of-the-art prototype, we were only able to allocate a small amount of cache space at each router. As you can see it is a drop in the bucket compared to the volumes we expect to be working with.
-- I also want to briefly mention that, in a separate paper that describes a core technology that enabled the N-DISE system (the NDN-DPDK forwarder), the problem of scaling cache capacities and the need for specialized policies for operating larger caches was specifically outlined as part of future outlook.
-- So there's a gap here that motivated my work.
-:::
-
-## Motivation: Data-Intensive Science
+## Motivation: Data-Intensive Science {.smaller}
 
 ::: {style="font-size: 85%;"}
-**Cache capacity challenge:** 20 GB of DRAM cache space allocated at each node.
+**Cache capacity challenge:** 20 GB of DRAM space allocated at each node.
 
 ::: {.incremental}
 -   DRAM is the standard cache device due its speed; but is expensive, has limited capacity and contended for.
