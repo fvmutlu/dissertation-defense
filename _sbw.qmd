@@ -105,7 +105,7 @@ Virtual Plane Cache Read Rate Control
 - Placeholder
 :::
 
-## Lemma: Caching Solution
+## Caching Solution
 
 ::: {style="font-size: 80%;"}
 Given $k_1, k_2, \cdots, k_{J_n}$ such that $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)$, optimal solution to [revised caching problem]{.body-highlight} is obtained by *greedily* choosing $r\knjt$ and $s\knjt$ for each $\jin$ as follows.

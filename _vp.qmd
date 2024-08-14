@@ -1,9 +1,9 @@
 ## Optimization Overview {.smaller}
 
 ::: {style="font-size:110%"}
-**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, keep cache utilization costs minimal.
+**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, *keep cache utilization costs minimal*.
 
-**Approach:** Extending VIP @yeh2014vip, minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression:
+**Approach:** Minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression:
 ```{=tex}
 \begin{equation*}
     \drift + \omega \pen
@@ -23,21 +23,6 @@ where $\omega \geq 0$ is the [penalty importance weight]{.body-highlight} and
 :::
 
 [^dpp]: "Stochastic network optimization with application to communication and queueing systems.", M. J. Neely, Springer Nature, 2022 @neely2022stochastic.
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Optimization Overview {.smaller visibility="uncounted"}
-
-::: {style="font-size:110%"}
-**Goals:** Guarantee stability of all VIP queues, maintain total VIP queue backlog small, keep cache utilization costs minimal.
-
-**Approach:** Extending VIP @yeh2014vip, minimize upper bound of [drift-plus-penalty]{.body-highlight}[^dpp] expression.
-
-**Algorithm:** Distributed and adaptive; solve caching and forwarding subproblems at each node, beginning of each time slot, based on current backlogs.
-
-:::
 
 ::: {.footer}
 Optimization Framework
@@ -86,79 +71,10 @@ Optimization Framework
 - The inequality on the screen essentially defines the boundary of that stability region, relating the arrival rates that can be satisfied to the long term average VIP flow over links, as well as VIPs removed via cache tiers.
 :::
 
-## Virtual Plane Penalties
+## Virtual Plane Caching
 
-Data plane costs reflected into virtual plane framework; admissions and evictions in virtual plane incur [penalties]{.body-highlight}:
-
-::: {style="font-size: 75%;"}
-```{=tex}
-\begin{equation*}
-    p^k_{n_j}(t) \triangleq 
-    \left\{ \begin{array}{ll}
-        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
-        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
-       0, & \text{otherwise}
-   \end{array} \right.
-\end{equation*}
-```
-Sum penalty during $t$: $P(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$.
-:::
-
-<hr>
-
-::: columns
-::: {.column width="50%" style="font-size: 75%;"}
-$s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$.
-:::
-::: {.column width="50%" style="font-size: 75%;"}
-$c^a_{n_j}$: Admission cost of tier $j$ at node $n$.
-$c^e_{n_j}$: Eviction cost of tier $j$ at node $n$.
-:::
-:::
-
-::: {.footer}
-Optimization Framework
-:::
-
-::: {.notes}
-- The multi-tiered caching model that I propose, which incorporates cache utilization costs, extends the virtual plane model.
-- Each cache admission and eviction in virtual plane incurs a penalty, and a configurable weight parameter, $\omega$, lets the network determine the importance of penalties in its overall objective
-- This definition shows how caching actions translate to penalties incurred
-- (Fragment in) We'll also be concerned with the sum penalty across the network
-:::
-
-
-
-## Virtual Plane Algorithm
-[Caching:]{.body-highlight} Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
-
-::: {style="font-size: 80%;"}
-```{=tex}
-\begin{align*}
-    \text{maximize}
-        & \quad \sum\limits_{\kin} \sum\limits_{\jin} r_{n_j} V^k_{n}(t) s^k_{n_j}(t) - \omega p^k_{n_j}(t) \\
-    \text{subject to}
-        & \quad \sum\limits_{\kin} s^k_{n_j}(t) \leq L_{n_j}, \; \forall \, \jin \\
-        & \quad \sum\limits_{\jin} s^k_{n_j}(t) \leq 1, \; \forall \, \kin \\
-        & \quad s^k_{n_j}(t) \in \{0, 1\}, \; \forall \, \kin, \; \jin
-\end{align*}
-```
-:::
-
-<hr>
-
-::: {style="font-size: 80%;"}
-$L_{n_j}$: Capacity of tier $\jin$ in objects.
-:::
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Lemma: Caching Solution
-
-::: {style="font-size: 85%;"}
-We can rewrite [caching]{.body-highlight} subproblem as a *multiple knapsack problem*.
+::: {style="font-size: 100%;"}
+[Caching.]{.body-highlight} Choose $s^k_{n_j}(t)$ for each $\kin$ and $j \in \mathcal{J}_n$ to:
 :::
 
 ::: {style="font-size: 75%;"}
@@ -193,7 +109,7 @@ Optimization Framework
 - You'll notice that the problem now looks to be in the form of a generalized assignment problem.
 :::
 
-## Lemma: Caching Solution
+## Virtual Plane Caching
 
 ::: {style="font-size: 80%;"}
 Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}, obtain equivalent [linear assignment problem]{.body-highlight}.
@@ -209,7 +125,7 @@ Optimization Framework
 - Placeholder.
 :::
 
-## Lemma: Caching Solution {visibility="uncounted"}
+## Virtual Plane Caching {visibility="uncounted"}
 
 ::: {style="font-size: 80%;"}
 Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}, obtain equivalent [linear assignment problem]{.body-highlight}.
@@ -250,13 +166,18 @@ Optimization Framework
 - Luckily, there are methods that can solve this problem in polynomial time. We specifically rely on a modification of the Jonker-Volgenant algorithm.
 :::
 
-## Lemma: Caching Solution {visibility="uncounted"}
+## Virtual Plane Caching {.smaller visibility="uncounted"}
 
-::: {style="font-size: 80%;"}
+::: {style="font-size: 120%;"}
 Objects are equally sized; decide variables for each one-object [cache slot]{.body-highlight}, obtain equivalent [linear assignment problem]{.body-highlight}.
 
-- Global optimum can be found in polynomial time via the Hungarian method or its efficient variants.
-- We use one such variant[^crouse2d] with worst case complexity of $O(L^2_{tot}K)$, where $L_{tot} = \sum_{\jin} L_{n_j}$.
+- Can be solved exactly in polynomial time with worst case complexity of $O(L^2_{tot}K)$[^crouse2d], where $L_{tot} = \sum_{\jin} L_{n_j}$.
+:::
+
+::: {layout="[[1,1]]"}
+![Scaling in cache capacity](images/vip_caching_comp_time_wrt_cache.svg){width=350 fig-align="center"}
+
+![Scaling in catalog size](images/vip_caching_comp_time_wrt_objects.svg){width=350 fig-align="center"}
 :::
 
 [^crouse2d]: "On implementing 2D rectangular assignment algorithms", Crouse, D. F., IEEE Transactions on Aerospace and Electronic Systems, 2016 @crouse2016implementing.
@@ -265,11 +186,9 @@ Objects are equally sized; decide variables for each one-object [cache slot]{.bo
 Optimization Framework
 :::
 
-## Virtual Plane Algorithm
+## Virtual Plane Forwarding {.smaller}
 
-::: {style="font-size: 90%;"}
-[Forwarding:]{.body-highlight} Choose $\mu^k_{ab}(t)$ for each $\kin$ and $\abin^k$ to:
-:::
+[Forwarding.]{.body-highlight} Choose $\mu^k_{ab}(t)$ for each $\kin$ and $\abin^k$ to:
 
 ::: {style="font-size: 80%;"}
 ```{=tex}
@@ -283,23 +202,8 @@ Optimization Framework
 \end{align*}
 ```
 :::
-<hr>
 
-::: columns
-::: {.column width="50%" style="font-size: 75%;"}
-$C_{ab}$: Capacity of link $(a,b)$.
-:::
-::: {.column width="50%" style="font-size: 75%;"}
-$\mc{L}^k$: Set of links allowed to transmit VIPs of $k$ as per routing policy.
-:::
-:::
-
-::: {.footer}
-Optimization Framework
-:::
-
-## Virtual Plane Forwarding
-Optimal solution to [forwarding]{.body-highlight} problem is obtained by choosing $\mu^k_{ab}(t)$ as follows.
+Optimal solution via ***backpressure***, i.e. choosing $\mu^k_{ab}(t)$ as follows.
 
 ::: {style="font-size: 75%;"}
 ```{=tex}
@@ -318,21 +222,29 @@ Optimal solution to [forwarding]{.body-highlight} problem is obtained by choosin
 ```
 :::
 
-This is the well-known ***backpressure*** solution.
+<hr>
+
+::: {style="font-size: 75%;"}
+
+::: columns
+::: {.column width="30%"}
+$C_{ab}$: Capacity of link $(a,b)$.
+:::
+::: {.column width="70%"}
+$\mc{L}^k$: Set of links allowed to transmit VIPs of $k$ as per routing policy.
+:::
+:::
+
+:::
 
 ::: {.footer}
 Optimization Framework
 :::
 
-::: {.notes}
-- And here's the forwarding step. The neat thing about our extension here is that we don't actually need to alter the results for forwarding from the original VIP paper, which were based on the backpressure technique.
-- The intuition here again comes from thinking of VIP counts as potential representing unsatisfied demand. So with the forwarding step, we're making sure VIP flows follow large differences in potential, essentially steering interests toward sinks, meaning sources or caches.
-:::
-
-## Theorem: Trade-off {.smaller}
+## Bound Trade-off {.smaller}
 
 ::: {style="font-size: 120%;"}
-Algorithm achieves following [backlog-penalty trade-off]{.body-highlight} for arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$:
+[Backlog-penalty trade-off]{.body-highlight} for arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$:
 :::
 
 ::: {style="font-size: 90%;"}

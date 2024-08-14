@@ -72,7 +72,7 @@ $$
 # System Model {visibility="uncounted"}
 
 ::: {.notes}
-That concludes the introduction and leads me into the system model that we're dealing with.
+Now, let's review the system model we're targeting with this work.
 :::
 
 {{< include _model.qmd >}}

@@ -6,12 +6,15 @@
 :::
 ::: {.column width="50%"}
 
+::: {.incremental}
 - **Problem:** Distribution of massive data for data-intensive science experiments.
-- **Solution:** N-DISE: high-performance NDN-based data delivery system.
+- **Solution:** N-DISE, a high-performance NDN-based data delivery system.
 - **Cache capacity issue:** 20 GB of DRAM space allocated at each node.
     - DRAM is fast but small and expensive; NVMe is cheap and large but slow.
     - Logical next step: use both!
     - **Challenge:** "Novel multi-tier caching algorithms are required."[^ndndpdk]
+:::
+
 :::
 :::
 
@@ -21,10 +24,20 @@
 Introduction
 :::
 
+::: {.notes}
+- A big problem that large science programs like the LHC face today is how to distribute massive data their experiments produce efficiently.
+- Our group has been leading an effort to build a Named Data Networking-based distribution system to address this problem.
+- Though this work was a landmark success in bringing together the state-of-the-art in the field and demonstrating the high-performance of this system, in our experiments we ran into issues regarding limited cache space allocation.
+- This is because DRAM is the standard cache device, but it is hard to scale capacity-wise and expensive.
+- To supplement DRAM caches, we want to use NVMe SSDs since they are cheap and offer larger capacities.
+- But due to their much slower speeds, they require careful management, so a novel multi-tiered caching policy was needed.
+- At this point I should also note quickly that, while this use case was the starting point of the work, such a policy is important for any ICN use case where large amounts of data is handled.  
+:::
+
 ## Challenges & Goals
 
-::: {style="font-size: 90%;"}
-We consider the following challenges:
+::: {style="font-size: 85%;"}
+For multi-tiered caching, following must be considered:
 
 - Slow caches can become a [bottleneck]{.body-highlight-red} if directed large traffic.
 - Caches are not free to use; each operation has an [energy]{.body-highlight-red} cost, and flash [wears out]{.body-highlight-red}.
@@ -32,11 +45,17 @@ We consider the following challenges:
 We aim for policies that utilize diverse cache tiers effectively:
 
 -   Ensure caches are receiving [sustainable hit rates]{.body-highlight} and traffic is balanced between links and cache tiers.
+    - Coupling caching & forwarding is critical.
 -   Make [high-value]{.body-highlight} replacement decisions to minimize costs.
 :::
 
 ::: {.footer}
 Introduction
+:::
+
+::: {.notes}
+- Regardless, when designing such a policy, we must be aware of some crucial points. (read slides)
+- So in view of these, our policy should (read slides)
 :::
 
 ## Related Work
@@ -47,9 +66,19 @@ Introduction
     - Non-blocking caching I/O @so2014toward, @pan2021nb.
     - Flash damage aware caching @shukla2016designing.
 - Joint caching and forwarding policies @yeh2014vip, @ioannidis2017jointly, @mahdian2017mindelay.
-    - VIP framework @yeh2014vip: congestion-aware, incorporates cache read rates.
+    - VIP framework @yeh2014vip: congestion-aware, incorporates cache read rate.
 :::
 
 ::: {.footer}
 Related Work
+:::
+
+::: {.notes}
+- Of course, the notion of expanding cache capacities via flash storage has already been looked at in the literature.
+- I am not going to go over everything here but the highlight is a series of works where SSDs were used as a prefetch layer, capitalizing on ICN request patterns.
+- In contrast we are considering a model where additional cache tiers are individually capable.
+- Another highlight is that there have been works on enabling non-blocking caching operations so that other router functionality can continue while cache hits and replacements are resolved simultaneously.
+- Most of these works focus on system-level implementation details and not on caching policies.
+- Of course caching policies have seen great attention in literature, though they tend to view caches as a single block and don't incorporate the characteristics of cache devices.
+- The highlight here is the VIP framework, which is what my work builds upon; VIP is a powerful starting point for this work since it incorporates a read rate parameter.
 :::

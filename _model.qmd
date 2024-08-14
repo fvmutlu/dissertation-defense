@@ -2,11 +2,12 @@
 
 ::: columns
 ::: {.column width=45%}
+***Object-level*** ICN model:
 
 - Unit of content is ***data object***.
-    - Each object $\kin$ is of ***unit size***.
-    - Each $k$ has unique source $\mc{S}(k)$.
-    - Any node $n \not = \mc{S}(k)$ can cache $k$.
+- Each object $\kin$ is of ***unit size***.
+- Each $k$ has unique source $\mc{S}(k)$.
+- Any node $n \not = \mc{S}(k)$ can cache $k$.
 
 [• Requests can enter network at any node; forwarded toward content sources.]{.fragment fragment-index=1}
 
@@ -69,7 +70,6 @@ We propose a [multi-tiered caching model]{.body-highlight}:
 :::
 :::
 
-
 ::: {.footer}
 System Model
 :::
@@ -79,12 +79,15 @@ System Model
 ::: {style="font-size: 80%;"}
 Virtual control plane model using the [VIP framework]{.body-highlight}[^vipog]:
 
+::: {.incremental}
 - Discrete-time queuing system driven by data plane request arrivals; *virtual interest packets* ([*VIPs*]{.body-highlight}) generated along exogenous requests.
 - Every node has a [VIP counter]{.body-highlight} for every object $\kin$.
 - At the beginning of each slot:
     - Nodes update neighbors with their counts using small messages.
     - Virtual plane algorithm decides cache placement and transmission allocations.
     - VIPs removed (at caches or sources) and forwarded, counters updated.
+:::
+
 :::
 
 [^vipog]: "VIP: A framework for joint dynamic forwarding and caching in named data networks", Yeh, E., Ho, T., Cui, Y., Burd, M., Liu, R., & Leong, D., ACM ICN 2014 @yeh2014vip.
@@ -139,4 +142,38 @@ System Model
 ::: {.notes}
 - This inequality shows how VIP counts change from slot to slot in the virtual plane
 - First term is VIPs forwarded away from the node, then we have the exogenous arrivals, then VIPs that arrive from other nodes and finally, VIPs removed due to caching. Notice that this term is dependent on the read rates of cache tiers.
+:::
+
+## Virtual Plane Penalties
+
+Data plane costs reflected into virtual plane framework; admissions and evictions in virtual plane incur [penalties]{.body-highlight}:
+
+::: {style="font-size: 75%;"}
+```{=tex}
+\begin{equation*}
+    p^k_{n_j}(t) \triangleq 
+    \left\{ \begin{array}{ll}
+        c^a_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = 1 \\
+        c^e_{n_j}, & \text{if} \; s^k_{n_j}(t) - s^k_{n_j}(t-1) = -1 \\
+       0, & \text{otherwise}
+   \end{array} \right.
+\end{equation*}
+```
+Sum penalty during $t$: $P(t) = \sum_{\kin, \nin, \jin} p^k_{n_j}(t)$.
+:::
+
+<hr>
+
+::: columns
+::: {.column width="50%" style="font-size: 75%;"}
+$s^k_{n_j}(t)$: Caching state of $k$ in tier $j$ at $n$ at the beginning of $t$.
+:::
+::: {.column width="50%" style="font-size: 75%;"}
+$c^a_{n_j}$: Admission cost of tier $j$ at node $n$.
+$c^e_{n_j}$: Eviction cost of tier $j$ at node $n$.
+:::
+:::
+
+::: {.footer}
+System Model
 :::
