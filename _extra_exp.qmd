@@ -1,5 +1,30 @@
 # Appendix: Additional Results {visibility="uncounted"}
 
+## Cache Hits Geant
+
+::: columns
+::: {.column width="47%"}
+![Cache hits](images/size_comp_geant_075_15_hits.svg)
+:::
+::: {.column width="53%"}
+![Second tier read delays](images/size_comp_geant_075_15_hit_delays.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Geant cache hits and delay due to cache reads for multi-tiered versions.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- This next set of figures shed a bit more light on the delay trends from the previous slide.
+- Essentially, the differences come down to how the cache traffic is balanced, and how much cache operations contribute to delay.
+- This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively. 
+:::
+
 ## Cache Capacity {visibility="uncounted"}
 
 ![MVIP vs. LFU replacements](images/size_comp_geant_075_15_lfuvip_replacements.svg)
@@ -8,7 +33,7 @@
 Additional Results
 :::
 
-## Cache Capacity {visibility="uncounted"}
+## Cache Capacity Abilene {visibility="uncounted"}
 
 ::: columns
 ::: {.column width="50%"}
@@ -20,20 +45,14 @@ Additional Results
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$.
-
-$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier. 
+Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$. 
 :::
 
 ::: {.footer}
 Additional Results
 :::
 
-::: {.notes}
-- Placeholder.
-:::
-
-## Cache Capacity {visibility="uncounted"}
+## Cache Hits Abilene {visibility="uncounted"}
 
 ::: columns
 ::: {.column width="47%"}
@@ -52,33 +71,6 @@ Cache hits and delay due to cache reads. Abilene, $\gamma=0.75$, $\lambda=15$.
 Additional Results
 :::
 
-::: {.notes}
-- Placeholder.
-:::
-
-## Delay-Penalty Trade-off {visibility="uncounted"}
-
-::: columns
-::: {.column width="50%"}
-![$\gamma=0.75$](images/mt_pen_abilene_15_075.svg)
-:::
-::: {.column width="50%"}
-![$\gamma=0.5$](images/mt_pen_abilene_15_05.svg)
-:::
-:::
-
-::: {style="font-size: 80%; text-align: center"}
-Delay vs. penalty curves for MVIP and PA-LFU policies. Abilene, $\lambda=15$. $\omega$ decreases to the right.
-:::
-
-::: {.footer}
-Additional Results
-:::
-
-::: {.notes}
-- Placeholder.
-:::
-
 ## Interest Aggregation: Hits vs. Reads
 
 ::: columns
@@ -93,7 +85,7 @@ Additional Results
 ::: {style="font-size: 80%; text-align: center"}
 Cache hits and second tier reads issued under IA for multi-tiered cases.
 
-Geant; $\lambda=50$, $\gamma=0.75$.
+Geant, $\lambda=50$, $\gamma=0.75$.
 :::
 
 ::: {.footer}

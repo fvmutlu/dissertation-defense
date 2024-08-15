@@ -28,7 +28,7 @@ Simulator
 
 ## Structure {.smaller}
 
-- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
+- **Components**: [Request, Packet, Link, Cache, Node, Network]{.code}
 - [Request]{.code} stores metadata.
     - Object identifier, unique request token, statistics etc. 
 - [Packet]{.code} encapsulates [Request]{.code}.
@@ -42,7 +42,7 @@ Simulator
 
 ## Structure {.smaller visibility="uncounted"}
 
-- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
+- **Components**: [Request, Packet, Link, Cache, Node, Network]{.code}
 - [Cache]{.code} is operated by a SimPy process controlling a *task queue*.
     - Read and write tasks processed based on transfer rate.
 
@@ -54,8 +54,8 @@ Simulator
 
 ## Structure {.smaller visibility="uncounted"}
 
-- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
-- [Node]{.code} encapsulates [Cache]{.code}s, FIB and PIT
+- **Components**: [Request, Packet, Link, Cache, Node, Network]{.code}
+- [Node]{.code} encapsulates [Cache]{.code}s, FIB and PIT.
     - Implements caching and forwarding policies.
 
 ![](images/simnode.svg){width=60% height=60% fig-align="center"}
@@ -66,7 +66,7 @@ Simulator
 
 ## Structure {.smaller visibility="uncounted"}
 
-- **Components**: [Packet, Request, Link, Cache, Node, Network]{.code}
+- **Components**: [Request, Packet, Link, Cache, Node, Network]{.code}
 - [Network]{.code} encapsulates [Node]{.code}s.
     - Initializes configuration and monitors events.
 

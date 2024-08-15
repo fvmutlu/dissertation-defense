@@ -131,10 +131,7 @@ Now, let's review the system model we're targeting with this work.
 Summary
 :::
 
-::: {.notes}
-- I should also note that we submitted a paper on this to MobiHoc last year which was rejected
-- We're currently revising the paper for the upcoming ICC
-:::
+# Thank You!
 
 # Power & Caching in Wireless HetNets {visibility="uncounted"}
 

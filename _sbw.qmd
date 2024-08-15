@@ -477,13 +477,10 @@ Virtual Plane Cache Read Rate Control
 :::
 ::: {.column width=50% style="font-size: 75%"}
 
-::: {.incremental}
 - Data plane policy supported by initial approach: **MVIP-RR**; by iterative algorithm **MVIP-RR+**.
 - Data plane backlog represented by PIT queue sizes.
     - Sampled along with VIPs at each virtual plane time slot.
-    - Denote PIT samples as $Q\knt$.
 - Iterative algorithm maintains much smaller total VIP backlog.
-:::
 
 :::
 :::
@@ -504,8 +501,8 @@ Virtual Plane Cache Read Rate Control
 - Data plane policy supported by initial approach: **MVIP-RR**; by iterative algorithm **MVIP-RR+**.
 - Data plane backlog represented by PIT queue sizes.
     - Sampled along with VIPs at each virtual plane time slot.
-    - Denote samples as $Q\knt$.
 - Iterative algorithm maintains smaller virtual-data plane backlog *"gap"*.
+    - Denote PIT samples as $Q\knt$.
     - Distance measure: $\frac{1}{|\mc{N}|} \sum_{\nin} \lVert \mathbf{V}_n(t) - \mathbf{Q}_n(t) \rVert_2$
 :::
 :::

@@ -29,6 +29,12 @@ Experiments
 |Admission / eviction costs of tier 1|4, 2|
 |Admission / eviction costs of tier 2|2, 1|
 : Common parameters for all scenarios {#tbl-params tbl-colwidths="[80,20]"}
+
+[Cache capacity budget]{.body-highlight} $\Delta L = \Delta L_1 + \Delta L_2$.
+
+$L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
+
+$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier in direct comparisons.
 :::
 :::
 
@@ -38,23 +44,43 @@ Experiments
 Experiments
 :::
 
-::: {.notes}
-- Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous
-- So the results I'll show here are those that I think most succinctly show that our approach can deliver on our goals
+## Setup {.smaller visibility="uncounted"}
+
+::: columns
+::: {.column width="50%"}
+![Abilene (11 nodes)](images/abilene.svg){width="100%" style="display: block; margin-top: 120px;"}
+:::
+::: {.column width="50%" style="font-size:75%;"}
+| Parameter | Value |
+|:-:|:-:|
+|Number of objects in catalog $\mc{K}$|2000|
+|Bandwidth of each link (objects/sec) |10|
+|Read / write rate of tier 1 (objects/sec) |25, 25|
+|Read / write rate of tier 2 (in objects/sec) |10, 5|
+|Admission / eviction costs of tier 1|4, 2|
+|Admission / eviction costs of tier 2|2, 1|
+: Common parameters for all scenarios {#tbl-params tbl-colwidths="[80,20]"}
+
+[Cache capacity budget]{.body-highlight} $\Delta L = \Delta L_1 + \Delta L_2$.
+
+$L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
+
+$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier in direct comparisons.
+:::
+:::
+
+::: {.footer}
+Experiments
 :::
 
 ## Cache Capacity
 
-![](images/size_comp_geant_all_075_15.svg){width="100%" fig-align="center"}
+![](images/size_comp_geant_all_075_15.svg){width="60%" height="60%" fig-align="center"}
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities ($\omega=0$). $\gamma=0.75$, $\lambda=15$. 
-:::
+Delay with increasing cache capacities ($\omega=0$).
 
-::: {style="font-size: 60%; text-align: center"}
-[Cache capacity budget]{.body-highlight} $\Delta L = \Delta L_1 + \Delta L_2$. $L_{n_1} = 5 + \Delta L_1$, $L_{n_2} = 25 \times \Delta L_2$.
-
-$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
+Geant, $\gamma=0.75$, $\lambda=15$.
 :::
 
 ::: {.footer}
@@ -75,27 +101,16 @@ Experiments
 
 ## Cache Capacity
 
-::: columns
-::: {.column width="47%"}
-![Cache hits](images/size_comp_geant_075_15_hits.svg)
-:::
-::: {.column width="53%"}
-![Second tier read delays](images/size_comp_geant_075_15_hit_delays.svg)
-:::
-:::
+![](images/size_comp_abilene_075_15_delay.svg){width="50%" height="50%" fig-align="center"}
 
 ::: {style="font-size: 80%; text-align: center"}
-Cache hits and delay due to cache reads for multi-tiered versions.
+Delay with increasing cache capacities ($\omega=0$).
+
+Abilene $\gamma=0.75$, $\lambda=15$. 
 :::
 
 ::: {.footer}
 Experiments
-:::
-
-::: {.notes}
-- This next set of figures shed a bit more light on the delay trends from the previous slide.
-- Essentially, the differences come down to how the cache traffic is balanced, and how much cache operations contribute to delay.
-- This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively. 
 :::
 
 ## Request Pattern Parameters
@@ -110,7 +125,7 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing $\lambda$ and $\gamma$ ($\omega=0$).
+Geant; delay with increasing $\lambda$ and $\gamma$ ($\omega=0$).
 
 $\Delta L_1 = 8$; $\Delta L_2$ chosen based on minimum delay points for multi-tier.
 :::
@@ -155,9 +170,34 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay vs. penalty curves for MVIP and PA-LFU policies. $\lambda=15$.
+Geant best delay vs. penalty curves for MVIP and PA-LFU policies.
 
-$\omega > 0$, decreases to the right.
+$\lambda=15$. $\omega > 0$, decreases to the right.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Placeholder.
+:::
+
+## Delay-Penalty Trade-off {visibility="uncounted"}
+
+::: columns
+::: {.column width="50%"}
+![$\gamma=0.75$](images/mt_pen_abilene_15_075.svg)
+:::
+::: {.column width="50%"}
+![$\gamma=0.5$](images/mt_pen_abilene_15_05.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Abilene best delay vs. penalty curves for MVIP and PA-LFU policies.
+
+$\lambda=15$. $\omega > 0$, decreases to the right.
 :::
 
 ::: {.footer}
@@ -230,9 +270,9 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities under IA. $\gamma=0.75$, $\lambda=50$.
+Delay with increasing cache capacities under IA. 
 
-$\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier.
+Geant, $\gamma=0.75$, $\lambda=50$.
 :::
 
 ::: {.footer}

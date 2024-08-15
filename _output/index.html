@@ -1512,36 +1512,90 @@ Table&nbsp;1: Common parameters for all scenarios
 </figcaption>
 </figure>
 </div>
+<p><span class="body-highlight">Cache capacity budget</span> <span class="math inline">\(\Delta L = \Delta L_1 + \Delta L_2\)</span>.</p>
+<p><span class="math inline">\(L_{n_1} = 5 + \Delta L_1\)</span>, <span class="math inline">\(L_{n_2} = 25 \times \Delta L_2\)</span>.</p>
+<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier in direct comparisons.</p>
 </div></div>
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Alright, so when it comes to experiment settings, I first have to stress that the experimentation space for this work is enormous</li>
-<li>So the results I’ll show here are those that I think most succinctly show that our approach can deliver on our goals</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn6"><p>The GN4 Phase 3 Network project, https://network.geant.org/gn4-3n/</p></li></ol></aside></section>
+<section id="setup-2" class="slide level2 smaller" data-visibility="uncounted">
+<h2>Setup</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center" style="display: block; margin-top: 120px;">
+<figure>
+<p><img data-src="images/abilene.svg" style="width:100.0%"></p>
+<figcaption>Abilene (11 nodes)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="font-size:75%;">
+<div id="tbl-params" class="quarto-float quarto-figure quarto-figure-center" data-tbl-colwidths="[80,20]">
+<figure class="quarto-float quarto-float-tbl">
+<div aria-describedby="tbl-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table>
+<colgroup>
+<col style="width: 80%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Parameter</th>
+<th style="text-align: center;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Number of objects in catalog <span class="math inline">\(\mc{K}\)</span></td>
+<td style="text-align: center;">2000</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Bandwidth of each link (objects/sec)</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Read / write rate of tier 1 (objects/sec)</td>
+<td style="text-align: center;">25, 25</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Read / write rate of tier 2 (in objects/sec)</td>
+<td style="text-align: center;">10, 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Admission / eviction costs of tier 1</td>
+<td style="text-align: center;">4, 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Admission / eviction costs of tier 2</td>
+<td style="text-align: center;">2, 1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-tbl" id="tbl-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Common parameters for all scenarios
+</figcaption>
+</figure>
+</div>
+<p><span class="body-highlight">Cache capacity budget</span> <span class="math inline">\(\Delta L = \Delta L_1 + \Delta L_2\)</span>.</p>
+<p><span class="math inline">\(L_{n_1} = 5 + \Delta L_1\)</span>, <span class="math inline">\(L_{n_2} = 25 \times \Delta L_2\)</span>.</p>
+<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier in direct comparisons.</p>
+</div></div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+</section>
 <section id="cache-capacity" class="slide level2">
 <h2>Cache Capacity</h2>
-
-<img data-src="images/size_comp_geant_all_075_15.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"><div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities (<span class="math inline">\(\omega=0\)</span>). <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_all_075_15.svg" class="quarto-figure quarto-figure-center" style="width:60.0%;height:60.0%"></p>
+</figure>
 </div>
-<div style="font-size: 60%; text-align: center">
-<p><span class="body-highlight">Cache capacity budget</span> <span class="math inline">\(\Delta L = \Delta L_1 + \Delta L_2\)</span>. <span class="math inline">\(L_{n_1} = 5 + \Delta L_1\)</span>, <span class="math inline">\(L_{n_2} = 25 \times \Delta L_2\)</span>.</p>
-<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities (<span class="math inline">\(\omega=0\)</span>).</p>
+<p>Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -1572,45 +1626,18 @@ Table&nbsp;1: Common parameters for all scenarios
 </section>
 <section id="cache-capacity-1" class="slide level2">
 <h2>Cache Capacity</h2>
-<div class="columns">
-<div class="column" style="width:47%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/size_comp_geant_075_15_hits.svg"></p>
-<figcaption>Cache hits</figcaption>
+<p><img data-src="images/size_comp_abilene_075_15_delay.svg" class="quarto-figure quarto-figure-center" style="width:50.0%;height:50.0%"></p>
 </figure>
 </div>
-</div><div class="column" style="width:53%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_geant_075_15_hit_delays.svg"></p>
-<figcaption>Second tier read delays</figcaption>
-</figure>
-</div>
-</div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Cache hits and delay due to cache reads for multi-tiered versions.</p>
+<p>Delay with increasing cache capacities (<span class="math inline">\(\omega=0\)</span>).</p>
+<p>Abilene <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>This next set of figures shed a bit more light on the delay trends from the previous slide.</li>
-<li>Essentially, the differences come down to how the cache traffic is balanced, and how much cache operations contribute to delay.</li>
-<li>This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="request-pattern-parameters" class="slide level2">
 <h2>Request Pattern Parameters</h2>
@@ -1631,7 +1658,7 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span> (<span class="math inline">\(\omega=0\)</span>).</p>
+<p>Geant; delay with increasing <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span> (<span class="math inline">\(\omega=0\)</span>).</p>
 <p><span class="math inline">\(\Delta L_1 = 8\)</span>; <span class="math inline">\(\Delta L_2\)</span> chosen based on minimum delay points for multi-tier.</p>
 </div>
 <div class="footer">
@@ -1710,8 +1737,49 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. <span class="math inline">\(\lambda=15\)</span>.</p>
-<p><span class="math inline">\(\omega &gt; 0\)</span>, decreases to the right.</p>
+<p>Geant best delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies.</p>
+<p><span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega &gt; 0\)</span>, decreases to the right.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="delay-penalty-trade-off-1" class="slide level2" data-visibility="uncounted">
+<h2>Delay-Penalty Trade-off</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_abilene_15_075.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mt_pen_abilene_15_05.svg"></p>
+<figcaption><span class="math inline">\(\gamma=0.5\)</span></figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Abilene best delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies.</p>
+<p><span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega &gt; 0\)</span>, decreases to the right.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -1833,8 +1901,8 @@ Table&nbsp;1: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities under IA. <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=50\)</span>.</p>
-<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
+<p>Delay with increasing cache capacities under IA.</p>
+<p>Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=50\)</span>.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -2448,17 +2516,14 @@ Virtual Plane Cache Read Rate Control
 </div>
 </div>
 </div><div class="column" style="font-size: 75%">
-<div>
 <ul>
-<li class="fragment">Data plane policy supported by initial approach: <strong>MVIP-RR</strong>; by iterative algorithm <strong>MVIP-RR+</strong>.</li>
-<li class="fragment">Data plane backlog represented by PIT queue sizes.
+<li>Data plane policy supported by initial approach: <strong>MVIP-RR</strong>; by iterative algorithm <strong>MVIP-RR+</strong>.</li>
+<li>Data plane backlog represented by PIT queue sizes.
 <ul>
-<li class="fragment">Sampled along with VIPs at each virtual plane time slot.</li>
-<li class="fragment">Denote PIT samples as <span class="math inline">\(Q\knt\)</span>.</li>
+<li>Sampled along with VIPs at each virtual plane time slot.</li>
 </ul></li>
-<li class="fragment">Iterative algorithm maintains much smaller total VIP backlog.</li>
+<li>Iterative algorithm maintains much smaller total VIP backlog.</li>
 </ul>
-</div>
 </div></div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
@@ -2494,10 +2559,10 @@ Virtual Plane Cache Read Rate Control
 <li>Data plane backlog represented by PIT queue sizes.
 <ul>
 <li>Sampled along with VIPs at each virtual plane time slot.</li>
-<li>Denote samples as <span class="math inline">\(Q\knt\)</span>.</li>
 </ul></li>
 <li>Iterative algorithm maintains smaller virtual-data plane backlog <em>“gap”</em>.
 <ul>
+<li>Denote PIT samples as <span class="math inline">\(Q\knt\)</span>.</li>
 <li>Distance measure: <span class="math inline">\(\frac{1}{|\mc{N}|} \sum_{\nin} \lVert \mathbf{V}_n(t) - \mathbf{Q}_n(t) \rVert_2\)</span></li>
 </ul></li>
 </ul>
@@ -2591,7 +2656,7 @@ Virtual Plane Cache Read Rate Control
 <section id="structure" class="slide level2 smaller">
 <h2>Structure</h2>
 <ul>
-<li><strong>Components</strong>: <span class="code">Packet, Request, Link, Cache, Node, Network</span></li>
+<li><strong>Components</strong>: <span class="code">Request, Packet, Link, Cache, Node, Network</span></li>
 <li><span class="code">Request</span> stores metadata.
 <ul>
 <li>Object identifier, unique request token, statistics etc.</li>
@@ -2612,7 +2677,7 @@ Virtual Plane Cache Read Rate Control
 <section id="structure-1" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Structure</h2>
 <ul>
-<li><strong>Components</strong>: <span class="code">Packet, Request, Link, Cache, Node, Network</span></li>
+<li><strong>Components</strong>: <span class="code">Request, Packet, Link, Cache, Node, Network</span></li>
 <li><span class="code">Cache</span> is operated by a SimPy process controlling a <em>task queue</em>.
 <ul>
 <li>Read and write tasks processed based on transfer rate.</li>
@@ -2630,8 +2695,8 @@ Virtual Plane Cache Read Rate Control
 <section id="structure-2" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Structure</h2>
 <ul>
-<li><strong>Components</strong>: <span class="code">Packet, Request, Link, Cache, Node, Network</span></li>
-<li><span class="code">Node</span> encapsulates <span class="code">Cache</span>s, FIB and PIT
+<li><strong>Components</strong>: <span class="code">Request, Packet, Link, Cache, Node, Network</span></li>
+<li><span class="code">Node</span> encapsulates <span class="code">Cache</span>s, FIB and PIT.
 <ul>
 <li>Implements caching and forwarding policies.</li>
 </ul></li>
@@ -2648,7 +2713,7 @@ Virtual Plane Cache Read Rate Control
 <section id="structure-3" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Structure</h2>
 <ul>
-<li><strong>Components</strong>: <span class="code">Packet, Request, Link, Cache, Node, Network</span></li>
+<li><strong>Components</strong>: <span class="code">Request, Packet, Link, Cache, Node, Network</span></li>
 <li><span class="code">Network</span> encapsulates <span class="code">Node</span>s.
 <ul>
 <li>Initializes configuration and monitors events.</li>
@@ -2712,23 +2777,12 @@ Virtual Plane Cache Read Rate Control
 <div class="footer">
 <p>Summary</p>
 </div>
-<aside class="notes">
-<ul>
-<li>I should also note that we submitted a paper on this to MobiHoc last year which was rejected</li>
-<li>We’re currently revising the paper for the upcoming ICC</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section></section>
+<section id="thank-you" class="title-slide slide level1 center">
+<h1>Thank You!</h1>
+
+</section>
+
 <section>
 <section id="power-caching-in-wireless-hetnets" class="title-slide slide level1 center" data-visibility="uncounted">
 <h1>Power &amp; Caching in Wireless HetNets</h1>
@@ -2953,6 +3007,48 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <h1>Appendix: Additional Results</h1>
 
 </section>
+<section id="cache-hits-geant" class="slide level2">
+<h2>Cache Hits Geant</h2>
+<div class="columns">
+<div class="column" style="width:47%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:53%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_hit_delays.svg"></p>
+<figcaption>Second tier read delays</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Geant cache hits and delay due to cache reads for multi-tiered versions.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>This next set of figures shed a bit more light on the delay trends from the previous slide.</li>
+<li>Essentially, the differences come down to how the cache traffic is balanced, and how much cache operations contribute to delay.</li>
+<li>This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="cache-capacity-2" class="slide level2" data-visibility="uncounted">
 <h2>Cache Capacity</h2>
 
@@ -2960,8 +3056,8 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <p>Additional Results</p>
 </div>
 </section>
-<section id="cache-capacity-3" class="slide level2" data-visibility="uncounted">
-<h2>Cache Capacity</h2>
+<section id="cache-capacity-abilene" class="slide level2" data-visibility="uncounted">
+<h2>Cache Capacity Abilene</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
@@ -2980,29 +3076,13 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 </div></div>
 <div style="font-size: 80%; text-align: center">
 <p>Delay with increasing cache capacities. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
-<p><span class="math inline">\(\Delta L = \Delta L_1\)</span> for single-tier; <span class="math inline">\(\Delta L = \Delta L_2\)</span> for multi-tier.</p>
 </div>
 <div class="footer">
 <p>Additional Results</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="cache-capacity-4" class="slide level2" data-visibility="uncounted">
-<h2>Cache Capacity</h2>
+<section id="cache-hits-abilene" class="slide level2" data-visibility="uncounted">
+<h2>Cache Hits Abilene</h2>
 <div class="columns">
 <div class="column" style="width:47%;">
 <div class="quarto-figure quarto-figure-center">
@@ -3025,61 +3105,6 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div class="footer">
 <p>Additional Results</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="delay-penalty-trade-off-1" class="slide level2" data-visibility="uncounted">
-<h2>Delay-Penalty Trade-off</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/mt_pen_abilene_15_075.svg"></p>
-<figcaption><span class="math inline">\(\gamma=0.75\)</span></figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/mt_pen_abilene_15_05.svg"></p>
-<figcaption><span class="math inline">\(\gamma=0.5\)</span></figcaption>
-</figure>
-</div>
-</div></div>
-<div style="font-size: 80%; text-align: center">
-<p>Delay vs.&nbsp;penalty curves for MVIP and PA-LFU policies. Abilene, <span class="math inline">\(\lambda=15\)</span>. <span class="math inline">\(\omega\)</span> decreases to the right.</p>
-</div>
-<div class="footer">
-<p>Additional Results</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="interest-aggregation-hits-vs.-reads" class="slide level2">
 <h2>Interest Aggregation: Hits vs.&nbsp;Reads</h2>
@@ -3101,7 +3126,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 </div></div>
 <div style="font-size: 80%; text-align: center">
 <p>Cache hits and second tier reads issued under IA for multi-tiered cases.</p>
-<p>Geant; <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
+<p>Geant, <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
 </div>
 <div class="footer">
 <p>Additional Results</p>
