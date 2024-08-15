@@ -14,13 +14,6 @@
 Virtual Plane Cache Read Rate Control
 :::
 
-::: {.notes}
-- The way we'll do that is by enforcing a cache read bandwidth constraint
-- Additional control action each time slot, in product form with another control action
-- Stability region and its analysis changes significantly
-- Complexity of caching problem solution reduces
-:::
-
 ## Overview {visibility="uncounted"}
 
 - **Premise:** Initial model assumes cache read rate is constant across objects in virtual plane each slot.
@@ -287,10 +280,16 @@ $\bar{F}^k_{n_j}(t) \triangleq \frac{1}{T} \sum^t_{t'=t-T+1} F^k_{n_j}(t')$.
 Virtual Plane Cache Read Rate Control
 :::
 
+::: {.notes}
+- Because we control cache read rates more precisely, we can use the additional average flow information generated in the data plane.
+- We alter our admission policy to pick the most profitable tier to potentially cache an object based on this information.
+- We also compare this with flow averages over links to determine whether it is better to leave the object uncached so future requests continue being forwarded upstream.
+:::
+
 ## Policy Performance
 
 ::: {.incremental}
-- This approach yields poor performance in the data plane.
+- This approach yields poor performance in practice.
     - [Significant underutilization]{.body-highlight-red} of slow tier.
 - We attribute this outcome to ***queue underflows*** in the virtual plane.
     - Occur when allocated service exceeds backlog, e.g. $r\knjt > V\knt$.
@@ -299,6 +298,15 @@ Virtual Plane Cache Read Rate Control
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
+:::
+
+::: {.notes}
+- Now, while I'd believed this policy could improve the usage of cache and bandwidth resources and improve delay, in practice it yielded less than desirable results.
+- Particularly, the experimental data showed a significant underitilization of the slower cache tier.
+- Looking into virtual plane metrics, we concluded the outcome is related to frequent queue underflows, or alternatively, overallocation of service.
+- Basically, due to the nature of the max-weight caching backpressure forwarding approach, only a small subset of objects are allocated service in the virtual plane each slot.
+- This means that, especially for less popular objects, we are unable to gather flow information quickly.
+- Which in turn means the data plane policy may not utilize the secondary tier to a desirable extent. 
 :::
 
 ## Iterative Approach
@@ -360,9 +368,75 @@ We propose an iterative greedy algorithm:
 Virtual Plane Cache Read Rate Control
 :::
 
-## Iterative Approach: Properties {.smaller}
+::: {.notes}
+- In order to address this and test whether we can improve our results in practice, we implemented an iterative greedy algorithm that extends the max-weight / backpressure solution.
+:::
 
-- Under ***heavy congestion*** where $V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}$, for all $t \geq 1, \nin, \kin$, reduces to max-weight approach.
+## Iterative Approach {visibility="uncounted"}
+
+::: columns
+::: {.column width=50%}
+::: {style="font-size: 45%;"}
+```pseudocode
+#| html-line-number: true
+#| html-caption-prefix: "Procedure:"
+\begin{algorithm}
+\caption{Virtual Plane Caching}
+\begin{algorithmic}
+    \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$.
+    \State Initialize $i \gets 1$.
+    \While{$\sum_{\kin} s\knjt < L_{n_j}, \;\; \sum_{\kin} r\knjt < R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) > 0$ and $i \leq K$}
+        \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt < L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$.
+        \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$.
+        \State $i \gets i+1$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+```
+```pseudocode
+#| html-line-number: true
+#| html-caption-prefix: "Procedure:"
+\begin{algorithm}
+\caption{Virtual Plane Forwarding}
+\begin{algorithmic}
+    \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$
+    \While{$\sum_{\kin} \mu^k_{nb}(t) < C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) > 0$}
+        \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$
+        \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$
+        \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+```
+:::
+:::
+::: {.column width=50%}
+::: {style="font-size: 65%;"}
+We propose an iterative greedy algorithm:
+
+- Under ***heavy congestion***, where underflows do not occur, reduces to max-weight / backpressure approach.
+- Computational complexity remains the same, dominated by sorting.
+    - $O(K \log K)$ for caching, $O(DK \log DK)$ for forwarding.
+
+:::
+:::
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+::: {.notes}
+- This algorithm has a couple of notable properties.
+- Firstly, when there is heavy congestion in the network such that underflows are not possible, it is equivalent to our initial approach.
+- Which means that, at least in such conditions, the throughput optimality result applies under this algorithm.
+- Its computational complexity is also unchanged, since the dominating part remains the sorting step.  
+:::
+
+<!-- ## Iterative Approach: Properties
+
+- Under ***heavy congestion***, where underflows do not occur, reduces to max-weight / backpressure approach.
+
 - Given backlog state $\mathbf{V}(t)$, following holds.
 
 ::: {style="font-size: 80%;"}
@@ -391,7 +465,7 @@ $\hat{F}\knjt$, $\hat{F}^k_{nb}(t)$: Those under iterative algorithm.
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
-:::
+::: -->
 
 ## Experimental Results
 
@@ -402,11 +476,15 @@ Virtual Plane Cache Read Rate Control
 :::
 :::
 ::: {.column width=50% style="font-size: 75%"}
+
+::: {.incremental}
 - Data plane policy supported by initial approach: **MVIP-RR**; by iterative algorithm **MVIP-RR+**.
 - Data plane backlog represented by PIT queue sizes.
     - Sampled along with VIPs at each virtual plane time slot.
     - Denote PIT samples as $Q\knt$.
 - Iterative algorithm maintains much smaller total VIP backlog.
+:::
+
 :::
 :::
 

@@ -25,8 +25,8 @@ Experiments
 |Number of objects in catalog $\mc{K}$|2000|
 |Bandwidth of each link (objects/sec) |10|
 |Read / write rate of tier 1 (objects/sec) |25, 25|
-|Admission / eviction costs of tier 1|4, 2|
 |Read / write rate of tier 2 (in objects/sec) |10, 5|
+|Admission / eviction costs of tier 1|4, 2|
 |Admission / eviction costs of tier 2|2, 1|
 : Common parameters for all scenarios {#tbl-params tbl-colwidths="[80,20]"}
 :::

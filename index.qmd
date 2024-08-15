@@ -105,6 +105,10 @@ Now, let's review the system model we're targeting with this work.
 
 # Virtual Plane Cache Read Rate Control {visibility="uncounted"}
 
+::: {.notes}
+- With that detailed coverage of experiments done, I want to quickly discuss another venue I explored that leads to a variant on our policy.
+:::
+
 {{< include _sbw.qmd >}}
 
 # Simulator {visibility="uncounted"}

@@ -1,16 +1,8 @@
 # Appendix: Additional Results {visibility="uncounted"}
 
-## Complexity {visibility="uncounted"}
+## Cache Capacity {visibility="uncounted"}
 
-::: {layout="[[1,1], [1,1]]"}
-![](images/lsap_comp_time_wrt_cache.svg){width=350 fig-align="center"}
-
-![](images/lsap_comp_time_wrt_objects.svg){width=350 fig-align="center"}
-
-![](images/vip_caching_comp_time_wrt_cache.svg){width=350 fig-align="center"}
-
-![](images/vip_caching_comp_time_wrt_objects.svg){width=350 fig-align="center"}
-:::
+![MVIP vs. LFU replacements](images/size_comp_geant_075_15_lfuvip_replacements.svg)
 
 ::: {.footer}
 Additional Results
