@@ -2694,13 +2694,19 @@ Virtual Plane Cache Read Rate Control
 <p>Simulator</p>
 </div>
 </section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
+<section id="summary-of-contributions" class="slide level2 smaller">
+<h2>Summary of Contributions</h2>
 <div>
 <ul>
-<li class="fragment">We address a critical and practical problem in scaling high-throughput caching networks</li>
-<li class="fragment">Our proposed model and approach achieves our goals and performs decently, but has shortcomings</li>
-<li class="fragment">Some improvements can be made by reiterating on technical details, further fine tuning requires experimentation</li>
+<li class="fragment">Object-level multi-tiered caching model incorporating cache tiers with diverse cost and performance parameters.</li>
+<li class="fragment">Extensions of the VIP framework and algorithm with this caching model:
+<ul>
+<li class="fragment">Optimal trade-off of queue backlogs and cache utilization penalties.</li>
+<li class="fragment">Variant that explicitly controls cache read rate allocations in the virtual plane.</li>
+</ul></li>
+<li class="fragment">Data plane multi-tiered caching policies guided by the virtual control plane algorithms.</li>
+<li class="fragment">Extensive experimental evaluation of said policies under numerous simulation settings.</li>
+<li class="fragment">A lightweight object-level ICN simulator built to be extensible and equipped with convenience features to allow future research and experimentation.</li>
 </ul>
 </div>
 <div class="footer">
