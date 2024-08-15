@@ -1493,12 +1493,12 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <td style="text-align: center;">25, 25</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Admission / eviction costs of tier 1</td>
-<td style="text-align: center;">4, 2</td>
-</tr>
-<tr class="odd">
 <td style="text-align: center;">Read / write rate of tier 2 (in objects/sec)</td>
 <td style="text-align: center;">10, 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Admission / eviction costs of tier 1</td>
+<td style="text-align: center;">4, 2</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">Admission / eviction costs of tier 2</td>
@@ -1950,9 +1950,37 @@ Experiments
 <section>
 <section id="virtual-plane-cache-read-rate-control" class="title-slide slide level1 center" data-visibility="uncounted">
 <h1>Virtual Plane Cache Read Rate Control</h1>
-
+<aside class="notes">
+<ul>
+<li>With that detailed coverage of experiments done, I want to quickly discuss another venue I explored that leads to a variant on our policy.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="overview-1" class="slide level2">
+<h2>Overview</h2>
+<ul>
+<li><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</li>
+</ul>
+<div style="font-size: 70%;">
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
+</div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="overview-2" class="slide level2" data-visibility="uncounted">
 <h2>Overview</h2>
 <ul>
 <li><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</li>
@@ -1973,34 +2001,38 @@ Experiments
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
-<aside class="notes">
-<ul>
-<li>The way we’ll do that is by enforcing a cache read bandwidth constraint</li>
-<li>Additional control action each time slot, in product form with another control action</li>
-<li>Stability region and its analysis changes significantly</li>
-<li>Complexity of caching problem solution reduces</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="overview-2" class="slide level2">
+<section id="overview-3" class="slide level2" data-visibility="uncounted">
+<h2>Overview</h2>
+<ul>
+<li><strong>Premise:</strong> Initial model assumes cache read rate is constant across objects in virtual plane each slot.</li>
+</ul>
+<div style="font-size: 70%;">
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r_{n_j}}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
+</div>
+<ul>
+<li><strong>Reasoning:</strong> Objects in cache receive different hit rates in the data plane.</li>
+</ul>
+<div style="font-size: 70%;">
+<span class="math display">\[\begin{equation*}
+    \color{#808080}{V^k_n(t+1) \leq \Big(V^k_n(t) - \sum_{\jin}} \color{#C8102E}{\boldsymbol{r\knjt}} \color{#808080}{s\knjt - \sum\limits_{\bin}\mu^k_{nb}(t)  \Big)^+ + A^k_n(t) + \sum\limits_{\ain}\mu^k_{an}(t)}    
+\end{equation*}\]</span>
+</div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="overview-4" class="slide level2">
 <h2>Overview</h2>
 <div style="font-size: 100%;">
 <ul>
-<li><strong>Reasoning:</strong> Objects in cache receive different hit rates in the data plane.</li>
-<li><strong>Penalties:</strong> We omit the weight of caching penalties to study read rate allocation in isolation.</li>
-<li><strong>Algorithm:</strong> Should guarantee stability of all VIP queues, minimize total backlog.
+<li class="fragment"><strong>Penalties:</strong> We omit the weight of caching penalties to study read rate allocation in isolation.</li>
+<li class="fragment"><strong>Algorithm:</strong> Should guarantee stability of all VIP queues, minimize total backlog.
 <ul>
-<li>Consider new control variables and <span class="body-highlight">cache bandwidth constraints</span>, i.e.&nbsp;<span class="math inline">\(\sum_{\kin} r\knjt \leq R_{n_j}\)</span>.</li>
+<li class="fragment">Minimize upper bound of drift <span class="math inline">\(\drift\)</span>.</li>
+<li class="fragment">Consider new control variables and <span class="body-highlight">cache bandwidth constraints</span>, i.e.&nbsp;<span class="math inline">\(\sum_{\kin} r\knjt \leq R_{n_j}\)</span>.</li>
 </ul></li>
 </ul>
 </div>
@@ -2044,7 +2076,7 @@ Experiments
 <section id="caching-solution" class="slide level2">
 <h2>Caching Solution</h2>
 <div style="font-size: 80%;">
-<p>Given <span class="math inline">\(k_1, k_2, \cdots, k_{J_n}\)</span> such that <span class="math inline">\(V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)\)</span>, optimal solution to <span class="body-highlight">revised caching problem</span> is obtained by <em>greedily</em> choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\jin\)</span> as follows.</p>
+<p>Given <span class="math inline">\(k_1, k_2, \cdots, k_{J_n}\)</span> such that <span class="math inline">\(V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... \geq V^{k_{J_n}}_n(t)\)</span>, optimal solution is obtained by <strong><em>greedily</em></strong> choosing <span class="math inline">\(r\knjt\)</span> and <span class="math inline">\(s\knjt\)</span> for each <span class="math inline">\(\jin\)</span> as follows.</p>
 <span class="math display">\[\begin{equation*}
     r\knjt =
     \left \{ \begin{array}{ll}
@@ -2061,54 +2093,119 @@ Experiments
 \end{equation*}\]</span>
 </div>
 <div style="font-size: 90%;">
-<p>This is the <em>max-weight</em> solution.</p>
+<p>This is the <strong><em>max-weight</em></strong> solution.</p>
 </div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="theorem-stability-region" class="slide level2">
-<h2>Theorem: Stability Region</h2>
-<p><span class="body-highlight">VIP stability region</span> <span class="math inline">\(\Lambda\)</span> under <em>cache bandwidth constraints</em> consists of all arrival rates <span class="math inline">\(\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}\)</span> such that:</p>
-<div style="font-size: 80%;">
+<section id="stability-throughput-optimality" class="slide level2 smaller">
+<h2>Stability &amp; Throughput Optimality</h2>
+<p>VIP stability region <span class="math inline">\(\Lambda\)</span> under <strong><em>cache bandwidth constraints</em></strong>:</p>
 <span class="math display">\[\begin{equation*}
-\lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}
+\Lambda = \{ \boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin} : \lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}, \; \forall \kin, \nin \}
 \end{equation*}\]</span>
-</div>
-<hr>
-<div style="font-size: 70%; text-align: center">
-
-</div>
-<div class="columns">
-<div class="column" style="font-size: 70%;">
-<p><span class="math inline">\(f^k_{ab}\)</span>: Time-average VIP flow for <span class="math inline">\(k\)</span> over <span class="math inline">\((a,b)\)</span>.</p>
-<p><span class="math inline">\(\mc{B}_{n,i}\)</span>: i-th among all <span class="math inline">\(\sigma_n\)</span> possible cache placement sets at <span class="math inline">\(n\)</span>; if <span class="math inline">\((k,j) \in \mc{B}_{n,i}\)</span> during <span class="math inline">\(t\)</span>, <span class="math inline">\(s^k_{n_j}(t)\)</span> = 1.</p>
-</div><div class="column" style="font-size: 70%;">
-<p><span class="math inline">\(f^k_{n,i}\)</span>: Average VIPs of <span class="math inline">\(k\)</span> removed via caching under placement <span class="math inline">\(\mc{B}_{n,i}\)</span>.</p>
-<p><span class="math inline">\(\beta_{n,i}\)</span>: Fraction of time objects at <span class="math inline">\(n\)</span> are placed according to <span class="math inline">\(\mc{B}_{n,i}\)</span>; <span class="math inline">\(0 \leq \beta_{n,i} \leq 1\)</span> and <span class="math inline">\(\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1\)</span>.</p>
-</div></div>
-<div class="footer">
-<p>Virtual Plane Cache Read Rate Control</p>
-</div>
-</section>
-<section id="theorem-throughput-optimality" class="slide level2">
-<h2>Theorem: Throughput Optimality</h2>
-<div style="font-size: 80%;">
-<p>For arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} \in \textup{int}(\Lambda)\)</span>, algorithm achieves:</p>
+<p>For arrival rate vector <span class="math inline">\(\boldsymbol{\lambda} + \boldsymbol{\epsilon} \in \Lambda\)</span>, with <span class="math inline">\(\boldsymbol{\epsilon} &gt; \boldsymbol{0}\)</span>, algorithm achieves:</p>
 <span class="math display">\[\begin{equation*}
     \lim\limits_{t \rightarrow \infty} \frac{1}{t} \sum\limits^{t}_{\tau=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(\tau)] \leq \frac{B}{\epsilon}
 \end{equation*}\]</span>
-<p>where</p>
+<hr>
+<p><span class="math inline">\(f^k_{n,i}\)</span>: Expected removal rate of VIPs of <span class="math inline">\(k\)</span> via caching given placement <span class="math inline">\(\mc{B}_{n,i}\)</span>.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[20,80]]" style="font-size: 80%;">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: flex-start;">
 <span class="math display">\[\begin{equation*}
 \epsilon = \min_{\nin,\kin} ((\epsilon^k_n)_{\nin,\kin})
 \end{equation*}\]</span>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 80.0%;justify-content: flex-start;">
 <span class="math display">\[\begin{equation*}
     B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
 \end{equation*}\]</span>
 </div>
+</div>
+</div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
+<!-- ## Stability Region
+
+[VIP stability region]{.body-highlight} $\Lambda$ under *cache bandwidth constraints* consists of all arrival rates $\boldsymbol{\lambda} = (\lambda^k_n)_{\kin,\nin}$ such that:
+
+::: {style="font-size: 80%;"}
+
+
+```{=tex}
+\begin{equation*}
+\lambda^k_n \; \leq \; \sum_{\bin} f^k_{nb} - \sum_{\ain} f^k_{an} + \betasum f^k_{n,i}
+\end{equation*}
+```
+
+
+:::
+<hr>
+
+::: {style="font-size: 70%; text-align: center"}
+
+:::
+
+::: columns
+::: {.column width="50%" style="font-size: 70%;"}
+$f^k_{ab}$: Time-average VIP flow for $k$ over $(a,b)$.
+
+$\mc{B}_{n,i}$: i-th among all $\sigma_n$ possible cache placement sets at $n$; if $(k,j) \in \mc{B}_{n,i}$ during $t$, $s^k_{n_j}(t)$ = 1.
+:::
+::: {.column width="50%" style="font-size: 70%;"}
+$f^k_{n,i}$: Average VIPs of $k$ removed via caching under placement $\mc{B}_{n,i}$.
+
+$\beta_{n,i}$: Fraction of time objects at $n$ are placed according to $\mc{B}_{n,i}$; $0 \leq \beta_{n,i} \leq 1$ and $\sum^{\sigma_n}_{i=1} \beta_{n,i} = 1$.
+:::
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Throughput Optimality
+
+::: {style="font-size: 80%;"}
+For arrival rate vector $\boldsymbol{\lambda} \in \textup{int}(\Lambda)$, algorithm achieves:
+
+
+
+```{=tex}
+\begin{equation*}
+    \lim\limits_{t \rightarrow \infty} \frac{1}{t} \sum\limits^{t}_{\tau=1} \sum\limits_{\nin, \kin} \mathbb{E}[V^k_n(\tau)] \leq \frac{B}{\epsilon}
+\end{equation*}
+```
+
+
+
+where
+
+
+
+```{=tex}
+\begin{equation*}
+\epsilon = \min_{\nin,\kin} ((\epsilon^k_n)_{\nin,\kin})
+\end{equation*}
+```
+
+```{=tex}
+\begin{equation*}
+    B = \sum_{\nin} \bigg( \sum_{\kin}A^k_{n,max} + \sum_{\ain}C_{an} + \sum_{\bin}C_{nb} + \sum_{\jin} R_{n_j} \bigg)^2
+\end{equation*}
+```
+
+
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+::: -->
 </section>
 <section id="data-plane-application" class="slide level2 smaller">
 <h2>Data Plane Application</h2>
@@ -2129,12 +2226,29 @@ Experiments
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Because we control cache read rates more precisely, we can use the additional average flow information generated in the data plane.</li>
+<li>We alter our admission policy to pick the most profitable tier to potentially cache an object based on this information.</li>
+<li>We also compare this with flow averages over links to determine whether it is better to leave the object uncached so future requests continue being forwarded upstream.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="policy-performance" class="slide level2">
 <h2>Policy Performance</h2>
 <div>
 <ul>
-<li class="fragment">This approach yields poor performance in the data plane.
+<li class="fragment">This approach yields poor performance in practice.
 <ul>
 <li class="fragment"><span class="body-highlight-red">Significant underutilization</span> of slow tier.</li>
 </ul></li>
@@ -2148,6 +2262,26 @@ Experiments
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now, while I’d believed this policy could improve the usage of cache and bandwidth resources and improve delay, in practice it yielded less than desirable results.</li>
+<li>Particularly, the experimental data showed a significant underitilization of the slower cache tier.</li>
+<li>Looking into virtual plane metrics, we concluded the outcome is related to frequent queue underflows, or alternatively, overallocation of service.</li>
+<li>Basically, due to the nature of the max-weight caching backpressure forwarding approach, only a small subset of objects are allocated service in the virtual plane each slot.</li>
+<li>This means that, especially for less popular objects, we are unable to gather flow information quickly.</li>
+<li>Which in turn means the data plane policy may not utilize the secondary tier to a desirable extent.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="iterative-approach" class="slide level2">
 <h2>Iterative Approach</h2>
@@ -2167,15 +2301,64 @@ Experiments
 </div>
 </div><div class="column" style="width:50%;">
 <div style="font-size: 65%;">
-<p>We use an iterative greedy algorithm:</p>
+<p>We propose an iterative greedy algorithm:</p>
+<div>
 <ul>
-<li>First allocate cache space and read rate to highest backlog objects.</li>
-<li>Then allocate link bandwidth to largest backlog differential objects.</li>
-<li>Do not allocate more service than existing backlog.</li>
-<li>Terminate when either:
+<li class="fragment">First allocate cache space and read rate to highest backlog objects.</li>
+<li class="fragment">Then allocate link bandwidth to largest backlog differential objects.</li>
+<li class="fragment">Do not allocate more service than existing backlog.</li>
+<li class="fragment">Terminate when either:
 <ul>
-<li>All cache capacity / bandwidth and all link bandwidth is allocated, or</li>
-<li>All backlog is met by allocated service.</li>
+<li class="fragment">All cache capacity / bandwidth and all link bandwidth is allocated, or</li>
+<li class="fragment">All backlog is met by allocated service.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div></div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+<aside class="notes">
+<ul>
+<li>In order to address this and test whether we can improve our results in practice, we implemented an iterative greedy algorithm that extends the max-weight / backpressure solution.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="iterative-approach-1" class="slide level2" data-visibility="uncounted">
+<h2>Iterative Approach</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 45%;">
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
+<div class="pseudocode">
+\begin{algorithm} \caption{Virtual Plane Caching} \begin{algorithmic} \State Find $k_1, k_2, ..., k_K$ with $V^{k_1}_n(t) \geq V^{k_2}_n(t) \geq ... V^{k_{K}}_n(t)$. \State Initialize $i \gets 1$. \While{$\sum_{\kin} s\knjt &lt; L_{n_j}, \;\; \sum_{\kin} r\knjt &lt; R_{n_j}, \; \exists \, \jin$ $\hspace{35pt}$ and $V^{k_i}_n(t) &gt; 0$ and $i \leq K$} \State $j^* \gets \argmax\limits_{\jin : \sum\limits_{\kin} s\knjt &lt; L_{n_j}} \left(R_{n_j} - \sum\limits_{\kin} s\knjt r\knjt \right) V^{k_i}_n(t)$. \State $s^{k_i}_{n_{j^*}}(t) \gets 1$, $r^{k_i}_{n_{j^*}}(t) \gets \min\left( \big(R_{n_j} - \sum_{\kin} s\knjt r\knjt \big), V^{k_i}_n(t)\right)$. \State $i \gets i+1$ \EndWhile \end{algorithmic} \end{algorithm}
+</div>
+</div>
+<div class="pseudocode-container quarto-float" data-caption-prefix="Procedure:" data-line-number="true">
+<div class="pseudocode">
+\begin{algorithm} \caption{Virtual Plane Forwarding} \begin{algorithmic} \State Initialize set $X_n \gets \{(b, k): \bin, \kin, (n,b) \in \mc{L}^k \}$ \While{$\sum_{\kin} \mu^k_{nb}(t) &lt; C_{bn}, \; \exists \, \nbin$ and $X_n \not = \varnothing$ \\ $\hspace{35pt}$ and $V^{k^*}_n(t) - V^{k^*}_{b^*}(t) &gt; 0$} \State $(b^*,k^*) \gets \argmax_{(b,k) \in X_n} \left( V^k_n(t) - V^k_b(t) \right)$ \State $\mu^{k^*}_{nb^*}(t) \gets \min \Big( \big( C_{bn} - \sum_{\kin} \mu^k_{nb}(t) \big),$ \\ $\big( V^{k^*}_n(t) - \sum_{\jin} s^{k^*}_{n_j}(t) r^{k^*}_{n_j}(t) - \sum_{\nbin^{k^*}} \mu^{k^*}_{nb}(t) \big) \Big)$ \State $X_n \gets X_n \setminus \{ (b^*,k^*) \}$ \EndWhile \end{algorithmic} \end{algorithm}
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 65%;">
+<p>We propose an iterative greedy algorithm:</p>
+<ul>
+<li>Under <strong><em>heavy congestion</em></strong>, where underflows do not occur, reduces to max-weight / backpressure approach.</li>
+<li>Computational complexity remains the same, dominated by sorting.
+<ul>
+<li><span class="math inline">\(O(K \log K)\)</span> for caching, <span class="math inline">\(O(DK \log DK)\)</span> for forwarding.</li>
 </ul></li>
 </ul>
 </div>
@@ -2183,37 +2366,62 @@ Experiments
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
-</section>
-<section id="iterative-approach-properties" class="slide level2 smaller">
-<h2>Iterative Approach: Properties</h2>
+<aside class="notes">
 <ul>
-<li>Under <strong><em>heavy congestion</em></strong> where <span class="math inline">\(V\knt \geq \sum_{\nbin^k} C_{bn} + \max\limits_{\jin} R_{n_j}\)</span>, for all <span class="math inline">\(t \geq 1, \nin, \kin\)</span>, reduces to earlier approach.</li>
-<li>Given backlog state <span class="math inline">\(\mathbf{V}(t)\)</span>, following holds.</li>
+<li>This algorithm has a couple of notable properties.</li>
+<li>Firstly, when there is heavy congestion in the network such that underflows are not possible, it is equivalent to our initial approach.</li>
+<li>Which means that, at least in such conditions, the throughput optimality result applies under this algorithm.</li>
+<li>Its computational complexity is also unchanged, since the dominating part remains the sorting step.<br>
+</li>
 </ul>
-<div style="font-size: 80%;">
-<span class="math display">\[\begin{equation*}
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<!-- ## Iterative Approach: Properties
+
+- Under ***heavy congestion***, where underflows do not occur, reduces to max-weight / backpressure approach.
+
+- Given backlog state $\mathbf{V}(t)$, following holds.
+
+::: {style="font-size: 80%;"}
+
+
+```{=tex}
+\begin{equation*}
 \begin{split}
-    &amp; \sum_{\kin,\jin} \hat{F}\knjt V\knt +
+    & \sum_{\kin,\jin} \hat{F}\knjt V\knt +
     \sum_{\nbin, \kin} \hat{F}^k_{nb}(t) \big(V^k_n(t) - V^k_b(t) \big) \\
-    \geq &amp; \sum_{\kin,\jin} F\knjt V\knt +
+    \geq & \sum_{\kin,\jin} F\knjt V\knt +
     \sum_{\nbin, \kin} F^k_{nb}(t) \big(V^k_n(t) - V^k_b(t) \big)
 \end{split}
-\end{equation*}\]</span>
-</div>
-<ul>
-<li>Computational complexity remains the same, dominated by sorting.
-<ul>
-<li><span class="math inline">\(O(K \log K)\)</span> for caching, <span class="math inline">\(O(DK \log DK)\)</span> for forwarding.</li>
-</ul></li>
-</ul>
+\end{equation*}
+```
+
+
+:::
+
+- Computational complexity remains the same, dominated by sorting.
+    - $O(K \log K)$ for caching, $O(DK \log DK)$ for forwarding.
+
 <hr>
-<div style="font-size: 80%;">
-<p><span class="math inline">\(F\knjt\)</span>, <span class="math inline">\(F^k_{nb}(t)\)</span>: Actual VIP flows under <em>max-weight</em> caching, <em>backpressure</em> forwarding.</p>
-<p><span class="math inline">\(\hat{F}\knjt\)</span>, <span class="math inline">\(\hat{F}^k_{nb}(t)\)</span>: Those under iterative algorithm.</p>
-</div>
-<div class="footer">
-<p>Virtual Plane Cache Read Rate Control</p>
-</div>
+
+::: {style="font-size: 80%;"}
+$F\knjt$, $F^k_{nb}(t)$: Actual VIP flows under *max-weight* caching, *backpressure* forwarding.
+
+$\hat{F}\knjt$, $\hat{F}^k_{nb}(t)$: Those under iterative algorithm.
+:::
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+::: -->
 </section>
 <section id="experimental-results" class="slide level2">
 <h2>Experimental Results</h2>
@@ -2240,15 +2448,17 @@ Experiments
 </div>
 </div>
 </div><div class="column" style="font-size: 75%">
+<div>
 <ul>
-<li>Data plane policy supported by initial approach: <strong>MVIP-RR</strong>; by iterative algorithm <strong>MVIP-RR+</strong>.</li>
-<li>Data plane backlog represented by PIT queue sizes.
+<li class="fragment">Data plane policy supported by initial approach: <strong>MVIP-RR</strong>; by iterative algorithm <strong>MVIP-RR+</strong>.</li>
+<li class="fragment">Data plane backlog represented by PIT queue sizes.
 <ul>
-<li>Sampled along with VIPs at each virtual plane time slot.</li>
-<li>Denote PIT samples as <span class="math inline">\(Q\knt\)</span>.</li>
+<li class="fragment">Sampled along with VIPs at each virtual plane time slot.</li>
+<li class="fragment">Denote PIT samples as <span class="math inline">\(Q\knt\)</span>.</li>
 </ul></li>
-<li>Iterative algorithm maintains much smaller total VIP backlog.</li>
+<li class="fragment">Iterative algorithm maintains much smaller total VIP backlog.</li>
 </ul>
+</div>
 </div></div>
 <div class="footer">
 <p>Virtual Plane Cache Read Rate Control</p>
@@ -2681,9 +2891,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 </div>
 </div><div class="column" style="width:50%;">
 <div style="font-size: 100%;">
-<ul>
-<li>Placeholder.</li>
-</ul>
+
 </div>
 </div></div>
 <div class="footer">
@@ -2739,50 +2947,14 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <h1>Appendix: Additional Results</h1>
 
 </section>
-<section id="complexity" class="slide level2" data-visibility="uncounted">
-<h2>Complexity</h2>
-<div>
+<section id="cache-capacity-2" class="slide level2" data-visibility="uncounted">
+<h2>Cache Capacity</h2>
 
-</div>
-<div class="quarto-layout-panel" data-layout="[[1,1], [1,1]]">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/lsap_comp_time_wrt_cache.svg" class="quarto-figure quarto-figure-center" width="350"></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/lsap_comp_time_wrt_objects.svg" class="quarto-figure quarto-figure-center" width="350"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/vip_caching_comp_time_wrt_cache.svg" class="quarto-figure quarto-figure-center" width="350"></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/vip_caching_comp_time_wrt_objects.svg" class="quarto-figure quarto-figure-center" width="350"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div class="footer">
+<img data-src="images/size_comp_geant_075_15_lfuvip_replacements.svg" class="r-stretch quarto-figure-center"><p class="caption">MVIP vs.&nbsp;LFU replacements</p><div class="footer">
 <p>Additional Results</p>
 </div>
 </section>
-<section id="cache-capacity-2" class="slide level2" data-visibility="uncounted">
+<section id="cache-capacity-3" class="slide level2" data-visibility="uncounted">
 <h2>Cache Capacity</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -2823,7 +2995,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-capacity-3" class="slide level2" data-visibility="uncounted">
+<section id="cache-capacity-4" class="slide level2" data-visibility="uncounted">
 <h2>Cache Capacity</h2>
 <div class="columns">
 <div class="column" style="width:47%;">
@@ -2944,19 +3116,6 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="additional-related-work" class="slide level2" data-visibility="uncounted">
-<h2>Additional Related Work</h2>
-<ul>
-<li>Allocation problem under <strong><em>no-underflow</em></strong> constraints is difficult to solve.
-<ul>
-<li>Perturbed max-weight scheduling <span class="citation" data-cites="huang2011utility"><a href="#/references" role="doc-biblioref" onclick="">[19]</a></span>.</li>
-</ul></li>
-<li>Placeholder.</li>
-</ul>
-<div class="footer">
-<p>Related Work</p>
-</div>
-</section>
 <section id="references" class="slide level2 smaller scrollable" data-visibility="uncounted">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
@@ -3013,9 +3172,6 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 </div>
 <div id="ref-shanmugam2013femtocaching" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[18] </div><div class="csl-right-inline">K. Shanmugam, N. Golrezaei, A. G. Dimakis, A. F. Molisch, and G. Caire, <span>“Femtocaching: Wireless content delivery through distributed caching helpers,”</span> <em>IEEE Transactions on Information Theory</em>, vol. 59, no. 12, pp. 8402–8413, 2013.</div>
-</div>
-<div id="ref-huang2011utility" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[19] </div><div class="csl-right-inline">L. Huang and M. J. Neely, <span>“Utility optimal scheduling in processing networks,”</span> <em>Performance Evaluation</em>, vol. 68, no. 11, pp. 1002–1021, 2011.</div>
 </div>
 </div>
 <div class="quarto-auto-generated-content">
