@@ -27,7 +27,7 @@ Overview
 ::: {style="font-size: 90%;"}
 - [Primary Work:]{.body-highlight} Joint *multi-tiered caching* and forwarding policy.
     - **Review:** Motivation, challenge, model & approach.
-    - Detailed & expanded experimental results.
+    - Expanded experimental results.
     - Cache read rate control in virtual plane.
     - Object-level ICN simulator.
 :::

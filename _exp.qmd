@@ -101,7 +101,7 @@ Experiments
 
 ## Cache Capacity
 
-![](images/size_comp_abilene_075_15_delay.svg){width="50%" height="50%" fig-align="center"}
+![](images/size_comp_abilene_075_15_delay_lfuvip.svg){width="50%" height="50%" fig-align="center"}
 
 ::: {style="font-size: 80%; text-align: center"}
 Delay with increasing cache capacities ($\omega=0$).

@@ -492,7 +492,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <li><span class="body-highlight">Primary Work:</span> Joint <em>multi-tiered caching</em> and forwarding policy.
 <ul>
 <li><strong>Review:</strong> Motivation, challenge, model &amp; approach.</li>
-<li>Detailed &amp; expanded experimental results.</li>
+<li>Expanded experimental results.</li>
 <li>Cache read rate control in virtual plane.</li>
 <li>Object-level ICN simulator.</li>
 </ul></li>
@@ -1628,7 +1628,7 @@ Table&nbsp;2: Common parameters for all scenarios
 <h2>Cache Capacity</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/size_comp_abilene_075_15_delay.svg" class="quarto-figure quarto-figure-center" style="width:50.0%;height:50.0%"></p>
+<p><img data-src="images/size_comp_abilene_075_15_delay_lfuvip.svg" class="quarto-figure quarto-figure-center" style="width:50.0%;height:50.0%"></p>
 </figure>
 </div>
 <div style="font-size: 80%; text-align: center">
@@ -2182,7 +2182,7 @@ Experiments
 <div>
 
 </div>
-<div class="quarto-layout-panel" data-layout="[[20,80]]" style="font-size: 80%;">
+<div class="quarto-layout-panel" style="font-size: 80%;" data-layout="[[20,80]]">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: flex-start;">
 <span class="math display">\[\begin{equation*}
@@ -3049,8 +3049,8 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-capacity-2" class="slide level2" data-visibility="uncounted">
-<h2>Cache Capacity</h2>
+<section id="replacements-geant" class="slide level2" data-visibility="uncounted">
+<h2>Replacements Geant</h2>
 
 <img data-src="images/size_comp_geant_075_15_lfuvip_replacements.svg" class="r-stretch quarto-figure-center"><p class="caption">MVIP vs.&nbsp;LFU replacements</p><div class="footer">
 <p>Additional Results</p>
@@ -3082,6 +3082,31 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 </div>
 </section>
 <section id="cache-hits-abilene" class="slide level2" data-visibility="uncounted">
+<h2>Cache Hits Abilene</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_abilene_075_15_lfuvip_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_abilene_075_15_lfuvip_replacements.svg"></p>
+<figcaption>Second tier read delays</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+</div>
+<div class="footer">
+<p>Additional Results</p>
+</div>
+</section>
+<section id="cache-hits-abilene-1" class="slide level2" data-visibility="uncounted">
 <h2>Cache Hits Abilene</h2>
 <div class="columns">
 <div class="column" style="width:47%;">

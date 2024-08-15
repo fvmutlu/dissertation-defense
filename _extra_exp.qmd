@@ -25,7 +25,7 @@ Experiments
 - This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively. 
 :::
 
-## Cache Capacity {visibility="uncounted"}
+## Replacements Geant {visibility="uncounted"}
 
 ![MVIP vs. LFU replacements](images/size_comp_geant_075_15_lfuvip_replacements.svg)
 
@@ -41,6 +41,25 @@ Additional Results
 :::
 ::: {.column width="50%"}
 ![Other baselines](images/size_comp_baselines_abilene_075_15_delay.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$. 
+:::
+
+::: {.footer}
+Additional Results
+:::
+
+## Cache Hits Abilene {visibility="uncounted"}
+
+::: columns
+::: {.column width="50%"}
+![Cache hits](images/size_comp_abilene_075_15_lfuvip_hits.svg)
+:::
+::: {.column width="50%"}
+![Second tier read delays](images/size_comp_abilene_075_15_lfuvip_replacements.svg)
 :::
 :::
 
