@@ -115,12 +115,16 @@ Now, let's review the system model we're targeting with this work.
 
 {{< include _simulator.qmd >}}
 
-## Summary
+## Summary of Contributions {.smaller}
 
 ::: {.incremental}
--   We address a critical and practical problem in scaling high-throughput caching networks
--   Our proposed model and approach achieves our goals and performs decently, but has shortcomings
--   Some improvements can be made by reiterating on technical details, further fine tuning requires experimentation
+- Object-level multi-tiered caching model incorporating cache tiers with diverse cost and performance parameters.
+- Extensions of the VIP framework and algorithm with this caching model:
+    - Optimal trade-off of queue backlogs and cache utilization penalties.
+    - Variant that explicitly controls cache read rate allocations in the virtual plane.
+- Data plane multi-tiered caching policies guided by the virtual control plane algorithms.
+- Extensive experimental evaluation of said policies under numerous simulation settings.
+- A lightweight object-level ICN simulator built to be extensible and equipped with convenience features to allow future research and experimentation.
 :::
 
 ::: {.footer}
