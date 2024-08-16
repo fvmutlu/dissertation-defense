@@ -740,7 +740,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <p>• Nodes can have arbitrary number of <em>cache tiers</em>.</p>
 <p><span class="fragment" data-fragment-index="1">• A node can cache an object in at most one of its tiers, i.e.&nbsp;caches are <strong><em>exclusive</em></strong>.</span></p>
 <p><span class="fragment" data-fragment-index="2">• Cache operations are <strong><em>non-blocking</em></strong> and can be queued.</span></p>
-<p><span class="fragment" data-fragment-index="3">• Each admission or eviction has an associated <strong><em>utilization cost</em></strong>.</span></p>
+<p><span class="fragment" data-fragment-index="3">• Each admission or eviction has an associated <strong><em>utilization cost</em></strong> (or <strong><em>penalty</em></strong>).</span></p>
 <p><span class="fragment" data-fragment-index="4">• An object evicted from one tier can <strong><em>migrate</em></strong> to another tier at the same node.</span></p>
 </div>
 </div><div class="column" style="width:20%;">
@@ -2976,7 +2976,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-replacements-geant" class="slide level2">
+<section id="cache-replacements-geant" class="slide level2" data-visibility="uncounted">
 <h2>Cache Replacements Geant</h2>
 <div class="columns">
 <div class="column" style="width:47%;">
@@ -3018,7 +3018,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-replacements-geant-1" class="slide level2">
+<section id="cache-replacements-geant-1" class="slide level2" data-visibility="uncounted">
 <h2>Cache Replacements Geant</h2>
 <div class="columns">
 <div class="column" style="width:47%;">
@@ -3100,7 +3100,7 @@ Experiments
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<p>Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
 </div>
 <div class="footer">
 <p>Additional Results</p>
@@ -3120,12 +3120,12 @@ Experiments
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/size_comp_abilene_075_15_hit_delays.svg"></p>
-<figcaption>Cache read delays</figcaption>
+<figcaption>Second tier read delays</figcaption>
 </figure>
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Cache hits and delay due to cache reads. Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<p>Abilene, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
 </div>
 <div class="footer">
 <p>Additional Results</p>
