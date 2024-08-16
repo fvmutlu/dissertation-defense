@@ -238,38 +238,13 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-VIP vs. MVIP, with and without interest aggregation (IA).
+VIP vs. MVIP, with aggregation (IA).
 
 $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 :::
 
 ::: {.footer}
 Experiments
-:::
-
-## Interest Aggregation
-
-::: columns
-::: {.column width="50%"}
-![VIP/MVIP vs. LFU](images/size_comp_ia_geant_075_50_delay.svg)
-:::
-::: {.column width="50%"}
-![Other baselines](images/size_comp_ia_geant_075_50_baselines_delay.svg)
-:::
-:::
-
-::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities under IA ($\omega=0$). 
-
-Geant, $\gamma=0.75$, $\lambda=50$.
-:::
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Placeholder.
 :::
 
 ## Interest Aggregation
@@ -294,12 +269,44 @@ Experiments
 :::
 
 ::: {.notes}
-- But there's another reason I wanted to highlight interest aggregation specifically, and these figures try to do that.
+- But there's another reason I wanted to highlight interest aggregation specifically.
 - In the traditional, line-rate view of caching where caches yield data more or less immediately, it was shown in literature that caching can offset the benefits of aggregation, especially with increasing capacities.
 - This makes sense, as caching will eliminate the likelihood of interests waiting in queues and getting combined as a result.
 - But we've underlined the non-blocking operation of the slow tiers in our model, which actually allows aggregation opportunities since new requests for an object can arrive while that object is already being read from the cache in the background.
-- So on the left here we're seeing a comparison of total cache hits for the multi-tiered versions of evaluated policies.
-- And on the right, we're seeing the second tier hits, along with the reads issued to realize to respond to those hits.
+- So on the left here we're seeing a comparison of total cache hits for the multi-tiered versions of evaluated policies as second tier cache capacity increases.
+- And on the right, we're seeing the second tier hits, along with the reads issued to respond to those hits.
+- What the right figure indicates is that such aggregation does indeed occur in the slow tier.
+- For some baselines, we can see that a great number of hits were satisfied with a much smaller amount of reads.
+- For MVIP and LFU, we observe that while this ratio is smaller, it does grow with increasing cache capacity.
+- So given slow cache tiers, the interplay of caching and aggregation can be positive.
+:::
+
+## Interest Aggregation
+
+::: columns
+::: {.column width="50%"}
+![VIP/MVIP vs. LFU](images/size_comp_ia_geant_075_50_delay.svg)
+:::
+::: {.column width="50%"}
+![Other baselines](images/size_comp_ia_geant_075_50_baselines_delay.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities under IA ($\omega=0$). 
+
+Geant, $\gamma=0.75$, $\lambda=50$.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- Unfortunately, however, this positive impact does not necessarily yield immense benefits as we can see in these delay figures from the same results.
+- In fact, the baselines with the largest read aggregation ratios are also the ones doing worst, in fact doing worse than no caching at all.
+- Because a large potential for aggregation is also a direct indicator for large queueing delays, which can be debilitating as we said at the beginning.
+- So while aggregation is a positive in our scenario, it is not a cure to the transfer rate limitations.
 :::
 
 ## Interest Aggregation
@@ -324,7 +331,9 @@ Experiments
 :::
 
 ::: {.notes}
-- Placeholder.
+- We'll cap our exploration of aggregation with a comparison of delay-penalty trade-offs.
+- Here we're comparing cases with and without aggregation, and aside from the order of magnitude reduction in delay, we also notice a shift in the trends.
+- Specifically, we see that the regime where penalties increase along with delay due to redundant replacements is extended.
 :::
 
 ## Lessons Learned

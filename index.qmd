@@ -123,7 +123,7 @@ Now, let's review the system model we're targeting with this work.
     - Optimal trade-off of queue backlogs and cache utilization penalties.
     - Variant that explicitly controls cache read rate allocations in the virtual plane.
 - Data plane multi-tiered caching policies guided by the virtual control plane algorithms.
-- Extensive experimental evaluation under numerous simulation settings demonstrating leading performance of said policies.
+- Extensive experimental evaluation under numerous simulation settings both demonstrating leading performance of said policies and highlighting the challenges, opportunities and pitfalls in a multi-tiered caching model with slow cache elements.
 - A lightweight object-level ICN simulator built to be extensible and equipped with convenience features to allow future research and experimentation.
 :::
 
