@@ -44,6 +44,17 @@ $\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier 
 Experiments
 :::
 
+::: {.notes}
+- And here are some of the common parameters used in the experiments.
+- There are some notable things here I'll point out.
+- Firstly, the fast cache tier is more than twice as fast as the slow one, which has read bandwidth equivalent to a single link.
+- But we also model write rates, and following general characteristics of flash, the slow tier's is equivalent to half its read rate.
+- This has implications regarding frequent replacements and is part of the reason we want to penalize them.
+- Secondly, to enable comparisons with single-tiered implementations we're introducing a notion of cache capacity budget.
+- This relates to purchasing costs for memory and flash, and allows the evaluation of what sort of distribution of investment can yield better results for a given policy.
+- We're also seeing the Geant topology which will be the representative one we use for looking at some trends.
+:::
+
 ## Setup {.smaller visibility="uncounted"}
 
 ::: columns
@@ -73,6 +84,11 @@ $\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier 
 Experiments
 :::
 
+::: {.notes}
+- Along with the smaller Abilene topology.
+:::
+
+
 ## Across Topologies {.smaller}
 
 ![Delay reduction factor normalized to delay with no caching ($\omega=0$). $\gamma=0.75$, $\lambda=15$.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
@@ -84,8 +100,9 @@ Experiments
 :::
 
 ::: {.notes}
-- This slide shows a much expanded version of results that were seen in the proposal, where we've tested each possible combination of capacity allocations across the two tiers given the maximum budget, disregarding penalty weights for the time being.
-- The values represent the reduction in delay normalized to delay with no caching.
+- Though of course we ran experiments over many different topologies.
+- This slide shows a much expanded version of results that were seen in the proposal, where we've tested each possible combination of capacity allocations across the two tiers given the maximum budget.
+- We're disregarding penalty weights for the time being here, and the values represent the reduction in delay normalized to delay with no caching.
 - One takeaway from the figure is that our approach which is listed as MVIP outperforms most baselines across the board, with LFU being a close competitor.
 - Another important takeaway is seen from the table, where we observe MVIP tends to hit its best delay point with a larger allocation in the second tier compared to baselines.
 :::
@@ -113,8 +130,11 @@ Experiments
 
 ::: {.notes}
 - Moving on, we also observed trends regarding the impact of traffic volume and request pattern.
-- Here, single-tiered implementations of baseline policies are also included and the comparison is such that maximum capacity budget is allocated for these implementations.
-- In contrast for two-tiered counterpats, only the second tier is expanded, until it is no longer effective in reducing delay.
+- Here, single-tiered implementations of baseline policies are also compared, VIP included.
+- The comparison is such that maximum capacity budget is allocated for these implementations.
+- In contrast, for two-tiered counterpats, only the second tier is expanded, until it is no longer effective in reducing delay for the given policy.
+- In this way, we observed our approach again leads in delay performance across the board.
+- A notable outcome is that, given the same budget, it can obtain roughly 30-40\% improved delay compared to single-tiered VIP.
 :::
 
 
@@ -139,6 +159,15 @@ $\lambda=15$. $\omega > 0$, decreases to the right.
 Experiments
 :::
 
+::: {.notes}
+- Now, onto a setting where penalty importance weight is considered. These results are likely familiar from the proposal review.
+- Here we're comparing the MVIP approach with the penalty-aware adaptation of the LFU policy in the Geant network.
+- While we see pretty even curves between the two for a more skewed popularity distribution, we note that MVIP maintains a wider edge when the Zipf parameter is smaller.
+- Another notable outcome is how at a certain point, reducing the importance of penalties actually impacts delay negatively.
+- This is seen more clearly for the LFU adaptation.
+- Basically, at such a point, we're no longer just allowing higher value replacements for the benefit of better performance, but we're allowing too many low benefit replacements which overwhelm the slower caches with constant rewrites, causing increased delay. 
+:::
+
 ## Delay-Penalty Trade-off {visibility="uncounted"}
 
 ::: columns
@@ -158,6 +187,10 @@ $\lambda=15$. $\omega > 0$, decreases to the right.
 
 ::: {.footer}
 Experiments
+:::
+
+::: {.notes}
+- We can observe similar trends in the Abilene topology as well.
 :::
 
 ## Interest Aggregation

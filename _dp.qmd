@@ -13,9 +13,10 @@ Data Plane Strategy
 :::
 
 ::: {.notes}
-- But there is another major consideration
-- Because VIP counts change frequently and drastically, cache states also tend to change quickly. Basing caching on this behavior directly is impractical in the data plane, especially given that we're now working with slower caches and considering costs, so we're trying to be conservative in the replacements we make.
-- So we adapt this cache score metric from the VIP paper, which is basically a measurement of demand for a certain object over a window of time, based on the VIP counts.
+- First of all, in the data plane, we require policies that can make individual decisions for each arriving request or data packet.
+- Furthermore, unlike the virtual plane where we can instantly decide to serve some interests via caching, in the data plane we do not have this instant access to data objects.
+- And while we could use the VIP counter states as the decision metric directly, because they're updated once each slot, it is impractical to do so.
+- So instead we will use flow averages established in the virtual plane to guide data plane policies.
 :::
 
 ## Data Plane Caching {.smaller}
@@ -87,10 +88,6 @@ When data for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ at i
 Data Plane Strategy
 :::
 
-::: {.notes}
-- Now, to state the exact data plane policy
-:::
-
 ## Data Plane Forwarding
 
 ::: {style="font-size: 90%;"}
@@ -112,9 +109,4 @@ When request for $k \not \in \bigcup_{\jin} \mc{K}_{n_j}(\tau)$ arrives at $n$ a
 
 ::: {.footer}
 Data Plane Strategy
-:::
-
-::: {.notes}
-- As for the forwarding, again this doesn't need to be altered.
-- We can directly use this policy from the VIP paper, that also relies on a sliding window average, but this time on outgoing VIP flows.
 :::

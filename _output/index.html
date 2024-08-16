@@ -775,10 +775,11 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>Now, on to the virtual plane model, which is largely based on the original VIP paper. We’ll go over it briefly.</li>
-<li>First off, anytime an exogenous request enters the data plane network, a virtual interest packet (VIP for short) is generated in the virtual plane at that node. These VIPs can only be removed at sources or caching points.</li>
-<li>Each node maintains a VIP counter for each object in the network. We can interpret these counts as queues that describe unsatisfied demand for objects. Another useful way to think of these counters is as “potential” values, much like electrical potential, where the potential is high at request entry points and low at sources and caching points.</li>
-<li>We’re considering discrete time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot.</li>
+<li>Now, here’s where the VIP framework comes in.</li>
+<li>This framework places a virtual control plane on top of the data plane.</li>
+<li>The control plane is a discrete time queuing system which is driven by request arrivals into the data plane.</li>
+<li>Anytime an exogenous request enters the data plane network, a virtual interest packet (or VIP) is generated in the virtual plane at that node.</li>
+<li>Each node maintains a VIP counter for each object in the network, representing the demand for that object at the node.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1519,6 +1520,28 @@ Table&nbsp;1: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>And here are some of the common parameters used in the experiments.</li>
+<li>There are some notable things here I’ll point out.</li>
+<li>Firstly, the fast cache tier is more than twice as fast as the slow one, which has read bandwidth equivalent to a single link.</li>
+<li>But we also model write rates, and following general characteristics of flash, the slow tier’s is equivalent to half its read rate.</li>
+<li>This has implications regarding frequent replacements and is part of the reason we want to penalize them.</li>
+<li>Secondly, to enable comparisons with single-tiered implementations we’re introducing a notion of cache capacity budget.</li>
+<li>This relates to purchasing costs for memory and flash, and allows the evaluation of what sort of distribution of investment can yield better results for a given policy.</li>
+<li>We’re also seeing the Geant topology which will be the representative one we use for looking at some trends.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn6"><p>The GN4 Phase 3 Network project, https://network.geant.org/gn4-3n/</p></li></ol></aside></section>
 <section id="setup-2" class="slide level2 smaller" data-visibility="uncounted">
 <h2>Setup</h2>
@@ -1585,6 +1608,21 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Along with the smaller Abilene topology.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="across-topologies" class="slide level2 smaller">
 <h2>Across Topologies</h2>
@@ -1605,8 +1643,9 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 <aside class="notes">
 <ul>
-<li>This slide shows a much expanded version of results that were seen in the proposal, where we’ve tested each possible combination of capacity allocations across the two tiers given the maximum budget, disregarding penalty weights for the time being.</li>
-<li>The values represent the reduction in delay normalized to delay with no caching.</li>
+<li>Though of course we ran experiments over many different topologies.</li>
+<li>This slide shows a much expanded version of results that were seen in the proposal, where we’ve tested each possible combination of capacity allocations across the two tiers given the maximum budget.</li>
+<li>We’re disregarding penalty weights for the time being here, and the values represent the reduction in delay normalized to delay with no caching.</li>
 <li>One takeaway from the figure is that our approach which is listed as MVIP outperforms most baselines across the board, with LFU being a close competitor.</li>
 <li>Another important takeaway is seen from the table, where we observe MVIP tends to hit its best delay point with a larger allocation in the second tier compared to baselines.</li>
 </ul>
@@ -1650,8 +1689,11 @@ Table&nbsp;2: Common parameters for all scenarios
 <aside class="notes">
 <ul>
 <li>Moving on, we also observed trends regarding the impact of traffic volume and request pattern.</li>
-<li>Here, single-tiered implementations of baseline policies are also included and the comparison is such that maximum capacity budget is allocated for these implementations.</li>
-<li>In contrast for two-tiered counterpats, only the second tier is expanded, until it is no longer effective in reducing delay.</li>
+<li>Here, single-tiered implementations of baseline policies are also compared, VIP included.</li>
+<li>The comparison is such that maximum capacity budget is allocated for these implementations.</li>
+<li>In contrast, for two-tiered counterpats, only the second tier is expanded, until it is no longer effective in reducing delay for the given policy.</li>
+<li>In this way, we observed our approach again leads in delay performance across the board.</li>
+<li>A notable outcome is that, given the same budget, it can obtain roughly 30-40% improved delay compared to single-tiered VIP.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1690,6 +1732,26 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>Now, onto a setting where penalty importance weight is considered. These results are likely familiar from the proposal review.</li>
+<li>Here we’re comparing the MVIP approach with the penalty-aware adaptation of the LFU policy in the Geant network.</li>
+<li>While we see pretty even curves between the two for a more skewed popularity distribution, we note that MVIP maintains a wider edge when the Zipf parameter is smaller.</li>
+<li>Another notable outcome is how at a certain point, reducing the importance of penalties actually impacts delay negatively.</li>
+<li>This is seen more clearly for the LFU adaptation.</li>
+<li>Basically, at such a point, we’re no longer just allowing higher value replacements for the benefit of better performance, but we’re allowing too many low benefit replacements which overwhelm the slower caches with constant rewrites, causing increased delay.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="delay-penalty-trade-off-1" class="slide level2" data-visibility="uncounted">
 <h2>Delay-Penalty Trade-off</h2>
@@ -1716,6 +1778,21 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
+<aside class="notes">
+<ul>
+<li>We can observe similar trends in the Abilene topology as well.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="interest-aggregation" class="slide level2">
 <h2>Interest Aggregation</h2>
@@ -2071,7 +2148,7 @@ Table&nbsp;2: Common parameters for all scenarios
 <div>
 
 </div>
-<div class="quarto-layout-panel" style="font-size: 80%;" data-layout="[[20,80]]">
+<div class="quarto-layout-panel" data-layout="[[20,80]]" style="font-size: 80%;">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: flex-start;">
 <span class="math display">\[\begin{equation*}
@@ -2984,7 +3061,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-replacements-geant" class="slide level2">
+<section id="cache-replacements-geant" class="slide level2" data-visibility="uncounted">
 <h2>Cache Replacements Geant</h2>
 <div class="columns">
 <div class="column" style="width:47%;">
@@ -3026,7 +3103,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="cache-replacements-geant-1" class="slide level2">
+<section id="cache-replacements-geant-1" class="slide level2" data-visibility="uncounted">
 <h2>Cache Replacements Geant</h2>
 <div class="columns">
 <div class="column" style="width:47%;">

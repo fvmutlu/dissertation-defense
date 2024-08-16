@@ -97,10 +97,11 @@ System Model
 :::
 
 ::: {.notes}
-- Now, on to the virtual plane model, which is largely based on the original VIP paper. We'll go over it briefly.
-- First off, anytime an exogenous request enters the data plane network, a virtual interest packet (VIP for short) is generated in the virtual plane at that node. These VIPs can only be removed at sources or caching points.
-- Each node maintains a VIP counter for each object in the network. We can interpret these counts as queues that describe unsatisfied demand for objects. Another useful way to think of these counters is as "potential" values, much like electrical potential, where the potential is high at request entry points and low at sources and caching points.
-- We're considering discrete time slots in the virtual plane where caching and forwarding decisions for each time slot are made at the beginning of that time slot.
+- Now, here's where the VIP framework comes in.
+- This framework places a virtual control plane on top of the data plane.
+- The control plane is a discrete time queuing system which is driven by request arrivals into the data plane.
+- Anytime an exogenous request enters the data plane network, a virtual interest packet (or VIP) is generated in the virtual plane at that node.
+- Each node maintains a VIP counter for each object in the network, representing the demand for that object at the node.
 :::
 
 ## VIP Queue Dynamics
