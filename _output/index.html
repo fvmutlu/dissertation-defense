@@ -1310,9 +1310,10 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 </div>
 <aside class="notes">
 <ul>
-<li>But there is another major consideration</li>
-<li>Because VIP counts change frequently and drastically, cache states also tend to change quickly. Basing caching on this behavior directly is impractical in the data plane, especially given that we’re now working with slower caches and considering costs, so we’re trying to be conservative in the replacements we make.</li>
-<li>So we adapt this cache score metric from the VIP paper, which is basically a measurement of demand for a certain object over a window of time, based on the VIP counts.</li>
+<li>First of all, in the data plane, we require policies that can make individual decisions for each arriving request or data packet.</li>
+<li>Furthermore, unlike the virtual plane where we can instantly decide to serve some interests via caching, in the data plane we do not have this instant access to data objects.</li>
+<li>And while we could use the VIP counter states as the decision metric directly, because they’re updated once each slot, it is impractical to do so.</li>
+<li>So instead we will use flow averages established in the virtual plane to guide data plane policies.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1368,21 +1369,6 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Now, to state the exact data plane policy</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="data-plane-forwarding" class="slide level2">
 <h2>Data Plane Forwarding</h2>
@@ -1399,22 +1385,6 @@ r_{n_j}(\bar{F}_{n,in}^k(t) - \bar{F}_{n,in}^{k^{min}_{n_j}}(t)) &amp;- \omega(c
 <div class="footer">
 <p>Data Plane Strategy</p>
 </div>
-<aside class="notes">
-<ul>
-<li>As for the forwarding, again this doesn’t need to be altered.</li>
-<li>We can directly use this policy from the VIP paper, that also relies on a sliding window average, but this time on outgoing VIP flows.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section></section>
 <section>
 <section id="experiments" class="title-slide slide level1 center" data-visibility="uncounted">
@@ -2148,7 +2118,7 @@ Table&nbsp;2: Common parameters for all scenarios
 <div>
 
 </div>
-<div class="quarto-layout-panel" data-layout="[[20,80]]" style="font-size: 80%;">
+<div class="quarto-layout-panel" style="font-size: 80%;" data-layout="[[20,80]]">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: flex-start;">
 <span class="math display">\[\begin{equation*}

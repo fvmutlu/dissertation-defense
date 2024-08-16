@@ -13,6 +13,17 @@
 Experiments
 :::
 
+::: {.notes}
+- Let's begin by outlining some basic mechanics of the experiments.
+- We have content sources distributed for each object uniformly at random around the network.
+- We fix routing to *any shortest path*.
+- We deploy the same two cache tiers at each node, one fast and one slow tier.
+- Request arrivals are Poisson processes with rate $\lambda$ at each node, where the requested object for each arrival is determined by the Zipf distribution with parameter $\gamma$.
+- We have several caching policy baselines, both in their traditional single-tier versions including VIP, and their adapted counter parts for the two-tiered cases.
+- The LFU baseline has a further adaptation to be penalty-aware, using a cache benefit metric similar to our policy but based on its frequency measure.
+- The non-VIP baselines are paired with a Least Response Time forwarding scheme.
+:::
+
 ## Setup {.smaller visibility="uncounted"}
 
 ::: columns
@@ -52,6 +63,7 @@ Experiments
 - This has implications regarding frequent replacements and is part of the reason we want to penalize them.
 - Secondly, to enable comparisons with single-tiered implementations we're introducing a notion of cache capacity budget.
 - This relates to purchasing costs for memory and flash, and allows the evaluation of what sort of distribution of investment can yield better results for a given policy.
+- Of course, the same investment would get us a lot more capacity in the slow tier.
 - We're also seeing the Geant topology which will be the representative one we use for looking at some trends.
 :::
 
@@ -282,7 +294,12 @@ Experiments
 :::
 
 ::: {.notes}
-- Placeholder.
+- But there's another reason I wanted to highlight interest aggregation specifically, and these figures try to do that.
+- In the traditional, line-rate view of caching where caches yield data more or less immediately, it was shown in literature that caching can offset the benefits of aggregation, especially with increasing capacities.
+- This makes sense, as caching will eliminate the likelihood of interests waiting in queues and getting combined as a result.
+- But we've underlined the non-blocking operation of the slow tiers in our model, which actually allows aggregation opportunities since new requests for an object can arrive while that object is already being read from the cache in the background.
+- So on the left here we're seeing a comparison of total cache hits for the multi-tiered versions of evaluated policies.
+- And on the right, we're seeing the second tier hits, along with the reads issued to realize to respond to those hits.
 :::
 
 ## Interest Aggregation
