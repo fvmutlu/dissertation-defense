@@ -51,7 +51,7 @@ Experiments
 - This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively. 
 :::
 
-## Cache Replacements Geant
+## Cache Replacements Geant {visibility="uncounted"}
 
 ::: columns
 ::: {.column width="47%"}
@@ -77,7 +77,7 @@ Experiments
 :::
 
 
-## Cache Replacements Geant
+## Cache Replacements Geant {visibility="uncounted"}
 
 ::: columns
 ::: {.column width="47%"}
@@ -141,7 +141,7 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$. 
+Abilene, $\gamma=0.75$, $\lambda=15$. 
 :::
 
 ::: {.footer}
@@ -155,12 +155,12 @@ Additional Results
 ![Cache hits](images/size_comp_abilene_075_15_hits.svg)
 :::
 ::: {.column width="53%"}
-![Cache read delays](images/size_comp_abilene_075_15_hit_delays.svg)
+![Second tier read delays](images/size_comp_abilene_075_15_hit_delays.svg)
 :::
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Cache hits and delay due to cache reads. Abilene, $\gamma=0.75$, $\lambda=15$.
+Abilene, $\gamma=0.75$, $\lambda=15$.
 :::
 
 ::: {.footer}

@@ -55,7 +55,7 @@ We propose a [multi-tiered caching model]{.body-highlight}:
 
 [• Cache operations are ***non-blocking*** and can be queued.]{.fragment fragment-index=2}
 
-[• Each admission or eviction has an associated ***utilization cost***.]{.fragment fragment-index=3}
+[• Each admission or eviction has an associated ***utilization cost*** (or ***penalty***).]{.fragment fragment-index=3}
 
 [• An object evicted from one tier can ***migrate*** to another tier at the same node.]{.fragment fragment-index=4}
 :::
