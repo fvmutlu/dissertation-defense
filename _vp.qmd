@@ -327,5 +327,5 @@ Optimization Framework
 ::: {.notes}
 - Furthermore, given arrivals within that stability region, we're able to achieve an optimal trade-off between the time average upper bounds for VIP backlogs and accumulated penalty in the virtual plane network.
 - The trade-off factor is based on the importance weight mentioned before.
-- If that weight is small means lower average queue sizes which translates to better performance, but at the cost of potentially much larger penalties. Setting it large is the inverse of that situation.
+- If that weight is small, that means lower average queue sizes which translates to better performance, but at the cost of potentially much larger penalties. Setting it large is the inverse of that.
 :::

@@ -73,44 +73,21 @@ $\Delta L = \Delta L_1$ for single-tier; $\Delta L = \Delta L_2$ for multi-tier 
 Experiments
 :::
 
-## Cache Capacity
+## Across Topologies {.smaller}
 
-![](images/size_comp_geant_all_075_15.svg){width="60%" height="60%" fig-align="center"}
+![Delay reduction factor normalized to delay with no caching ($\omega=0$). $\gamma=0.75$, $\lambda=15$.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
 
-::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities ($\omega=0$).
-
-Geant, $\gamma=0.75$, $\lambda=15$.
-:::
+![Cache capacity allocation at minimum delay point within budget.<br>All combinations ($\Delta L_1$,$\Delta L_2$) within maximum budget of $\Delta L=8$ tested.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
 
 ::: {.footer}
 Experiments
 :::
 
 ::: {.notes}
-- At the beginning we mentioned that due to the slow speeds of the added tier, more capacity may not necessarily be beneficial.
-- So one of the most important questions for our experimentation is, how large of a cache can we benefit from? This setting explores that.
-- For the time being we ignore the penalty importance weight, we'll get to that later.
-- We compare all baselines, with both single and two-tiered versions. To allow the comparison between these, we used a notion of capacity budget.
-- Basically, we start with a small single cache tier, then separately increment capacities of each tier. Of course the same budget gets us a lot more capacity in the secondary tier.
-- We see that trends differ across policies, and for multi-tiered versions of some baselines, there's a minimum delay point after which the added capacity becomes detrimental.
-- While such a point would also exist for MVIP, in this setting it is not met within the budget.
-- The minimum delay point comes at a higher allocation budget for MVIP compared with LRU and LFU, but the total delay is roughly 15% better than LFU's minimal point.
-- Another significant result is that, with the same budget, our multi-tiered VIP approach has about 40% reduced delay compared to the single-tier counterpart. 
-:::
-
-## Cache Capacity
-
-![](images/size_comp_abilene_075_15_delay_lfuvip.svg){width="50%" height="50%" fig-align="center"}
-
-::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities ($\omega=0$).
-
-Abilene $\gamma=0.75$, $\lambda=15$. 
-:::
-
-::: {.footer}
-Experiments
+- This slide shows a much expanded version of results that were seen in the proposal, where we've tested each possible combination of capacity allocations across the two tiers given the maximum budget, disregarding penalty weights for the time being.
+- The values represent the reduction in delay normalized to delay with no caching.
+- One takeaway from the figure is that our approach which is listed as MVIP outperforms most baselines across the board, with LFU being a close competitor.
+- Another important takeaway is seen from the table, where we observe MVIP tends to hit its best delay point with a larger allocation in the second tier compared to baselines.
 :::
 
 ## Request Pattern Parameters
@@ -127,7 +104,7 @@ Experiments
 ::: {style="font-size: 80%; text-align: center"}
 Geant; delay with increasing $\lambda$ and $\gamma$ ($\omega=0$).
 
-$\Delta L_1 = 8$; $\Delta L_2$ chosen based on minimum delay points for multi-tier.
+$\Delta L_1 = 8$; $\Delta L_2$ chosen based on minimum delay points for two-tier.
 :::
 
 ::: {.footer}
@@ -136,25 +113,8 @@ Experiments
 
 ::: {.notes}
 - Moving on, we also observed trends regarding the impact of traffic volume and request pattern.
-- In summary, we see that the MVIP strategy outperforms baselines across the board.
-:::
-
-## More Topologies {.smaller}
-
-![Delay reduction factor normalized to delay with no caching ($\omega=0$). $\gamma=0.75$, $\lambda=15$.](images/alltops_075_15.svg){width=70% height=70% fig-align="center"}
-
-![Cache capacity allocation at minimum delay point within budget.<br>All combinations ($\Delta L_1$,$\Delta L_2$) within maximum budget of $\Delta L=8$ tested.](images/alltops_075_15_table.svg){width=70% height=70% fig-align="center"}
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Of course we also conducted many experiments across other topologies.
-- This slide shows a summary of one experiment where we've tested each possible combination of capacity allocations across the two tiers given the maximum budget.
-- The values represent the reduction in delay normalized to delay with no caching.
-- One takeaway from the figure is that MVIP still outperforms most baselines across the board, with LFU again being a very close competitor.
-- Another important takeaway is seen from the table, where we observe MVIP tends to hit its best delay point with a larger allocation in the second tier compared to baselines.
+- Here, single-tiered implementations of baseline policies are also included and the comparison is such that maximum capacity budget is allocated for these implementations.
+- In contrast for two-tiered counterpats, only the second tier is expanded, until it is no longer effective in reducing delay.
 :::
 
 
@@ -179,10 +139,6 @@ $\lambda=15$. $\omega > 0$, decreases to the right.
 Experiments
 :::
 
-::: {.notes}
-- Placeholder.
-:::
-
 ## Delay-Penalty Trade-off {visibility="uncounted"}
 
 ::: columns
@@ -202,10 +158,6 @@ $\lambda=15$. $\omega > 0$, decreases to the right.
 
 ::: {.footer}
 Experiments
-:::
-
-::: {.notes}
-- Placeholder.
 :::
 
 ## Interest Aggregation
@@ -229,10 +181,6 @@ $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 Experiments
 :::
 
-::: {.notes}
-- Placeholder.
-:::
-
 ## Interest Aggregation {visibility="uncounted"}
 
 ::: columns
@@ -254,10 +202,6 @@ $L_{n_1}=5$, $L_{n_2}=200$ for MVIP and $L_{n_1}=13$ for VIP.
 Experiments
 :::
 
-::: {.notes}
-- Placeholder.
-:::
-
 ## Interest Aggregation
 
 ::: columns
@@ -270,7 +214,7 @@ Experiments
 :::
 
 ::: {style="font-size: 80%; text-align: center"}
-Delay with increasing cache capacities under IA. 
+Delay with increasing cache capacities under IA ($\omega=0$). 
 
 Geant, $\gamma=0.75$, $\lambda=50$.
 :::
@@ -283,7 +227,7 @@ Experiments
 - Placeholder.
 :::
 
-<!-- ## Interest Aggregation
+## Interest Aggregation
 
 ::: columns
 ::: {.column width="50%"}
@@ -306,7 +250,7 @@ Experiments
 
 ::: {.notes}
 - Placeholder.
-::: -->
+:::
 
 ## Interest Aggregation
 
@@ -335,15 +279,11 @@ Experiments
 
 ## Lessons Learned
 
+- Interest aggregation is powerful; added tier can still have benefits.
 - When using slower tiers, more cache hits is not always better.
+- Penalizing cache operations not only minimizes costs, but *can improve* performance.
 - MVIP is an effective policy outperforming baselines; LFU with LRT is very close.
-- Penalizing cache operations not only minimizes costs, but can *improve* performance.
-- Interest aggregation is powerful; less cache is needed, but multi-tier can still have benefits.
 
 ::: {.footer}
 Experiments
-:::
-
-::: {.notes}
-- In the settings we cover, LFU with LRT performs closely with our approach, though MVIP takes a slight edge in general, with the margins being larger for less skewed popularity distributions.
 :::

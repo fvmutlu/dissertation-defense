@@ -106,7 +106,7 @@ Now, let's review the system model we're targeting with this work.
 # Virtual Plane Cache Read Rate Control {visibility="uncounted"}
 
 ::: {.notes}
-- With that detailed coverage of experiments done, I want to quickly discuss another venue I explored that leads to a variant on our policy.
+- Alright, so with that overview of some experimental results done, I now want to discuss a variant to our approach.
 :::
 
 {{< include _sbw.qmd >}}
@@ -123,7 +123,7 @@ Now, let's review the system model we're targeting with this work.
     - Optimal trade-off of queue backlogs and cache utilization penalties.
     - Variant that explicitly controls cache read rate allocations in the virtual plane.
 - Data plane multi-tiered caching policies guided by the virtual control plane algorithms.
-- Extensive experimental evaluation of said policies under numerous simulation settings.
+- Extensive experimental evaluation under numerous simulation settings demonstrating leading performance of said policies.
 - A lightweight object-level ICN simulator built to be extensible and equipped with convenience features to allow future research and experimentation.
 :::
 

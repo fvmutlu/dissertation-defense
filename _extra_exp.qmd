@@ -1,5 +1,31 @@
 # Appendix: Additional Results {visibility="uncounted"}
 
+## Cache Capacity
+
+![](images/size_comp_geant_all_075_15.svg){width="60%" height="60%" fig-align="center"}
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities ($\omega=0$).
+
+Geant, $\gamma=0.75$, $\lambda=15$.
+:::
+
+::: {.footer}
+Experiments
+:::
+
+::: {.notes}
+- At the beginning we mentioned that due to the slow speeds of the added tier, more capacity may not necessarily be beneficial.
+- So one of the most important questions for our experimentation is, how large of a cache can we benefit from? This setting explores that.
+- For the time being we ignore the penalty importance weight, we'll get to that later.
+- We compare all baselines, with both single and two-tiered versions. To allow the comparison between these, we used a notion of capacity budget.
+- Basically, we start with a small single cache tier, then separately increment capacities of each tier. Of course the same budget gets us a lot more capacity in the secondary tier.
+- We see that trends differ across policies, and for multi-tiered versions of some baselines, there's a minimum delay point after which the added capacity becomes detrimental.
+- While such a point would also exist for MVIP, in this setting it is not met within the budget.
+- The minimum delay point comes at a higher allocation budget for MVIP compared with LRU and LFU, but the total delay is roughly 15% better than LFU's minimal point.
+- Another significant result is that, with the same budget, our multi-tiered VIP approach has about 40% reduced delay compared to the single-tier counterpart. 
+:::
+
 ## Cache Hits Geant
 
 ::: columns
@@ -25,12 +51,49 @@ Experiments
 - This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively. 
 :::
 
-## Replacements Geant {visibility="uncounted"}
+## Cache Replacements Geant
 
-![MVIP vs. LFU replacements](images/size_comp_geant_075_15_lfuvip_replacements.svg)
+::: columns
+::: {.column width="47%"}
+![Cache replacements](images/size_comp_geant_075_15_replacements.svg)
+:::
+::: {.column width="53%"}
+![Second tier read delays](images/size_comp_geant_075_15_hit_delays.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Geant cache hits and delay due to cache reads for multi-tiered versions.
+:::
 
 ::: {.footer}
-Additional Results
+Experiments
+:::
+
+::: {.notes}
+- This next set of figures shed a bit more light on the delay trends from the previous slide.
+- Essentially, the differences come down to how the cache traffic is balanced, and how much cache operations contribute to delay.
+- This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively. 
+:::
+
+
+## Cache Replacements Geant
+
+::: columns
+::: {.column width="47%"}
+![Cache hits](images/size_comp_geant_075_15_lfuvip_replacements.svg)
+:::
+::: {.column width="53%"}
+![Second tier read delays](images/size_comp_geant_075_15_hit_delays.svg)
+:::
+:::
+
+::: {style="font-size: 80%; text-align: center"}
+Geant cache hits and delay due to cache reads for multi-tiered versions.
+:::
+
+::: {.footer}
+Experiments
 :::
 
 ## Cache Capacity Abilene {visibility="uncounted"}
@@ -52,6 +115,20 @@ Delay with increasing cache capacities. Abilene, $\gamma=0.75$, $\lambda=15$.
 Additional Results
 :::
 
+<!-- ## Cache Capacity Abilene
+
+![](images/size_comp_abilene_075_15_delay_lfuvip.svg){width="50%" height="50%" fig-align="center"}
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities ($\omega=0$).
+
+Abilene $\gamma=0.75$, $\lambda=15$. 
+:::
+
+::: {.footer}
+Experiments
+::: -->
+
 ## Cache Hits Abilene {visibility="uncounted"}
 
 ::: columns
@@ -59,7 +136,7 @@ Additional Results
 ![Cache hits](images/size_comp_abilene_075_15_lfuvip_hits.svg)
 :::
 ::: {.column width="50%"}
-![Second tier read delays](images/size_comp_abilene_075_15_lfuvip_replacements.svg)
+![Replacements](images/size_comp_abilene_075_15_lfuvip_replacements.svg)
 :::
 :::
 
@@ -88,29 +165,4 @@ Cache hits and delay due to cache reads. Abilene, $\gamma=0.75$, $\lambda=15$.
 
 ::: {.footer}
 Additional Results
-:::
-
-## Interest Aggregation: Hits vs. Reads
-
-::: columns
-::: {.column width="50%"}
-![Cache hits](images/size_comp_ia_geant_075_50_hits.svg)
-:::
-::: {.column width="50%"}
-![Second tier hits vs. reads](images/size_comp_ia_geant_075_50_hits_reads_tier2.svg)
-:::
-:::
-
-::: {style="font-size: 80%; text-align: center"}
-Cache hits and second tier reads issued under IA for multi-tiered cases.
-
-Geant, $\lambda=50$, $\gamma=0.75$.
-:::
-
-::: {.footer}
-Additional Results
-:::
-
-::: {.notes}
-- Placeholder.
 :::

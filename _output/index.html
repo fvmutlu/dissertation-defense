@@ -1259,7 +1259,7 @@ Research Advisor: Edmund Yeh<br>Committee Members: Elif Uysal, Stratis Ioannidis
 <ul>
 <li>Furthermore, given arrivals within that stability region, we’re able to achieve an optimal trade-off between the time average upper bounds for VIP backlogs and accumulated penalty in the virtual plane network.</li>
 <li>The trade-off factor is based on the importance weight mentioned before.</li>
-<li>If that weight is small means lower average queue sizes which translates to better performance, but at the cost of potentially much larger penalties. Setting it large is the inverse of that situation.</li>
+<li>If that weight is small, that means lower average queue sizes which translates to better performance, but at the cost of potentially much larger penalties. Setting it large is the inverse of that.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1586,31 +1586,29 @@ Table&nbsp;2: Common parameters for all scenarios
 <p>Experiments</p>
 </div>
 </section>
-<section id="cache-capacity" class="slide level2">
-<h2>Cache Capacity</h2>
+<section id="across-topologies" class="slide level2 smaller">
+<h2>Across Topologies</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/size_comp_geant_all_075_15.svg" class="quarto-figure quarto-figure-center" style="width:60.0%;height:60.0%"></p>
+<p><img data-src="images/alltops_075_15.svg" style="width:70.0%;height:70.0%"></p>
+<figcaption>Delay reduction factor normalized to delay with no caching (<span class="math inline">\(\omega=0\)</span>). <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</figcaption>
 </figure>
 </div>
-<div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities (<span class="math inline">\(\omega=0\)</span>).</p>
-<p>Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/alltops_075_15_table.svg" style="width:70.0%;height:70.0%"></p>
+<figcaption>Cache capacity allocation at minimum delay point within budget.<br>All combinations (<span class="math inline">\(\Delta L_1\)</span>,<span class="math inline">\(\Delta L_2\)</span>) within maximum budget of <span class="math inline">\(\Delta L=8\)</span> tested.</figcaption>
+</figure>
 </div>
 <div class="footer">
 <p>Experiments</p>
 </div>
 <aside class="notes">
 <ul>
-<li>At the beginning we mentioned that due to the slow speeds of the added tier, more capacity may not necessarily be beneficial.</li>
-<li>So one of the most important questions for our experimentation is, how large of a cache can we benefit from? This setting explores that.</li>
-<li>For the time being we ignore the penalty importance weight, we’ll get to that later.</li>
-<li>We compare all baselines, with both single and two-tiered versions. To allow the comparison between these, we used a notion of capacity budget.</li>
-<li>Basically, we start with a small single cache tier, then separately increment capacities of each tier. Of course the same budget gets us a lot more capacity in the secondary tier.</li>
-<li>We see that trends differ across policies, and for multi-tiered versions of some baselines, there’s a minimum delay point after which the added capacity becomes detrimental.</li>
-<li>While such a point would also exist for MVIP, in this setting it is not met within the budget.</li>
-<li>The minimum delay point comes at a higher allocation budget for MVIP compared with LRU and LFU, but the total delay is roughly 15% better than LFU’s minimal point.</li>
-<li>Another significant result is that, with the same budget, our multi-tiered VIP approach has about 40% reduced delay compared to the single-tier counterpart.</li>
+<li>This slide shows a much expanded version of results that were seen in the proposal, where we’ve tested each possible combination of capacity allocations across the two tiers given the maximum budget, disregarding penalty weights for the time being.</li>
+<li>The values represent the reduction in delay normalized to delay with no caching.</li>
+<li>One takeaway from the figure is that our approach which is listed as MVIP outperforms most baselines across the board, with LFU being a close competitor.</li>
+<li>Another important takeaway is seen from the table, where we observe MVIP tends to hit its best delay point with a larger allocation in the second tier compared to baselines.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1623,21 +1621,6 @@ Table&nbsp;2: Common parameters for all scenarios
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="cache-capacity-1" class="slide level2">
-<h2>Cache Capacity</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_abilene_075_15_delay_lfuvip.svg" class="quarto-figure quarto-figure-center" style="width:50.0%;height:50.0%"></p>
-</figure>
-</div>
-<div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities (<span class="math inline">\(\omega=0\)</span>).</p>
-<p>Abilene <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
 </section>
 <section id="request-pattern-parameters" class="slide level2">
 <h2>Request Pattern Parameters</h2>
@@ -1659,7 +1642,7 @@ Table&nbsp;2: Common parameters for all scenarios
 </div></div>
 <div style="font-size: 80%; text-align: center">
 <p>Geant; delay with increasing <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span> (<span class="math inline">\(\omega=0\)</span>).</p>
-<p><span class="math inline">\(\Delta L_1 = 8\)</span>; <span class="math inline">\(\Delta L_2\)</span> chosen based on minimum delay points for multi-tier.</p>
+<p><span class="math inline">\(\Delta L_1 = 8\)</span>; <span class="math inline">\(\Delta L_2\)</span> chosen based on minimum delay points for two-tier.</p>
 </div>
 <div class="footer">
 <p>Experiments</p>
@@ -1667,44 +1650,8 @@ Table&nbsp;2: Common parameters for all scenarios
 <aside class="notes">
 <ul>
 <li>Moving on, we also observed trends regarding the impact of traffic volume and request pattern.</li>
-<li>In summary, we see that the MVIP strategy outperforms baselines across the board.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="more-topologies" class="slide level2 smaller">
-<h2>More Topologies</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/alltops_075_15.svg" style="width:70.0%;height:70.0%"></p>
-<figcaption>Delay reduction factor normalized to delay with no caching (<span class="math inline">\(\omega=0\)</span>). <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/alltops_075_15_table.svg" style="width:70.0%;height:70.0%"></p>
-<figcaption>Cache capacity allocation at minimum delay point within budget.<br>All combinations (<span class="math inline">\(\Delta L_1\)</span>,<span class="math inline">\(\Delta L_2\)</span>) within maximum budget of <span class="math inline">\(\Delta L=8\)</span> tested.</figcaption>
-</figure>
-</div>
-<div class="footer">
-<p>Experiments</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Of course we also conducted many experiments across other topologies.</li>
-<li>This slide shows a summary of one experiment where we’ve tested each possible combination of capacity allocations across the two tiers given the maximum budget.</li>
-<li>The values represent the reduction in delay normalized to delay with no caching.</li>
-<li>One takeaway from the figure is that MVIP still outperforms most baselines across the board, with LFU again being a very close competitor.</li>
-<li>Another important takeaway is seen from the table, where we observe MVIP tends to hit its best delay point with a larger allocation in the second tier compared to baselines.</li>
+<li>Here, single-tiered implementations of baseline policies are also included and the comparison is such that maximum capacity budget is allocated for these implementations.</li>
+<li>In contrast for two-tiered counterpats, only the second tier is expanded, until it is no longer effective in reducing delay.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1743,21 +1690,6 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="delay-penalty-trade-off-1" class="slide level2" data-visibility="uncounted">
 <h2>Delay-Penalty Trade-off</h2>
@@ -1784,21 +1716,6 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="interest-aggregation" class="slide level2">
 <h2>Interest Aggregation</h2>
@@ -1825,21 +1742,6 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="interest-aggregation-1" class="slide level2" data-visibility="uncounted">
 <h2>Interest Aggregation</h2>
@@ -1866,21 +1768,6 @@ Table&nbsp;2: Common parameters for all scenarios
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="interest-aggregation-2" class="slide level2">
 <h2>Interest Aggregation</h2>
@@ -1901,7 +1788,7 @@ Table&nbsp;2: Common parameters for all scenarios
 </div>
 </div></div>
 <div style="font-size: 80%; text-align: center">
-<p>Delay with increasing cache capacities under IA.</p>
+<p>Delay with increasing cache capacities under IA (<span class="math inline">\(\omega=0\)</span>).</p>
 <p>Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=50\)</span>.</p>
 </div>
 <div class="footer">
@@ -1922,32 +1809,49 @@ Table&nbsp;2: Common parameters for all scenarios
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- ## Interest Aggregation
-
-::: columns
-::: {.column width="50%"}
-![Cache hits](images/size_comp_ia_geant_075_50_hits.svg)
-:::
-::: {.column width="50%"}
-![Second tier hits vs. reads](images/size_comp_ia_geant_075_50_hits_reads_tier2.svg)
-:::
-:::
-
-::: {style="font-size: 80%; text-align: center"}
-Cache hits and second tier reads issued under IA for multi-tiered cases.
-
-Geant; $\lambda=50$, $\gamma=0.75$.
-:::
-
-::: {.footer}
-Experiments
-:::
-
-::: {.notes}
-- Placeholder.
-::: -->
 </section>
 <section id="interest-aggregation-3" class="slide level2">
+<h2>Interest Aggregation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_ia_geant_075_50_hits.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_ia_geant_075_50_hits_reads_tier2.svg"></p>
+<figcaption>Second tier hits vs.&nbsp;reads</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Cache hits and second tier reads issued under IA for multi-tiered cases.</p>
+<p>Geant; <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>Placeholder.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="interest-aggregation-4" class="slide level2">
 <h2>Interest Aggregation</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -1991,36 +1895,21 @@ Experiments
 <section id="lessons-learned" class="slide level2">
 <h2>Lessons Learned</h2>
 <ul>
+<li>Interest aggregation is powerful; added tier can still have benefits.</li>
 <li>When using slower tiers, more cache hits is not always better.</li>
+<li>Penalizing cache operations not only minimizes costs, but <em>can improve</em> performance.</li>
 <li>MVIP is an effective policy outperforming baselines; LFU with LRT is very close.</li>
-<li>Penalizing cache operations not only minimizes costs, but can <em>improve</em> performance.</li>
-<li>Interest aggregation is powerful; less cache is needed, but multi-tier can still have benefits.</li>
 </ul>
 <div class="footer">
 <p>Experiments</p>
 </div>
-<aside class="notes">
-<ul>
-<li>In the settings we cover, LFU with LRT performs closely with our approach, though MVIP takes a slight edge in general, with the margins being larger for less skewed popularity distributions.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section></section>
 <section>
 <section id="virtual-plane-cache-read-rate-control" class="title-slide slide level1 center" data-visibility="uncounted">
 <h1>Virtual Plane Cache Read Rate Control</h1>
 <aside class="notes">
 <ul>
-<li>With that detailed coverage of experiments done, I want to quickly discuss another venue I explored that leads to a variant on our policy.</li>
+<li>Alright, so with that overview of some experimental results done, I now want to discuss a variant to our approach.</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -2182,7 +2071,7 @@ Experiments
 <div>
 
 </div>
-<div class="quarto-layout-panel" style="font-size: 80%;" data-layout="[[20,80]]">
+<div class="quarto-layout-panel" data-layout="[[20,80]]" style="font-size: 80%;">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: flex-start;">
 <span class="math display">\[\begin{equation*}
@@ -2571,33 +2460,13 @@ Virtual Plane Cache Read Rate Control
 <p>Virtual Plane Cache Read Rate Control</p>
 </div>
 </section>
-<section id="experimental-results-2" class="slide level2">
+<section id="experimental-results-2" class="slide level2" data-visibility="uncounted">
 <h2>Experimental Results</h2>
 <div style="font-size: 75%">
 <p>Data plane metrics show:</p>
 <ul>
-<li>Poor utilization of larger cache tier and resulting performance for <strong>MVIP-RR</strong>.</li>
-<li>Comparable delay performance along with great reduction in replacements for <strong>MVIP-RR+</strong>.</li>
-</ul>
-</div>
-<hr>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/sbw_comp_geant_075_30.png" style="width:90.0%;height:90.0%"></p>
-<figcaption>Data plane metrics normalized to MVIP, Geant topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
-</figure>
-</div>
-<div class="footer">
-<p>Virtual Plane Cache Read Rate Control</p>
-</div>
-</section>
-<section id="experimental-results-3" class="slide level2" data-visibility="uncounted">
-<h2>Experimental Results</h2>
-<div style="font-size: 75%">
-<p>Data plane metrics show:</p>
-<ul>
-<li>Poor utilization of larger cache tier and resulting performance for <strong>MVIP-RR</strong>.</li>
-<li>Improved delay performance along with great reduction in replacements for <strong>MVIP-RR+</strong>.</li>
+<li><strong>MVIP-RR:</strong> Poor utilization of larger cache tier and resulting performance.</li>
+<li><strong>MVIP-RR+:</strong> Improved delay performance along with great reduction in replacements.</li>
 </ul>
 </div>
 <hr>
@@ -2605,6 +2474,26 @@ Virtual Plane Cache Read Rate Control
 <figure>
 <p><img data-src="images/sbw_comp_abilene_075_30.png" style="width:90.0%;height:90.0%"></p>
 <figcaption>Data plane metrics normalized to MVIP, Abilene topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
+</figure>
+</div>
+<div class="footer">
+<p>Virtual Plane Cache Read Rate Control</p>
+</div>
+</section>
+<section id="experimental-results-3" class="slide level2">
+<h2>Experimental Results</h2>
+<div style="font-size: 75%">
+<p>Data plane metrics show:</p>
+<ul>
+<li><strong>MVIP-RR:</strong> Poor utilization of larger cache tier and resulting performance.</li>
+<li><strong>MVIP-RR+:</strong> Comparable delay performance along with great reduction in replacements.</li>
+</ul>
+</div>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/sbw_comp_geant_075_30.png" style="width:90.0%;height:90.0%"></p>
+<figcaption>Data plane metrics normalized to MVIP, Geant topology, <span class="math inline">\(\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150\)</span></figcaption>
 </figure>
 </div>
 <div class="footer">
@@ -2770,7 +2659,7 @@ Virtual Plane Cache Read Rate Control
 <li class="fragment">Variant that explicitly controls cache read rate allocations in the virtual plane.</li>
 </ul></li>
 <li class="fragment">Data plane multi-tiered caching policies guided by the virtual control plane algorithms.</li>
-<li class="fragment">Extensive experimental evaluation of said policies under numerous simulation settings.</li>
+<li class="fragment">Extensive experimental evaluation under numerous simulation settings demonstrating leading performance of said policies.</li>
 <li class="fragment">A lightweight object-level ICN simulator built to be extensible and equipped with convenience features to allow future research and experimentation.</li>
 </ul>
 </div>
@@ -3007,6 +2896,44 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <h1>Appendix: Additional Results</h1>
 
 </section>
+<section id="cache-capacity" class="slide level2">
+<h2>Cache Capacity</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_all_075_15.svg" class="quarto-figure quarto-figure-center" style="width:60.0%;height:60.0%"></p>
+</figure>
+</div>
+<div style="font-size: 80%; text-align: center">
+<p>Delay with increasing cache capacities (<span class="math inline">\(\omega=0\)</span>).</p>
+<p>Geant, <span class="math inline">\(\gamma=0.75\)</span>, <span class="math inline">\(\lambda=15\)</span>.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>At the beginning we mentioned that due to the slow speeds of the added tier, more capacity may not necessarily be beneficial.</li>
+<li>So one of the most important questions for our experimentation is, how large of a cache can we benefit from? This setting explores that.</li>
+<li>For the time being we ignore the penalty importance weight, we’ll get to that later.</li>
+<li>We compare all baselines, with both single and two-tiered versions. To allow the comparison between these, we used a notion of capacity budget.</li>
+<li>Basically, we start with a small single cache tier, then separately increment capacities of each tier. Of course the same budget gets us a lot more capacity in the secondary tier.</li>
+<li>We see that trends differ across policies, and for multi-tiered versions of some baselines, there’s a minimum delay point after which the added capacity becomes detrimental.</li>
+<li>While such a point would also exist for MVIP, in this setting it is not met within the budget.</li>
+<li>The minimum delay point comes at a higher allocation budget for MVIP compared with LRU and LFU, but the total delay is roughly 15% better than LFU’s minimal point.</li>
+<li>Another significant result is that, with the same budget, our multi-tiered VIP approach has about 40% reduced delay compared to the single-tier counterpart.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="cache-hits-geant" class="slide level2">
 <h2>Cache Hits Geant</h2>
 <div class="columns">
@@ -3049,11 +2976,71 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
           display:block!important;
       }</style></aside>
 </section>
-<section id="replacements-geant" class="slide level2" data-visibility="uncounted">
-<h2>Replacements Geant</h2>
-
-<img data-src="images/size_comp_geant_075_15_lfuvip_replacements.svg" class="r-stretch quarto-figure-center"><p class="caption">MVIP vs.&nbsp;LFU replacements</p><div class="footer">
-<p>Additional Results</p>
+<section id="cache-replacements-geant" class="slide level2">
+<h2>Cache Replacements Geant</h2>
+<div class="columns">
+<div class="column" style="width:47%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_replacements.svg"></p>
+<figcaption>Cache replacements</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:53%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_hit_delays.svg"></p>
+<figcaption>Second tier read delays</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Geant cache hits and delay due to cache reads for multi-tiered versions.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
+</div>
+<aside class="notes">
+<ul>
+<li>This next set of figures shed a bit more light on the delay trends from the previous slide.</li>
+<li>Essentially, the differences come down to how the cache traffic is balanced, and how much cache operations contribute to delay.</li>
+<li>This is where we show that, in this multi-tiered caching case, more hits is not always better; slower tiers must be used more conservatively.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="cache-replacements-geant-1" class="slide level2">
+<h2>Cache Replacements Geant</h2>
+<div class="columns">
+<div class="column" style="width:47%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_lfuvip_replacements.svg"></p>
+<figcaption>Cache hits</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:53%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/size_comp_geant_075_15_hit_delays.svg"></p>
+<figcaption>Second tier read delays</figcaption>
+</figure>
+</div>
+</div></div>
+<div style="font-size: 80%; text-align: center">
+<p>Geant cache hits and delay due to cache reads for multi-tiered versions.</p>
+</div>
+<div class="footer">
+<p>Experiments</p>
 </div>
 </section>
 <section id="cache-capacity-abilene" class="slide level2" data-visibility="uncounted">
@@ -3080,6 +3067,19 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div class="footer">
 <p>Additional Results</p>
 </div>
+<!-- ## Cache Capacity Abilene
+
+![](images/size_comp_abilene_075_15_delay_lfuvip.svg){width="50%" height="50%" fig-align="center"}
+
+::: {style="font-size: 80%; text-align: center"}
+Delay with increasing cache capacities ($\omega=0$).
+
+Abilene $\gamma=0.75$, $\lambda=15$. 
+:::
+
+::: {.footer}
+Experiments
+::: -->
 </section>
 <section id="cache-hits-abilene" class="slide level2" data-visibility="uncounted">
 <h2>Cache Hits Abilene</h2>
@@ -3095,7 +3095,7 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/size_comp_abilene_075_15_lfuvip_replacements.svg"></p>
-<figcaption>Second tier read delays</figcaption>
+<figcaption>Replacements</figcaption>
 </figure>
 </div>
 </div></div>
@@ -3130,47 +3130,6 @@ f(\text{SINR}_{vu}(S)) = \frac{1}{\log_2(1+\text{SINR}_{vu}(S))}
 <div class="footer">
 <p>Additional Results</p>
 </div>
-</section>
-<section id="interest-aggregation-hits-vs.-reads" class="slide level2">
-<h2>Interest Aggregation: Hits vs.&nbsp;Reads</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_ia_geant_075_50_hits.svg"></p>
-<figcaption>Cache hits</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/size_comp_ia_geant_075_50_hits_reads_tier2.svg"></p>
-<figcaption>Second tier hits vs.&nbsp;reads</figcaption>
-</figure>
-</div>
-</div></div>
-<div style="font-size: 80%; text-align: center">
-<p>Cache hits and second tier reads issued under IA for multi-tiered cases.</p>
-<p>Geant, <span class="math inline">\(\lambda=50\)</span>, <span class="math inline">\(\gamma=0.75\)</span>.</p>
-</div>
-<div class="footer">
-<p>Additional Results</p>
-</div>
-<aside class="notes">
-<ul>
-<li>Placeholder.</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="references" class="slide level2 smaller scrollable" data-visibility="uncounted">
 <h2>References</h2>

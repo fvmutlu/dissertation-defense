@@ -52,7 +52,7 @@ Virtual Plane Cache Read Rate Control
 ```
 :::
 
-- **Reasoning:** Objects in cache receive different hit rates in the data plane.
+- **Reasoning:** Objects in cache may receive different hit rates in the data plane.
 
 ::: {style="font-size: 70%;"}
 ```{=tex}
@@ -511,35 +511,35 @@ Virtual Plane Cache Read Rate Control
 Virtual Plane Cache Read Rate Control
 :::
 
-## Experimental Results
-
-::: {style="font-size: 75%"}
-Data plane metrics show:
-
-- Poor utilization of larger cache tier and resulting performance for **MVIP-RR**.
-- Comparable delay performance along with great reduction in replacements for **MVIP-RR+**.
-:::
-
-<hr>
-
-![Data plane metrics normalized to MVIP, Geant topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$](images/sbw_comp_geant_075_30.png){width=90% height=90% fig-align="center"}
-
-::: {.footer}
-Virtual Plane Cache Read Rate Control
-:::
-
 ## Experimental Results {visibility="uncounted"}
 
 ::: {style="font-size: 75%"}
 Data plane metrics show:
 
-- Poor utilization of larger cache tier and resulting performance for **MVIP-RR**.
-- Improved delay performance along with great reduction in replacements for **MVIP-RR+**.
+- **MVIP-RR:** Poor utilization of larger cache tier and resulting performance.
+- **MVIP-RR+:** Improved delay performance along with great reduction in replacements.
 :::
 
 <hr>
 
 ![Data plane metrics normalized to MVIP, Abilene topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$](images/sbw_comp_abilene_075_30.png){width=90% height=90% fig-align="center"}
+
+::: {.footer}
+Virtual Plane Cache Read Rate Control
+:::
+
+## Experimental Results
+
+::: {style="font-size: 75%"}
+Data plane metrics show:
+
+- **MVIP-RR:** Poor utilization of larger cache tier and resulting performance.
+- **MVIP-RR+:** Comparable delay performance along with great reduction in replacements.
+:::
+
+<hr>
+
+![Data plane metrics normalized to MVIP, Geant topology, $\lambda=30, \gamma=0.75, L_{n_1}=7, L_{n_2}=150$](images/sbw_comp_geant_075_30.png){width=90% height=90% fig-align="center"}
 
 ::: {.footer}
 Virtual Plane Cache Read Rate Control
